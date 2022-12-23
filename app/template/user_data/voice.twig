@@ -1,0 +1,95 @@
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+<!--content-->
+<div class="cmncontent">
+
+	<section class="underMv voice">
+		<div class="cmnbox01">
+			<div class="underMv_contImg sp"><img src="{{ asset('assets/img/voice/pic_mv_sp.png') }}" alt=""></div>
+			<div class="underMv_cont">
+				<div class="underMv_cont_box">
+					<h2 class="underMv_cont_ttl">
+						<span class="underMv_cont_icon"><img src="{{ asset('assets/img/voice/icon_mv.png') }}" alt=""></span>
+						<span class="underMv_cont_head">ご利用者の声</span>
+					</h2>
+					<p class="underMv_cont_txt">みまもりCUBEをご利用いただいたお客様の声をご紹介します。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<ul class="breadcrumb cmnbox01">
+		<li class="breadcrumb_list"><a href="{{ url('homepage') }}user_data">HOME</a></li>
+		<li class="breadcrumb_list">ご利用者の声</li>
+	</ul>
+
+	<section>
+		<div class="voiceblock">
+			<div class="cmnbox01">
+			
+				<div class="voice01">
+					<div class="voice02 mh01">
+						<h3 class="voice03">見守る私の方が精神的に安定しました。</h3>
+						<p class="voice04">静岡県/50代/女性</p>
+						<p class="voice04">離れて暮らす両親が今日も元気かどうか確認でき不安が軽減され、見守る私の方が精神的に安定しました。</p>
+					</div>
+					<div class="voice02 mh01">
+						<h3 class="voice03">状況を確認してから電話をかける事が出来ています。</h3>
+						<p class="voice04">東京都/60代/女性</p>
+						<p class="voice04">以前あわてて電話に出ようとして転倒した事があるのでこちらから状況を確認してから電話をかける事ができています。</p>
+					</div>
+					<div class="voice02 mh01">
+						<h3 class="voice03">家族で見守りできるのが良いです。</h3>
+						<p class="voice04">北海道/60代/男性</p>
+						<p class="voice04">検知が正確なので信頼できます。家族で複数人で見守りできるのが良いです。</p>
+					</div>
+					<div class="voice02 mh01">
+						<h3 class="voice03">安心して外出できるようになりました。</h3>
+						<p class="voice04">福岡県/40代/男性</p>
+						<p class="voice04">外出してしまうと母が1人になってしまうので心配でした。外出先からでもスマホで確認できるので安心して外出できるようになりました。</p>
+					</div>
+					<div class="voice02 mh01">
+						<h3 class="voice03">さりげなく見守れるので良いです。</h3>
+						<p class="voice04">神奈川県/50代/女性</p>
+						<p class="voice04">見た目がいかにもカメラカメラしていないのもさりげなく見守れるので良いです。</p>
+					</div>
+					<div class="voice02 mh01">
+						<h3 class="voice03">防犯対策にも役立っています。</h3>
+						<p class="voice04">大阪府/50代/女性</p>
+						<p class="voice04">家の出入りが分かりすごく助かっています。また、来訪者と話している姿が分かるので、母にすぐに電話をかけることができ、防犯対策にも役立っています。</p>
+					</div>
+					<div class="voice02 mh01">
+						<h3 class="voice03">生活が把握しやすくなって安心です。</h3>
+						<p class="voice04">神奈川県/50代/女性</p>
+						<p class="voice04">食事をちゃんと取っているか、どれくらい寝ているか等把握しやすくなった。</p>
+					</div>
+					<div class="voice02 mh01">
+						<h3 class="voice03">暗視モードで、消灯後も見守れています。</h3>
+						<p class="voice04">福岡県/50代/女性</p>
+						<p class="voice04">親と離れて暮らしているのですが、毎日仕事帰りに片道30分かけて親の安否確認に行っています。そこでみまもりCUBEを見つけ、お試しをしたところ問題無く見ることができました。暗視モードもできるので、消灯後も見守れています。</p>
+					</div>
+					<div class="voice02 mh01">
+						<h3 class="voice03">不具合の際にもすぐに対応をしていただけました。</h3>
+						<p class="voice04">滋賀県/60代/男性</p>
+						<p class="voice04">以前カメラが不具合を起こした事がありましたがすぐに確認・交換の対応をしていただいた。</p>
+					</div>
+				</div>
+				
+				<ul class="pnav">
+					<li class="prev"><a href="#">&nbsp;</a></li>
+					<li class="current"><span>1</span></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li class="next"><a href="#">&nbsp;</a></li>
+				</ul>
+				
+			</div>
+		</div>		
+	</section>
+</div>
+<!--/content-->
+
+{% endblock %}

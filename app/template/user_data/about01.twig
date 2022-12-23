@@ -1,0 +1,165 @@
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+<!--content-->
+<div class="cmncontent">
+
+	<section class="underMv type_about">
+		<div class="cmnbox01">
+			<div class="underMv_contImg sp"><img src="{{ asset('assets/img/about02/pic_mv_sp.png') }}" alt=""></div>
+			<div class="underMv_cont">
+				<div class="underMv_cont_box">
+					<h2 class="underMv_cont_ttl">
+						<span class="underMv_cont_icon"><img src="{{ asset('assets/img/about02/icon_cube.png') }}" alt=""></span>
+						<span class="underMv_cont_head">みまもりCUBEについて</span>
+					</h2>
+					<p class="underMv_cont_txt">SIMカード内蔵のカメラなので設置場所でコンセントをさすだけで<br>
+						すぐにお手持ちのスマートフォン等で映像を見る事ができます。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<ul class="breadcrumb cmnbox01">
+		<li class="breadcrumb_list"><a href="{{ url('homepage') }}">HOME</a></li>
+		<li class="breadcrumb_list">みまもりCUBEについて</li>
+	</ul>
+
+	<div class="btn_col3 cmnbox01">
+		<div class="btn_col3_item"><a href="{{ url('homepage') }}user_data/about01/" class="btn_col3_btn is_current">利用シーンについて</a></div>
+		<div class="btn_col3_item"><a href="{{ url('homepage') }}user_data/about02/" class="btn_col3_btn">動画でわかる設置マニュアル</a></div>
+		<div class="btn_col3_item"><a href="{{ url('homepage') }}user_data/about03/" class="btn_col3_btn">資料マニュアルはこちら</a></div>
+	</div>
+
+	<div class="about01_cont">
+		<section class="about01_block type03">
+			<div class="cmnbox01">
+				<div class="about01_feature">
+					<div class="about01_feature_img"><img src="{{ asset('assets/img/about01/pic01.png') }}" alt=""></div>
+					<div class="about01_feature_cont">
+						<h2 class="common_head type_mb15">みまもりCUBEの特長</h2>
+						<p>SIMカード内蔵なので設置場所にインターネット環境は不要。<br>
+							離れた場所から映像を見て見守りができ、安心です。<br>
+							またドアの出入りなどあらかじめ設定した動作を画像付きメールや音声でお知らせをします。<br>
+							※検知機能や簡易的な会話など、様々な機能を豊富に搭載。</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="about01_block type_brown">
+			<div class="cmnbox01">
+				<h2 class="cmntitle01"><span>様々なシーンで活躍します</span></h2>
+				<div class="tmcube05 type_about">
+					
+					<div class="tmcube06 type01">
+						<div class="tmcube07"><img src="{{ asset('assets/img/about01/pic02_01.png') }}"></div>
+						<div class="tmcube08">
+							<div class="tmcube_aboutWrap">
+								<div class="tmcube_about01">シーン１</div>
+								<h3 class="tmcube10">高齢者の見守り</h3>
+								<p class="tmcube_about02">01</p>
+							</div>
+							<p class="tmcube11">離れて暮らす親が元気に暮らしているか気になるという方にお勧めです。設置工事が不要。コンセントにさすだけで使えるので簡単にご両親の見守りができます。</p>
+						</div>
+					</div>
+					
+					<div class="tmcube06 type02">
+						<div class="tmcube07"><img src="{{ asset('assets/img/about01/pic02_02.png') }}"></div>
+						<div class="tmcube08">
+							<div class="tmcube_aboutWrap">
+								<div class="tmcube_about01">シーン2</div>
+								<h3 class="tmcube10">子どもの見守り</h3>
+								<p class="tmcube_about02">02</p>
+							</div>
+							<p class="tmcube11">小さなお子様に留守番時の見守りにもご利用いただけます。会話機能で呼びかけもできるため安心です。</p>
+						</div>
+					</div>
+					
+					<div class="tmcube06 type01">
+						<div class="tmcube07"><img src="{{ asset('assets/img/about01/pic02_03.png') }}"></div>
+						<div class="tmcube08">
+							<div class="tmcube_aboutWrap">
+								<div class="tmcube_about01">シーン3</div>
+								<h3 class="tmcube10">ペットの見守り</h3>
+								<p class="tmcube_about02">03</p>
+							</div>
+							<p class="tmcube11">ペットカメラとして、どこに居ても好きなタイミングでペットの様子を確認することもできます。暗い場所でも白黒撮影モードでしっかりと映像を記録するため、夜間の見守りも安心です。</p>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</section>
+		<section class="about01_block type02">
+			<div class="cmnbox01">
+				<h2 class="cmntitle01"><span>置き型としても利用できます！</span></h2>
+				<div class="about01_stand">
+					<div class="about01_stand_img"><img src="{{ asset('assets/img/about01/pic03.png') }}" alt=""></div>
+					<div class="about01_stand_cont">
+						<p class="about01_stand_txt">置き型の設置用として滑り止めゴム足も付属しておりますので、賃貸等で壁付けできないご家庭でもポンと置くだけですぐに使うことができます。</p>
+						<div class="about01_stand_reqWrap">
+							<h3 class="about01_stand_reqHead">※注意</h3>
+							<ul class="about01_stand_req">
+								<li class="about01_stand_req_item">・電波状況が不安定な場所では映像が遅れたりする場合があります。
+									</li>
+								<li class="about01_stand_req_item">・検知が必要な場合は、設置する必要があります。</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="about01_block center pn" id="3step">
+			<div class="cmnbox01">
+				<h2 class="cmntitle01"><span>3ステップで簡単設置</span></h2>
+				<div class="tflows01 type_about01">
+					<div class="tflows02">
+						<div class="tflows03"><img src="{{ asset('assets/img/about01/pic03_01.png') }}" alt="STEP01"></div>
+						<dl class="tflows04">
+							<dt>ビスまたは石膏ボード用ピンで<br>
+								固定金具を三か所とめる</dt>
+							<dd>ビスの場合はドライバー、石膏ボード用ピンの場合は10円玉などでぐっと押し込む</dd>
+						</dl>
+					</div>
+					<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
+					<div class="tflows02">
+						<div class="tflows03"><img src="{{ asset('assets/img/about01/pic03_02.png') }}" alt="STEP02"></div>
+						<dl class="tflows04">
+							<dt>ブラケットに金具を<br>
+								くるくると回して結合する</dt>
+						</dl>
+					</div>
+					<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
+					<div class="tflows02">
+						<div class="tflows03">
+							<img src="{{ asset('assets/img/about01/pic03_03.png') }}" alt="STEP03">
+							<span><img src="{{ asset('assets/img/about01/pic03_04.png') }}" alt=""></span>
+						</div>
+						<dl class="tflows04">
+							<dt>固定金具にみまもりCUBEを<br>
+								引っ掛けてビスで固定する</dt>
+							<dd>蝶ねじを回して上下左右の角度調整をすれば、完了！</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="about01_block type_brown">
+			<div class="cmnbox01">
+				<h2 class="cmntitle01"><span>マンガで分かる みまもりCUBE</span></h2>
+				<div class="about01_manga">
+					<div class="about01_manga_img"><img src="{{ asset('assets/img/about01/pic04.png') }}" alt=""></div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<div class="cat_col2">
+		<div class="cat_col2_item"><a href="{{ url('homepage') }}html/template/default/assets/pdf/about02/catalog.pdf" target="_blank" class="cmnbtn type_blank">製品カタログをダウンロード<span class="icon_blank"></span></a></div>
+		<div class="cat_col2_item"><a href="{{ url('homepage') }}html/template/default/assets/pdf/about02/pamphlet.pdf" target="_blank" class="cmnbtn type_blank">製品パンフレットをダウンロード<span class="icon_blank"></span></a></div>
+	</div>
+
+</div>
+<!--/content-->
+
+{% endblock %}

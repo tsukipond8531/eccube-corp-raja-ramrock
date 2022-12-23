@@ -1,0 +1,74 @@
+{#
+* Plugin Name : ProductOption
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+{% for ProductOption in ProductOptions %}
+    {% set Option = ProductOption.Option %}
+    {% set Product = ProductOption.Product %}
+    {% if Option.description_flg == 1 %}
+        <div id="option_description_{{ Product.id }}_{{ Option.id }}" class="option_description">
+            <div class="modal-header">
+                <div class="plainmodal-close">&#215;</div>
+                <h4 class="modal-title">{{ Option.name }}</h4>
+                <p>{{ Option.description|raw|nl2br }}</p>
+            </div>
+
+
+            {% if Option.OptionCategories|length > 0%}
+                {# テキストボックス、テキストエリア、日付、数値入力タイプの場合 #}
+                {% if Option.type == constant('Plugin\\ProductOption\\Entity\\Option::TEXT_TYPE') or Option.type == constant('Plugin\\ProductOption\\Entity\\Option::TEXTAREA_TYPE') or Option.type == constant('Plugin\\ProductOption\\Entity\\Option::NUMBER_TYPE') or Option.type == constant('Plugin\\ProductOption\\Entity\\Option::DATE_TYPE') %}
+                    <div class="modal-body">
+                        {% set optionCategory = Option.OptionCategories[0] %}
+                        <div>
+                            {% for OptionImage in optionCategory.OptionImages %}
+                                <img src="{{ asset(OptionImage, 'save_image') }}"/>
+                            {% endfor %}
+                            {% if optionCategory.value|length > 0  %}
+                                {% if optionCategory.value > 0  %}
+                                    <p class="plus">{{'productoption.product.option.description.price'|trans}}:{{ priceIncTax(optionCategory.value, Product)|price }} <span class="small">{{'productoption.product.option.description.inc_tax'|trans}}</span></p>
+                                {% elseif optionCategory.value < 0 %}
+                                    <p class="minus">{{'productoption.product.option.description.price'|trans}}:{{ priceIncTax(optionCategory.value, Product)|price }} <span class="small">{{'productoption.product.option.description.inc_tax'|trans}}</span></p>
+                                {% endif %}
+                            {% endif %}
+                            {% if optionCategory.delivery_free_flg == constant('Plugin\\ProductOption\\Entity\\OptionCategory::ON') %}
+                                <p>{{'productoption.common.delivery_free'|trans}}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                {# プルダウン、ラジオボタン、チェックボックスタイプの場合 #}
+                {% else %}
+                    <div class="modal-body">
+                        {% for optionCategory in Option.OptionCategories %}
+                            {% if optionCategory.disable_flg != constant('Plugin\\ProductOption\\Entity\\OptionCategory::ON') %}
+                                <div>
+                                    <h3>{{ optionCategory.name }}</h3>
+                                    {% for OptionImage in optionCategory.OptionImages %}
+                                        <img src="{{ asset(OptionImage, 'save_image') }}"/>
+                                    {% endfor %}
+                                    <p>{{ optionCategory.description|raw|nl2br }}</p>
+                                    {% if optionCategory.value|length > 0  %}
+                                        {% if optionCategory.value > 0  %}
+                                            <p class="plus">{{'productoption.product.option.description.price'|trans}}:{{ priceIncTax(optionCategory.value, Product)|price }} <span class="small">{{'productoption.product.option.description.inc_tax'|trans}}</span></p>
+                                        {% elseif optionCategory.value < 0 %}
+                                            <p class="minus">{{'productoption.product.option.description.price'|trans}}:{{ priceIncTax(optionCategory.value, Product)|price }} <span class="small">{{'productoption.product.option.description.inc_tax'|trans}}</span></p>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if optionCategory.delivery_free_flg == constant('Plugin\\ProductOption\\Entity\\OptionCategory::ON') %}
+                                        <p>{{'productoption.common.delivery_free'|trans}}</p>
+                                    {% endif %}
+                                    <button class="btn-info" id="desc_btn_{{ Option.id }}_{{ optionCategory.id }}" >{{'productoption.product.option.description.select'|trans}}</button>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endfor %}

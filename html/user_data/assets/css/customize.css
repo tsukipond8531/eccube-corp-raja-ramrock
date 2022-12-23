@@ -1,0 +1,33 @@
+/* カスタマイズ用CSS */
+/* html {
+    overflow: hidden;
+} */
+.ec-layoutRole .ec-modifiedLayoutRole__contents {
+    padding: 0 15px;
+    max-width: 1230px;
+    margin: 0 auto;
+}
+
+.ec-layoutRole .ec-layoutRole__contents {
+    max-width: none;
+}
+
+.ec-layoutRole {
+    background: none;
+}
+
+.footer2 {
+    margin-top: 60px;
+}
+
+@media (max-width: 767px) {
+    .footer2 {
+        margin-top: 40px;
+    }
+    
+    .ec-layoutRole .ec-modifiedLayoutRole__contents {
+        padding: 0;
+        max-width: 94%;
+        margin: 0 auto;
+    }
+}

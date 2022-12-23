@@ -1,0 +1,237 @@
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+<!--content-->
+<div class="cmncontent">
+
+	<section class="underMv care_manager">
+		<div class="cmnbox01">
+			<div class="underMv_contImg sp"><img src="{{ asset('assets/img/care_manager/pic_mv_sp.png') }}" alt=""></div>
+			<div class="underMv_cont">
+				<div class="underMv_cont_box">
+					<h2 class="underMv_cont_ttl">
+						<span class="underMv_cont_icon"><img src="{{ asset('assets/img/care_manager/icon_mv.png') }}" alt=""></span>
+						<span class="underMv_cont_head">ケアマネージャー・<br>福祉用具貸与事業者の方へ</span>
+					</h2>
+					<p class="underMv_cont_txt">介護保険適用「ラムロックアイズ-みまもりCUBE-」はデモ設置（お試し設置）が可能です。ご希望の際はご利用の福祉用具貸与事業所へご相談ください。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<ul class="breadcrumb cmnbox01">
+		<li class="breadcrumb_list"><a href="{{ url('homepage') }}">HOME</a></li>
+		<li class="breadcrumb_list">ケアマネージャー・福祉用具貸与事業者の方へ</li>
+	</ul>
+
+	<section class="care_caut">
+		<div class="cmnbox01">
+			<h3 class="care_head">-　注意事項　-</h3>
+			<div class="kakunin04 type_care">
+				<ul class="care_caut_list">
+					<li>介護保険適用商品「ラムロックアイズ　みまもりCUBE」は、厚生労働大臣が定める「認知症老人徘徊感知機器」として福祉用具に認定されております。ご利用の際は、被保険者が「要介護２以上」または「認知症」または「例外給付/軽度者申請」等の条件や手続きがあります。<br>詳細は保険者（市町村および特別区）へお問合せください。</li>
+					<li>レンタル価格、およびオプション料金（初期費用/インターネット料金）につきましては、ご利用の福祉用具貸与事業所により異なります。詳細はご契約の福祉用具貸与事業所へお問い合わせください。</li>
+					<li>介護保険制度の特性上、オプションの一部機能が制限される場合がございます。</li>
+				</ul>
+				<div class="care_caut_btnWrap">
+					<div class="care_caut_btn">
+						<a href="#" class="cmnbtn type02"><span class="cmnbtntxt">介護保険適用チラシのダウンロード</span></a>
+					</div>
+					<div class="care_caut_btn">
+						<a href="#" class="cmnbtn type02"><span class="cmnbtntxt">補足資料のダウンロード</span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="care_table">
+		<div class="cmnbox01">
+			<h3 class="modal_head">介護保険レンタル（みまもりCUBE）と<br>
+				介護保険レンタル（ラムロックアイズ）の違い</h3>
+			<div class="modal_table">
+				<table class="ins_price_table">
+					<tr class="ins_price_tr">
+						<th class="ins_price_th type_orange width06"></th>
+						<th class="ins_price_th type_orange width07">介護保険<br>
+							適用</th>
+						<th class="ins_price_th type_orange width08">お申し込み方法</th>
+						<th class="ins_price_th type_orange width09">機能性能</th>
+						<th class="ins_price_th type_orange width010">検知機能</th>
+						<th class="ins_price_th type_orange width011">契約先</th>
+						<th class="ins_price_th type_orange width012">設置<br>
+							メンテナンス</th>
+					</tr>
+					<tr class="ins_price_tr">
+						<td class="ins_price_td type_head">みまもりCUBE</td>
+						<td class="ins_price_td type_img"><img src="{{ asset('assets/img/kaigohoken/icon_no.png') }}" alt=""></td>
+						<td class="ins_price_td">弊社HPより</td>
+						<td class="ins_price_td">同等</td>
+						<td class="ins_price_td">オプション<br>
+							申し込み</td>
+						<td class="ins_price_td">弊社</td>
+						<td class="ins_price_td">ご契約者様</td>
+					</tr>
+					<tr class="ins_price_tr">
+						<td class="ins_price_td type_head">ラムロックアイズ<br>
+							-みまもりCUBE-</td>
+						<td class="ins_price_td type_img"><img src="{{ asset('assets/img/kaigohoken/icon_ok.png') }}" alt=""></td>
+						<td class="ins_price_td">ケアマネージャーへ<br>
+							ご相談ください</td>
+						<td class="ins_price_td">同等</td>
+						<td class="ins_price_td">検知機能必須<br>
+							（徘徊感知機器の使い方）</td>
+						<td class="ins_price_td">福祉用具<br>
+							レンタル事業所</td>
+						<td class="ins_price_td">福祉用具<br>
+							レンタル事業所</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</section>
+
+	<section class="underblock">
+		<div class="cmnbox01">
+			<h2 class="undertitle01 type01">ケアマネージャーの方へ</h2>
+			<ul class="care_list">
+				<li>・介護保険適用「ラムロックアイズ-みまもりCUBE-」はデモ設置（お試し設置）が可能です。<br>
+					ご希望の際はご利用の福祉用具貸与事業所へご相談ください。</li>
+				<li>・お取扱いの福祉用具貸与事業者（弊社代理店）が分からない際は弊社カスタマーセンターまたは下記のお問合せフォームまでお問い合わせください。</li>
+				<li>・お住いの住所や地域によっては福祉用具貸与事業者のサービスエリア外の場合がありますので予めご了承ください。</li>
+			</ul>
+		</div>
+	</section>
+
+	<section class="underblock">
+		<div class="cmnbox01">
+			<h2 class="undertitle01 type01">貸与事業所の方へ</h2>
+			<p class="care_office_txt">弊社製品のお取扱いをご検討の際は下記のお問合せフォームよりお気軽にお問い合わせください。<br>
+				弊社担当者よりご連絡いたします。</p>
+			<div class="kakunin03"><span>本人確認書類</span></div>
+			<ul>
+				<li><span class="col_orange">・</span><a href="#" class="link_orange" target="_blank" rel="noopener">要支援状態または要介護状態のおおむねの状態像<span class="icon_blank_black"><img src="{{ asset('assets/img/care_manager/icon_blank.svg') }}" alt=""></span></a></li>
+				<li><span class="col_orange">・</span><a href="#" class="link_orange" target="_blank" rel="noopener">介護保険と福祉用具（パンフレット）<span class="icon_blank_black"><img src="{{ asset('assets/img/care_manager/icon_blank.svg') }}" alt=""></span></a></li>
+			</ul>
+		</div>
+	</section>
+
+	<div class="faqblock type_care">
+		<div class="faqbox">
+			<div class="cmnbox01">		
+				<h3 class="cmntitle01"><span>よくある質問</span></h3>
+				<div class="tfaq01">
+					<div class="tfaq02">
+						<div class="tfaq03">
+							<div class="tfaq04 acctitle">
+								<div class="tfaq05"><span>Q</span></div>
+								<p class="tfaq06">取引先でみまもりＣＵＢＥの取り扱いがない場合は？</p>
+							</div>
+							<div class="acccont">
+								<div class="tfaq07">
+									<div class="tfaq05"><span>A</span></div>
+									<div class="tfaq08">弊社へお問合せいただきますとお取扱いがあるレンタル福祉貸与事業所様をご案内いたします。<br>
+										新規ご契約の場合は弊社へご連絡ください。</div>
+								</div>
+							</div>
+						</div>
+						<div class="tfaq03">
+							<div class="tfaq04 acctitle">
+								<div class="tfaq05"><span>Q</span></div>
+								<p class="tfaq06">介護保険で利用できない方はみまもりＣＵＢＥは利用できないのでしょうか？</p>
+							</div>
+							<div class="acccont">
+								<div class="tfaq07">
+									<div class="tfaq05"><span>A</span></div>
+									<div class="tfaq08">介護保険以外でご利用される場合は、一般レンタルとなります。<br>
+										<a href="#" class="link_orange">詳細はこちら。</a><br>
+										その際は、スマートフォンへの接続や固定される場合の設置はお客様にご対応いただいております。</div>
+								</div>
+							</div>
+						</div>									
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+		<section class="care_mark">
+			<div class="cmnbox01">
+				<h3 class="modal_head">ラムロックアイズみまもりCUBEは貸与マークを取得</h3>
+				<p class="care_mark_txt">介護保険において給付対象と考えられる福祉用具として厚生労働省告示並びに取扱いに関する通知に基づき、基準をクリアした目安である「貸与マーク」を取得しております。</p>
+				<h4 class="care_mark_h4">- TAISコード -</h4>
+				<div class="care_mark_tableWrap">
+					<div class="care_mark_table"><img src="{{ asset('assets/img/care_manager/table.png') }}" alt=""></div>
+					<p><span class="col_orange">▶</span>詳しくは<a href="https://www.techno-aids.or.jp/WelfareItemList.php?CompanyNo=1325&PrevScreen=CompanyDetail.php" class="link_orange" target="_blank" rel="noopener">公益財団法人テクノエイド協会 ラムロック情報</a>ページをご覧ください。<br>
+						※利用台数によりコードが異なります。申請の際にご注意ください。</p>
+				</div>
+			</div>
+	</section>
+	
+	<section>
+		<div class="careblock">
+			<div class="cmnbox01">
+			
+				<div class="care01">
+					<h3 class="care02"><span>福祉用具代理店様 募集中！</span></h3>
+					<div class="care03">
+						<div class="care04">
+							<img src="{{ asset('assets/img/care_manager/pic_01.png') }}">
+						</div>
+						<div class="care05">
+							<ul class="care06">
+								<li><span>都道府県の認可を受けた福祉用具貸与事業所である</span></li>
+								<li><span>今までにない新しい福祉用具を探している</span></li>
+								<li><span>競合店と取扱商材で差別化を図りたい</span></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				
+				<h4 class="care07"><span>1つでも当てはまる場合は、お気軽にご相談ください！</span></h4>
+				<div class="care08">
+					<div class="ftt05">
+						<a href="{{ url('contact') }}" class="cmnbtn typeft">
+							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_mail.svg') }}"></span>
+							<span class="cmnbtntxt">お問い合わせ</span>
+						</a>
+					</div>
+					<ul class="ftt06">
+						<li class="ftt07">お電話でのお問い合わせ</li>
+						<li class="ftt08"><span class="tel"><img src="{{ asset('assets/img/common/icon_free.svg') }}">0120-927-760</span>​</li>
+						<li class="ftt09">9:30～18:00（月～土）</li>
+						<li class="ftt10">携帯からは：0948-96-8160</li>
+					</ul>
+				</div>
+				
+			</div>
+		</div>		
+	</section>
+
+	<section class="ins_cta type_bgWhite">
+		<div class="cmnbox01">
+			<div class="ins_ctaBox">
+				<div class="ins_ctaBox_item">
+					<h4 class="ins_ctaBox_head">介護保険レンタル</h4>
+					<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="{{ url('homepage') }}user_data/flow/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
+					<a href="{{ url('homepage') }}user_data/material/" class="cmnbtn type02">
+						<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta01.png') }}"></span>
+						<span class="cmnbtntxt">検討資料はこちら</span>
+					</a>
+				</div>
+				<div class="ins_ctaBox_item type02">
+					<h4 class="ins_ctaBox_head">一般レンタル</h4>
+					<p class="ins_ctaBox_txt">みまもりCUBEはこちらからお申し込み可能です。<br class="pc">（弊社とご契約）</p>
+					<a href="{{ url('contact') }}" class="cmnbtn type02">
+						<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta02.png') }}"></span>
+						<span class="cmnbtntxt">お申込みはこちら</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</div>
+<!--/content-->
+
+{% endblock %}

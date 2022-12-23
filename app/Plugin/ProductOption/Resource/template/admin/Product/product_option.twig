@@ -1,0 +1,139 @@
+{#
+* Plugin Name : ProductOption
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['product', 'edit'] %}
+{% form_theme optionForm '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block title %}{{ 'productoption.admin.nav.product.product.option'|trans }}{% endblock %}
+{% block sub_title %}{{ 'admin.product.product_management'|trans }}{% endblock %}
+
+{% block javascript %}
+    <script>
+        $(function () {
+            $('#check-all').click(function () {
+                var addall = $('#check-all').prop('checked');
+                if (addall) {
+                    $('input[id$=_checked]').prop('checked', true);
+                } else {
+                    $('input[id$=_checked]').prop('checked', false);
+                }
+            });
+        });
+    </script>
+{% endblock javascript %}
+
+
+{% block main %}
+    <div class="c-contentsArea__cols">
+        <div class="c-contentsArea__primaryCol">
+            <div class="c-primaryCol">
+                <div class="card rounded border-0 mb-4">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-8">
+                                <span class="card-title align-middle">{{ 'productoption.admin.common.product_name'|trans }}:{{ Product.name }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% if Options|length > 0 %}
+                    <form method="post" action="{{ url('admin_product_product_option_edit', { id : Product.id}) }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('_token') }}">
+
+                        <div class="card rounded border-0 mb-4">
+                            <div class="card-header">
+                                <div class="row justify-content-between">
+                                    <div class="col-6">
+                                        <span class="align-middle"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="ex-product_class" class="card-body p-0">
+                                <table class="table table-sm">
+                                    <thead>
+                                    <th class="pt-2 pb-2 pl-3">
+                                        <input type="checkbox" id="check-all">
+                                    </th>
+                                    <th class="pt-2 pb-2">{{ 'productoption.admin.product.option.backend_name'|trans }}</th>
+                                    <th class="pt-2 pb-2">{{ 'productoption.admin.product.option.name'|trans }}</th>
+                                    <th class="pt-2 pb-2">{{ 'productoption.admin.product.option.type'|trans }}</th>
+                                    <th class="pt-2 pb-2">{{ 'productoption.admin.product.option.option.disp'|trans }}</th>
+
+                                    </thead>
+                                    {% for productOption in optionForm.product_options %}
+                                        <tr id="ex-product_class">
+                                            <td class="align-middle pl-3">
+                                                {{ form_widget(productOption.checked, {'checked' : productOption.vars.value.checked}) }}
+                                                {{ form_widget(productOption.option_id, {'value' : productOption.vars.value.Option.id}) }}
+                                            </td>
+                                            <td class="align-middle">
+                                                {{ productOption.vars.value.Option.backend_name }}
+                                            </td>
+                                            <td class="align-middle">
+                                                {{ productOption.vars.value.Option.name }}
+                                            </td>
+                                            <td class="align-middle">
+                                                {{ arrType[productOption.vars.value.Option.type] }}
+                                            </td>
+                                            <td class="align-middle">
+                                                {% if productOption.vars.value.Option.description_flg == 1 %}○{% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                        <div class="c-conversionArea">
+                            <div class="c-conversionArea__container">
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-6">
+                                         <div class="c-conversionArea__leftBlockItem">
+                                            <a class="c-baseLink" href="{{ url('admin_product_page', { page_no : app.session.get('eccube.admin.product.search.page_no')|default('1') } ) }}">
+                                                <i class="fa fa-backward" aria-hidden="true"></i><span>{{ 'admin.product.product_list'|trans }}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div id="ex-conversion-action" class="row align-items-center justify-content-end">
+                                            <div class="col-auto">
+                                                <button class="btn btn-ec-conversion px-5"
+                                                        type="submit">{{ 'productoption.admin.common.save'|trans }}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                {% else %}
+                    <div class="c-conversionArea">
+                        <div class="c-conversionArea__container">
+                            <div class="row justify-content-between align-items-center">
+                                <div class="col-6">
+                                     <div class="c-conversionArea__leftBlockItem">
+                                        <a class="c-baseLink" href="{{ url('admin_product_page', { page_no : app.session.get('eccube.admin.product.search.page_no')|default('1') } ) }}">
+                                            <span>{{ 'admin.product.product_list'|trans }}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

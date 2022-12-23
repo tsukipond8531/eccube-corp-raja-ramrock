@@ -1,0 +1,234 @@
+{#
+* Plugin Name : ProductOption
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+{% block css %}
+<style type="text/css">
+    .datepicker-days th.dow:first-child,
+    .datepicker-days td:first-child {
+        color: #f00;
+    }
+
+    .datepicker-days th.dow:last-child,
+    .datepicker-days td:last-child {
+        color: #00f;
+    }
+</style>
+{% endblock %}
+{% block javascript %}
+<script src="{{ asset('../../plugin/ProductOption/assets/js/jquery.plainmodal.min.js') }}"></script>
+<script>
+$(function() {
+    //デフォルトのデイトタイムピッカーが存在しない場合
+    if ($('[type="date"]').prop('type') !== 'date') {
+        $.getScript("{{ asset('assets/js/vendor/moment.min.js', 'admin') }}").done(function() {
+            $.getScript("{{ asset('assets/js/vendor/moment-with-locales.min.js', 'admin') }}").done(function() {
+                $.getScript("{{ asset('assets/js/vendor/tempusdominus-bootstrap-4.min.js', 'admin') }}").done(function() {
+                    $('input[type=date]').datetimepicker({
+                        locale: '{{ eccube_config.locale }}',
+                        format: 'YYYY-MM-DD',
+                        useCurrent: false,
+                        buttons: {
+                            showToday: true,
+                            showClose: true
+                        }
+                    });
+                });
+            });
+        });
+    }
+});
+
+var product_id;
+$(function() {
+    {% for ProductOption in ProductOptions %}
+    {% set Option = ProductOption.Option %}
+    {% set Product = ProductOption.Product %}
+        {% if Option.description_flg == constant('Plugin\\ProductOption\\Entity\\OptionCategory::ON') %}
+            modal{{ Product.id }}_{{ Option.id }} = $('#option_description_{{ Product.id }}_{{ Option.id }}').plainModal();
+            $('#option_description_link_{{ Product.id }}_{{ Option.id }}').click(function() {
+                modal{{ Product.id }}_{{ Option.id }}.plainModal('open');
+                product_id = $(this).attr('data');
+                return false;
+            });
+        {% endif %}
+    {% endfor %}
+});
+
+$(function() {
+    $("[id^=desc_btn_]").click(function(){
+        var form_id;
+        var id = $(this).attr('id').replace(/^desc_btn_/ig, '');
+        var ids = id.split('_');
+        if (eccube.hasOwnProperty('productsClassCategories')) {
+            form_id = product_id;
+        }else{
+            form_id = 1;
+        }
+        var $form = $("form[name=form"+form_id+"]");
+        func_submit($form,ids[0],ids[1]);
+        onOptionChange($form)
+    });
+    $("[name^=productoption]").change(function(){
+        $form = $(this).parents('form');
+        onOptionChange($form);
+    });
+});
+
+function func_submit($form,optionId, setValue) {
+    var $sele_option = $form.find("[name=productoption" + optionId + "]");
+    if($sele_option && $sele_option.length){
+        var kind = $sele_option.attr("type");
+        if(kind == 'radio'){
+            $sele_option.val([setValue]);
+        }else{
+            $sele_option.val(setValue);
+        }
+    }else{
+        var $sele_option = $form.find('[name="productoption' + optionId + '[]"]');
+        if($sele_option && $sele_option.length){
+            $sele_option.each(function(){
+                if($(this).val() == setValue){
+                    $(this).prop('checked',true);
+                }
+            });
+        }
+    }
+
+    $('#option_description_' + product_id + '_' + optionId).plainModal('close');
+}
+
+
+var optionPrice = {{ optionPrices|json_encode|raw }};
+var optionPoint = {{ optionPoints|json_encode|raw }};
+var optionMultiple = {{ optionMultiples|json_encode|raw }};
+var taxRules = {{ taxRules|json_encode|raw }};
+var default_class_id = {{ default_class_id|json_encode|raw }};
+
+function onOptionChange($form){
+    var optionPriceTotal = 0;
+    var optionPointTotal = 0;
+    var tax_rate = null;
+    var tax_rule = null;
+    var product_id = $form.find('input[name="product_id"]').val();
+    var $sele1 = $form.find('select[name=classcategory_id1]');
+    var $sele2 = $form.find('select[name=classcategory_id2]');
+
+    var classcat_id1 = $sele1.val() ? $sele1.val() : '__unselected';
+    var classcat_id2 = $sele2.val() ? $sele2.val() : '';
+    if (eccube.hasOwnProperty('productsClassCategories')) {
+        // 商品一覧時
+        classcat2 = eccube.productsClassCategories[product_id][classcat_id1]['#' + classcat_id2];
+    } else {
+        // 詳細表示時
+        classcat2 = eccube.classCategories[classcat_id1]['#' + classcat_id2];
+    }
+    $form.find("[id^=productoption]").each(function(){
+        var id = $(this).prop("id");
+        var name = $(this).attr("name");
+        var option_id = null;
+        if(name === undefined){
+            name = $(this).find("input").prop("id");
+        }
+        option_id = name.replace(/productoption/ig,'');
+        option_id = option_id.replace(/_\d+/ig,'');
+        option_id = option_id.replace(/\[\]/ig,'');
+        if(id.match(/^productoption\d+$/)){
+            var kind = $(this).prop('tagName');
+            var type = $(this).attr('type');
+            var value = null;
+            var multi = 1;
+            switch(kind){
+                case 'SELECT':
+                    value = $(this).val();
+                    break;
+                case 'TEXTAREA':
+                case 'INPUT':
+                    var text = $(this).val();
+                    if(text.length > 0){
+                        value = 0;
+                    }
+                    if(type == 'number'){
+                        if(optionMultiple[product_id][option_id]){
+                            multi = $(this).val();
+                            if(multi.length == 0)multi = 0;
+                        }
+                    }
+                    break;
+                default:
+                    if($(this).find('input[type="checkbox"]').length > 0){
+                        value = [];
+                        $(this).find('input[type="checkbox"]:checked').each(function(){
+                            value.push($(this).val());
+                        });
+                    }else{
+                        value = $form.find("input[name='productoption" + option_id + "']:checked").val();
+                    }
+                    break;
+            }
+            if(value != null){
+                if(Array.isArray(value)){
+                    for(var key in value){
+                        optionPriceTotal += parseFloat(optionPrice[product_id][option_id][value[key]]);
+                        optionPointTotal += parseFloat(optionPoint[product_id][option_id][value[key]]);
+                    }
+                }else{
+                    optionPriceTotal += parseFloat(optionPrice[product_id][option_id][value]*multi);
+                    optionPointTotal += parseFloat(optionPoint[product_id][option_id][value]*multi);
+                }
+            }
+        }
+    });
+
+    if(classcat2){
+        var product_class_id = classcat2.product_class_id;
+    }else{
+        var product_class_id = default_class_id[product_id];
+    }
+
+    var tax_rate = taxRules[product_class_id]['tax_rate'];
+    var tax_rule = taxRules[product_class_id]['tax_rule'];
+
+    var $option_price = $form.parent().find('#option_price_default').first();
+    $option_price.text(number_format(optionPriceTotal));
+    var $option_point = $form.parent().find('#option_price_inctax_default').first();
+    $option_point.text(number_format(optionPriceTotal + sfTax(optionPriceTotal, tax_rate, tax_rule)));
+}
+
+function number_format(num) {
+    return num.toString().replace(/([0-9]+?)(?=(?:[0-9]{3})+$)/g , '$1,');
+}
+
+function sfTax(price, tax_rate, tax_rule) {
+    real_tax = tax_rate / 100;
+    ret = price * real_tax;
+    tax_rule = parseInt(tax_rule);
+    switch (tax_rule) {
+        // 四捨五入
+        case {{ constant('Eccube\\Entity\\Master\\RoundingType::ROUND') }}:
+            $ret = Math.round(ret);
+            break;
+        // 切り捨て
+        case {{ constant('Eccube\\Entity\\Master\\RoundingType::FLOOR') }}:
+            $ret = Math.floor(ret);
+            break;
+        // 切り上げ
+        case {{ constant('Eccube\\Entity\\Master\\RoundingType::CEIL') }}:
+            $ret = Math.ceil(ret);
+            break;
+        // デフォルト:切り上げ
+        default:
+            $ret = Math.round(ret);
+            break;
+    }
+    return $ret;
+}
+
+</script>
+{% endblock %}

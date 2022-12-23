@@ -1,0 +1,68 @@
+{#
+* Plugin Name : ProductOption
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+{% if id is not null %}
+<div class="card rounded border-0 mb-4">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-8">
+                <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                     title="{{ 'productoption.tooltip.product.product_option'|trans }}">
+                <span class="card-title">
+                    {{ 'productoption.admin.product.product_option__card_title'|trans }}
+                    <i class="fa fa-question-circle fa-lg ml-1"></i>
+                </span>
+                </div>
+            </div>
+            <div class="col-4 text-right">
+                <a data-toggle="collapse" href="#productOption" aria-expanded="false"
+                   aria-controls="productOption">
+                    <i class="fa fa-angle-up fa-lg"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="collapse show ec-cardCollapse" id="productOption">
+        <div class="card-body">
+            {% if Product.ProductOptions|length > 0 %}
+                <table class="table table-striped">
+                    <thead class="table-active">
+                    <th class="pl-3 pt-2 pb-2">{{ 'productoption.admin.product.option.backend_name'|trans }}</th>
+                    <th class="pt-2 pb-2">{{ 'productoption.admin.product.option.name'|trans }}</th>
+                    <th class="pt-2 pb-2">{{ 'productoption.admin.product.option.type'|trans }}</th>
+                    </thead>
+                    <tbody>
+                    {% for ProductOption in Product.ProductOptions %}
+                        <tr>
+                            <td class="pl-3">{{ ProductOption.Option.backend_name }}</td>
+                            <td>{{ ProductOption.Option.name }}</td>
+                            <td>{{ arrType[ProductOption.Option.type] }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
+
+            <div class="d-block text-center text-center">
+                <a href="{{ path('admin_product_product_option', { 'id' : id }) }}" class="btn btn-ec-regular" data-action="confirm"
+                   title="{{ 'admin.common.move_to_confirm_message'|trans({
+                       '%name%' : 'productoption.admin.product.option.option.rank.assign'|trans
+                   }) }}">{{ 'productoption.admin.product.product_option__confirm_of_product'|trans }}</a>
+            </div>
+            <div class="d-block text-center text-center" style="margin-top:10px;">
+                <a href="{{ path('admin_product_product_option_rank', { 'id' : id }) }}" class="btn btn-ec-regular" data-action="confirm"
+                   title="{{ 'admin.common.move_to_confirm_message'|trans({
+                       '%name%' : 'productoption.admin.product.option.option.rank.sort'|trans
+                   }) }}">{{ 'productoption.admin.product.product_option_rank__confirm_of_product'|trans }}</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

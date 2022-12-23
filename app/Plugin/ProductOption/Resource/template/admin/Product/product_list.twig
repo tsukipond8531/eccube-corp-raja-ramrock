@@ -1,0 +1,18 @@
+{#
+* Plugin Name : ProductOption
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+{% for p in pagination %}
+    <div id="p{{ loop.index }}" style="display:none;">{{ url('admin_product_product_option', { id : p.id }) }}</div>
+    <div id="pr{{ loop.index }}" style="display:none;">{{ url('admin_product_product_option_rank', { id : p.id }) }}</div>
+{% endfor %}
+
+<div id="productoption_text" style="display:none;">
+    {{ 'productoption.admin.common.option'|trans }}
+</div>

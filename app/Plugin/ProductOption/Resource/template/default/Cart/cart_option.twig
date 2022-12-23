@@ -1,0 +1,18 @@
+{#
+* Plugin Name : ProductOption
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+<style>
+.ec-cartRow .ec-cartRow__summary .ec-cartRow__name {
+word-break: break-all;
+}
+</style>
+
+{% for CartItemOption in CartItem.CartItemOptions %}
+    <br>{{ CartItemOption.label }}:{% for CartItemOptionCategory in CartItemOption.CartItemOptionCategories %}{{ CartItemOptionCategory.value }}{%if loop.last == false %},{% endif %}{% endfor %}
+{% endfor %}

@@ -1,0 +1,108 @@
+{#
+* Plugin Name : ProductOption
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+{% if Product.ProductOptions %}
+        {% for ProductOption in Product.ProductOptions %}
+            {% set value = 'productoption' ~ ProductOption.Option.id %}
+            {# ラジオボタン #}
+            {% if ProductOption.Option.type == constant('Plugin\\ProductOption\\Entity\\Option::RADIO_TYPE') %}
+                <div class="ec-radio" style="margin-top: 10px;">
+                    <div>
+                        <label for="productoption{{ ProductOption.Option.id }}">{{ form[value].vars.label }}</label>{% if form[value].vars.required %}<span class="ec-required">{{'common.required'|trans}}</span>{% endif %}
+                        {% if ProductOption.Option.description_flg == constant('Plugin\\ProductOption\\Entity\\Option::DISP_ON') %}
+                        &nbsp;<a href="?" id="option_description_link_{{ Product.id }}_{{ ProductOption.Option.id }}" data="{{ Product.id }}"><span class="ec-link ec-font-size-2">{{'productoption.product.option.description.title'|trans}}</span></a>
+                        {% endif %}
+                    </div>
+                    {{ form_widget(form[value]) }}
+                </div>
+            {# チェックボックス #}
+            {% elseif ProductOption.Option.type == constant('Plugin\\ProductOption\\Entity\\Option::CHECKBOX_TYPE')%}
+                <div class="ec-checkbox" style="margin-top: 10px;">
+                    <div>
+                        <label for="productoption{{ ProductOption.Option.id }}">{{ form[value].vars.label }}</label>{% if ProductOption.Option.require_min > 0 %}<span class="ec-required">{{'common.required'|trans}}</span>{% endif %}
+                        {% if ProductOption.Option.description_flg == constant('Plugin\\ProductOption\\Entity\\Option::DISP_ON') %}
+                        &nbsp;<a href="?" id="option_description_link_{{ Product.id }}_{{ ProductOption.Option.id }}" data="{{ Product.id }}"><span class="ec-link ec-font-size-2">{{'productoption.product.option.description.title'|trans}}</span></a>
+                        {% endif %}
+                    </div>
+                    {{ form_widget(form[value]) }}
+                </div>
+            {# プルダウンタイプ #}
+            {% elseif  ProductOption.Option.type == constant('Plugin\\ProductOption\\Entity\\Option::SELECT_TYPE')%}
+                <div class="ec-select" style="margin-top: 10px;">
+                    <div>
+                        {{ form_label(form[value]) }}{% if form[value].vars.required %}<span class="ec-required">{{'common.required'|trans}}</span>{% endif %}
+                    {% if ProductOption.Option.description_flg == constant('Plugin\\ProductOption\\Entity\\Option::DISP_ON') %}
+                        &nbsp;<a href="?" id="option_description_link_{{ Product.id }}_{{ ProductOption.Option.id }}" data="{{ Product.id }}"><span class="ec-link ec-font-size-2">{{'productoption.product.option.description.title'|trans}}</span></a>
+                    {% endif %}
+                    </div>
+                    <div {% if form[value].vars.errors is not empty %}class="has-error"{% endif %}>
+                        {{ form_widget(form[value]) }}
+                    {{ form_errors(form[value]) }}
+                    </div>
+                </div>
+            {# 数値入力タイプ #}
+            {% elseif ProductOption.Option.type == constant('Plugin\\ProductOption\\Entity\\Option::NUMBER_TYPE') %}
+                <div class="ec-numberInput">
+                    <div>
+                    {{ form_label(form[value]) }}{% if form[value].vars.required %}<span class="ec-required">{{'common.required'|trans}}</span>{% endif %}
+                    {% if ProductOption.Option.description_flg == constant('Plugin\\ProductOption\\Entity\\Option::DISP_ON') %}
+                        &nbsp;<a href="?" id="option_description_link_{{ Product.id }}_{{ ProductOption.Option.id }}" data="{{ Product.id }}"><span class="ec-link ec-font-size-2">{{'productoption.product.option.description.title'|trans}}</span></a>
+                    {% endif %}
+                    </div>
+                    <div {% if form[value].vars.errors is not empty %}class="has-error"{% endif %}>
+                        {{ form_widget(form[value]) }}
+                    {{ form_errors(form[value]) }}
+                    </div>
+                </div>
+            {# 日付タイプ #}
+            {% elseif ProductOption.Option.type == constant('Plugin\\ProductOption\\Entity\\Option::DATE_TYPE') %}
+                <div class="ec-input">
+                    <div>
+                    {{ form_label(form[value]) }}{% if form[value].vars.required %}<span class="ec-required">{{'common.required'|trans}}</span>{% endif %}
+                    {% if ProductOption.Option.description_flg == constant('Plugin\\ProductOption\\Entity\\Option::DISP_ON') %}
+                        &nbsp;<a href="?" id="option_description_link_{{ Product.id }}_{{ ProductOption.Option.id }}" data="{{ Product.id }}"><span class="ec-link ec-font-size-2">{{'productoption.product.option.description.title'|trans}}</span></a>
+                    {% endif %}
+                    </div>
+                    <div {% if form[value].vars.errors is not empty %}class="has-error"{% endif %} style="position: relative">
+                        {{ form_widget(form[value], { attr : { 'data-target' : '#'~form[value].vars.id }}) }}
+                    {{ form_errors(form[value]) }}
+                    </div>
+                </div>
+            {# テキストボックスタイプ #}
+            {% elseif ProductOption.Option.type == constant('Plugin\\ProductOption\\Entity\\Option::TEXT_TYPE') %}
+                <div class="ec-input" style="margin-top: 10px;">
+                    <div>
+                    {{ form_label(form[value]) }}{% if form[value].vars.required %}<span class="ec-required">{{'common.required'|trans}}</span>{% endif %}
+                    {% if ProductOption.Option.description_flg == constant('Plugin\\ProductOption\\Entity\\Option::DISP_ON') %}
+                        &nbsp;<a href="?" id="option_description_link_{{ Product.id }}_{{ ProductOption.Option.id }}" data="{{ Product.id }}"><span class="ec-link ec-font-size-2">{{'productoption.product.option.description.title'|trans}}</span></a>
+                    {% endif %}
+                    </div>
+                    <div {% if form[value].vars.errors is not empty %}class="has-error"{% endif %}>
+                        {{ form_widget(form[value]) }}
+                    {{ form_errors(form[value]) }}
+                    </div>
+                </div>
+            {# テキストエリアタイプ #}
+            {% elseif ProductOption.Option.type == constant('Plugin\\ProductOption\\Entity\\Option::TEXTAREA_TYPE')%}
+                <div class="ec-input"　style="margin-top: 10px;">
+                    <div>
+                        {{ form_label(form[value]) }}{% if form[value].vars.required %}<span class="ec-required">{{'common.required'|trans}}</span>{% endif %}
+                    {% if ProductOption.Option.description_flg == constant('Plugin\\ProductOption\\Entity\\Option::DISP_ON') %}
+                        &nbsp;<a href="?" id="option_description_link_{{ Product.id }}_{{ ProductOption.Option.id }}" data="{{ Product.id }}"><span class="ec-link ec-font-size-2">{{'productoption.product.option.description.title'|trans}}</span></a>
+                    {% endif %}
+                    </div>
+                    <div {% if form[value].vars.errors is not empty %}class="has-error"{% endif %}>
+                        {{ form_widget(form[value]) }}
+                    {{ form_errors(form[value]) }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+{% endif %}

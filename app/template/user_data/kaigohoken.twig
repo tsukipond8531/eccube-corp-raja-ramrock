@@ -1,0 +1,424 @@
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+<!--content-->
+<div class="cmncontent">
+
+	<section class="underMv type_ins">
+		<div class="cmnbox01">
+			<div class="underMv_contImg sp"><img src="{{ asset('assets/img/kaigohoken/pic_mv_sp.png') }}" alt=""></div>
+			<div class="underMv_cont">
+				<div class="underMv_cont_box">
+					<h2 class="underMv_cont_ttl">
+						<span class="underMv_cont_icon"><img src="{{ asset('assets/img/kaigohoken/icon_mv.png') }}" alt=""></span>
+						<span class="underMv_cont_head">ラムロックアイズ<br>（介護保険適用について）</span>
+					</h2>
+					<p class="underMv_cont_txt">⼀般レンタル（みまもりCUBE）とレンタル福祉⽤具<br class="pc">（ラムロックアイズみまもりCUBE）は別商材でございます。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<ul class="breadcrumb cmnbox01">
+		<li class="breadcrumb_list"><a href="{{ url('homepage') }}user_data">HOME</a></li>
+		<li class="breadcrumb_list">ラムロックアイズ（介護保険適用について）</li>
+	</ul>
+
+	<div class="ins_cont">
+		<section class="ins_rental">
+			<div class="cmnbox01">
+				<p class="ins_rental_top">介護保険適⽤商品</p>
+				<h3 class="ins_rental_head">
+					<span class="ins_rental_head_span01">ラムロックアイズみまもりCUBEは</span>徘徊感知機器として<span class="ins_rental_head_span02">介護保険レンタルが可能です</span>
+				</h3>
+				<p class="ins_rental_req">※⼀般レンタル（みまもりCUBE）とレンタル福祉⽤具（ラムロックアイズみまもりCUBE）は別商材でございます。<br class="pc"><a href="{{ url('homepage') }}user_data/flow/" class="link_orange">導入までの流れはこちら</a>をご確認ください。</p>
+				<div class="ins_rental_btn"><span class="flow_option_btn hover" data-remodal-target="01">一般レンタルとの違いは？</span></div>
+				<div class="ins_rental_funcWrap">
+					<h4 class="flow_sim_headTop type_func">⾒守りカメラに欲しかった機能が凝縮！</h4>
+					<ul class="ins_rental_func_list">
+						<li class="ins_rental_func_item">
+							<div class="ins_rental_func_img"><img src="{{ asset('assets/img/kaigohoken/icon01_01.png') }}" alt=""></div>
+							<p class="ins_rental_func_txt">カメラ</p>
+						</li>
+						<li class="ins_rental_func_item">
+							<div class="ins_rental_func_img"><img src="{{ asset('assets/img/kaigohoken/icon01_02.png') }}" alt=""></div>
+							<p class="ins_rental_func_txt">スピーカー</p>
+						</li>
+						<li class="ins_rental_func_item">
+							<div class="ins_rental_func_img"><img src="{{ asset('assets/img/kaigohoken/icon01_03.png') }}" alt=""></div>
+							<p class="ins_rental_func_txt">検知サーバー</p>
+						</li>
+						<li class="ins_rental_func_item">
+							<div class="ins_rental_func_img"><img src="{{ asset('assets/img/kaigohoken/icon01_04.png') }}" alt=""></div>
+							<p class="ins_rental_func_txt">モバイルルーター</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="ins_cta">
+			<div class="cmnbox01">
+				<h3 class="flow_sim_headTop type_cta">お申込みをご希望の⽅はこちらから</h3>
+				<div class="ins_ctaBox">
+					<div class="ins_ctaBox_item">
+						<h4 class="ins_ctaBox_head">介護保険レンタル</h4>
+						<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="/flow/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
+						<a href={{ url('homepage') }}user_data"/material/" class="cmnbtn type02">
+							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta01.png') }}"></span>
+							<span class="cmnbtntxt">検討資料はこちら</span>
+						</a>
+					</div>
+					<div class="ins_ctaBox_item type02">
+						<h4 class="ins_ctaBox_head">一般レンタル</h4>
+						<p class="ins_ctaBox_txt">みまもりCUBEはこちらからお申し込み可能です。<br class="pc">（弊社とご契約）</p>
+						<a href={{ url('homepage') }}"contact/" class="cmnbtn type02">
+							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta02.png') }}"></span>
+							<span class="cmnbtntxt">お申込みはこちら</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="ins_anxiety">
+			<div class="ins_anxiety_inner">
+				<div class="cmnbox01">
+					<h2 class="anx01">こんな<span>不安や心配</span>はありませんか？</h2>
+					<div class="anx02 type_ins">
+						<div class="anx03">
+							<div class="anx04"><img src="{{ asset('assets/img/kaigohoken/pic01_01.png') }}" alt="WORRIED ABOUT COMING BACK"></div>
+							<div class="anx05">
+								<p class="anx06">散歩が好きで<br>
+									よく外出するが<br>
+									<span>ちゃんと戻ってきて<br>
+									いるか⼼配</span></p>
+							</div>
+						</div>
+						<div class="anx03">
+							<div class="anx04"><img src="{{ asset('assets/img/kaigohoken/pic01_02.png') }}" alt="WANDERING ABOUT"></div>
+							<div class="anx05">
+								<p class="anx06">もし徘徊して<br>
+									しまった時に、<br>
+									<span>時間や服装などが<br>
+									わからない</span></p>
+							</div>
+						</div>
+						<div class="anx03">
+							<div class="anx04"><img src="{{ asset('assets/img/kaigohoken/pic01_03.png') }}" alt="NOT ANSWER THE PHONE"></div>
+							<div class="anx05">
+								<p class="anx06">家にいるか<br>
+									わからないので<br>
+									<span>電話にでないと不安</span></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="ins_anxiety_bg"><img src="{{ asset('assets/img/kaigohoken/bg_tri02.png') }}" alt=""></div>
+		</section>
+
+		<section class="ins_detection">
+			<div class="ins_detection_headWrap">
+				<div class="cmnbox01">
+					<p class="ins_detection_headTop">ラムロックアイズみまもりCUBE</p>
+					<h3 class="ins_detection_head"><span>検知機能</span>をご利⽤ください！</h3>
+				</div>
+			</div>
+			<div class="ins_detectionCont">
+				<div class="cmnbox01">
+					<div class="ins_detectionCont_img"><img src="{{ asset('assets/img/kaigohoken/obj_img.png') }}" alt=""></div>
+					<p class="ins_detectionCont_txt">この検知機能の有効性は<span class="ins_rental_head_span02 type02">県警にも認められ</span>、徘徊時の早期発見、<br class="pc">予防対策ツールとして弊社と県警で業務提携を行った実績があります。</p>
+					<div class="ins_detectionCont_arrow"><img src="{{ asset('assets/img/kaigohoken/obj_arrow_down.png') }}" alt=""></div>
+					<div class="ins_detectionCol2Wrap">
+						<div class="ins_detectionCol2">
+							<div class="ins_detectionCol2_item">
+								<div class="ins_detectionCol2_icon"><img src="{{ asset('assets/img/kaigohoken/icon02_01.png') }}" alt=""></div>
+								<div class="ins_detectionCol2_img"><img src="{{ asset('assets/img/kaigohoken/pic02_01.png') }}" alt=""></div>
+								<h4 class="ins_detectionCol2_head">⾳声で通知・呼び⽌め</h4>
+								<p class="ins_detectionCol2_txt">玄関の滞在を検知し、みまもりCUBEから録⾳した⾳声を<br>
+									⾃動再⽣することで呼び⽌めると同時に<br>⾳声でお知らせすることも可能</p>
+							</div>
+							<div class="ins_detectionCol2_item">
+								<div class="ins_detectionCol2_icon"><img src="{{ asset('assets/img/kaigohoken/icon02_02.png') }}" alt=""></div>
+								<div class="ins_detectionCol2_img"><img src="{{ asset('assets/img/kaigohoken/pic02_02.png') }}" alt=""></div>
+								<h4 class="ins_detectionCol2_head">通信端末への通知</h4>
+								<p class="ins_detectionCol2_txt">事前に登録した動作をみまもりCUBEが検知し、<br>
+									画像付メールを送信。
+									</p>
+							</div>
+						</div>
+						<div class="ins_detection_btn">
+							<a href="{{ url('homepage') }}user_data/function/" class="cmnbtn type02">
+								<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_movie.png') }}"></span>
+								<span class="cmnbtntxt">機能紹介はこちら</span>
+							</a>
+						</div>
+					</div>
+					<div class="ins_detectionProm">
+						<h3 class="flow_sim_headTop type_prom">その他の使⽤例は<br class="sp">プロモーション動画で公開中</h3>
+						<div class="ins_detectionProm_movie"><a href="https://www.youtube.com/watch?v=b6GROGkLbQQ&t=11s" target="_blank" rel="noopener"><img src="{{ asset('assets/img/kaigohoken/pic03.png') }}" alt=""></a></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="ins_flow" id="anc01">
+			<div class="cmnbox01">
+				<h2 class="cmntitle01"><span>みまもりCUBEの<br class="sp">取付・介護保険適⽤の流れ</span></h2>
+				<p class="ins_detectionCont_txt type02">レンタル福祉用具の認知症老人徘徊感知機器に区分されるため原則として「要介護2以上」「認知症の診断」「徘徊でお困り」等、<br class="pc">ご利用するにはケアプランに組む為の理由が必要になります。詳細につきましてはケアマネジャー様へご相談ください。</p>
+				<div class="tflows01 type_about01">
+					<div class="tflows02">
+						<div class="tflows03"><img src="{{ asset('assets/img/kaigohoken/pic04_01.png') }}" alt="FLOW01"></div>
+						<dl class="tflows04">
+							<dt>ケアマネージャー様への<br class="pc">ご相談</dt>
+							<dd>利⽤できるのか<br class="pc">（介護度や必要性など）<br>ケアマネージャー様へ<br class="pc">ご相談ください。</dd>
+						</dl>
+					</div>
+					<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
+					<div class="tflows02">
+						<div class="tflows03"><img src="{{ asset('assets/img/kaigohoken/pic04_02.png') }}" alt="FLOW01"></div>
+						<dl class="tflows04">
+							<dt>福祉用具<br class="pc">レンタル事務所様へご連絡</dt>
+							<dd>お取扱いのレンタル事業所が<br class="pc">ご不明な場合は<br>弊社へお問い合わせください。</dd>
+						</dl>
+					</div>
+					<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
+					<div class="tflows02">
+						<div class="tflows03"><div class="tflows03"><img src="{{ asset('assets/img/kaigohoken/pic04_03.png') }}" alt="FLOW01"></div></div>
+						<dl class="tflows04">
+							<dt>現地にてデモ設置を行います</dt>
+							<dd>設置等はレンタル事業所の<br class="pc">担当者が行います。<br class="sp">事前に<br class="pc">設置日時等の調整を行います。</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+			<div class="ins_anxiety_bg"><img src="{{ asset('assets/img/kaigohoken/bg_tri.png') }}" alt=""></div>
+			<div class="ins_flow_demo">
+				<div class="cmnbox01">
+					<div class="ins_flow_demo_box">
+						<div class="ins_flow_demo_img"><img src="{{ asset('assets/img/kaigohoken/pic05.png') }}" alt=""></div>
+						<div class="ins_flow_demo_cont">
+							<h4 class="ins_flow_demo_head">デモ設置</h4>
+							<p class="ins_flow_demo_txt">福祉用具レンタル事務所様が設置場所にお伺いし、みまもり<br class="pc">CUBEの設置、説明を⾏います。</p>
+							<p class="ins_flow_demo_req">※デモ設置の期間や取扱いにつきましてはご利用の事業所様により異なりますので、お問合せください。</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="ins_price">
+			<div class="cmnbox01">
+				<h3 class="cmntitle01"><span>料⾦について</span></h3>
+				<p class="ins_detectionCont_txt  type02">※レンタル料⾦は平均的な市場価値を掲載しております。詳細はお取り扱いの福祉用具レンタル事務所様へお尋ねください。</p>
+				<div class="ins_price_tableBlock">
+					<div class="ins_price_tableWrap">
+						<div class="ins_price_tableTop">
+							<div class="ins_price_tableTop_item">介護保険適⽤<span class="ins_price_tableTop_span">（負担割合が1割の場合⾃⼰負担額となります）</span></div>
+							<div class="ins_price_tableTop_item">実費オプション<span class="ins_price_tableTop_span">（インターネット料⾦）</span><span class="ins_reqTxt">※1</span></div>
+						</div>
+						<table class="ins_price_table">
+							<tr class="ins_price_tr">
+								<th class="ins_price_th type_orange width01">台数</th>
+								<th class="ins_price_th type_orange width02">TAISコード<br>
+									貸与マーク取得：平成28年4月</th>
+								<th class="ins_price_th type_orange width03">単位数（⽉額レンタル料）</th>
+								<th class="ins_price_th width04">初期費⽤<span class="ins_reqTxt">※2</span></th>
+								<th class="ins_price_th width05">回線使⽤料<span class="ins_reqTxt">※3</span></th>
+							</tr>
+							<tr class="ins_price_tr">
+								<td class="ins_price_td">1台</td>
+								<td class="ins_price_td">03125-000004</td>
+								<td class="ins_price_td">1,000単位 (10,000円/⽉)</td>
+								<td class="ins_price_td">3,850円</td>
+								<td class="ins_price_td"  rowspan="3">
+									<div class="ins_price_ib">
+										1GBあたり（1,100円/⽉額）<br><br>
+										※別途、集⾦⼿数料が必要な<br>
+										場合があります。
+									</div>
+								</td>
+							</tr>
+							<tr class="ins_price_tr">
+								<td class="ins_price_td">2台</td>
+								<td class="ins_price_td">03125-000009</td>
+								<td class="ins_price_td">2,000単位 (20,000円/⽉)</td>
+								<td class="ins_price_td">5,500円</td>
+							</tr>
+							<tr class="ins_price_tr">
+								<td class="ins_price_td">3台</td>
+								<td class="ins_price_td">03125-000010</td>
+								<td class="ins_price_td">3,000単位 (30,000円/⽉)</td>
+								<td class="ins_price_td">7,150円</td>
+							</tr>
+							<tr class="ins_price_tr">
+								<td class="ins_price_td">4台</td>
+								<td class="ins_price_td">03125-000011</td>
+								<td class="ins_price_td">4,000単位 (40,000円/⽉)</td>
+								<td class="ins_price_td">8,800円</td>
+								<td class="ins_price_td">
+									<div class="ins_price_ib">超過時1GBあたり（+3,300円）</div>		
+								</td>
+							</tr>
+						</table>
+					</div>
+					<ol class="ins_price_req">
+						<li class="ins_price_req_item">実費オプション（インターネット契約）のお申込みもお取り扱いの福祉⽤具貸与事務所で⾏えます。</li>
+						<li class="ins_price_req_item">初期費⽤は新規ご契約時と、みまもりCUBEを新たに追加する際に発⽣します。</li>
+						<li class="ins_price_req_item">設置台数以上のGB数になります。（1台当たり1GB〜）<br>	複数台数設置時のデータ通信量は⼀括管理（シェア計算）されます。</li>
+					</ol>
+				</div>
+				<div class="ins_price_plan">
+					<h3 class="cmntitle03 type_fs38"><span>介護保険でみまもりCUBEを<br class="sp">レンタルした場合の費⽤（例）</span></h3>
+					<div class="ins_price_planBox">
+						<div class="ins_price_planBox_item">
+							<div class="ins_price_planBox_list">
+								<div class="ins_price_planBox_bubble"><img src="{{ asset('assets/img/kaigohoken/pic_bubble01.png') }}" alt="ラムロックアイズ-みまもりCUBE-レンタル料"></div>
+								<div class="ins_price_planBox_txtWrap">
+									<p class="ins_price_planBox_txt">1000単位前後（介護保険適⽤）</p>
+								</div>
+							</div>
+							<div class="ins_price_planBox_list">
+								<div class="ins_price_planBox_bubble"><img src="{{ asset('assets/img/kaigohoken/pic_bubble02.png') }}" alt="回線使⽤料⾦"></div>
+								<div class="ins_price_planBox_txtWrap">
+									<p class="ins_price_planBox_txt">1GB 1,100円（税込）<br>介護保険適⽤外】</p>
+								</div>
+							</div>
+							<div class="ins_price_planBox_list">
+								<div class="ins_price_planBox_bubble"><img src="{{ asset('assets/img/kaigohoken/pic_bubble03.png') }}" alt="実質負担額"></div>
+								<div class="ins_price_planBox_txtWrap">
+									<p class="ins_price_planBox_txt">約2,000円前後</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="ins_price_noInt">
+					<h3 class="ins_price_noInt_ttl">インターネットを利用しない場合の使い方<span>※回線使用料金のお申込みの必要はありません</span></h3>
+					<div class="ins_price_noIntBox">
+						<div class="ins_price_noIntBox_item">
+							<div class="ins_price_noIntBox_img"><img src="{{ asset('assets/img/kaigohoken/pic06_01.png') }}" alt=""></div>
+							<p class="ins_price_noIntBox_txt">玄関から出ていく姿を検知</p>
+						</div>
+						<div class="ins_price_noIntBox_item type_hr"><img src="{{ asset('assets/img/kaigohoken/icon_arrow_s.png') }}" alt=""></div>
+						<div class="ins_price_noIntBox_item">
+							<div class="ins_price_noIntBox_img"><img src="{{ asset('assets/img/kaigohoken/pic06_02.png') }}" alt=""></div>
+							<p class="ins_price_noIntBox_txt">みまもりCUBEから録音した音声を<br class="pc">自動再生</p>
+						</div>
+						<div class="ins_price_noIntBox_item type_hr"><img src="{{ asset('assets/img/kaigohoken/icon_arrow_s.png') }}" alt=""></div>
+						<div class="ins_price_noIntBox_item">
+							<div class="ins_price_noIntBox_img"><img src="{{ asset('assets/img/kaigohoken/pic06_03.png') }}" alt=""></div>
+							<p class="ins_price_noIntBox_txt">呼び止めると同時に音声で<br>お知らせすることも可能</p>
+						</div>
+					</div>
+					<p class="ins_price_noInt_req">・注意を促す効果音を鳴らすことも可能です。※呼び止めることを保証するものではありません。</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="ins_cta">
+			<div class="cmnbox01">
+				<h3 class="flow_sim_headTop type_cta">お申込みをご希望の⽅はこちらから</h3>
+				<div class="ins_ctaBox">
+					<div class="ins_ctaBox_item">
+						<h4 class="ins_ctaBox_head">介護保険レンタル</h4>
+						<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="/flow/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
+						<a href="{{ url('homepage') }}user_data/material/" class="cmnbtn type02">
+							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta01.png') }}"></span>
+							<span class="cmnbtntxt">検討資料はこちら</span>
+						</a>
+					</div>
+					<div class="ins_ctaBox_item type02">
+						<h4 class="ins_ctaBox_head">一般レンタル</h4>
+						<p class="ins_ctaBox_txt">みまもりCUBEはこちらからお申し込み可能です。<br class="pc">（弊社とご契約）</p>
+						<a href="{{ url('homepage') }}contact/" class="cmnbtn type02">
+							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta02.png') }}"></span>
+							<span class="cmnbtntxt">お申込みはこちら</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="ins_use">
+			<div class="cmnbox01">
+				<div class="ins_use_box">
+					<h3 class="ins_rental_top type_use">介護保険レンタルが使える？</h3>
+					<div class="ins_use_img"><img src="{{ asset('assets/img/kaigohoken/pic07.png') }}" alt="介護レンタル フローチャート"></div>
+					<ol class="ins_price_req type_use">
+						<li class="ins_price_req_item">要介護2に満たない場合でも、徘徊感知機器が必要だと保険者に認められた場合は、介護保険が適用される場合がございます。</li>
+						<li class="ins_price_req_item">保険算定上は認知症老人徘徊感知機器になります。</li>
+					</ol>
+				</div>
+			</div>
+		</section>
+	</div>
+</div>
+
+<div class="float_bnr pc">
+	<div class="float_bnr_close hover"><img src="{{ asset('assets/img/kaigohoken/icon_float_close.png') }}" alt="close"></div>
+	<p class="float_bnr_head">
+		<span class="float_bnr_span01">介護保険レンタル</span>
+		<span class="float_bnr_span02">使える<span><img src="{{ asset('assets/img/kaigohoken/icon_question.png') }}" alt="??"></span></span>	
+	</p>
+	<p class="float_bnr_txt">質問に答えるだけで<br>
+		介護保険適応かが分かる！<br>
+		簡単シュミレーション！</p>
+		<div class="float_bnr_btnWrap">
+			<a href="" class="cmnbtn type02 typecta">
+				<span class="cmnbtntxt">詳しくはこちら</span>
+				<span class="cmnbtnicon02"><img src="{{ asset('assets/img/common/icon_arrow.svg') }}"></span>
+			</a>
+		</div>
+</div>
+<!--/content-->
+
+<!--modal-->
+<div class="remodal" data-remodal-id="01" data-remodal-options="hashTracking:false">
+	<div data-remodal-action="close" class="remodal_close hover"><img src="{{ asset('assets/img/kaigohoken/icon_close.png') }}" alt="close"></div>
+	<h3 class="modal_head">介護保険レンタル（みまもりCUBE）と<br>
+		介護保険レンタル（ラムロックアイズ）の違い</h3>
+	<div class="modal_table">
+		<table class="ins_price_table">
+			<tr class="ins_price_tr">
+				<th class="ins_price_th type_orange width06"></th>
+				<th class="ins_price_th type_orange width07">介護保険<br>
+					適用</th>
+				<th class="ins_price_th type_orange width08">お申し込み方法</th>
+				<th class="ins_price_th type_orange width09">機能性能</th>
+				<th class="ins_price_th type_orange width010">検知機能</th>
+				<th class="ins_price_th type_orange width011">契約先</th>
+				<th class="ins_price_th type_orange width012">設置<br>
+					メンテナンス</th>
+			</tr>
+			<tr class="ins_price_tr">
+				<td class="ins_price_td type_head">みまもりCUBE</td>
+				<td class="ins_price_td type_img"><img src="{{ asset('assets/img/kaigohoken/icon_no.png') }}" alt=""></td>
+				<td class="ins_price_td">弊社HPより</td>
+				<td class="ins_price_td">同等</td>
+				<td class="ins_price_td">オプション<br>
+					申し込み</td>
+				<td class="ins_price_td">弊社</td>
+				<td class="ins_price_td">ご契約者様</td>
+			</tr>
+			<tr class="ins_price_tr">
+				<td class="ins_price_td type_head">ラムロックアイズ<br>
+					-みまもりCUBE-</td>
+				<td class="ins_price_td type_img"><img src="{{ asset('assets/img/kaigohoken/icon_ok.png') }}" alt=""></td>
+				<td class="ins_price_td">ケアマネージャーへ<br>
+					ご相談ください</td>
+				<td class="ins_price_td">同等</td>
+				<td class="ins_price_td">検知機能必須<br>
+					（徘徊感知機器の使い方）</td>
+				<td class="ins_price_td">福祉用具<br>
+					レンタル事業所</td>
+				<td class="ins_price_td">福祉用具<br>
+					レンタル事業所</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!--/modal-->
+
+{% endblock %}

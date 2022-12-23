@@ -1,0 +1,101 @@
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+<!--content-->
+<div class="cmncontent">
+
+	<section class="underMv price">
+		<div class="cmnbox01">
+			<div class="underMv_contImg sp"><img src="{{ asset('assets/img/first-price/pic_mv_sp.png') }}" alt=""></div>
+			<div class="underMv_cont">
+				<div class="underMv_cont_box">
+					<h2 class="underMv_cont_ttl">
+						<span class="underMv_cont_icon"><img src="{{ asset('assets/img/first-price/icon_mv.png') }}" alt=""></span>
+						<span class="underMv_cont_head">お買い物ガイド</span>
+					</h2>
+					<p class="underMv_cont_txt">ネット回線不要の見守りカメラ「みまもりCUBE」の料金・お支払い方法・送料について記載しております。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<ul class="breadcrumb cmnbox01">
+		<li class="breadcrumb_list"><a href="{{ url('homepage') }}">HOME</a></li>
+		<li class="breadcrumb_list">お買い物ガイド</li>
+	</ul>
+
+	<section>	
+		<div class="underblock">
+			<div class="cmnbox01">
+				<div class="underbox01">
+					
+					<h2 class="undertitle01 type01">料金</h2>
+					<h3 class="cmntitle02">1.送料</h3>
+					<p class="cmntxt01">全国一律1,200円(税込1,320円)となります。　※キャンペーン時はキャンペーンルールが適用されます</p>
+					<h3 class="cmntitle02">2.初期費用（回線開通手数料含む）</h3>
+					<p class="cmntxt01">1回のお申込みにつき3,500円(税込3,850円)<br>
+※複数台同時にお申込みいただいた場合も、初期費用は一律3,500円(税込3,850円)となります。<br>
+※キャンペーン時はキャンペーンルールが適用されます。</p>
+					<h3 class="cmntitle02">3.月額基本料金</h3>
+					<p class="cmntxt01">1台目 3,900円（税込4,290円）＜1GB含む＞<br>
+2台目 2,900円（税込3,190円）＜1GB含む＞<br>
+検知オプションのご利用の方は1台につき追加 1,000円（税込1,100円）<br>
+※キャンペーン時はキャンペーンルールが適用されます。<br>
+月途中でお試し期間が終わり、継続利用される場合のその月の月額料金は日割り計算となります。翌月以降は通常通りのご請求となります。</p>
+					<h3 class="cmntitle02">4.超過料金</h3>
+					<p class="cmntxt01">お客様がご契約された回線使用料金プランのデータ通信量を超えた場合、自動で発生いたします。</p>
+					<h3 class="cmntitle02">5.ご契約のデータ通信量の追加（翌月反映）</h3>
+					<p class="cmntxt01">1GBあたり1,000円（税込1,100円）/月でデータ通信量の追加が可能です。<br>
+追加をご希望の方は会員登録後の<a href="{{ url('homepage') }}mypage/" class="link02">マイページ</a>から、もしくは<a href="{{ url('homepage') }}contact/" class="link02">お問い合わせ</a>ください。<br>
+介護保険適用商品のご利用につきましては、<a href="{{ url('homepage') }}contact/" class="link02">お問い合わせ</a>ください。</p>
+	
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section>	
+		<div class="underblock">
+			<div class="cmnbox01">
+				<div class="underbox01">
+					
+					<h2 class="undertitle01 type02">お支払い方法</h2>
+					<p class="cmntxt01">「クレジットカード」、「口座自動振替」からお選びいただけます。ご利用可能なクレジットカードは以下のとおりです。</p>
+					<div class="price01"><img src="{{ asset('assets/img/first-price/pic_01.png') }}" alt="ご利用可能なクレジットカード"></div>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section>	
+		<div class="underblock">
+			<div class="cmnbox01">
+				<div class="underbox01">
+					
+					<h2 class="undertitle01 type01">お支払日</h2>
+					<div class="undertable01">
+						<table>
+							<tr>
+								<th>クレジットカード</th>
+								<td>ご利用月の翌月15日決済<br>お支払いはご指定のカード会社の振替日となります。</td>
+							</tr>
+							<tr>
+								<th>口座自動振替</th>
+								<td>ご利用月の翌月27日(金融機関休業日の場合は翌営業日)となります。</td>
+							</tr>
+						</table>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	
+	
+
+</div>
+<!--/content-->
+
+{% endblock %}

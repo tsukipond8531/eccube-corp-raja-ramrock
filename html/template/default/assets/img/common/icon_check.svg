@@ -1,0 +1,19 @@
+<svg id="グループ_3" data-name="グループ 3" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f56e3d;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #fff;
+        stroke-linecap: round;
+        stroke-width: 2px;
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <circle id="楕円形_7" data-name="楕円形 7" class="cls-1" cx="14" cy="14" r="14"/>
+  <path id="シェイプ_24" data-name="シェイプ 24" class="cls-2" d="M902.71,1073.9l4.141,4.15,7.453-9.11" transform="translate(-895 -1060)"/>
+</svg>

@@ -1,0 +1,165 @@
+{#
+* Plugin Name : ProductOption
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['product', 'edit'] %}
+
+{% block title %}{{ 'productoption.admin.nav.product.product.rank'|trans }}{% endblock %}
+{% block sub_title %}{{ 'admin.product.product_management'|trans }}{% endblock %}
+
+{% block javascript %}
+    <script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.core.min.js', 'admin') }}"></script>
+    <script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.widget.min.js', 'admin') }}"></script>
+    <script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.mouse.min.js', 'admin') }}"></script>
+    <script src="{{ asset('assets/js/vendor/jquery.ui/jquery.ui.sortable.min.js', 'admin') }}"></script>
+    <script>
+
+        $(function() {
+            var oldSortNos = [];
+            // 画面の中のsortNo一覧を保持
+            $('.sortable-item').each(function() {
+                oldSortNos.push(this.dataset.sortNo);
+            });
+            // rsort
+            oldSortNos.sort(function(a, b) {
+                return b - a;
+            }).reverse();
+
+            $('.sortable-container').sortable({
+                items: '> .sortable-item',
+                cursor: 'move',
+                update: function(e, ui) {
+                    $('body').append($('<div class="modal-backdrop show"></div>'));
+                    updateSortNo();
+                }
+            });
+
+            var updateSortNo = function() {
+                // 並び替え後にsortNoを更新
+                var newSortNos = {};
+                var i = 0;
+                $('.sortable-item').each(function() {
+                    newSortNos[this.dataset.optionId] = oldSortNos[i];
+                    i++;
+                });
+
+                $.ajax({
+                    url: '{{ url('admin_product_product_option_sort_no_move') }}',
+                    type: 'POST',
+                    headers: {
+                        'x-csrf-token': $('meta[name="x-csrf-token"]').attr('content')
+                    },
+                    data: newSortNos
+                }).done(function() {
+                    // remove class disable
+                    $('a.up.disabled').removeClass('disabled');
+                    $('a.down.disabled').removeClass('disabled');
+                    // First element
+                    $('.sortable-item > li:nth-child(2) > div > div.col-auto.text-right > a.up').addClass('disabled');
+                }).always(function() {
+                    redrawDisableAllows();
+                    $('.modal-backdrop').remove();
+                });
+            };
+
+            // 最初と最後の↑↓を再描画
+            var redrawDisableAllows = function() {
+                var items = $('.sortable-item');
+                items.find('a').removeClass('disabled');
+                items.first().find('a.up').addClass('disabled');
+                items.last().find('a.down').addClass('disabled');
+            };
+
+            $('.sortable-item a.up').click(function(e) {
+                e.preventDefault();
+                var current = $(this).parents('.list-group-item');
+                current.prev().before(current);
+                $('body').append($('<div class="modal-backdrop show"></div>'));
+                updateSortNo();
+            });
+
+            $('.sortable-item a.down').click(function(e) {
+                e.preventDefault();
+                var current = $(this).parents('.list-group-item');
+                current.next().after(current);
+                $('body').append($('<div class="modal-backdrop show"></div>'));
+                updateSortNo();
+            });
+        });
+
+    </script>
+{% endblock javascript %}
+
+{% block main %}
+    {% if ProductOptions|length > 0 %}
+        <div class="c-contentsArea__cols">
+            <div class="c-contentsArea__primaryCol">
+                <div class="c-primaryCol">
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-body p-0">
+                            <div class="card rounded border-0 mb-2">
+                                <ul class="list-group list-group-flush sortable-container">
+                                    <li class="list-group-item">
+                                        <div class="col-auto align-self-center"><span>{{ 'productoption.admin.common.product_name'|trans }}:{{ Product.name }}</span></div>
+                                    </li>
+                                    {% for ProductOption in ProductOptions %}
+                                        <li id="ex-class_name-{{ ProductOption.id }}" class="list-group-item sortable-item" data-option-id="{{ ProductOption.id }}" data-sort-no="{{ ProductOption.sort_no }}">
+                                            <div class="row justify-content-around mode-view">
+                                                <div class="col-auto d-flex align-items-center"><i class="fa fa-bars text-ec-gray"></i></div>
+                                                <div class="col d-flex align-items-center">
+                                                    {{ ProductOption.Option.name }}[［{{ 'productoption.admin.product.option.backend_name'|trans }}:{{ ProductOption.Option.backend_name }}］ ({{ ProductOption.Option.OptionCategories|length }})
+                                                </div>
+                                                <div class="col-auto text-right">
+                                                    <a class="btn btn-ec-actionIcon mr-3 up {% if loop.first %}disabled{% endif %}" href="" data-toggle="tooltip" data-placement="top" title="{{ 'productoption.admin.common.up'|trans }}">
+                                                        <i class="fa fa-arrow-up fa-lg text-secondary"></i>
+                                                    </a>
+                                                    <a class="btn btn-ec-actionIcon mr-3 down {% if loop.last %}disabled{% endif %}" href="" data-toggle="tooltip" data-placement="top" title="{{ 'productoption.admin.common.down'|trans }}">
+                                                        <i class="fa fa-arrow-down fa-lg text-secondary"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <p>{{ 'productoption.admin.product.option.sortable'|trans }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="c-conversionArea">
+            <div class="c-conversionArea__container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-6">
+                         <div class="c-conversionArea__leftBlockItem">
+                            <a class="c-baseLink" href="{{ url('admin_product_page', { page_no : app.session.get('eccube.admin.product.search.page_no')|default('1') } ) }}">
+                                <i class="fa fa-backward" aria-hidden="true"></i><span>{{ 'admin.product.product_list'|trans }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div id="ex-conversion-action" class="row align-items-center justify-content-end">
+                            <div class="col-auto">
+                                <a href="{{ url('admin_product_product_option', { id : Product.id}) }}"
+                                   <button class="btn btn-ec-conversion px-5" type="button">{{ 'productoption.admin.product.option.option.rank.assign'|trans }}</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>{{ 'productoption.admin.product.option.no_item'|trans }}</p>
+    {% endif %}
+{% endblock %}

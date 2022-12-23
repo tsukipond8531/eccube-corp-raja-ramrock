@@ -1,0 +1,166 @@
+{#
+* Plugin Name : ProductOption
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+{% block css %}
+<link rel="stylesheet" href="{{ asset('assets/css/tempusdominus-bootstrap-4.min.css', 'admin') }}">
+<style type="text/css">
+    .datepicker-days th.dow:first-child,
+    .datepicker-days td:first-child {
+        color: #f00;
+    }
+
+    .datepicker-days th.dow:last-child,
+    .datepicker-days td:last-child {
+        color: #00f;
+    }
+</style>
+{% endblock %}
+{% block javascript %}
+<script>
+    $(function() {
+        if ($('[type="date"]').prop('type') != 'date' && $('[type="date"]').prop('name').match(/productoption\d+/) != null) {
+            // input type属性でdateが利用できるかどうか(カレンダー表示できないブラウザ対応)
+            $.when(
+                $.getScript("{{ asset('assets/js/vendor/moment.min.js', 'admin') }}"),
+                $.getScript("{{ asset('assets/js/vendor/moment-with-locales.min.js', 'admin') }}"),
+                $.getScript("{{ asset('assets/js/vendor/tempusdominus-bootstrap-4.min.js', 'admin') }}")
+            ).done(function() {
+                $('input[type=date]').datetimepicker({
+                    locale: '{{ eccube_config.locale }}',
+                    format: 'YYYY-MM-DD',
+                    useCurrent: false,
+                    buttons: {
+                        showToday: true,
+                        showClose: true
+                    }
+                });
+            });
+        }
+    });
+
+    optionPrices = {{ optionPrices|json_encode|raw }};
+    optionMultiples = {{ optionMultiples|json_encode|raw }};
+    optionDefaults = {{ optionDefaults|json_encode|raw }};
+    // 受注明細行を追加する.
+    function fnAddOrderItemOption($row, product_id, type, product_name) {
+        // 規格1の要素を取得
+        var $sele1 = $row.find('select[name=classcategory_id1]');
+        // 規格2の要素を取得
+        var $sele2 = $row.find('select[name=classcategory_id2]');
+
+        var product_class_id = null;
+        var price = 0;
+        var quantity = 1;
+
+        // 規格なし商品の場合
+        if (!$sele1.length && !$sele2.length) {
+            var product = productsClassCategories[product_id]['__unselected2']['#'];
+            product_class_id = product['product_class_id'];
+            price = product['price02'];
+            // 規格が登録されている商品の場合
+        } else if ($sele1.length) {
+            if ($sele2.length) {
+                var class_category_id1 = $sele1.val();
+                var class_cateogry_id2 = $sele2.val();
+                if (class_category_id1 == '__unselected' || !class_cateogry_id2) {
+                    alert('{{'admin.product.unselected_class'|trans}}');
+                    return;
+                }
+                var product = productsClassCategories[product_id][class_category_id1]['#' + class_cateogry_id2];
+
+                product_class_id = product['product_class_id'];
+                price = product['price02'];
+            } else {
+                var class_category_id1 = $sele1.val();
+                if (class_category_id1 == '__unselected') {
+                    alert('{{ 'admin.product.unselected_class'|trans }}');
+                    return;
+                }
+                var product = productsClassCategories[product_id][class_category_id1]['#'];
+
+                product_class_id = product['product_class_id'];
+                price = product['price02'];
+            }
+        }
+
+        // オプション情報の取得
+        var option_id = null;
+        var options = {};
+
+        price = parseFloat(price.replace(/,/g,''));
+        $form = $("form[name=product_form"+product_id+"]");
+        $form.next().find("[name^=productoption]").each(function(){
+            var option_id = $(this).attr('name').replace(/productoption/ig,'');
+            var id = $(this).prop("id");
+            if(id.match(/^productoption\d[\d_]*\d$/)){
+                var type = $(this).attr('type');
+                var kind = $(this).prop('tagName');
+                var value = null;
+                if(type == 'radio'){
+                    if($(this).prop('checked')){
+                        value = parseFloat($(this).val());
+                        if(!optionDefaults[product_id][option_id][value])options[option_id] = value;
+                        price += parseFloat(optionPrices[product_id][option_id][value]);
+                    }
+                }else if(type == 'checkbox'){
+                    option_id = option_id.replace('[]','');
+                    if($(this).prop('checked')){
+                        if(options[option_id] == undefined){
+                            options[option_id] = [];
+                        }
+                        value = parseFloat($(this).val());
+                        options[option_id].push(value);
+                        price += parseFloat(optionPrices[product_id][option_id][value]);
+                    }
+                }else{
+                    value = $(this).val();
+                    if(value.length > 0){
+                        var kind = $(this).prop('tagName');
+                        if(kind == 'SELECT'){
+                            if(!optionDefaults[product_id][option_id][value])options[option_id] = value;
+                            price += parseFloat(optionPrices[product_id][option_id][value]);
+                        }else{
+                            var multi = 1;
+                            if(type == 'number'){
+                                if(optionMultiples[product_id][option_id]){
+                                    multi = parseFloat(value);
+                                }
+                            }
+                            price += parseFloat(optionPrices[product_id][option_id][0]*multi);
+                            options[option_id] = value;
+                        }
+                    }
+                }
+            }
+        });
+
+        var prototype = $collectionHolder.data('prototype');
+        index++;
+        var newForm = prototype.replace(/__name__/g, index);
+        $collectionHolder.children('tbody').append(newForm);
+        var $lastRow = $collectionHolder.children('tbody').children('tr').last();
+
+        $($lastRow).find(formIdPrefix + index + '_ProductClass').val(product_class_id);
+        $($lastRow).find(formIdPrefix + index + '_price').val(price);
+        $($lastRow).find(formIdPrefix + index + '_quantity').val(quantity);
+        $($lastRow).find(formIdPrefix + index + '_order_item_type').val(type);
+        $($lastRow).find(formIdPrefix + index + '_product_name').val(product_name);
+        $($lastRow).find(formIdPrefix + index + '_option_serial').val(JSON.stringify(options));
+
+        // モーダル閉じる.
+        $('#searchProductModal').modal('hide');
+
+        // 再計算のためsubmit.
+        $('#form1').submit();
+
+        return false;
+    }
+</script>
+{% endblock %}

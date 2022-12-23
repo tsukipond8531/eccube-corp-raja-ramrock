@@ -1,0 +1,99 @@
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+<!--content-->
+<div class="cmncontent">
+
+	<section class="underMv type_about">
+		<div class="cmnbox01">
+			<div class="underMv_contImg sp"><img src="{{ asset('assets/img/about02/pic_mv_sp.png') }}" alt=""></div>
+			<div class="underMv_cont">
+				<div class="underMv_cont_box">
+					<h2 class="underMv_cont_ttl">
+						<span class="underMv_cont_icon"><img src="{{ asset('assets/img/about02/icon_cube.png') }}" alt=""></span>
+						<span class="underMv_cont_head">みまもりCUBEについて</span>
+					</h2>
+					<p class="underMv_cont_txt">SIMカード内蔵のカメラなので設置場所でコンセントをさすだけで<br>
+						すぐにお手持ちのスマートフォン等で映像を見る事ができます。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<ul class="breadcrumb cmnbox01">
+		<li class="breadcrumb_list"><a href="{{ url('homepage') }}">HOME</a></li>
+		<li class="breadcrumb_list">みまもりCUBEについて</li>
+	</ul>
+
+	<div class="btn_col3 cmnbox01">
+		<div class="btn_col3_item"><a href="{{ url('homepage') }}user_data/about01/" class="btn_col3_btn">利用シーンについて</a></div>
+		<div class="btn_col3_item"><a href="{{ url('homepage') }}user_data/about02/" class="btn_col3_btn is_current">動画でわかる設置マニュアル</a></div>
+		<div class="btn_col3_item"><a href="{{ url('homepage') }}user_data/about03/" class="btn_col3_btn">資料マニュアルはこちら</a></div>
+	</div>
+
+	<div class="about02_cont">
+		<section class="about02_block">
+			<div class="cmnbox01">
+				<h2 class="common_head type_icon type_movie">動画マニュアル（ver.2.2.1）</h2>
+				<ul class="about02_list">
+					<li class="about02_list_item">
+						<div class="about02_list_movie"><a href="https://www.youtube.com/watch?v=srzz7mWEvkU&t=108s" target="_blank"><img src="{{ asset('assets/img/about02/pic_move01_01.png') }}" alt=""></a></div>
+						<p class="about02_list_txt"><span class="about02_list_num">1</span>Ramurock Playerへの接続方法</p>
+					</li>
+					<li class="about02_list_item">
+						<div class="about02_list_movie"><a href="https://www.youtube.com/watch?v=xRRbpbNIUiI&feature=emb_imp_woyt" target="_blank"><img src="{{ asset('assets/img/about02/pic_move01_02.png') }}" alt=""></a></div>
+						<p class="about02_list_txt"><span class="about02_list_num">2</span>Ramrock Player操作説明</p>
+					</li>
+					<li class="about02_list_item">
+						<div class="about02_list_movie"><a href="https://www.youtube.com/watch?v=7lzvhcnYwcs" target="_blank"><img src="{{ asset('assets/img/about02/pic_move01_03.png') }}" alt=""></a></div>
+						<p class="about02_list_txt"><span class="about02_list_num">3</span>通知設定</p>
+					</li>
+					<li class="about02_list_item">
+						<div class="about02_list_movie"><a href="https://www.youtube.com/watch?v=LcjPzCKH41Y" target="_blank"><img src="{{ asset('assets/img/about02/pic_move01_04.png') }}" alt=""></a></div>
+						<p class="about02_list_txt"><span class="about02_list_num">4</span>メール設定</p>
+					</li>
+					<li class="about02_list_item">
+						<div class="about02_list_movie"><a href="https://www.youtube.com/watch?v=hDGU8Y30gTo" target="_blank"><img src="{{ asset('assets/img/about02/pic_move01_05.png') }}" alt=""></a></div>
+						<p class="about02_list_txt"><span class="about02_list_num">5</span>録画確認</p>
+					</li>
+				</ul>
+			</div>
+		</section>
+		<section class="about02_block type_brown">
+			<div class="cmnbox01">
+				<h2 class="common_head type_icon type_movie">動画マニュアル（ver2.0.1）</h2>
+				<ul class="about02_list">
+					<li class="about02_list_item">
+						<div class="about02_list_movie"><a href="https://www.youtube.com/watch?v=dZP_rJoSKOQ" target="_blank"><img src="{{ asset('assets/img/about02/pic_move02_01.png') }}" alt=""></a></div>
+						<p class="about02_list_txt"><span class="about02_list_num">1</span>Ramurock Playerへの接続方法</p>
+					</li>
+					<li class="about02_list_item">
+						<div class="about02_list_movie"><a href="https://www.youtube.com/watch?v=bW_uWKwOfBo" target="_blank"><img src="{{ asset('assets/img/about02/pic_move02_02.png') }}" alt=""></a></div>
+						<p class="about02_list_txt"><span class="about02_list_num">2</span>Ramrock Player操作説明</p>
+					</li>
+					<li class="about02_list_item">
+						<div class="about02_list_movie"><a href="https://www.youtube.com/watch?v=7lzvhcnYwcs" target="_blank"><img src="{{ asset('assets/img/about02/pic_move02_03.png') }}" alt=""></a></div>
+						<p class="about02_list_txt"><span class="about02_list_num">3</span>通知設定</p>
+					</li>
+					<li class="about02_list_item">
+						<div class="about02_list_movie"><a href="https://www.youtube.com/watch?v=LcjPzCKH41Y" target="_blank"><img src="{{ asset('assets/img/about02/pic_move02_04.png') }}" alt=""></a></div>
+						<p class="about02_list_txt"><span class="about02_list_num">4</span>メール設定</p>
+					</li>
+					<li class="about02_list_item">
+						<div class="about02_list_movie"><a href="https://www.youtube.com/watch?v=hDGU8Y30gTo" target="_blank"><img src="{{ asset('assets/img/about02/pic_move02_05.png') }}" alt=""></a></div>
+						<p class="about02_list_txt"><span class="about02_list_num">5</span>録画確認</p>
+					</li>
+				</ul>
+			</div>
+		</section>
+	</div>
+
+	<div class="cat_col2">
+		<div class="cat_col2_item"><a href="{{ url('homepage') }}html/template/default/assets/pdf/about02/catalog.pdf" target="_blank" class="cmnbtn type_blank">製品カタログをダウンロード<span class="icon_blank"></span></a></div>
+		<div class="cat_col2_item"><a href="{{ url('homepage') }}html/template/default/assets/pdf/about02/pamphlet.pdf" target="_blank" class="cmnbtn type_blank">製品パンフレットをダウンロード<span class="icon_blank"></span></a></div>
+	</div>
+
+</div>
+<!--/content-->
+
+{% endblock %}

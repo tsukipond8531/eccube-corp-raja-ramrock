@@ -1,0 +1,389 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'top' %}
+
+{% block stylesheet %}
+    <style>
+
+    </style>
+{% endblock %}
+
+
+{% block main %}
+    <!--content-->
+    <div class="cmncontent">
+    	<section>	
+    		<div class="tmainblock">
+    			<div class="cmnbox01">
+    				<div class="tmain01"><img src="{{ asset('assets/img/top/main_02.png') }}" class="pc"><img src="{{ asset('assets/img/top/sp_main_02.png') }}" class="sp"></div>
+    				<div class="tmain02"><img src="{{ asset('assets/img/top/main_03.png') }}" alt="見守りカメラをもっと手軽に 介護用見守りカメラのおすすめ人気ランキングNo.1" class="pc"><img src="{{ asset('assets/img/top/sp_main_03.png') }}" alt="見守りカメラをもっと手軽に 介護用見守りカメラのおすすめ人気ランキングNo.1" class="sp"></div>
+    				<div class="tmain03">
+    					<dl class="tmain04">
+    						<dt><img src="{{ asset('assets/img/top/main_04.png') }}"></dt>
+    						<dd>ライブ映像<br class="sp">を確認</dd>
+    					</dl>
+    					<dl class="tmain04">
+    						<dt><img src="{{ asset('assets/img/top/main_05.png') }}"></dt>
+    						<dd>会話機能を使い<br class="pc">簡易的<br class="sp">な双方向会話ができる</dd>
+    					</dl>
+    					<dl class="tmain04">
+    						<dt><img src="{{ asset('assets/img/top/main_06.png') }}"></dt>
+    						<dd>検知オプションで設定した<br>動作をもとにメールで通知</dd>
+    					</dl>
+    				</div>
+    			</div>
+    		</div>
+    	</section>
+    	
+    	<section>	
+    		<div class="ctablock">
+    			<div class="cta01"><img src="{{ asset('assets/img/common/arrow_01.png') }}"></div>
+    			<div class="cta02">
+    				<h2 class="cta03"><span>30日間お試し体験キャンペーン実施中！</span></h2>
+    				<div class="cta04">
+    					<div class="ctabox">
+    						<div class="cta05"><img src="{{ asset('assets/img/common/cta_01.png') }}"></div>
+    						<div class="cta06"><img src="{{ asset('assets/img/common/cta_02.png') }}"></div>
+    					</div>
+    					<p class="cta07"><span>期間中のキャンセルも可能！</span></p>
+    					<ul class="cta08">
+    						<li>
+    							<a href="{{ url('homepage') }}user_data/campaign/" class="cmnbtn type01 typecta">
+    								<span class="cmnbtntxt">キャンペーンの詳細を見る</span>
+    								<span class="cmnbtnicon02"><img src="{{ asset('assets/img/common/icon_arrow.svg') }}"></span>
+    							</a>
+    						</li>
+    						<li>
+    							<a href="{{ url('homepage') }}user_data/material/" class="cmnbtn type02">
+    								<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_mail.svg') }}"></span>
+    								<span class="cmnbtntxt">お試し申し込み</span>
+    							</a>
+    						</li>
+    					</ul>
+    				</div>
+    			</div>
+    		</div>
+    	</section>
+    	
+    	<section>	
+    		<div class="anxblock">
+    			<div class="cmnbox01">
+    				<h2 class="anx01">親御様のこんな<span>不安</span>はありませんか？</h2>
+    				<div class="anx02">
+    					<div class="anx03">
+    						<div class="anx04"><img src="{{ asset('assets/img/top/anxiety_01.png') }}" alt="WORRIED ABOUT LIFE"></div>
+    						<div class="anx05">
+    							<p class="anx06">ひとり暮らしで<br><span>生活が心配</span></p>
+    						</div>
+    					</div>
+    					<div class="anx03">
+    						<div class="anx04"><img src="{{ asset('assets/img/top/anxiety_02.png') }}" alt="FORGETTING TO TAKE MEDICINE"></div>
+    						<div class="anx05">
+    							<p class="anx06"><span>お薬の飲み忘れが</span><br>ないか不安</span></p>
+    						</div>
+    					</div>
+    					<div class="anx03">
+    						<div class="anx04"><img src="{{ asset('assets/img/top/anxiety_03.png') }}" alt="UNCERTAINTY"></div>
+    						<div class="anx05">
+    							<p class="anx06">電話だけでは<br><span>様子がわからず不安</span></span></p>
+    						</div>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    	</section>
+    	
+    	<section>
+    		<div class="tmcubemain">
+    			<img src="{{ asset('assets/img/top/bg_mcube_01.png') }}">
+    			<div class="triangle"></div>
+    		</div>
+    		<div class="tmcubeblock">
+    			<h2 class="tmcube01"><span class="tmcube02"><span class="tmcube03">みまもりCUBE</span>があれば安心！<img src="{{ asset('assets/img/top/main_mcube.png') }}"></span></h2>		
+    			<div class="cmnbox01">
+    				<div class="tmcube04"><img src="{{ asset('assets/img/top/icon_mcube.svg') }}"></div>
+    				<div class="tmcube05">
+    					
+    					<div class="tmcube06 type01">
+    						<div class="tmcube07"><img src="{{ asset('assets/img/top/mcube_01.png') }}"></div>
+    						<div class="tmcube08">
+    							<div class="tmcube09"><img src="{{ asset('assets/img/top/icon_mcube_01.png') }}"></div>
+    							<h3 class="tmcube10">コンセントにさすだけ！<br>簡単設置！</h3>
+    							<p class="tmcube11">みまもりCUBEはコンセントに差し込むだけで設置できるため、難しいセッティングは必要ありません。離れた場所からカメラの映像をスマートフォン・パソコン・タブレットで簡単に見ることができます。</p>
+    						</div>
+    					</div>
+    					
+    					<div class="tmcube06 type02">
+    						<div class="tmcube07"><img src="{{ asset('assets/img/top/mcube_02.png') }}"></div>
+    						<div class="tmcube08">
+    							<div class="tmcube09"><img src="{{ asset('assets/img/top/icon_mcube_02.png') }}"></div>
+    							<h3 class="tmcube10">インターネット環境が<br class="pc">なくても使える！</h3>
+    							<p class="tmcube11">みまもりCUBEにはSIMカード（通信するために必要なカード）が内蔵されているため、設置場所にインターネットの環境がなくてもご利用いただけます。<br>
+    <span class="tmcube12">SIMカードの契約手続きもまとめて</span>弊社で行います！</p>
+    						</div>
+    					</div>
+    					
+    					<div class="tmcube06 type01">
+    						<div class="tmcube07"><img src="{{ asset('assets/img/top/mcube_03.png') }}"></div>
+    						<div class="tmcube08">
+    							<div class="tmcube09"><img src="{{ asset('assets/img/top/icon_mcube_03.png') }}"></div>
+    							<h3 class="tmcube10">オリジナル検知<br class="pc">オプションも利用可能！</h3>
+    							<p class="tmcube11">検知オプションをご利用いただくと「ドア開ける」など特定の動きのみ検知し、メールや音で通知が可能です。<br>
+    <span class="tmcube13">※検知設定は弊社オペレーターにて行います。<br>
+    ※検知オプションの有無に関わらず、メール等での通知は可能です。</span></p>
+    						</div>
+    					</div>
+    					
+    					<div class="tmcube06 type02">
+    						<div class="tmcube07"><img src="{{ asset('assets/img/top/mcube_04.png') }}"></div>
+    						<div class="tmcube08">
+    							<div class="tmcube09"><img src="{{ asset('assets/img/top/icon_mcube_04.png') }}"></div>
+    							<h3 class="tmcube10">どこでも、何人でも閲覧可能！</h3>
+    							<p class="tmcube11">人数の制限等はございません。料金が増えるということもございません。ご契約通信量を複数人でシェアしてご利用いただきます。離れた場所からでも見守りができるため、遠方にお住いの方も安心してご利用いただけます。<br>
+    <span class="tmcube13">※閲覧した時間に応じて通信料が発生します。</span></p>
+    						</div>
+    					</div>
+    					
+    					<div class="tmcube06 type01">
+    						<div class="tmcube07"><img src="{{ asset('assets/img/top/mcube_05.png') }}"></div>
+    						<div class="tmcube08">
+    							<div class="tmcube09"><img src="{{ asset('assets/img/top/icon_mcube_05.png') }}"></div>
+    							<h3 class="tmcube10">入所、ご逝去の場合は 違約金免除</h3>
+    							<p class="tmcube11">1年未満での解約の場合でも解約理由が「ご逝去」「施設入所」の場合に限り、違約金なしでの解約が可能です。商品返送時に、入所証明書やご逝去がわかる書類の送付をお願いします。
+    施設入所証明書のダウンロードは<a href="#" target="_blank">こちら</a>から</p>
+    						</div>
+    					</div>
+    					
+    					<div class="tmcube06 type02">
+    						<div class="tmcube07"><img src="{{ asset('assets/img/top/mcube_06.png') }}"></div>
+    						<div class="tmcube08">
+    							<div class="tmcube09"><img src="{{ asset('assets/img/top/icon_mcube_06.png') }}"></div>
+    							<h3 class="tmcube10">介護保険への<br>切り替えにも対応！</h3>
+    							<p class="tmcube11">ラムロックアイズみまもりCUBEは、徘徊感知機器として介護保険レンタルが可能です。<br>
+    <span class="tmcube13">※一般レンタル（みまもりCUBE）とレンタル福祉用具（ラムロックアイズ-みまもりCUBE-）は別商材でございます。</span><br>
+    詳しくは<a href="{{ url('homepage') }}user_data/kaigohoken/">こちら</a>をご確認ください。</p>
+    						</div>
+    					</div>
+    					
+    				</div>
+    				<ul class="tmcube14">
+    					<li>
+    						<a href="{{ url('homepage') }}user_data/about01/" class="cmnbtn type01">
+    							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_mcube.svg') }}"></span>
+    							<span class="cmnbtntxt">みまもりCUBEについて</span>
+    						</a>
+    					</li>
+    					<li>
+    						<a href="{{ url('homepage') }}user_data/about02/" class="cmnbtn type02">
+    							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_manual.svg') }}"></span>
+    							<span class="cmnbtntxt">ご利用動画マニュアル</span>
+    						</a>
+    					</li>
+    				</ul>
+    			</div>
+    			
+    		</div>
+    	</section>
+    	
+    	<section>	
+    		<div class="tflowblock">
+    			<div class="cmnbox01">
+    				<h2 class="toptitle01"><span>他社の介護用見守りカメラとの比較</span></h2>
+    				<div class="tflow01">
+    					<div class="tflow02">
+    						<div class="tflow03"><img src="{{ asset('assets/img/top/table_01.png') }}" alt="他社の介護用見守りカメラとの比較"></div>
+    					</div>
+    					<p class="tflow04">※1　認知症老人徘徊感知機器としてのご利用となります。詳しくは<a href="/flow/">こちら</a></p>
+    					<div class="tflow05">
+    						<a href="{{ url('homepage') }}user_data/flow/" class="cmnbtn type01">
+    							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_flow.svg') }}"></span>
+    							<span class="cmnbtntxt">月額料金・お申込みの流れはこちら</span>
+    						</a>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    	</section>
+    	
+    	<section>	
+    		<div class="tvoicesblock">
+    			<div class="cmnbox01">
+    				<h2 class="toptitle01"><span>利用者の声</span></h2>
+    				<div class="tvoice01">
+    					<div class="tvoice02">
+    						<div class="tvoice03 mh01">
+    							<div class="tvoice04"><img src="{{ asset('assets/img/top/voice_01.png') }}"></div>
+    							<h3 class="tvoice05">60代ご夫婦</h3>
+    							<p class="tvoice06">離れて暮らす両親が今日も元気かどうか確認ができ不安が軽減され、見守る私の方が精神的に安定しました。</p>
+    						</div>
+    						<div class="tvoice03 mh01">
+    							<div class="tvoice04"><img src="{{ asset('assets/img/top/voice_02.png') }}"></div>
+    							<h3 class="tvoice05">30代ご夫婦</h3>
+    							<p class="tvoice06">以前あわてて電話に出ようとして転倒した事があるのでこちらから状況を確認してから電話をかける事ができています。</p>
+    						</div>
+    						<div class="tvoice03 mh01">
+    							<div class="tvoice04"><img src="{{ asset('assets/img/top/voice_03.png') }}"></div>
+    							<h3 class="tvoice05">60代男性</h3>
+    							<p class="tvoice06">外出してしまうと母が1人になってしまうので心配でした。外出先からでもスマホで確認できるので安心して外出できるようになりました。</p>
+    						</div>
+    					</div>
+    					<div class="tvoice07">
+    						<a href="{{ url('homepage') }}user_data/voice/" class="cmnbtn type01">
+    							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_voice.svg') }}"></span>
+    							<span class="cmnbtntxt">他の利用者の声を見る</span>
+    						</a>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    	</section>
+    	
+    	<section>
+    		<div class="tfaqmain"><img src="{{ asset('assets/img/top/bg_faq.png') }}"></div>
+    		<div class="tfaqblock">
+    			<div class="cmnbox01">
+    				<h2 class="toptitle01"><span>よくある質問</span></h2>
+    				<div class="tfaq01">
+    					<div class="tfaq02">
+    						<div class="tfaq03">
+    							<div class="tfaq04 acctitle">
+    								<div class="tfaq05"><span>Q</span></div>
+    								<p class="tfaq06">お試し体験キャンペーンは、継続利用が条件なのですか？</p>
+    							</div>
+    							<div class="acccont">
+    								<div class="tfaq07">
+    									<div class="tfaq05"><span>A</span></div>
+    									<p class="tfaq08">いいえ、お試し体験キャンペーン期間中にもご利用をやめることは可能です。<br>
+    	お試し体験キャンペーン終了後の翌日以降の継続利用をご希望でない場合は、弊社カスタマーセンターへ利用停止のご連絡をお願いしております。マイページのキャンセル申請フォームからのご連絡をお願い致します。<br>
+    	※返却の際の送料はお客様のご負担となります。予めご了承ください。</p>
+    								</div>
+    							</div>
+    						</div>
+    						<div class="tfaq03">
+    							<div class="tfaq04 acctitle">
+    								<div class="tfaq05"><span>Q</span></div>
+    								<p class="tfaq06">県外などの遠方からの閲覧は可能ですか？</p>
+    							</div>
+    							<div class="acccont">
+    								<div class="tfaq07">
+    									<div class="tfaq05"><span>A</span></div>
+    									<p class="tfaq08">テキストテキストテキストテキスト</p>
+    								</div>
+    							</div>
+    						</div>
+    						<div class="tfaq03">
+    							<div class="tfaq04 acctitle">
+    								<div class="tfaq05"><span>Q</span></div>
+    								<p class="tfaq06">お試し体験キャンペーンはいつまで続きますか？</p>
+    							</div>
+    							<div class="acccont">
+    								<div class="tfaq07">
+    									<div class="tfaq05"><span>A</span></div>
+    									<p class="tfaq08">現在のところ継続予定ですが、予告なく終了する場合がございますので、あらかじめご了承ください。</p>
+    								</div>
+    							</div>
+    						</div>
+    						<div class="tfaq03">
+    							<div class="tfaq04 acctitle">
+    								<div class="tfaq05"><span>Q</span></div>
+    								<p class="tfaq06">SIMカードの契約は必要ですか？</p>
+    							</div>
+    							<div class="acccont">
+    								<div class="tfaq07">
+    									<div class="tfaq05"><span>A</span></div>
+    									<p class="tfaq08">テキストテキストテキストテキスト</p>
+    								</div>
+    							</div>
+    						</div>
+    						<div class="tfaq03">
+    							<div class="tfaq04 acctitle">
+    								<div class="tfaq05"><span>Q</span></div>
+    								<p class="tfaq06">インターネット環境がなくても、みまもりCUBEは使えますか？</p>
+    							</div>
+    							<div class="acccont">
+    								<div class="tfaq07">
+    									<div class="tfaq05"><span>A</span></div>
+    									<p class="tfaq08">はい、使えます。<br><br>
+    みまもりCUBEはSIMカード内蔵のカメラのため設置場所にインターネット回線(無線LAN含む)が無くても、コンセントをさし込むだけですぐにご利用いただけます。<br>
+    只今、みまもりCUBEのお試し体験キャンペーンを行っております。まずはどんな商品なのかお試しください！</p>
+    								</div>
+    							</div>
+    						</div>
+    					</div>
+    					<div class="tfaq09">
+    						<a href="{{ url('homepage') }}user_data/faq/" class="cmnbtn type01">
+    							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_faq.svg') }}"></span>
+    							<span class="cmnbtntxt">他のよくある質問を見る</span>
+    						</a>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    	</section>
+    	
+    	<section>	
+    		<div class="tnewsblock">
+    			<div class="cmnbox01">
+    				<h2 class="toptitle01"><span>新着情報</span></h2>
+    				<div class="tnews01">
+    					<ul class="tnews02">
+    						<li>
+    							<a href="{{ url('homepage') }}user_data/news/detail/">
+    								<span class="tnews03">2022.00.00</span>
+    								<span class="tnews04"><span class="iconcate" style="background-color:#f56e3d">イベント情報</span></span>
+    								<span class="tnews05">お知らせが入ります。お知らせが入ります。お知らせが入ります。お知らせが入ります。</span>
+    							</a>
+    						</li>
+    						<li>
+    							<a href="{{ url('homepage') }}user_data/news/detail/">
+    								<span class="tnews03">2022.00.00</span>
+    								<span class="tnews04"><span class="iconcate" style="background-color:#5ea05c">展示会情報</span></span>
+    								<span class="tnews05">お知らせが入ります。お知らせが入ります。お知らせが入ります。お知らせが入ります。</span>
+    							</a>
+    						</li>
+    						<li>
+    							<a href="{{ url('homepage') }}user_data/news/detail/">
+    								<span class="tnews03">2022.00.00</span>
+    								<span class="tnews04"><span class="iconcate" style="background-color:#a49c84">お知らせ</span></span>
+    								<span class="tnews05">お知らせが入ります。お知らせが入ります。お知らせが入ります。お知らせが入ります。</span>
+    							</a>
+    						</li>
+    						<li>
+    							<a href="{{ url('homepage') }}user_data/news/detail/">
+    								<span class="tnews03">2022.00.00</span>
+    								<span class="tnews04"><span class="iconcate" style="background-color:#f56e3d">イベント情報</span></span>
+    								<span class="tnews05">お知らせが入ります。お知らせが入ります。お知らせが入ります。お知らせが入ります。</span>
+    							</a>
+    						</li>
+    						<li>
+    							<a href="{{ url('homepage') }}user_data/news/detail/">
+    								<span class="tnews03">2022.00.00</span>
+    								<span class="tnews04"><span class="iconcate" style="background-color:#5ea05c">展示会情報</span></span>
+    								<span class="tnews05">お知らせが入ります。お知らせが入ります。お知らせが入ります。お知らせが入ります。</span>
+    							</a>
+    						</li>
+    					</ul>
+    					<div class="tnews06">
+    						<a href="{{ url('homepage') }}user_data/news/" class="cmnbtn type01">
+    							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_news.svg') }}"></span>
+    							<span class="cmnbtntxt">新着情報一覧を見る</span>
+    						</a>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    	</section>
+    	
+    </div>
+    <!--/content-->
+{% endblock %}

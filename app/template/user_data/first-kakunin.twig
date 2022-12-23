@@ -1,0 +1,217 @@
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+<!--content-->
+<div class="cmncontent">
+
+	<section class="underMv kakunin">
+		<div class="cmnbox01">
+			<div class="underMv_contImg sp"><img src="{{ asset('assets/img/first-kakunin/pic_mv_sp.png') }}" alt=""></div>
+			<div class="underMv_cont">
+				<div class="underMv_cont_box">
+					<h2 class="underMv_cont_ttl">
+						<span class="underMv_cont_icon"><img src="{{ asset('assets/img/first-kakunin/icon_mv.png') }}" alt=""></span>
+						<span class="underMv_cont_head">本人確認書類とは</span>
+					</h2>
+					<p class="underMv_cont_txt">お申込みには本人様の氏名・現住所・生年月日が確認できる「本人確認書類（画像）」の提示が必要です。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<ul class="breadcrumb cmnbox01">
+		<li class="breadcrumb_list"><a href="{{ url('homepage') }}">HOME</a></li>
+		<li class="breadcrumb_list">本人確認書類とは</li>
+	</ul>
+
+	<section>	
+		<div class="underblock">
+			<div class="cmnbox01">
+				<div class="underbox01">
+					
+					<div class="btn_col3 type02">
+						<div class="btn_col3_item"><a href="#anc01" class="btn_col3_btn to_page">個人のお客様</a></div>
+						<div class="btn_col3_item"><a href="#anc02" class="btn_col3_btn to_page">法人のお客様</a></div>
+						<div class="btn_col3_item"><a href="#anc03" class="btn_col3_btn to_page">送付手段</a></div>
+					</div>
+					
+					<p class="cmntxt01">みまもりCUBEをお申込みいただくお客様は「本人確認」が必要※となります。<br>
+※みまもりCUBEに内蔵されているSIMカードのレンタル時に、「携帯電話不正利用防止法」に基づき本人確認を実施しております。<br>
+また、商品を譲渡される際には、弊社にご連絡いただき、次に保有される方の本人確認が必要になります。</p>
+					
+					<p class="kakunin01">&lt;本人確認書類 例&gt;</p>
+					<div class="kakunin02">
+						<dl>
+							<dt><img src="{{ asset('assets/img/first-kakunin/pic_01.png') }}" alt="運転免許証"></dt>
+							<dd>運転免許証</dd>
+						</dl>
+						<dl>
+							<dt><img src="{{ asset('assets/img/first-kakunin/pic_02.png') }}" alt="マイナンバーカード(表面のみ)"></dt>
+							<dd>マイナンバーカード(表面のみ)</dd>
+						</dl>
+						<dl>
+							<dt><img src="{{ asset('assets/img/first-kakunin/pic_03.png') }}" alt="住民基本台帳"></dt>
+							<dd>住民基本台帳</dd>
+						</dl>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="pn" id="anc01">
+		<div class="underblock">
+			<div class="cmnbox01">
+				<div class="underbox01">
+					
+					<h2 class="undertitle01 type01">個人のお客様</h2>
+					<p class="cmntxt01">個人のお客様につきましては、お申込み者様の本人確認書類（個人）が必要になります。<br>
+確認しなければならない情報は、氏名、現住所、生年月日となります。本人確認書類のみで確認できない場合は、補助資料の添付をお願いします。<br>
+努めて、顔写真のある運転免許証、マイナンバーカード(表面のみ)、住民基本台帳のいずれかを、カラーコピー、スキャン画像および写真（画像）により送付をお願いします。</p>
+
+					<h3 class="kakunin03"><span>本人確認書類</span></h3>
+					<p class="cmntxt01">お申込み者様ご本人の氏名、住所、生年月日の記載があり、当サイトにご登録いただく情報と一致している必要があります。<br>
+現住所と記載されている住所が相違する場合は、現住所が記載された補助資料が必要になります。</p>
+					
+					<div class="undertable01 typekakunin">
+						<table>
+							<tr>
+								<th>運転免許証（国際運転免許証を除く）</th>
+								<td>公安委員会発行で有効期限内のもの</td>
+							</tr>
+							<tr>
+								<th>日本国パスポート＋下記「補助書類」</th>
+								<td>有効期限内のもので、現住所が記載されているページも必要です。<br>
+国内発行のものに限る。</td>
+							</tr>
+							<tr>
+								<th>マイナンバーカード（個人番号カード）</th>
+								<td>有効期限内のもの<br>
+マイナンバーの記載がない表面のみでお願いします。（マイナンバー情報を送付された場合、一度破棄し、再度送付をお願いいたします。）</td>
+							</tr>
+							<tr>
+								<th>住民基本台帳カード</th>
+								<td>有効期限内のもので、顔写真があるものです。</td>
+							</tr>
+							<tr>
+								<th>特別永住者証明書</th>
+								<td rowspan="6">有効期限内のもので、現住所が記載されているページも必要<br>現住所の記載がない場合は、下記補助書類と一緒にご提出ください。</td>
+							</tr>
+							<tr>
+								<th class="spth01 type02">在留カード</th>
+							</tr>
+							<tr>
+								<th class="spth01">身体障がい者手帳</th>
+							</tr>
+							<tr>
+								<th class="spth01">療育手帳</th>
+							</tr>
+							<tr>
+								<th class="spth01">精神障がい者保険福祉手帳</th>
+							</tr>
+							<tr>
+								<th class="spth01">国民年金手帳</th>
+							</tr>
+							<tr>
+								<th class="spth01 type03">健康保険証＋下記「補助書類」</th>
+								<td>有効期限内のもので、現住所が記載されているページも必要</td>
+							</tr>
+						</table>
+					</div>
+					<p class="kakunin01">※補助書類</p>
+					<p class="cmntxt01">発行から3か月以内のもの<br>
+お申込み者ご本人の氏名、現住所が記載されているもの（ご家族の氏名での書類は、ご利用できません。）</p>
+					<p class="cmntxt01">1.公共料金領収書（電気、水道、都市ガス）<br>
+2.NHK受信料<br>
+3.国税、地方税の領収書または納税証明書<br>
+4.住民票（マイナンバーの記載がないものをご準備ください。）<br>
+5.戸籍謄本</p>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="pn" id="anc02">
+		<div class="underblock">
+			<div class="cmnbox01">
+				<div class="underbox01">
+					
+					<h2 class="undertitle01 type02">法人のお客様</h2>
+					<p class="cmntxt01">法人様につきましては、本人確認書類（法人）、ご担当者様の証明書および本人確認書類（個人）が必要になります。<br>
+本人確認書類（法人）で確認しなければならない情報は、名称および本店または主たる事務所の住所となります。</p>
+					<h3 class="kakunin03"><span>本人確認書類</span></h3>
+					<p class="cmntxt01">本人確認書類（法人）としては、下記のいずれかが必要です。</p>
+					<div class="undertable01 typekakunin">
+						<table>
+							<tr>
+								<th>登記簿謄本<span class="sp">印鑑登録証明書</span></th>
+								<td rowspan="6">発行日より3か月 以内で現住所が記載されているもの</td>
+							</tr>
+							<tr class="pc">
+								<th>印鑑登録証明書</th>
+							</tr>
+						</table>
+					</div>
+					
+					<h3 class="kakunin03"><span>担当者の証明書</span></h3>
+					<p class="cmntxt01">担当者の証明書としては、下記のいずれかが必要です。</p>
+					<div class="undertable01 typekakunin">
+						<table>
+							<tr>
+								<th>社員証（コピー）<span class="sp">名刺</span></th>
+								<td rowspan="6">会社名および担当者名が記載されているもの</td>
+							</tr>
+							<tr class="pc">
+								<th>名刺</th>
+							</tr>
+						</table>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="pn" id="anc03">
+		<div class="underblock">
+			<div class="cmnbox01">
+				<div class="underbox01">
+					
+					<h2 class="undertitle01 type01">送付手段</h2>
+					<div class="kakunin04">
+						<div class="kakunin05">
+							<p class="kakunin07">本人確認資料の送付手段としては、三通りあります。<br><br>
+1.本人確認書類をスキャンし、<a href="{{ url('homepage') }}contact/" class="link02">お申込みフォーム</a>からで弊社カスタマーセンターへ送る方法<br>
+2.FAXで本人確認書類を弊社カスタマーセンターへ送る方法<br>
+（FAX:0948-92-3157）<br>
+3.封筒※に本人確認書類(住民票、戸籍謄本以外はコピー)を入れ、弊社カスタマーセンターに返送する方法</p>
+						</div>
+						<div class="kakunin06">
+							<p class="kakunin07"><span class="bold">本人確認書類送付先</span><br>
+〒820-1111<br>
+福岡県飯塚市勢田1950番地1<br>
+株式会社ラムロック（みまもりCUBE ）<br>
+カスタマーセンター行き</p>
+							<p class="kakunin07">※ あて先シートは<a href="/{{ url('homepage') }}html/template/default/assets/pdf/address.pdf" class="link02" target="_blank">こちら</a>。切り抜いてご使用ください。</p>
+						</div>
+					</div>
+					<p class="kakunin01">※注意事項</p>
+					<p class="cmntxt01">・本人確認書類と現住所が異なる場合、補助書類を付加して送付をお願いします。<br>
+・本人確認書類は有効期間内であることをご確認ください。<br>
+・記載内容がはっきりと読みとれる画像をご準備ください。<br>
+・フォーム、メールおよびFAXの場合、書類全体をスキャンしてください。<br>
+・画像ファイル形式は、「gif」「png」「jpg」「jpeg」でお願いします。<br>
+・画像ファイル容量は一枚につき2MB以内でお願いします。</p>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+
+</div>
+<!--/content-->
+
+{% endblock %}

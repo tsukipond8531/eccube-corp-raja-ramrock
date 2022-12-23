@@ -1,0 +1,80 @@
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+<!--content-->
+<div class="cmncontent">
+
+	<section class="underMv cancel">
+		<div class="cmnbox01">
+			<div class="underMv_contImg sp"><img src="{{ asset('assets/img/first-cancel/pic_mv_sp.png') }}" alt=""></div>
+			<div class="underMv_cont">
+				<div class="underMv_cont_box">
+					<h2 class="underMv_cont_ttl">
+						<span class="underMv_cont_icon"><img src="{{ asset('assets/img/first-cancel/icon_mv.png') }}" alt=""></span>
+						<span class="underMv_cont_head">キャンセル・返品・<br class="pc">引き渡し時期</span>
+					</h2>
+					<p class="underMv_cont_txt">ご契約キャンセル・カメラの返品・引き渡し時期について。<br>キャンセルは発送準備完了メールが届く前でのお申し出、返品は初期不良やご利用用途に合わなかった場合にご対応いたします</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<ul class="breadcrumb cmnbox01">
+		<li class="breadcrumb_list"><a href="{{ url('homepage') }}">HOME</a></li>
+		<li class="breadcrumb_list">キャンセル・返品・引き渡し時期</li>
+	</ul>
+
+	<section>	
+		<div class="underblock">
+			<div class="cmnbox01">
+				<div class="underbox01">
+					
+					<h2 class="undertitle01 type01">キャンセル</h2>
+					<p class="cmntxt01">キャンセルについては、弊社からの「発送準備完了」メールが届く前に、キャンセルの申し出をされた場合に、お引き受けいたします。<br>
+この場合、弊社からのキャンセル受付完了メールの受信を確認してください。</p>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section>	
+		<div class="underblock">
+			<div class="cmnbox01">
+				<div class="underbox01">
+					
+					<h2 class="undertitle01 type02">返品</h2>
+					<p class="cmntxt01">商品に初期不良があった場合、弊社にお問い合わせをいただいた後、交換品をお送り致します。<br>
+送料は、原則弊社の負担とさせていただきます。<br>
+※キャンペーン時は<a href="/{{ url('homepage') }}user_datacampaign/" class="link02">キャンペーンルール</a>が適用されます。</p>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section>	
+		<div class="underblock">
+			<div class="cmnbox01">
+				<div class="underbox01">
+					
+					<h2 class="undertitle01 type01">引き渡し時期</h2>
+					<p class="cmntxt01">お申込み日の翌営業日に順次発送いたします。</p>
+					<div class="cancel01">
+						<p class="cmntxt01">※1<br>
+(1) 在庫状況により発送が遅れる場合がございます。<br>
+(2) 本人確認完了、お支払い方法の登録完了後の発送となります。</p>
+						<p class="cmntxt01">【使用開始可能時期】</p>
+						<p class="cmntxt01">商品到着後、お客様による設置、端末への接続が完了次第、ご利用いただけます。<br>※検知オプションをご利用の方は、リモートによる弊社オペレーターの検知設定が完了次第となります（※2）</p>
+						<p class="cmntxt01">※2<br>
+弊社オペレーターによる検知設定が集中した場合につきましては先着で実施します。</p>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</section>
+</div>
+<!--/content-->
+
+{% endblock %}

@@ -1,0 +1,202 @@
+{% extends 'default_frame.twig' %}
+
+{% block stylesheet %}
+    <style>
+        @media only screen and (min-width: 768px) {
+            .ec-layoutRole .ec-modifiedLayoutRole__contents {
+                max-width: 1080px !important;
+                font-size: 15px !important;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="{{ asset('assets/css/original.css') }}">
+{% endblock %}
+
+{% block main %}
+
+<div class="original_contents ec-modifiedLayoutRole__contents">
+    <div class="the_content muse floatbox cm">
+        <p>
+            みまもりCUBEをお申込みいただくお客様は「本人確認」が必要<span style="color: #ff0000;"><sup>※</sup></span>となります。
+        </p>
+        <p>
+            <span class="tinyFz_90"><span style="color: #ff0000;">※</span>みまもりCUBEに内蔵されているSIMカードのレンタル時に、「携帯電話不正利用防止法」に基づき本人確認を実施しております。</span>
+        </p>
+        <p>また、商品を譲渡される際には、弊社にご連絡いただき、次に保有される方の本人確認が必要になります。</p>
+        <h4>個人のお客様</h4>
+        <p>個人のお客様につきましては、お申込み者様の<strong>本人確認書類（個人）</strong>が必要になります。</p>
+        <p>
+            確認しなければならない情報は、<strong>氏名、現住所、生年月日</strong>となります。本人確認書類のみで確認できない場合は、
+            <span style="color: #000000;">
+                <a href="#hojyo"><span style="color: #000000;">補助資料</span></a>
+            </span>
+            の添付をお願いします。
+        </p>
+        <p>努めて、顔写真のある運転免許証、マイナンバーカード(表面のみ)、住民基本台帳のいずれかを、カラーコピー、スキャン画像および写真（画像）により送付をお願いします。</p>
+        <h4>法人のお客様</h4>
+        <p>法人様につきましては、本人確認書類（法人）、ご担当者様の証明書および本人確認書類（個人）が必要になります。</p>
+        <p>本人確認書類（法人）で確認しなければならない情報は、名称および本店または主たる事務所の住所となります。</p>
+        <h4>送付手段</h4>
+        <p>本人確認資料の送付手段としては、三通りあります。</p>
+        <ol>
+            <li>本人確認書類をスキャンし、<a href="/ramrockeyes/proof/" target="_blank" rel="noopener">身分証明画像送信フォーム</a>で弊社カスタマーセンターへ送る方法</li>
+            <li>
+                <strong>FAX</strong>で本人確認書類を弊社カスタマーセンターへ送る方法<br />
+                （FAX:0948-92-3157）
+            </li>
+            <li>
+                <span style="color: #ff0000;"><span style="color: #000000;">封筒</span><sup>※</sup></span>に本人確認書類(住民票、戸籍謄本以外はコピー)を入れ、弊社カスタマーセンターに返送する方法
+            </li>
+        </ol>
+        <blockquote>
+            <p style="text-align: center;">本人確認書類送付先</p>
+            <p style="text-align: center;">
+                〒820-1111 <br />
+                福岡県飯塚市勢田1950番地1<br />
+                株式会社ラムロック（みまもりCUBE ）<br />
+                カスタマーセンター行き
+            </p>
+        </blockquote>
+        <p>※ あて先シートは<a href="/ram-eyes/img/address.pdf" target="_blank" rel="noopener">こちら</a>。切り抜いてご使用ください。</p>
+        <h4>注意事項</h4>
+        <p>
+            <span class="mceIco mceIcoBf4">
+                本人確認書類と現住所が異なる場合、
+                <span style="color: #000000;">
+                    <a href="#hojyo"><span style="color: #000000;">補助書類</span></a>
+                </span>
+                を付加して送付をお願いします。
+            </span>
+            <br />
+            <span class="mceIco mceIcoBf4">本人確認書類は有効期間内であることをご確認ください。</span><br />
+            <span class="mceIco mceIcoBf4">
+                記載内容がはっきりと読みとれる画像をご準備ください。<br />
+                <span class="mceIco mceIcoBf4">フォーム、メールおよびFAXの場合、書類全体をスキャンしてください。</span><br />
+                <span class="mceIco mceIcoBf4">画像ファイル形式は、「gif」「png」「jpg」「jpeg」でお願いします。</span><br />
+                <span class="mceIco mceIcoBf4">画像ファイル容量は一枚につき2MB以内でお願いします。</span>
+            </span>
+        </p>
+        <h2><a id="kojin"></a>本人確認書類（個人）</h2>
+        <p>お申込み者様ご本人の氏名、住所、生年月日の記載があり、当サイトにご登録いただく情報と一致している必要があります。</p>
+        <p>現住所と記載されている住所が相違する場合は、現住所が記載された補助資料が必要になります。</p>
+        <h4>本人確認対象書類</h4>
+        <table class="tablefixed tablenone" style="width: 98%;">
+            <tbody>
+                <tr>
+                    <td class="td_nocell td_usecell btm_td_solid" style="width: 50%; vertical-align: middle; text-align: center;">本人確認書類（個人）</td>
+                    <td class="td_nocell td_usecell" style="width: 94%; vertical-align: top; text-align: center;"><p>条件</p></td>
+                </tr>
+                <tr>
+                    <td class="td_nocell td_usecell btm_td_solid" style="width: 50%; text-align: left; vertical-align: middle;">運転免許証（国際運転免許証を除く）</td>
+                    <td class="td_nocell td_usecell" style="width: 94%; vertical-align: middle;"><p>公安委員会発行で有効期限内のもの</p></td>
+                </tr>
+                <tr>
+                    <td class="td_nocell btm_td_solid td_usecell" style="width: 50%; text-align: left; vertical-align: middle;">日本国パスポート＋下記「補助書類」</td>
+                    <td class="td_nocell td_usecell" style="width: 94%; vertical-align: top;">
+                        <p>
+                            有効期限内のもので、現住所が記載されているページも必要です。<br />
+                            国内発行のものに限る。
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td_nocell btm_td_solid td_usecell" style="width: 50%; text-align: left; vertical-align: middle;">マイナンバーカード（個人番号カード）</td>
+                    <td class="td_nocell td_usecell" style="width: 94%; vertical-align: top;">
+                        <p>
+                            有効期限内のもの<br />
+                            マイナンバーの記載がない表面のみでお願いします。（マイナンバー情報を送付された場合、一度破棄し、再度送付をお願いいたします。）
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td_nocell btm_td_solid td_usecell" style="width: 50%; text-align: left; vertical-align: middle;">住民基本台帳カード</td>
+                    <td class="td_nocell td_usecell" style="width: 94%; vertical-align: top;"><p>有効期限内のもので、顔写真があるものです。</p></td>
+                </tr>
+                <tr>
+                    <td class="td_nocell btm_td_solid td_usecell" style="width: 50%; text-align: left; vertical-align: middle;">特別永住者証明書</td>
+                    <td class="td_nocell td_usecell" style="width: 94%; vertical-align: middle;" rowspan="6">
+                        <p>
+                            有効期限内のもので、現住所が記載されているページも必要<br />
+                            現住所の記載がない場合は、下記補助書類と一緒にご提出ください。
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td_nocell btm_td_solid td_usecell" style="width: 50%; text-align: left; vertical-align: middle;">在留カード</td>
+                </tr>
+                <tr>
+                    <td class="td_nocell btm_td_solid td_usecell" style="width: 50%; text-align: left; vertical-align: middle;">身体障がい者手帳</td>
+                </tr>
+                <tr>
+                    <td class="td_nocell btm_td_solid td_usecell" style="width: 50%; text-align: left; vertical-align: middle;">療育手帳</td>
+                </tr>
+                <tr>
+                    <td class="td_nocell btm_td_solid td_usecell" style="width: 50%; text-align: left; vertical-align: middle;">精神障がい者保険福祉手帳</td>
+                </tr>
+                <tr>
+                    <td class="td_nocell btm_td_solid td_usecell" style="width: 50%; text-align: left; vertical-align: middle;">国民年金手帳</td>
+                </tr>
+                <tr>
+                    <td class="td_nocell btm_td_solid td_usecell" style="width: 50%; text-align: left; vertical-align: middle;">健康保険証＋下記「補助書類」</td>
+                    <td class="td_nocell td_usecell" style="width: 94%; vertical-align: top;">有効期限内のもので、現住所が記載されているページも必要</td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a id="hojyo"></a>補助書類</h4>
+        <p>
+            発行から<strong>３か月以内</strong>のもの<br />
+            お申込み者ご本人の氏名、<strong>現住所</strong>が記載されているもの（ご家族の氏名での書類は、ご利用できません。）
+        </p>
+        <ol>
+            <li style="list-style-type: none;">
+                <ol>
+                    <li style="list-style-type: none;">
+                        <ul>
+                            <li>公共料金領収書（電気、水道、都市ガス）</li>
+                            <li>NHK受信料</li>
+                            <li>国税、地方税の領収書または納税証明書</li>
+                            <li>住民票（マイナンバーの記載がないものをご準備ください。）</li>
+                            <li>戸籍謄本</li>
+                        </ul>
+                    </li>
+                </ol>
+            </li>
+        </ol>
+        <h2><a id="hojin"></a>本人確認書類（法人）</h2>
+        <p>本人確認書類（法人）としては、下記のいずれかが必要です。</p>
+        <table class="tablefixed tablenone" style="width: 98%;">
+            <tbody>
+                <tr>
+                    <th class="td_nocell td_usecell btm_td_solid" style="width: 50%; text-align: center; vertical-align: middle;">本人確認書類（法人）</th>
+                    <th class="td_nocell td_usecell" style="width: 50%; text-align: center; vertical-align: middle;">条件</th>
+                </tr>
+                <tr>
+                    <td class="td_nocell td_usecell btm_td_solid" style="width: 50%; text-align: left; vertical-align: middle;">登記簿謄本</td>
+                    <td class="td_nocell td_usecell" style="width: 94%; vertical-align: middle;" rowspan="2">発行日より３か月 以内で現住所が記載されているもの</td>
+                </tr>
+                <tr>
+                    <td class="td_nocell btm_td_solid td_usecell" style="width: 50%; text-align: left; vertical-align: middle;">印鑑登録証明書</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2><a id="tantou"></a>担当者の証明書</h2>
+        <p>&nbsp;担当者の証明書としては、下記のいずれかが必要です。</p>
+        <table class="tablefixed tablenone" style="width: 98%;" width="680">
+            <tbody>
+                <tr>
+                    <td class="td_nocell td_usecell btm_td_solid">担当者の証明書</td>
+                    <td class="td_nocell td_usecell" style="width: 50%; vertical-align: middle; text-align: center;">条件</td>
+                </tr>
+                <tr>
+                    <td class="td_nocell td_usecell btm_td_solid" style="width: 50%; text-align: left; vertical-align: middle;">社員証（コピー）</td>
+                    <td class="td_nocell td_usecell" style="width: 50%; vertical-align: middle;" rowspan="2">会社名および担当者名が記載されているもの</td>
+                </tr>
+                <tr>
+                    <td class="td_nocell btm_td_solid td_usecell" style="width: 50%; text-align: left; vertical-align: middle;">名刺</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="pBtnLage pBtn_orange pBtnNoicon"><a href="/ramrockeyes/proof/" target="_blank" rel="noopener">&nbsp;ご本人確認書類を送付される方はこちらのフォームへ</a></p>
+    </div>
+</div>
+{% endblock %}

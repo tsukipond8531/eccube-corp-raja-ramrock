@@ -1,0 +1,285 @@
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+<!--content-->
+<div class="cmncontent">
+
+	<section class="underMv type_flow">
+		<div class="cmnbox01">
+			<div class="underMv_contImg sp"><img src="{{ asset('assets/img/flow/pic_mv_sp.png') }}" alt=""></div>
+			<div class="underMv_cont">
+				<div class="underMv_cont_box">
+					<h2 class="underMv_cont_ttl">
+						<span class="underMv_cont_icon"><img src="{{ asset('assets/img/flow/icon_mv.png') }}" alt=""></span>
+						<span class="underMv_cont_head">月額料金・<br>お申し込みの流れ</span>
+					</h2>
+					<p class="underMv_cont_txt">1年プランと短期プランの2つのプランからお選びいただけます。<br>
+						ご契約後は必要に応じてデータ通信量の追加や検知オプションのご利用を<br class="pc">おすすめします。</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<ul class="breadcrumb cmnbox01">
+		<li class="breadcrumb_list"><a href="{{ url('homepage') }}">HOME</a></li>
+		<li class="breadcrumb_list">月額料金・お申し込みの流れ</li>
+	</ul>
+
+	<div class="flow_cont">
+		<section class="flow_plan">
+			<div class="cmnbox01">
+				<h3 class="cmntitle03"><span>プラン詳細</span></h3>
+				<div class="flow_plan_block">
+					<div class="flow_plan_block_item type02">
+						<span class="flow_plan_obj"><img src="{{ asset('assets/img/flow/obj01.png') }}" alt="オススメ"></span>
+						<p class="flow_plan_txt01">1年間レンタル＋データ容量1GB</p>
+						<h2 class="flow_plan_head">1年プラン</h2>
+						<p class="flow_plan_txt02">（最低ご利用期間が最初の1年間）</p>
+						<div class="flow_plan_reqWrap">
+							<div class="flow_plan_reqWrap02">
+								<ul class="flow_plan_req">
+									<li>※入所、ご逝去の場合は<span class="underline">違約金免除</span></li>
+									<li>※データ容量1GB、最大300分映像の確認が可能です。</li>
+									<li>※映像を確認している間だけ通信量を使用します。</li>
+									<li>※13か月目以降は料金は変わらず1か月ごとの契約更新となります。</li>
+								</ul>
+							</div>
+						</div>
+						<div class="flow_plan_priceWrap">
+							<span class="flow_plan_month">月々</span>
+							<p class="flow_plan_price">4,290<span>円</span></p>
+							<p class="flow_plan_tax">（税込）</p>
+						</div>
+					</div>
+					<div class="flow_plan_block_item">
+						<p class="flow_plan_txt01">1か月レンタル＋データ容量1GB</p>
+						<h2 class="flow_plan_head">短期プラン</h2>
+						<p class="flow_plan_txt02">（1か月更新）</p>
+						<div class="flow_plan_reqWrap">
+							<div class="flow_plan_reqWrap02">
+								<ul class="flow_plan_req">
+									<li>※1ヶ月ごとの契約更新となります。</li>
+									<li>※1年プランへの変更も可能です。</li>
+								</ul>
+							</div>
+						</div>
+						<div class="flow_plan_priceWrap type02">
+							<span class="flow_plan_month">月々</span>
+							<p class="flow_plan_price">6,490<span>円</span></p>
+							<p class="flow_plan_tax">（税込）</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="ctablock_flowWrap">	
+			<div class="ctablock">
+				<div class="cta01"><img src="{{ asset('assets/img/flow/arrow_01_twin.png') }}" class="pc"><img src="{{ asset('assets/img/flow/arrow_01_twin_sp.png') }}" class="sp"></div>
+				<div class="cta02">
+					<h2 class="cta03"><span>30日間お試し体験キャンペーン実施中！</span></h2>
+					<div class="cta04">
+						<div class="ctabox">
+							<div class="cta05"><img src="{{ asset('assets/img/common/cta_01.png') }}"></div>
+							<div class="cta06"><img src="{{ asset('assets/img/common/cta_02.png') }}"></div>
+						</div>
+						<p class="cta07"><span>期間中のキャンセルも可能！</span></p>
+						<ul class="cta08">
+							<li>
+								<a href="{{ url('homepage') }}user_data/campaign/" class="cmnbtn type01 typecta">
+									<span class="cmnbtntxt">キャンペーンの詳細を見る</span>
+									<span class="cmnbtnicon02"><img src="{{ asset('assets/img/common/icon_arrow.svg') }}"></span>
+								</a>
+							</li>
+							<li>
+								<a href="{{ url('homepage') }}user_data/material/" class="cmnbtn type02">
+									<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_mail.svg') }}"></span>
+									<span class="cmnbtntxt">お試し申し込み</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="flow_option">
+			<div class="cmnbox01">
+				<h3 class="cmntitle03 type_flowOption"><span>オプション</span></h3>
+				<div class="flow_plan_block type_option">
+					<div class="flow_plan_block_item">
+						<h4 class="flow_option_head">データ容量追加</h4>
+						<div class="flow_option_txtWrap">
+							<p class="flow_option_txt">データ容量はご契約後も変更が可能です。ご契約後は必要に応じて容量の追加をおすすめします。</p>
+							<div class="flow_option_btnWrap"><span class="flow_option_btn hover" data-remodal-target="01">通信の目安を見る</span></div>
+						</div>
+						<div class="flow_plan_priceWrap type02">
+							<span class="flow_plan_month">1GB</span>
+							<p class="flow_plan_price">1,100<span>円</span></p>
+							<p class="flow_plan_tax">（税込）</p>
+						</div>
+						<div class="flow_plan_col3Wrap">
+							<h5 class="flow_plan_col3Head">こんな人におすすめ</h5>
+							<div class="flow_plan_col3">
+								<div class="flow_plan_col3_item">
+									<div class="flow_plan_col3_img"><img src="{{ asset('assets/img/flow/pic01.png') }}" alt=""></div>
+									<p class="flow_plan_col3_txt">複数人で<br class="pc">見守りをしたい</p>
+								</div>
+								<div class="flow_plan_col3_item">
+									<div class="flow_plan_col3_img"><img src="{{ asset('assets/img/flow/pic02.png') }}" alt=""></div>
+									<p class="flow_plan_col3_txt">頻繁に<br class="pc">活用したい</p>
+								</div>
+								<div class="flow_plan_col3_item">
+									<div class="flow_plan_col3_img"><img src="{{ asset('assets/img/flow/pic03.png') }}" alt=""></div>
+									<p class="flow_plan_col3_txt">見守りをする<br class="pc">時間が長い</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="flow_plan_block_item type02">
+						<h4 class="flow_option_head">検知オプション</h4>
+						<div class="flow_option_txtWrap">
+							<p class="flow_option_txt">事前に登録した動作をみまもりCUBEが検知し、画像付メールを送信することが可能です。オペレーターがカメラを通して動きを検知するための設定を行います。</p>
+						</div>
+						<div class="flow_plan_priceWrap">
+							<span class="flow_plan_month">月々</span>
+							<p class="flow_plan_price">1,100<span>円</span></p>
+							<p class="flow_plan_tax">（税込）</p>
+						</div>
+						<div class="flow_plan_col3Wrap">
+							<h5 class="flow_plan_col3Head">こんな人におすすめ</h5>
+							<div class="flow_plan_col3">
+								<div class="flow_plan_col3_item">
+									<div class="flow_plan_col3_img"><img src="{{ asset('assets/img/flow/pic04.png') }}" alt=""></div>
+									<p class="flow_plan_col3_txt">ドアの出入りが<br class="pc">あったら<br class="sp">メール通知<br class="pc">がほしい</p>
+								</div>
+								<div class="flow_plan_col3_item">
+									<div class="flow_plan_col3_img"><img src="{{ asset('assets/img/flow/pic05.png') }}" alt=""></div>
+									<p class="flow_plan_col3_txt">ベッドの離床が<br class="pc">あったら<br class="sp">メール通知<br class="pc">がほしい</p>
+								</div>
+								<div class="flow_plan_col3_item">
+									<div class="flow_plan_col3_img"><img src="{{ asset('assets/img/flow/pic06.png') }}" alt=""></div>
+									<p class="flow_plan_col3_txt">メール通知を受け<br class="pc">取って<br class="sp">必要な時だけ<br class="pc">映像を確認</p>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="flow_sim">
+			<div class="cmnbox01">
+				<div class="flow_sim_box">
+					<div class="flow_sim_icon"><img src="{{ asset('assets/img/flow/icon_sim.png') }}" alt=""></div>
+					<div class="flow_sim_img"><img src="{{ asset('assets/img/flow/pic07.png') }}" alt=""></div>
+					<div class="flow_sim_cont">
+						<div class="flow_sim_headTopWrap">
+							<p class="flow_sim_headTop">あなたの見守り方に合った<br class="sp">機能と料金をご提案</p>
+						</div>
+						<h2 class="flow_sim_head">適合プランシュミレーション</h2>
+						<p class="flow_sim_txt">4つの質問に答えるだけで、あなたの見守り方に合った機能と料金のプランをご提案します。</p>
+						<div class="flow_sim_btnWrap">
+							<a href="#" class="cmnbtn type01 typecta">
+								<span class="cmnbtntxt">シュミレーションをスタート！</span>
+								<span class="cmnbtnicon02"><img src="{{ asset('assets/img/common/icon_arrow.svg') }}"></span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>	
+	
+		<section>
+			<div class="camflowblock">
+				<div class="cmnbox01">
+				
+					<h3 class="cmntitle01"><span>お試し体験キャンペーンお申込みの流れ</span></h3>
+					<div class="camflow01">
+						<h4 class="camflow02">ご用意いただけるとお申込みがスムーズです</h4>
+						<div class="camflow03">
+							<dl class="camflow04">
+								<dt><img src="{{ asset('assets/img/campaign/flow_02.png') }}"></dt>
+								<dd>登録用メールアドレス</dd>
+							</dl>
+							<dl class="camflow04">
+								<dt><img src="{{ asset('assets/img/campaign/flow_03.png') }}"></dt>
+								<dd>本人確認書類</dd>
+							</dl>
+							<dl class="camflow04 type02">
+								<dt><img src="{{ asset('assets/img/campaign/flow_04.png') }}"></dt>
+								<dd>クレジットカードまたは<br>口座情報の判るもの</dd>
+							</dl>
+						</div>
+					</div>
+					
+					<div class="tflows01">
+						<div class="tflows02">
+							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_05.png') }}" alt="FLOW01"></div>
+							<dl class="tflows04">
+								<dt>会員登録</dt>
+								<dd>見守る方（ご家族様代表の方1名）で登録をお願いします。<br>※見守られる方のお名前ではありません。</dd>
+							</dl>
+						</div>
+						<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
+						<div class="tflows02">
+							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_06.png') }}" alt="FLOW02"></div>
+							<dl class="tflows04">
+								<dt>会員登録完了メールのURLをクリック</dt>
+								<dd>自動配信のためメールは数分で配信されます。</dd>
+							</dl>
+						</div>
+						<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
+						<div class="tflows02">
+							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_07.png') }}" alt="FLOW03"></div>
+							<dl class="tflows04">
+								<dt>台数・契約プラン・<br>オプション選択</dt>
+								<dd>現在ご検討中のご契約内容（契約期間・台数・検知オプションの有無）をお選びください。</dd>
+							</dl>
+						</div>
+						<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
+						<div class="tflows02 type02">
+							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_08.png') }}" alt="FLOW04"></div>
+							<dl class="tflows04">
+								<dt>決済方法の選択</dt>
+								<dd>クレジットカードか口座振替を選択できます。<br>※ご利用可能金融機関一覧は<a href="https://www.cardservice.co.jp/service/bank/cats/terms.html" class="link01" target="_blank">こちら</a></dd>
+							</dl>
+						</div>
+					</div>
+					<div class="tflows01">
+						<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
+						<div class="tflows02">
+							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_09.png') }}" alt="FLOW05"></div>
+							<dl class="tflows04">
+								<dt>本人確認書類送付</dt>
+								<dd>本人確認用画像フォーム下のアンケートにご協力いただくとキャンペーン料金から330円割引させていただきます。</dd>
+							</dl>
+						</div>
+						<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
+						<div class="tflows02">
+							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_10.png') }}" alt="FLOW06"></div>
+							<dl class="tflows04">
+								<dt>口座振替を選択された方は<br>口座登録用メール内より<br>お手続き</dt>
+								<dd>会員登録された方以外の口座でもご利用いただけます。</dd>
+							</dl>
+						</div>
+						<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
+						<div class="tflows02">
+							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_11.png') }}" alt="FLOW07"></div>
+							<dl class="tflows04">
+								<dt>発送</dt>
+								<dd>お申込み日の翌営業日に発送致します。</dd>
+							</dl>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</section>
+	</div>
+
+</div>
+<!--/content-->
+
+{% endblock %}

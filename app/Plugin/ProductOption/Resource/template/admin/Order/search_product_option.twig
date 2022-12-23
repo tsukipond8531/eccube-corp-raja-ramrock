@@ -1,0 +1,32 @@
+{#
+* Plugin Name : ProductOption
+*
+* Copyright (C) BraTech Co., Ltd. All Rights Reserved.
+* http://www.bratech.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+#}
+
+{% if Product.ProductOptions|length > 0 %}
+    {% for ProductOption in Product.ProductOptions %}
+        {% set value = 'productoption' ~ ProductOption.Option.id %}
+        {% if form[value] is defined %}
+            {% if ProductOption.Option.type == constant('Plugin\\ProductOption\\Entity\\Option::DATE_TYPE') %}
+                <div class="row">
+                    <div class="col-4 pr-0"><span>{{ form_label(form[value]) }}</span></div>
+                    <div class="col-8 text-left pl-0" style="position: relative">
+                        {{ form_widget(form[value], { attr : { 'data-target' : '#'~form[value].vars.id }}) }}
+                    </div>
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-4 pr-0"><span>{{ form_label(form[value]) }}</span></div>
+                    <div class="col-8 text-left pl-0">
+                        {{ form_widget(form[value]) }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
