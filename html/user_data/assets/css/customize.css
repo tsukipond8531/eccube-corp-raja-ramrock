@@ -1,7 +1,10 @@
 /* カスタマイズ用CSS */
+
+
 /* html {
     overflow: hidden;
 } */
+
 .ec-layoutRole .ec-modifiedLayoutRole__contents {
     padding: 0 15px;
     max-width: 1230px;
@@ -20,11 +23,55 @@
     margin-top: 60px;
 }
 
+.ec-cartRole .cs-cart_class {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ec-cartRole .cs-cart_class .class-name {
+    font-weight: 600;
+}
+
+.ec-cartRole .cs-cartRole_month {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.ec-cartRole .cs-cartRole_month .ec-cartTable {
+    margin-top: 15px;
+}
+
+.ec-orderRole .cs-orderOptions {
+    margin: 20px auto;
+}
+
+.ec-orderRole .cs-orderOptions .ec-borderedDefs,
+.ec-orderRole .cs-orderOptions p {
+    margin: 15px auto;
+}
+
+.ec-orderRole .cs-orderOptions_title {
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.cs-toggle-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+
+/* .ec-orderRole .collapse:not(.in) {
+    display: none;
+} */
+
 @media (max-width: 767px) {
     .footer2 {
         margin-top: 40px;
     }
-    
     .ec-layoutRole .ec-modifiedLayoutRole__contents {
         padding: 0;
         max-width: 94%;

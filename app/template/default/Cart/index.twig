@@ -142,10 +142,10 @@ file that was distributed with this source code.
                                             <div class="ec-cartRow__name">
                                                 <a target="_blank" href="{{ url('product_detail', {id : Product.id} ) }}">{{ Product.name }}</a>
                                                 {% if ProductClass.ClassCategory1 and ProductClass.ClassCategory1.id %}
-                                                    <br>{{ ProductClass.ClassCategory1.ClassName.name }}：{{ ProductClass.ClassCategory1 }}
+                                                    <div class="cs-cart_class"><span class="class-name">{{ ProductClass.ClassCategory1.ClassName.name }}：</span><span>{{ ProductClass.ClassCategory1 }}</span></div>
                                                 {% endif %}
                                                 {% if ProductClass.ClassCategory2 and ProductClass.ClassCategory2.id %}
-                                                    <br>{{ ProductClass.ClassCategory2.ClassName.name }}：{{ ProductClass.ClassCategory2 }}
+                                                    <div class="cs-cart_class"><span class="class-name">{{ ProductClass.ClassCategory2.ClassName.name }}：</span><span>{{ ProductClass.ClassCategory2 }}</span></div>
                                                 {% endif %}
                                             </div>
                                             <div class="ec-cartRow__unitPrice">{{ CartItem.price|price }}</div>
@@ -170,7 +170,7 @@ file that was distributed with this source code.
                                             </a>
                                         </div>
                                     </li>
-                                    <li class="ec-cartRow__subtotalColumn">
+                                    <li class="ec-cartRow__amountColumn">
                                         <div class="ec-cartRow__sutbtotal">{{ CartItem.total_price|price }}</div>
                                     </li>
                                 </ul>
@@ -200,6 +200,45 @@ file that was distributed with this source code.
                                 {{ 'あと「<strong>%quantity%個</strong>」のお買い上げで<strong class="ec-color-red">送料無料</strong>になります。'|trans({ '%quantity%': quantity[cartKey]|number_format })|raw }}
                             {% endif %}
                         {% endif %}
+                    </div>
+                    <div class="ec-cartRole__cart cs-cartRole_month">
+                        <h2>本契約時のご請求金額</h2>
+                        <p>※ご契約月のみ初期事務手数料3,850円（税込）をご負担いただきます</p>
+                        
+                        <div class="ec-cartTable">
+                            <ol class="ec-cartHeader">
+                                <li class="ec-cartHeader__label">{{ 'プラン名'|trans }}</li>
+                                <li class="ec-cartHeader__label">{{ '月額利用料'|trans }}</li>
+                                <li class="ec-cartHeader__label">{{ '小計'|trans }}</li>
+                            </ol>
+                            {% for CartItem in Cart.CartItems %}
+                                {% set ProductClass = CartItem.ProductClass %}
+                                {% set Product = ProductClass.Product %}
+                                <ul class="ec-cartRow">
+                                    <li class="ec-cartRow__contentColumn">
+                                        <div class="ec-cartRow__summary">
+                                            <div class="ec-cartRow__name">
+                                                <a target="_blank" href="{{ url('product_detail', {id : Product.id} ) }}">{{ Product.name }}</a>
+                                                <div class="cs-cart_class">
+                                                    {% if ProductClass.ClassCategory1 and ProductClass.ClassCategory1.id %}
+                                                        <span>{{ ProductClass.ClassCategory1 }}</span>：
+                                                    {% endif %}
+                                                    {% if ProductClass.ClassCategory2 and ProductClass.ClassCategory2.id %}
+                                                        <span>{{ ProductClass.ClassCategory2 }}</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="ec-cartRow__amountColumn">
+                                        <div class="ec-cartRow__unitPrice">{{ ProductClass.default_price|price }}</div>
+                                    </li>
+                                    <li class="ec-cartRow__amountColumn">
+                                        <div class="ec-cartRow__sutbtotalSP">{{ ProductClass.default_price_inc_tax|price }}</div>
+                                    </li>
+                                </ul>
+                            {% endfor %}
+                        </div>
                     </div>
                     <div class="ec-cartRole__actions">
                         <div class="ec-cartRole__total">{{ '合計：'|trans }}<span class="ec-cartRole__totalAmount">{{ Cart.totalPrice|price }}</span>
