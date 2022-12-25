@@ -41,7 +41,7 @@ use Eccube\Service\PurchaseFlow\ItemCollection;
      */
     class Order extends \Eccube\Entity\AbstractEntity implements PurchaseInterface, ItemHolderInterface
     {
-        use NameTrait, \Plugin\ZeusPayment4\Entity\ZeusOrderTrait, \Plugin\ProductOption\Entity\OrderTrait;
+        use NameTrait, \Plugin\ProductOption\Entity\OrderTrait, \Customize\Entity\OrderTrait;
         use PointTrait;
 
         /**

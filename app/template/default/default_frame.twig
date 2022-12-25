@@ -151,10 +151,7 @@ file that was distributed with this source code.
 {% include('@common/lang.twig') %}
 <script src="{{ asset('assets/js/function.js') }}"></script>
 <script src="{{ asset('assets/js/eccube.js') }}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="{{ asset('assets/js/jquery.matchHeight.js') }}"></script>
-<script src="{{ asset('assets/js/remodal.min.js') }}"></script>
-<script src="{{ asset('assets/js/common.js') }}"></script>
+
 {% block javascript %}{% endblock %}
 {# Layout: CLOSE_BODY_BEFORE #}
 {% if Layout.CloseBodyBefore %}
@@ -165,5 +162,13 @@ file that was distributed with this source code.
     {{ include('snippet.twig', { snippets: plugin_snippets }) }}
 {% endif %}
     <script src="{{ asset('assets/js/customize.js', 'user_data') }}"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        $.noConflict();
+    </script>
+    <script src="{{ asset('assets/js/jquery.matchHeight.js') }}"></script>
+    <script src="{{ asset('assets/js/remodal.min.js') }}"></script>
+    <script src="{{ asset('assets/js/common.js') }}"></script>
 </body>
 </html>

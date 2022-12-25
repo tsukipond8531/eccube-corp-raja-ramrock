@@ -223,3 +223,6 @@ services:
 
     Customize\Doctrine\EventSubscriber\TaxRuleEventSubscriber:
         decorates: Eccube\Doctrine\EventSubscriber\TaxRuleEventSubscriber
+
+    Customize\Service\MailService:
+        decorates: Eccube\Service\MailService

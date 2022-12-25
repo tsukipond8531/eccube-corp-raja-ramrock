@@ -14,6 +14,138 @@ file that was distributed with this source code.
 
 {% form_theme form 'Form/form_div_layout.twig' %}
 
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/fileupload/jquery.fileupload.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/fileupload/jquery.fileupload-ui.css') }}">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <style>
+        #thumb div {
+            float: left;
+            margin: 4px
+        }
+
+        .ui-state-highlight {
+            height: 70px;
+            width: 70px;
+            border: dashed 1px #ccc;
+            background: #fff;
+        }
+
+        .media-body {
+            margin-bottom: 30px;
+            line-height: 1;
+        }
+        
+        .c-form__fileUploadThumbnail {
+            display: inline-block;
+            width: 170px;
+            height: 170px;
+            background-color: #f5f6f8;
+            background-image: url(../../img/moc.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .c-form__fileUploadThumbnail:hover::before {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .c-form__fileUploadThumbnail::before {
+            display: block;
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .c-form__fileUploadThumbnail .delete-image {
+            display: none;
+            font-family: FontAwesome;
+            font-size: 18px;
+            line-height: 1;
+            color: #54687A;
+            padding: 5px;
+            background: #fff;
+            border-radius: 3px;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+        }
+
+        .c-form__fileUploadThumbnail:hover .delete-image {
+            display: inline-block;
+            font-family: FontAwesome;
+            font-size: 18px;
+            line-height: 1;
+            color: #54687A;
+            padding: 5px;
+            background: #fff;
+            border-radius: 3px;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+        }
+
+        .btn-ec-regular {
+            border-radius: 4px;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            background-color: #FFFFFF;
+            cursor: pointer;
+        }
+        .btn-ec-regular:hover {
+            color: #262626;
+            background-color: #F2F2F2;
+            border-color: #262626;
+            text-decoration: none;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+    <script src="{{ asset('assets/js/fileupload/vendor/jquery.ui.widget.js') }}"></script>
+    <script src="{{ asset('assets/js/fileupload/jquery.iframe-transport.js') }}"></script>
+    <script src="{{ asset('assets/js/fileupload/jquery.fileupload.js') }}"></script>
+    <script src="{{ asset('assets/js/fileupload/jquery.fileupload-process.js') }}"></script>
+    <script src="{{ asset('assets/js/fileupload/jquery.fileupload-validate.js') }}"></script>
+    <script>var bootstrapTooltip = $.fn.tooltip.noConflict();</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
+
+    <script>
+        $.fn.tooltip = bootstrapTooltip;
+        $(document).on('drop dragover', function(e) {
+            e.preventDefault();
+        });
+        $(function() {
+            var proto_img = '<div class="c-form__fileUploadThumbnail" style="background-image:url(\'__path__\');">' +
+                '</div>';
+            var proto_add = '{{ form_widget(form.add_images.vars.prototype) }}';
+            var proto_del = '{{ form_widget(form.delete_images.vars.prototype) }}';
+            {% for add_image in form.add_images %}
+            var $img = $(proto_img.replace(/__path__/g, '{{ asset(add_image.vars.value, 'temp_image') }}'));
+            var $widget = $('{{ form_widget(add_image) }}');
+            $widget.val('{{ add_image.vars.value }}');
+            $("#thumb").append($img.append($widget));
+            {% endfor %}
+            {% for delete_image in form.delete_images %}
+            $("#thumb").append('{{ form_widget(delete_image) }}');
+            {% endfor %}
+            var hideThumbnail = function() {
+                if ($("#thumb div").length > 0) {
+                    $("#icon_no_image").css("display", "none");
+                } else {
+                    $("#icon_no_image").css("display", "");
+                }
+            };
+            hideThumbnail();
+        });
+    </script>
+{% endblock javascript %}
+
 {% block main %}
 <div class="ec-modifiedLayoutRole__contents">
     <div class="ec-registerRole">
@@ -52,11 +184,15 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.company_name, '会社名', { 'label_attr': { 'class': 'ec-label'}}) }}
+                                <label class="ec-label" for="entry_identity">本人確認書類</label>
                             </dt>
                             <dd>
-                                {{ form.company_name.vars.data }}
-                                {{ form_widget(form.company_name, { type : 'hidden' }) }}
+                                <div class="col mb-2">
+                                    <div class="progress" style="display: none;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div id="thumb" class="c-form__fileUploadThumbnails clearfix"></div>
+                                </div>
                             </dd>
                         </dl>
                         <dl>
@@ -111,23 +247,6 @@ file that was distributed with this source code.
                                 {{ form_widget(form.birth.year, { type : 'hidden' }) }}
                                 {{ form_widget(form.birth.month, { type : 'hidden' }) }}
                                 {{ form_widget(form.birth.day, { type : 'hidden' }) }}
-                            </dd>
-                        </dl>
-                        <dl>
-                            <dt>
-                                {{ form_label(form.sex, '性別', {'label_attr': {'class': 'ec-label'}}) }}
-                            </dt>
-                            <dd>
-                                {{ form.sex.vars.data }}
-                                {{ form_widget(form.sex, { type: 'hidden'}) }}
-                            </dd>
-                        </dl>
-                        <dl>
-                            <dt>
-                                {{ form_label(form.job, '職業', {'label_attr': {'class': 'ec-label'}}) }}
-                            </dt>
-                            <dd>{{ form.job.vars.data }}
-                                {{ form_widget(form.job, { type: 'hidden'}) }}
                             </dd>
                         </dl>
 

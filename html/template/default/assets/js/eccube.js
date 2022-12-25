@@ -7,7 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
-*/
+ */
 
 (function(window, undefined) {
 
@@ -162,6 +162,12 @@
                 $price02.text(classcat2.price02_inc_tax_with_currency);
             } else {
                 $price02.html(price02_origin[product_id]);
+            }
+
+            // 月額利用料
+            var $default_price = $form.parent().find('.default-price').first();
+            if (classcat2 && typeof classcat2.default_price_inc_tax !== 'undefined' && String(classcat2.default_price_inc_tax).length >= 1) {
+                $default_price.text(classcat2.default_price_inc_tax_with_currency);
             }
 
             // ポイント
