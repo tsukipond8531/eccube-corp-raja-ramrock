@@ -1,0 +1,331 @@
+{#
+ Copyright(c) 2020 Shadow Enterprise, Inc. All rights reserved.
+ http://www.shadow-ep.co.jp/
+#}
+
+<div id="sort_{{ formUniqId }}" class="card-body child-form-content alert fade show" role="alert">
+    {{ form_widget(form._token) }}
+    <div class="row mb-2 option-enquete-addform-header">
+        <div class="col-2 sortable-cursor">{{ 'se_enquete.admin.common.addform_enquete_form'|trans }}</div>
+        <div class="col-4">
+            {{ form_widget(form[formNamePrefix ~ formUniqId ~ '_child_form_type'], {'attr': {'class': 'switch-form-type'}}) }}
+            {{ form_errors(form[formNamePrefix ~ formUniqId ~ '_child_form_type']) }}
+        </div>
+        <div class="col-6 text-right">
+            <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="fa fa-times fa-lg"></i></span></button>
+        </div>
+    </div>
+    <div class="option-enquete-addform-column">
+
+        {% for Product in Collection %}
+
+            {# テキスト #}
+            {% if Product.getKeyword == 'text' %}
+
+                <div class="option-form-type option-enquete-addform-column-{{ Product.getId }}" style="display: none;">
+                    <div class="row mb-1"><div class="col-3"><span class="badge badge-success">{{ 'se_enquete.admin.common.addform_enquete_text'|trans }}</span></div></div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_question'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col">
+                            {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_question']) }}
+                            {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_question']) }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_placeholder'|trans }}</span>
+                            <!--span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span-->
+                        </div>
+                        <div class="col">
+                            {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_placeholder']) }}
+                            {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_placeholder']) }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_required_flg'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-2">{{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required'][0]) }}</div>
+                                <div class="col-2">{{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required'][1]) }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">{{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required']) }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {# テキストエリア #}
+            {% elseif Product.getKeyword == 'textarea' %}
+
+                <div class="option-form-type option-enquete-addform-column-{{ Product.getId }}" style="display: none;">
+                    <div class="row mb-1"><div class="col-3"><span class="badge badge-success">{{ 'se_enquete.admin.common.addform_enquete_textarea'|trans }}</span></div></div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_question'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col">
+                            {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_question']) }}
+                            {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_question']) }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_placeholder'|trans }}</span>
+                            <!--span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span-->
+                        </div>
+                        <div class="col">
+                            {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_placeholder']) }}
+                            {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_placeholder']) }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_required_flg'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-2">{{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required'][0]) }}</div>
+                                <div class="col-2">{{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required'][1]) }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">{{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required']) }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {# プルダウン #}
+            {% elseif Product.getKeyword == 'pulldown' %}
+
+                <div class="option-form-type option-enquete-addform-column-{{ Product.getId }}" style="display: none;">
+                    <div class="row mb-1"><div class="col-3"><span class="badge badge-success">{{ 'se_enquete.admin.common.addform_enquete_pulldown'|trans }}</span></div></div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_question'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col">
+                            {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_question']) }}
+                            {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_question']) }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_required_flg'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-2">{{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required'][0]) }}</div>
+                                <div class="col-2">{{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required'][1]) }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">{{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required']) }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_answer'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col flexible-child-form">
+                            <div class="row">
+                                <div class="col">
+                                    {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer']) }}
+                                    {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer']) }}
+                                </div>
+                            </div>
+                            {% for i in 1..pulldown_row %}
+                            <div class="row mb-1 alert np fade show flexible-row">
+                                <div class="col">
+                                    {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer_' ~ i]) }}
+                                    {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer_' ~ i]) }}
+                                </div>
+                                <div class="col-2 text-right">
+                                    <button class="close initial-flexible-form" type="button"{% if i == loop.first %} style="display:none;"{% endif %}><span aria-hidden="true"><i class="fa fa-times fa-lg"></i></span></button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="row mb-1 child-add-button">
+                                <div class="col text-right">
+                                    <button class="close child-add" type="button"><span aria-hidden="true"><i class="fa fa-plus-square fa-lg"></i></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {# ラジオボタン #}
+            {% elseif Product.getKeyword == 'radio' %}
+
+                <div class="option-form-type option-enquete-addform-column-{{ Product.getId }}" style="display: none;">
+                    <div class="row mb-1"><div class="col-3"><span class="badge badge-success">{{ 'se_enquete.admin.common.addform_enquete_radio'|trans }}</span></div></div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_question'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col">
+                            {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_question']) }}
+                            {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_question']) }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_required_flg'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-2">{{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required'][0]) }}</div>
+                                <div class="col-2">{{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required'][1]) }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">{{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required']) }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_answer'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col flexible-child-form">
+                            <div class="row">
+                                <div class="col">
+                                    {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_view_type']) }}
+                                    {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_view_type']) }}
+                                </div>
+                            </div>
+                            {% for i in 1..radio_row %}
+                            <div class="row mb-2 alert np fade show flexible-row">
+                                <div class="col-3">
+                                    {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_view_type_' ~ i], {'attr': {'class': 'switch-radio-view'}}) }}
+                                    {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_view_type_' ~ i]) }}
+                                </div>
+                                <div class="col view_text">
+                                    {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer_text_' ~ i]) }}
+                                    {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer_text_' ~ i]) }}
+                                </div>
+                                <div class="col view_thumbnail" style="display:none;">   {# thumbnails #}
+                                    {% if thumbnails[i-1] is defined and thumbnails[i-1] != '' %}
+                                    <div class="col-4 col-img">
+                                        <img src="{{ asset( 'SeEnquete4/assets/img/' ~ thumbnails[i-1], 'plugin') }}">
+                                    </div>
+                                    {% endif %}
+ 
+                                    {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer_thumbnail_' ~ i]) }}
+                                    {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer_thumbnail_' ~ i]) }}
+
+                                    {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer_hidden_' ~ i]) }}
+                                    {#{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer_hidden_' ~ i]) }#}
+                                </div>
+                                <div class="col-2 text-right">
+                                    <button class="close initial-flexible-form" type="button"{% if i == loop.first %} style="display: none;"{% endif %}><span aria-hidden="true"><i class="fa fa-times fa-lg"></i></span></button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="row mb-1 child-add-button">
+                                <div class="col text-right">
+                                    <button class="close child-add" type="button"><span aria-hidden="true"><i class="fa fa-plus-square fa-lg"></i></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {# チェックボックス #}
+            {% elseif Product.getKeyword == 'check' %}
+
+                <div class="option-form-type option-enquete-addform-column-{{ Product.getId }}" style="display: none;">
+                    <div class="row mb-1"><div class="col-3"><span class="badge badge-success">{{ 'se_enquete.admin.common.addform_enquete_checkbox'|trans }}</span></div></div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_question'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col">
+                            {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_question']) }}
+                            {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_question']) }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_required_flg'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-2">{{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required'][0]) }}</div>
+                                <div class="col-2">{{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required'][1]) }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">{{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_required']) }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_answer'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col flexible-child-form">
+                            <div class="row">
+                                <div class="col">
+                                    {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer']) }}
+                                    {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer']) }}
+                                </div>
+                            </div>
+                            {% for i in 1..check_row %}
+                            <div class="row mb-1 alert np fade show flexible-row">
+                                <div class="col">
+                                    {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer_' ~ i]) }}
+                                    {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_answer_' ~ i]) }}
+                                </div>
+                                <div class="col-2 text-right">
+                                    <button class="close initial-flexible-form" type="button"{% if i == loop.first %} style="display: none;"{% endif %}><span aria-hidden="true"><i class="fa fa-times fa-lg"></i></span></button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="row mb-1 child-add-button">
+                                <div class="col text-right">
+                                    <button class="close child-add" type="button"><span aria-hidden="true"><i class="fa fa-plus-square fa-lg"></i></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            {# 何か文章 #}
+            {% elseif Product.getKeyword == 'etc' %}
+
+                <div class="option-form-type option-enquete-addform-column-{{ Product.getId }}" style="display: none;">
+                    <div class="row mb-1"><div class="col-3"><span class="badge badge-success">{{ 'se_enquete.admin.common.addform_enquete_etc'|trans }}</span></div></div>
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            <span>{{ 'se_enquete.admin.common.addform_enquete_break'|trans }}</span>
+                            <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                        </div>
+                        <div class="col">
+                            {{ form_widget(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_sentence']) }}
+                            {{ form_errors(form[formNamePrefix ~ Product.getKeyword ~ '_' ~ formUniqId ~ '_sentence']) }}
+                        </div>
+                    </div>
+                </div>
+
+            {% endif %}
+
+        {% endfor %}
+
+    </div>
+</div>

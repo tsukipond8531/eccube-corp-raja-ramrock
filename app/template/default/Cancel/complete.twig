@@ -10,20 +10,29 @@ file that was distributed with this source code.
 #}
 {% extends 'default_frame.twig' %}
 
+{% set mypageno = 'cancel' %}
+
 {% block main %}
 <div class="ec-modifiedLayoutRole__contents">
     <div class="ec-role">
         <div class="ec-pageHeader">
-            <h1>{{ 'お試しキャンセル・解約申請手続き(完了)'|trans }}</h1>
+            <h1>{{ 'お試しキャンセル・解約申請手続き(受付)'|trans }}</h1>
         </div>
+        {% include 'Mypage/navi.twig' %}
     </div>
     <div class="ec-contactCompleteRole">
         <div class="ec-off3Grid ec-text-ac">
             <div class="ec-off3Grid__cell">
                 <div class="ec-reportHeading">
-                    <h2>{{ 'お試しキャンセル・解約申請手続き内容の送信が完了いたしました'|trans }}</h2>
+                    <h2>{{ 'お試しキャンセル・解約の申請を受け付けました。'|trans }}</h2>
                 </div>
-                <p class="ec-reportDescription">{{ '万一、ご確認メールが届かない場合は、トラブルの可能性もありますので大変お手数ではございますがもう一度お問い合わせいただくか、お電話にてお問い合わせくださいませ。'|trans }}</p>
+                <p class="ec-reportDescription">
+                    【お試しキャンセルの方】 <br />
+                    弊社にてみまもりCUBEの返却の確認が取れ次第、手続き完了となります。 お手数おかけいたしますが、商品のご返却の程よろしくお願い申し上げます。<br /><br />
+                    
+                    【ご解約の方】 <br />
+                    弊社より解約受付完了メールをお送りさせていただきます。
+                </p>
                 <div class="ec-off4Grid">
                     <div class="ec-off4Grid__cell"><a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{'トップページへ'|trans}}</a></div>
                 </div>

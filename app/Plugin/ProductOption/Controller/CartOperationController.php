@@ -18,6 +18,9 @@ use Eccube\Repository\ProductClassRepository;
 use Eccube\Service\PurchaseFlow\PurchaseFlow;
 use Plugin\ProductOption\Service\ProductOptionCartService;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Eccube\Service\OrderHelper;
 
 class CartOperationController extends CartController
 {
@@ -35,6 +38,73 @@ class CartOperationController extends CartController
         $this->cartService = $productOptionCartService;
         $this->purchaseFlow = $cartPurchaseFlow;
         $this->baseInfo = $baseInfoRepository->get();
+    }
+	
+
+    /**
+     * カート画面.
+     *
+     * @Route("/cart", name="cart", methods={"GET"})
+     * @Template("Cart/index.twig")
+     */
+    public function index(Request $request)
+    {
+        // カートを取得して明細の正規化を実行
+        $Carts = $this->cartService->getCarts();
+        $this->execPurchaseFlow($Carts);
+
+        // TODO itemHolderから取得できるように
+        $least = [];
+        $quantity = [];
+        $isDeliveryFree = [];
+        $totalPrice = 0;
+        $totalQuantity = 0;
+
+        foreach ($Carts as $Cart) {
+            $quantity[$Cart->getCartKey()] = 0;
+            $isDeliveryFree[$Cart->getCartKey()] = false;
+
+            if ($this->baseInfo->getDeliveryFreeQuantity()) {
+                if ($this->baseInfo->getDeliveryFreeQuantity() > $Cart->getQuantity()) {
+                    $quantity[$Cart->getCartKey()] = $this->baseInfo->getDeliveryFreeQuantity() - $Cart->getQuantity();
+                } else {
+                    $isDeliveryFree[$Cart->getCartKey()] = true;
+                }
+            }
+
+            if ($this->baseInfo->getDeliveryFreeAmount()) {
+                if (!$isDeliveryFree[$Cart->getCartKey()] && $this->baseInfo->getDeliveryFreeAmount() <= $Cart->getTotalPrice()) {
+                    $isDeliveryFree[$Cart->getCartKey()] = true;
+                } else {
+                    $least[$Cart->getCartKey()] = $this->baseInfo->getDeliveryFreeAmount() - $Cart->getTotalPrice();
+                }
+            }
+
+            $totalPrice += $Cart->getTotalPrice();
+            $totalQuantity += $Cart->getQuantity();
+        }
+
+        // カートが分割された時のセッション情報を削除
+        $request->getSession()->remove(OrderHelper::SESSION_CART_DIVIDE_FLAG);
+        
+        $campagin = true;
+
+        if ($this->isGranted('ROLE_USER')) {
+            $Customer = $this->getUser();
+
+            if (count($Customer->getOrders())) $campagin = false;
+        }
+
+        return [
+            'totalPrice' => $totalPrice,
+            'totalQuantity' => $totalQuantity,
+            // 空のカートを削除し取得し直す
+            'Carts' => $this->cartService->getCarts(true),
+            'least' => $least,
+            'quantity' => $quantity,
+            'is_delivery_free' => $isDeliveryFree,
+            'campagin' => $campagin,
+        ];
     }
 
     /**

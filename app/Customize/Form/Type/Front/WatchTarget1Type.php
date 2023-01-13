@@ -48,9 +48,12 @@ class WatchTarget1Type extends AbstractType
         $builder
             ->add('name', NameType::class, [
                 'required' => true,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
             ])
             ->add('kana', KanaType::class, [
-                'required' => true,
+                'required' => false,
             ])
             ->add('company_name', TextType::class, [
                 'required' => false,
@@ -60,10 +63,14 @@ class WatchTarget1Type extends AbstractType
                     ]),
                 ],
             ])
-            ->add('postal_code', PostalType::class)
-            ->add('address', AddressType::class)
+            ->add('postal_code', PostalType::class, [
+                'required' => false,
+            ])
+            ->add('address', AddressType::class, [
+                'required' => false,
+            ])
             ->add('phone_number', PhoneNumberType::class, [
-                'required' => true,
+                'required' => false,
             ]);
     }
 

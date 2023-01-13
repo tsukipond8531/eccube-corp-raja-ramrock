@@ -94,13 +94,15 @@ file that was distributed with this source code.
                                         <div class="ec-imageGrid__img"><img src="{{ asset((orderItem.product is null ? null : orderItem.product.MainListImage)|no_image_product, 'save_image') }}" alt="{{ orderItem.productName }}"></div>
                                         <div class="ec-imageGrid__content">
                                             <p>{{ orderItem.productName }}{% if is_reduced_tax_rate(orderItem) %}{{ '※'|trans }}{% set isShowReducedTaxMess = true %}{% endif %}</p>
-                                            {% if orderItem.productClass is not null and orderItem.productClass.classCategory1 %}
-                                                <p>{{ orderItem.productClass.classCategory1.className.name }}：{{ orderItem.productClass.classCategory1 }}</p>
-                                            {% endif %}
-                                            {% if orderItem.productClass is not null and orderItem.productClass.classCategory2 %}
-                                                <p>{{ orderItem.productClass.classCategory2.className.name }}：{{ orderItem.productClass.classCategory2 }}</p>
-                                            {% endif %}
-                                            <p>{{ orderItem.priceIncTax|price }} × {{ orderItem.quantity|number_format }}<span>{{ '小計：'|trans }}{{ orderItem.totalPrice|price }}</span></p>
+                                            <div class="cs-order_class">
+                                                {% if orderItem.productClass is not null and orderItem.productClass.classCategory1 %}
+                                                    <p>{{ orderItem.productClass.classCategory1.className.name }}：{{ orderItem.productClass.classCategory1 }}</p>
+                                                {% endif %}
+                                                {% if orderItem.productClass is not null and orderItem.productClass.classCategory2 %}
+                                                    <p>{{ orderItem.productClass.classCategory2.className.name }}：{{ orderItem.productClass.classCategory2 }}</p>
+                                                {% endif %}
+                                            </div>
+                                            {# <p>{{ orderItem.priceIncTax|price }} × {{ orderItem.quantity|number_format }}<span>{{ '小計：'|trans }}{{ orderItem.totalPrice|price }}</span></p> #}
                                         </div>
                                     </div>
                                 </li>
@@ -135,6 +137,53 @@ file that was distributed with this source code.
                         </div>
                     {% endfor %}
                 </div>
+                <div class="cs-orderOptions">
+                    {% if installationAgent is defined and installationAgent is not empty %}
+                        <div class="cs-installation_agent">
+                            <div class="ec-rectHeading" style="position: relative">
+                                <h2>{{ '取付代行オプション'|trans }}</h2>
+                            </div>
+                            <div id="installationAgent" class="ec-orderDelivery__address">
+                                <p>{{ ''|trans }}{{ installationAgent.name01 }} {{ installationAgent.name02 }} ({{ installationAgent.kana01 }} {{ installationAgent.kana02 }}){{ ' 様'|trans }}</p>
+                                <p>{{ '〒'|trans }}{{ installationAgent.postal_code }} {{ installationAgent.pref }}{{ installationAgent.addr01 }}{{ installationAgent.addr02 }}</p>
+                                <p>{{ installationAgent.phone_number }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if (watchTarget1 is defined and watchTarget1 is not empty) or (watchTarget2 is defined and watchTarget2 is not empty) %}
+                        <div class="cs-watch_target" style="margin-top: 15px;">
+                            <div class="ec-rectHeading">
+                                <h2>{{ '見守り対象者がいる場合はご入力ください'|trans }}</h2>
+                            </div>
+                            <div id="watchTargetContent">
+                                {% if watchTarget1 is defined and watchTarget1 is not empty %}
+                                    <div class="ec-borderedDefs">
+                                        <div class="cs-orderOptions_title">
+                                            {{ '1人目'|trans }}
+                                        </div>
+                                        <div id="watchTarget1">
+                                            <p>{{ ''|trans }}{{ watchTarget1.name01 }} {{ watchTarget1.name02 }} ({{ watchTarget1.kana01 }} {{ watchTarget1.kana02 }}){{ ' 様'|trans }}</p>
+                                            <p>{{ '〒'|trans }}{{ watchTarget1.postal_code }} {{ watchTarget1.pref }}{{ watchTarget1.addr01 }}{{ watchTarget1.addr02 }}</p>
+                                            <p>{{ watchTarget1.phone_number }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% if watchTarget2 is defined and watchTarget2 is not empty %}
+                                    <div class="ec-borderedDefs">
+                                        <div class="cs-orderOptions_title">
+                                            {{ '2人目'|trans }}
+                                        </div>
+                                        <div id="watchTarget2">
+                                            <p>{{ ''|trans }}{{ watchTarget2.name01 }} {{ watchTarget2.name02 }} ({{ watchTarget2.kana01 }} {{ watchTarget2.kana02 }}){{ ' 様'|trans }}</p>
+                                            <p>{{ '〒'|trans }}{{ watchTarget2.postal_code }} {{ watchTarget2.pref }}{{ watchTarget2.addr01 }}{{ watchTarget2.addr02 }}</p>
+                                            <p>{{ watchTarget2.phone_number }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
                 <div class="ec-orderPayment">
                     <div class="ec-rectHeading">
                         <h2>{{ 'お支払方法'|trans }}</h2>
@@ -165,6 +214,7 @@ file that was distributed with this source code.
                         {{ Order.message|nl2br }}
                     </div>
                 </div>
+                {{ render(path('block_calendar')) }}
             </div>
             <div class="ec-orderRole__summary">
                 <div class="ec-totalBox">

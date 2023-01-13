@@ -1,0 +1,27 @@
+{#
+ Copyright(c) 2020 Shadow Enterprise, Inc. All rights reserved.
+ http://www.shadow-ep.co.jp/
+#}
+
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'enquete_page' %}
+
+{% block stylesheet %}
+    <style>
+        .enquete-complete-message {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+    </style>
+{% endblock %}
+
+{% block main %}
+    <div class="ec-role">
+        <div class="row">
+            <div class="col enquete-complete-message text-center">
+                {{ 'se_enquete.common.message.complete_thanks'|trans|nl2br }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

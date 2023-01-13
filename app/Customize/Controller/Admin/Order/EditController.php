@@ -332,8 +332,8 @@ class EditController extends AbstractController
                         if(!empty($installationAgentTemp)) {
                             if (empty($installationAgent)) {
                                 $installationAgentTemp->setType(ADDRESS_TYPE_INSTALL);
-                                $installationAgentTemp->setOrder($Order);
-                                $Order->addAddress($installationAgentTemp);
+                                $installationAgentTemp->setOrder($TargetOrder);
+                                $TargetOrder->addAddress($installationAgentTemp);
     
                                 $this->entityManager->persist($installationAgentTemp);
                             } else {
@@ -345,8 +345,8 @@ class EditController extends AbstractController
                         if(!empty($watchTarget1Temp)) {
                             if (empty($installationAgent)) {
                                 $watchTarget1Temp->setType(ADDRESS_TYPE_WATCH1);
-                                $watchTarget1Temp->setOrder($Order);
-                                $Order->addAddress($watchTarget1Temp);
+                                $watchTarget1Temp->setOrder($TargetOrder);
+                                $TargetOrder->addAddress($watchTarget1Temp);
     
                                 $this->entityManager->persist($watchTarget1Temp);
                             } else {
@@ -358,8 +358,8 @@ class EditController extends AbstractController
                         if(!empty($watchTarget2Temp)) {
                             if (empty($installationAgent)) {
                                 $watchTarget2Temp->setType(ADDRESS_TYPE_WATCH2);
-                                $watchTarget2Temp->setOrder($Order);
-                                $Order->addAddress($watchTarget2Temp);
+                                $watchTarget2Temp->setOrder($TargetOrder);
+                                $TargetOrder->addAddress($watchTarget2Temp);
     
                                 $this->entityManager->persist($watchTarget2Temp);
                             } else {

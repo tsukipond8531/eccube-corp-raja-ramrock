@@ -213,6 +213,15 @@ file that was distributed with this source code.
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-3">
+                                        <span>{{ 'admin.common.birth_day'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.birth) }}
+                                        {{ form_errors(form.birth) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
                                         <span>{{ 'admin.common.password_for_confirmation'|trans }}</span>
                                         <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
                                     </div>
@@ -223,11 +232,19 @@ file that was distributed with this source code.
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-3">
-                                        <span>{{ 'admin.common.birth_day'|trans }}</span>
+                                        <span>{{ 'パスワードを忘れた時のヒント'|trans }}</span>
                                     </div>
                                     <div class="col">
-                                        {{ form_widget(form.birth) }}
-                                        {{ form_errors(form.birth) }}
+                                        質問：
+                                        <div class="ec-select{{ has_errors(form.password_tip_query) ? ' error' }} mt-2 mb-3">
+                                            {{ form_widget(form.password_tip_query) }}
+                                            {{ form_errors(form.password_tip_query) }}
+                                        </div>
+                                        答え：
+                                        <div class="ec-input{{ has_errors(form.password_tip_answer) ? ' error' }} mt-2 mb-3">
+                                            {{ form_widget(form.password_tip_answer) }}
+                                            {{ form_errors(form.password_tip_answer) }}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row mb-2">

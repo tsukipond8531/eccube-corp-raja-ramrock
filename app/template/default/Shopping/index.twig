@@ -11,6 +11,9 @@ file that was distributed with this source code.
 {% extends 'default_frame.twig' %}
 
 {% form_theme form 'Form/form_div_layout.twig' %}
+{% form_theme installationAgentForm 'Form/form_div_layout.twig' %}
+{% form_theme watchTarget1Form 'Form/form_div_layout.twig' %}
+{% form_theme watchTarget2Form 'Form/form_div_layout.twig' %}
 
 {% block stylesheet %}
 <style>
@@ -94,7 +97,7 @@ file that was distributed with this source code.
                         </dt>
                         <dd>
                             <div class="ec-telInput{{ has_errors(watchTarget1Form.phone_number) ? ' error' }}">
-                                {{ form_widget(watchTarget1Form.phone_number, { 'attr': { 'value': '0362819673' } }) }}
+                                {{ form_widget(watchTarget1Form.phone_number, { 'attr': { 'value': '' } }) }}
                                 {{ form_errors(watchTarget1Form.phone_number) }}
                             </div>
                         </dd>
@@ -186,7 +189,7 @@ file that was distributed with this source code.
                         </dt>
                         <dd>
                             <div class="ec-telInput{{ has_errors(watchTarget2Form.phone_number) ? ' error' }}">
-                                {{ form_widget(watchTarget2Form.phone_number, { 'attr': { 'value': '0362819673' } }) }}
+                                {{ form_widget(watchTarget2Form.phone_number, { 'attr': { 'value': '' } }) }}
                                 {{ form_errors(watchTarget2Form.phone_number) }}
                             </div>
                         </dd>
@@ -299,6 +302,9 @@ file that was distributed with this source code.
                 $('.mod-button').hide();
             });
             {% endif %}
+            
+            $('#watchTargetCheck').prop('checked', true);
+            $('#watchTargetCheck').change();
         });
     </script>
 {% endblock javascript %}
@@ -495,9 +501,9 @@ file that was distributed with this source code.
                         <div class="ec-orderDelivery__title">{{ 'お届け先'|trans }}{% if Order.multiple %}({{ loop.index }}){% endif %}
                             <div class="ec-orderDelivery__change">
                                 {% if is_granted('ROLE_USER') %}
-                                    <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping', {'id': shipping.id}) }}">{{ '変更'|trans }}</button>
+                                    <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping', {'id': shipping.id}) }}">{{ '追加・変更'|trans }}</button>
                                 {% else %}
-                                    <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping_edit', {'id': shipping.id}) }}">{{ '変更'|trans }}</button>
+                                    <button class="ec-inlineBtn" data-id="{{ shipping.id }}" data-trigger="click" data-path="{{ path('shopping_shipping_edit', {'id': shipping.id}) }}">{{ '追加・変更'|trans }}</button>
                                 {% endif %}
                             </div>
                         </div>
@@ -509,13 +515,15 @@ file that was distributed with this source code.
                                             <div class="ec-imageGrid__img"><img src="{{ asset((orderItem.product is null ? null : orderItem.product.MainListImage)|no_image_product, 'save_image') }}" alt="{{ orderItem.productName }}"></div>
                                             <div class="ec-imageGrid__content">
                                                 <p>{{ orderItem.productName }}{% if is_reduced_tax_rate(orderItem) %}{{ '※'|trans }}{% set isShowReducedTaxMess = true %}{% endif %}</p>
-                                                {% if orderItem.productClass is not null and orderItem.productClass.classCategory1 %}
-                                                    <p>{{ orderItem.productClass.classCategory1.className.name }}：{{ orderItem.productClass.classCategory1 }}</p>
-                                                {% endif %}
-                                                {% if orderItem.productClass is not null and orderItem.productClass.classCategory2 %}
-                                                    <p>{{ orderItem.productClass.classCategory2.className.name }}：{{ orderItem.productClass.classCategory2 }}</p>
-                                                {% endif %}
-                                                <p>{{ orderItem.priceIncTax|price }} × {{ orderItem.quantity|number_format }}<span>{{ '小計：'|trans }}{{ orderItem.totalPrice|price }}</span></p>
+                                                <div class="cs-order_class">
+                                                    {% if orderItem.productClass is not null and orderItem.productClass.classCategory1 %}
+                                                        <p>{{ orderItem.productClass.classCategory1.className.name }}：{{ orderItem.productClass.classCategory1 }}</p>
+                                                    {% endif %}
+                                                    {% if orderItem.productClass is not null and orderItem.productClass.classCategory2 %}
+                                                        <p>{{ orderItem.productClass.classCategory2.className.name }}：{{ orderItem.productClass.classCategory2 }}</p>
+                                                    {% endif %}
+                                                </div>
+                                                {# <p>{{ orderItem.priceIncTax|price }} × {{ orderItem.quantity|number_format }}<span>{{ '小計：'|trans }}{{ orderItem.totalPrice|price }}</span></p> #}
                                             </div>
                                         </div>
                                     </li>
@@ -659,199 +667,15 @@ file that was distributed with this source code.
                     <div class="cs-watch_target" style="margin-top: 15px;">
                         <div class="ec-rectHeading">
                             <h2>{{ '見守り対象者がいる場合はご入力ください'|trans }}</h2>
-                            <div style="margin: 10px 5px 0; text-align: right;">
-                                <input type="checkbox" name="watch_target_check" id="watchTargetCheck">
-                                <label for="watchTargetCheck">確認しました</label>
-                            </div>
                         </div>
                         <p>
                             解約時はご利用期間により契約解除料が発生する場合がございますが、下記の欄に見守り対象者の方のご登録をいただいた場合は【介護施設への入所】【ご逝去】に限り、証明書類を送付いただくと免除とさせていただいております。
+                            <span style="display: inline-block; text-align: right;">
+                                <input type="checkbox" name="watch_target_check" id="watchTargetCheck">
+                                <label for="watchTargetCheck">確認しました</label>
+                            </span>
                         </p>
                         <div id="watchTargetContent">
-                            {# <div class="ec-borderedDefs h-adr">
-                                <div class="cs-orderOptions_title" style="position: relative">
-                                    {{ '1人目'|trans }}
-                                    <div class="text-right cs-toggle-icon"><a data-toggle="collapse" href="#watchTarget1"><i class="fa fa-angle-up fa-lg"></i></a></div>
-                                </div>
-                                <div id="watchTarget1">
-                                    <span class="p-country-name" style="display:none;">Japan</span>
-                                    <dl>
-                                        <dt>
-                                            {{ form_label(watchTarget1Form.name, 'common.name', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                        </dt>
-                                        <dd>
-                                            <div class="ec-halfInput{{ has_errors(watchTarget1Form.name.name01, watchTarget1Form.name.name02) ? ' error' }}">
-                                                {{ form_widget(watchTarget1Form.name.name01, { 'attr': { 'placeholder': 'common.last_name' }}) }}
-                                                {{ form_widget(watchTarget1Form.name.name02, { 'attr': { 'placeholder': 'common.first_name' }}) }}
-                                                {{ form_errors(watchTarget1Form.name.name01) }}
-                                                {{ form_errors(watchTarget1Form.name.name02) }}
-                                            </div>
-                                        </dd>
-                                    </dl>
-                                    <dl>
-                                        <dt>
-                                            {{ form_label(watchTarget1Form.kana, 'common.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                        </dt>
-                                        <dd>
-                                            <div class="ec-halfInput{{ has_errors(watchTarget1Form.kana.kana01, watchTarget1Form.kana.kana02) ? ' error' }}">
-                                                {{ form_widget(watchTarget1Form.kana.kana01, { 'attr': { 'placeholder': 'common.last_name_kana' }}) }}
-                                                {{ form_widget(watchTarget1Form.kana.kana02, { 'attr': { 'placeholder': 'common.first_name_kana' }}) }}
-                                                {{ form_errors(watchTarget1Form.kana.kana01) }}
-                                                {{ form_errors(watchTarget1Form.kana.kana02) }}
-                                            </div>
-                                        </dd>
-                                    </dl>
-                                    <dl>
-                                        <dt>
-                                            {{ form_label(watchTarget1Form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                        </dt>
-                                        <dd>
-                                            <div class="ec-zipInput{{ has_errors(watchTarget1Form.postal_code) ? ' error' }}"><span>{{ 'common.postal_symbol'|trans }}</span>
-                                                {{ form_widget(watchTarget1Form.postal_code) }}
-                                                <div class="ec-zipInputHelp">
-                                                    <div class="ec-zipInputHelp__icon">
-                                                        <div class="ec-icon"><img src="{{ asset('assets/icon/question-white.svg') }}" alt=""></div>
-                                                    </div><a href="https://www.post.japanpost.jp/zipcode/" target="_blank"><span>{{ 'common.search_postal_code'|trans }}</span></a>
-                                                </div>
-                                                {{ form_errors(watchTarget1Form.postal_code) }}
-                                            </div>
-                                            <div class="ec-select{{ has_errors(watchTarget1Form.address.pref) ? ' error' }}">
-                                                {{ form_widget(watchTarget1Form.address.pref) }}
-                                                {{ form_errors(watchTarget1Form.address.pref) }}
-                                            </div>
-                                            <div class="ec-input{{ has_errors(watchTarget1Form.address.addr01) ? ' error' }}">
-                                                {{ form_widget(watchTarget1Form.address.addr01, { 'attr': { 'placeholder': 'common.address_sample_01' }}) }}
-                                                {{ form_errors(watchTarget1Form.address.addr01) }}
-                                            </div>
-                                            <div class="ec-input{{ has_errors(watchTarget1Form.address.addr02) ? ' error' }}">
-                                                {{ form_widget(watchTarget1Form.address.addr02,  { 'attr': { 'placeholder': 'common.address_sample_02' }}) }}
-                                                {{ form_errors(watchTarget1Form.address.addr02) }}
-                                            </div>
-                                        </dd>
-                                    </dl>
-                                    <dl style="display: none;">
-                                        <dt>
-                                            {{ form_label(watchTarget1Form.phone_number, 'common.phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                        </dt>
-                                        <dd>
-                                            <div class="ec-telInput{{ has_errors(watchTarget1Form.phone_number) ? ' error' }}">
-                                                {{ form_widget(watchTarget1Form.phone_number, { 'attr': { 'value': '0362819673' } }) }}
-                                                {{ form_errors(watchTarget1Form.phone_number) }}
-                                            </div>
-                                        </dd>
-                                    </dl>
-                                    {% for f in watchTarget1Form|filter(f => f.vars.eccube_form_options.auto_render) %}
-                                        {% if f.vars.eccube_form_options.form_theme %}
-                                            {% form_theme f f.vars.eccube_form_options.form_theme %}
-                                            {{ form_row(f) }}
-                                        {% else %}
-                                            <dl>
-                                                <dt>
-                                                    {{ form_label(f) }}
-                                                </dt>
-                                                <dd>
-                                                    <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
-                                                        {{ form_widget(f) }}
-                                                        {{ form_errors(f) }}
-                                                    </div>
-                                                </dd>
-                                            </dl>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="ec-borderedDefs h-adr">
-                                <div class="cs-orderOptions_title" style="position: relative">
-                                    {{ '2人目'|trans }}
-                                    <div class="text-right cs-toggle-icon"><a data-toggle="collapse" href="#watchTarget2"><i class="fa fa-angle-up fa-lg"></i></a></div>
-                                </div>
-                                <div id="watchTarget2">
-                                    <span class="p-country-name" style="display:none;">Japan</span>
-                                    <dl>
-                                        <dt>
-                                            {{ form_label(watchTarget2Form.name, 'common.name', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                        </dt>
-                                        <dd>
-                                            <div class="ec-halfInput{{ has_errors(watchTarget2Form.name.name01, watchTarget2Form.name.name02) ? ' error' }}">
-                                                {{ form_widget(watchTarget2Form.name.name01, { 'attr': { 'placeholder': 'common.last_name' }}) }}
-                                                {{ form_widget(watchTarget2Form.name.name02, { 'attr': { 'placeholder': 'common.first_name' }}) }}
-                                                {{ form_errors(watchTarget2Form.name.name01) }}
-                                                {{ form_errors(watchTarget2Form.name.name02) }}
-                                            </div>
-                                        </dd>
-                                    </dl>
-                                    <dl>
-                                        <dt>
-                                            {{ form_label(watchTarget2Form.kana, 'common.kana', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                        </dt>
-                                        <dd>
-                                            <div class="ec-halfInput{{ has_errors(watchTarget2Form.kana.kana01, watchTarget2Form.kana.kana02) ? ' error' }}">
-                                                {{ form_widget(watchTarget2Form.kana.kana01, { 'attr': { 'placeholder': 'common.last_name_kana' }}) }}
-                                                {{ form_widget(watchTarget2Form.kana.kana02, { 'attr': { 'placeholder': 'common.first_name_kana' }}) }}
-                                                {{ form_errors(watchTarget2Form.kana.kana01) }}
-                                                {{ form_errors(watchTarget2Form.kana.kana02) }}
-                                            </div>
-                                        </dd>
-                                    </dl>
-                                    <dl>
-                                        <dt>
-                                            {{ form_label(watchTarget2Form.address, 'common.address', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                        </dt>
-                                        <dd>
-                                            <div class="ec-zipInput{{ has_errors(watchTarget2Form.postal_code) ? ' error' }}"><span>{{ 'common.postal_symbol'|trans }}</span>
-                                                {{ form_widget(watchTarget2Form.postal_code) }}
-                                                <div class="ec-zipInputHelp">
-                                                    <div class="ec-zipInputHelp__icon">
-                                                        <div class="ec-icon"><img src="{{ asset('assets/icon/question-white.svg') }}" alt=""></div>
-                                                    </div><a href="https://www.post.japanpost.jp/zipcode/" target="_blank"><span>{{ 'common.search_postal_code'|trans }}</span></a>
-                                                </div>
-                                                {{ form_errors(watchTarget2Form.postal_code) }}
-                                            </div>
-                                            <div class="ec-select{{ has_errors(watchTarget2Form.address.pref) ? ' error' }}">
-                                                {{ form_widget(watchTarget2Form.address.pref) }}
-                                                {{ form_errors(watchTarget2Form.address.pref) }}
-                                            </div>
-                                            <div class="ec-input{{ has_errors(watchTarget2Form.address.addr01) ? ' error' }}">
-                                                {{ form_widget(watchTarget2Form.address.addr01, { 'attr': { 'placeholder': 'common.address_sample_01' }}) }}
-                                                {{ form_errors(watchTarget2Form.address.addr01) }}
-                                            </div>
-                                            <div class="ec-input{{ has_errors(watchTarget2Form.address.addr02) ? ' error' }}">
-                                                {{ form_widget(watchTarget2Form.address.addr02,  { 'attr': { 'placeholder': 'common.address_sample_02' }}) }}
-                                                {{ form_errors(watchTarget2Form.address.addr02) }}
-                                            </div>
-                                        </dd>
-                                    </dl>
-                                    <dl style="display: none;">
-                                        <dt>
-                                            {{ form_label(watchTarget2Form.phone_number, 'common.phone_number', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                        </dt>
-                                        <dd>
-                                            <div class="ec-telInput{{ has_errors(watchTarget2Form.phone_number) ? ' error' }}">
-                                                {{ form_widget(watchTarget2Form.phone_number, { 'attr': { 'value': '0362819673' } }) }}
-                                                {{ form_errors(watchTarget2Form.phone_number) }}
-                                            </div>
-                                        </dd>
-                                    </dl>
-                                    {% for f in watchTarget2Form|filter(f => f.vars.eccube_form_options.auto_render) %}
-                                        {% if f.vars.eccube_form_options.form_theme %}
-                                            {% form_theme f f.vars.eccube_form_options.form_theme %}
-                                            {{ form_row(f) }}
-                                        {% else %}
-                                            <dl>
-                                                <dt>
-                                                    {{ form_label(f) }}
-                                                </dt>
-                                                <dd>
-                                                    <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
-                                                        {{ form_widget(f) }}
-                                                        {{ form_errors(f) }}
-                                                    </div>
-                                                </dd>
-                                            </dl>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </div> #}
                         </div>
                     </div>
                 </div>
@@ -893,6 +717,7 @@ file that was distributed with this source code.
                         {{ form_errors(form.message) }}
                     </div>
                 </div>
+                {{ render(path('block_calendar')) }}
             </div>
             <div class="ec-orderRole__summary">
                 <div class="ec-totalBox">

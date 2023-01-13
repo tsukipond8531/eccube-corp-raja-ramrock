@@ -14,6 +14,47 @@ file that was distributed with this source code.
 
 {% set body_class = 'mypage' %}
 
+{% block stylesheet %}
+    <style>
+        .customer_info {
+            margin: 10px 0 25px;
+        }
+        .customer_info .title {
+            margin-bottom: 15px;
+        }
+        .customer_info table {
+            width: 100%;
+        }
+        .customer_info table,
+        .customer_info tr,
+        .customer_info th {
+            border: 1px solid #ddd;
+        }
+        .cancelled {
+            background: #eee;
+        }
+        .ec-historyRole .ec-historyRole__contents {
+            padding: 10px;
+        }
+        @media only screen and (max-width: 767px) {
+            .customer_info th {
+                width: 100px;
+                padding: 5px 0 5px 10px;
+                font-size: 15px;
+            }
+            .customer_info td {
+                padding: 5px 10px;
+            }
+        }
+        @media only screen and (min-width: 768px) {
+            .customer_info th,
+            .customer_info td {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+{% endblock stylesheet %}
+
 {% block main %}
 <div class="ec-modifiedLayoutRole__contents">
     <div class="ec-layoutRole__main">
@@ -24,12 +65,48 @@ file that was distributed with this source code.
             {% include 'Mypage/navi.twig' %}
         </div>
         <div class="ec-mypageRole">
+            <div class="customer_info">
+                <h2 class="title">お客様情報</h2>
+                <table>
+                    <tr>
+                        <th>会員ID</th>
+                        <td>{{ Customer.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>お名前</th>
+                        <td>{{ Customer.name01 }}　{{ Customer.name02 }}</td>
+                    </tr>
+                    <tr>
+                        <th>お名前（フリガナ）</th>
+                        <td>{{ Customer.kana01 }}　{{ Customer.kana02 }}</td>
+                    </tr>
+                    <tr>
+                        <th>住所</th>
+                        <td>
+                            〒{{ Customer.postal_code }}<br />
+                            {{ Customer.Pref.name }}{{ Customer.addr01 }}{{ Customer.addr02 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>電話番号</th>
+                        <td>{{ Customer.phone_number }}</td>
+                    </tr>
+                    <tr>
+                        <th>メールアドレス</th>
+                        <td>{{ Customer.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>生年月日</th>
+                        <td>{{ Customer.birth|date('Y年m月d日') }}</td>
+                    </tr>
+                </table>
+            </div>
             {% if pagination.totalItemCount > 0 %}
-                <p class="ec-para-normal">{{ '%count%件の履歴があります'|trans({'%count%':pagination.totalItemCount}) }}</p>
+                {# <p class="ec-para-normal">{{ '%count%件の履歴があります'|trans({'%count%':pagination.totalItemCount}) }}</p> #}
+                <h2 class="ec-para-normal" style="margin: 30px 0 10px; color: brown;">今月の請求金額： {{ totalPrice|price }}</h2>
                 {% for Order in pagination %}
-                    <div class="ec-historyRole">
+                    <div class="ec-historyRole {% if Order.OrderStatus.id == 3 %}cancelled{% endif %}">
                         <div class="ec-historyRole__contents">
-
                             <div class="ec-historyRole__header">
                                 <div class="ec-historyListHeader">
                                     <p class="ec-historyListHeader__date">{{ Order.order_date|date_sec }}</p>
@@ -43,8 +120,9 @@ file that was distributed with this source code.
                                             <dd>{{ Order.CustomerOrderStatus }}</dd>
                                         </dl>
                                     {% endif %}
-                                    <p class="ec-historyListHeader__action"><a class="ec-inlineBtn"
-                                                                               href="{{ url('mypage_history', {'order_no': Order.order_no}) }}">{{ '詳細を見る'|trans }}</a>
+                                    <p class="ec-historyListHeader__action">
+                                        <a class="ec-inlineBtn" href="{{ url('mypage_history', {'order_no': Order.order_no}) }}">{{ '詳細を見る'|trans }}</a>
+                                        <a class="ec-inlineBtn" href="{{ url('mypage_history', {'order_no': Order.order_no}) }}/#orderMails">{{ 'メール配信履歴'|trans }}</a>
                                     </p>
                                 </div>
                             </div>

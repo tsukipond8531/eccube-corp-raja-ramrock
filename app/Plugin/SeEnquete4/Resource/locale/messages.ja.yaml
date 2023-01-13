@@ -1,0 +1,187 @@
+##
+#  Copyright(c) 2020 Shadow Enterprise, Inc. All rights reserved.
+#  http://www.shadow-ep.co.jp/
+##
+
+# 管理 nav
+se_enquete.admin.nav.enquete_management: アンケート管理
+se_enquete.admin.nav.manage_new: アンケート追加
+se_enquete.admin.nav.manage_list: アンケート管理
+
+# 管理 アンケート一覧
+se_enquete.admin.manage.title: アンケート管理
+se_enquete.admin.manage.sub_title: 登録済み一覧
+se_enquete.admin.manage.sub_title_new: 新規登録
+se_enquete.admin.manage.sub_title_edit: 編集
+
+se_enquete.admin.manage.search_condition_keyword: キーワード
+se_enquete.admin.manage.search_condition_status: ステータス
+se_enquete.admin.manage.search_condition_day_term: 公開期間
+
+se_enquete.admin.manage.search: 検索
+se_enquete.admin.manage.search_result_count: 検索結果：'%count%件が該当しました'
+se_enquete.admin.manage.view_result_count: 回答結果：'%count%件の回答がありました'
+se_enquete.admin.manage.invalid_condition: 検索条件に誤りがあります
+se_enquete.admin.manage.change_condition: 検索条件を変えて、再度検索をお試しください
+se_enquete.admin.manage.no_result: 検索条件に合致するデータが見つかりませんでした
+se_enquete.admin.manage.no_end_date: 終了日時は設定されていません
+se_enquete.admin.manage.info: アンケート情報
+se_enquete.admin.manage.inner_content: フォーム内容をここで編集します
+
+se_enquete.admin.manage.col_title: タイトル
+se_enquete.admin.manage.col_start_date: 開始日時
+se_enquete.admin.manage.col_end_date: 終了日時
+se_enquete.admin.manage.col_member_existance: 会員専用有無
+se_enquete.admin.manage.col_mail_existance: メール送信有無
+se_enquete.admin.manage.col_personal_flg: 個人情報取得有無
+se_enquete.admin.manage.col_status: ステータス
+se_enquete.admin.manage.col_tag: 表示タグ
+se_enquete.admin.manage.col_export_csv: CSV出力
+se_enquete.admin.manage.col_view: 結果閲覧
+se_enquete.admin.manage.col_delete: 削除
+
+se_enquete.admin.manage.export_header_num: 連番
+se_enquete.admin.manage.export_header_customer: 会員名
+se_enquete.admin.manage.export_header_answer: 回答結果
+se_enquete.admin.manage.export_header_useragent: UserAgent
+se_enquete.admin.manage.export_header_ip: IP
+se_enquete.admin.manage.export_header_create_date: 回答日時
+
+se_enquete.admin.manage.tooltip.enquete_id: 自動的に採番されるアンケートのIDです
+se_enquete.admin.manage.tooltip.member_existance: 会員にのみ表示されるようになります
+se_enquete.admin.manage.tooltip.mail_existance: |
+  投稿があった場合に対象のメール送信先へ通知されます。
+  投稿の内容は送信されません
+se_enquete.admin.manage.tooltip.thumbnail: タイトルの代わりにサムネイルが表示されます
+se_enquete.admin.manage.tooltip.form_content: 設定した設問順にページに表示されます
+se_enquete.admin.manage.tooltip.personal_flg: |
+  「取得あり」にした場合は取扱いについての文章が表示され、
+  同意するのチェックボタンが最下部に必須として表示されるようになります
+se_enquete.admin.manage.tooltip.day_term: |
+  アンケートリンク表示やアンケート詳細へのアクセス可否がこの日時で判定されます。
+  期間外の場合は表示もアクセスも出来ません
+se_enquete.admin.manage.tooltip.status: 一時的に非公開にしたい場合等に「無効」を選択できます
+
+se_enquete.admin.manage.enquete_id: アンケートID
+se_enquete.admin.common.enquete_title: 表示タイトル
+se_enquete.admin.common.enquete_sub_title: サブタイトル
+se_enquete.admin.common.enquete_member_flg: 会員専用有無
+se_enquete.admin.common.enquete_mail_flg: メール送信可否
+se_enquete.admin.common.enquete_address_list: メール送信先
+se_enquete.admin.common.enquete_thumbnail: サムネイル
+se_enquete.admin.common.enquete_form_content: フォーム内容
+se_enquete.admin.common.enquete_add_button: 項目追加
+se_enquete.admin.common.enquete_submit_title: サブミットタイトル
+se_enquete.admin.common.enquete_day_term: 公開日時
+se_enquete.admin.common.enquete_status: ステータス
+se_enquete.admin.common.enquete_personal_flg: 個人情報取得の有無
+se_enquete.admin.common.enquete_personal_title: 同意するリンクのタイトル
+se_enquete.admin.common.enquete_personal_text: |
+  同意文章
+  例）個人情報の取扱いについて
+se_enquete.admin.common.addform_enquete_form: フォーム
+se_enquete.admin.common.addform_enquete_text: テキスト
+se_enquete.admin.common.addform_enquete_question: 質問文
+se_enquete.admin.common.addform_enquete_placeholder: プレースホルダ
+se_enquete.admin.common.addform_enquete_required_flg: 必須フラグ
+se_enquete.admin.common.addform_enquete_textarea: テキストエリア
+se_enquete.admin.common.addform_enquete_pulldown: プルダウン
+se_enquete.admin.common.addform_enquete_answer: 項目
+se_enquete.admin.common.addform_enquete_radio: ラジオボタン
+se_enquete.admin.common.addform_enquete_checkbox: チェックボックス
+se_enquete.admin.common.addform_enquete_etc: 何か文章
+se_enquete.admin.common.addform_enquete_break: 区切り等必要な場合
+
+se_enquete.admin.manage.button_new: 新規作成
+se_enquete.admin.manage.button_edit: 編集
+se_enquete.admin.manage.button_view: 結果表示
+se_enquete.admin.manage.button_delete: 削除
+
+
+# 管理共通
+se_enquete.common.label.invalid: 無効
+se_enquete.common.label.valid: 有効
+se_enquete.common.label.public: 誰でも
+se_enquete.common.label.member: 会員専用
+se_enquete.common.label.unsend: 送信無し
+se_enquete.common.label.send: 送信あり
+se_enquete.common.label.submit_title: 回答する
+se_enquete.common.label.back: 戻る
+se_enquete.common.label.save: 保存
+se_enquete.common.label.optional: 任意
+se_enquete.common.label.required: 必須
+se_enquete.common.label.text: テキスト
+se_enquete.common.label.thumbnail: 画像
+se_enquete.common.label.drop: 削除する
+se_enquete.common.label.use_example: 使用例
+se_enquete.common.label.noacquisition: 取得無し
+se_enquete.common.label.acquisition: 取得あり
+se_enquete.common.label.personal_existance: 個人情報の取得
+se_enquete.common.label.agree: 同意する
+
+se_enquete.common.message.failed: '%type%に失敗しました'
+se_enquete.common.message.empty: '%label%が入力されていません'
+se_enquete.common.message.nochoice: '%label%が選択されていません'
+se_enquete.common.message.invalid: '%label%の値が不正です'
+se_enquete.common.message.term_date: 開始日時と終了日時の期間が不正です
+se_enquete.common.message.deleted: 既に削除されているか存在しませんでした
+se_enquete.common.message.failed_upload: '%type%のアップロードに失敗しました'
+se_enquete.common.message.possible_filetype: '利用可能なタイプは「%type%」です'
+se_enquete.common.message.row_remove: 不要な行は削除してください
+se_enquete.common.message.ended: 終了しているため編集できません
+se_enquete.common.message.form_errors: エラーの項目が存在します
+se_enquete.common.message.view_tag: 表示用タグ
+se_enquete.common.message.copy_tag: 下記のタグを表示したいテンプレートの箇所へ追加してください
+se_enquete.common.message.copy_tag2: 横幅の指定等がある場合はタグにStyleを指定してください
+se_enquete.common.message.agree: '%label%に同意する'
+
+se_enquete.common.placeholder.keyword: キーワードを入力してください
+se_enquete.common.placeholder.title: 表示用タイトルを入力します
+se_enquete.common.placeholder.sub_title: 例）アンケートの回答にお願いします
+se_enquete.common.placeholder.address_list: |
+  送信先アドレスをカンマ区切りで入力してください
+  例）taro@example.com,jiro@example.com
+se_enquete.common.placeholder.personal_title: 個人情報の取扱いに同意する
+se_enquete.common.placeholder.personal_text: |
+  （例）応募規約
+  ◆第1条（適用）
+  本規約は・・・
+  ◆第2条（個人情報の提供）
+  ・・・
+  ◆第3条（応募者の投稿やデータファイル）
+  ・・・
+  ◆第4条（禁止事項）
+  ・・・
+  ◆第5条（本サービスの提供の停止等）
+  ・・・
+  ◆第6条（免責）
+  ・・・
+  ◆第7条（キャンペーン内容の変更等）
+  ・・・
+  ◆第8条（本規約の変更）
+  ・・・
+  ◆第9条（個人情報の取扱い）
+  ・・・
+  ◆第10条（通知または連絡）
+  ・・・
+  以上
+se_enquete.common.placeholder.submit_title: 送信ボタンの表示名を入力します
+se_enquete.common.addform_placeholder.question: 質問文を入力してください
+se_enquete.common.addform_placeholder.placeholder: 回答テキストエリアのプレースホルダが必要な場合は入力してください
+se_enquete.common.addform_placeholder.choice: 選択肢を入力してください
+se_enquete.common.addform_placeholder.etc: |
+  設問の間で文章を挟みたい場合に利用します
+  例1）Q3 でYESとお答えいただいた方は、Q5 へお進みください
+  例2）ご協力ありがとうございました
+
+
+# フロント
+se_enquete.common.message.list_not_found: |
+  現在公開中のアンケートはありません
+se_enquete.common.message.day_term: '回答期間： '
+se_enquete.common.message.complete_thanks: |
+  回答いただきありがとうございました
+  引き続きサイトをお楽しみください
+
+
+

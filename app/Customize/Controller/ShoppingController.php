@@ -305,13 +305,13 @@ class ShoppingController extends AbstractShoppingController
         $watchTarget2Form = $this->createForm(WatchTarget2Type::class);
         $watchTarget2Form->handleRequest($request);
 
+        $installationAgent = $installationAgentForm->getData();
+        $watchTarget1 = $watchTarget1Form->getData();
+        $watchTarget2 = $watchTarget2Form->getData();
+
         if ($form->isSubmitted() && $form->isValid()) {
             log_info('[注文確認] 集計処理を開始します.', [$Order->getId()]);
             $response = $this->executePurchaseFlow($Order);
-
-            $installationAgent = $installationAgentForm->getData();
-            $watchTarget1 = $watchTarget1Form->getData();
-            $watchTarget2 = $watchTarget2Form->getData();
 
             if(!empty($installationAgent)) {
                 $installationAgent->setType(ADDRESS_TYPE_INSTALL);
@@ -374,6 +374,9 @@ class ShoppingController extends AbstractShoppingController
 
             return [
                 'form' => $form->createView(),
+                'installationAgent' => $installationAgent,
+                'watchTarget1' => $watchTarget1,
+                'watchTarget2' => $watchTarget2,
                 'Order' => $Order,
             ];
         }
@@ -385,6 +388,9 @@ class ShoppingController extends AbstractShoppingController
 
         return [
             'form' => $form->createView(),
+            'installationAgent' => $installationAgent,
+            'watchTarget1' => $watchTarget1,
+            'watchTarget2' => $watchTarget2,
             'Order' => $Order,
         ];
     }

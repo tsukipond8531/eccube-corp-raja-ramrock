@@ -24,26 +24,6 @@
 {% block javascript %}
 <script src="{{ asset('../../plugin/ProductOption/assets/js/jquery.plainmodal.min.js') }}"></script>
 <script>
-$(function() {
-    //デフォルトのデイトタイムピッカーが存在しない場合
-    if ($('[type="date"]').prop('type') !== 'date') {
-        $.getScript("{{ asset('assets/js/vendor/moment.min.js', 'admin') }}").done(function() {
-            $.getScript("{{ asset('assets/js/vendor/moment-with-locales.min.js', 'admin') }}").done(function() {
-                $.getScript("{{ asset('assets/js/vendor/tempusdominus-bootstrap-4.min.js', 'admin') }}").done(function() {
-                    $('input[type=date]').datetimepicker({
-                        locale: '{{ eccube_config.locale }}',
-                        format: 'YYYY-MM-DD',
-                        useCurrent: false,
-                        buttons: {
-                            showToday: true,
-                            showClose: true
-                        }
-                    });
-                });
-            });
-        });
-    }
-});
 
 var product_id;
 $(function() {

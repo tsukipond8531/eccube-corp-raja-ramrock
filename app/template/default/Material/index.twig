@@ -1,0 +1,492 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% form_theme materialForm 'Form/form_div_layout.twig' %}
+{% form_theme careManagerForm 'Form/form_div_layout.twig' %}
+
+{% block javascript %}
+    <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
+
+    <script>
+        $(function() {
+            var materialForm = `
+                <form method="post" action="{{ url('material') }}" class="h-adr" novalidate>
+                    <span class="p-country-name" style="display:none;">Japan</span>
+                    {{ form_widget(materialForm._token) }}
+                    <p class="ec-para-normal">{{ '内容によっては回答をさしあげるのにお時間をいただくこともございます。また、休業日は翌営業日以降の対応となりますのでご了承ください。'|trans|nl2br }}</p>
+                    <div class="ec-borderedDefs">
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.name, 'お名前', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-halfInput{{ has_errors(materialForm.name.name01, materialForm.name.name02) ? ' error' }}">
+                                    {{ form_widget(materialForm.name.name01, {'attr': { 'placeholder': '姓' }}) }}
+                                    {{ form_widget(materialForm.name.name02, {'attr': { 'placeholder': '名' }}) }}
+                                    {{ form_errors(materialForm.name.name01) }}
+                                    {{ form_errors(materialForm.name.name02) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.kana, 'お名前(カナ)', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-halfInput{{ has_errors(materialForm.kana.kana01, materialForm.kana.kana02) ? ' error' }}">
+                                    {{ form_widget(materialForm.kana.kana01, {'attr': { 'placeholder': 'セイ' }}) }}
+                                    {{ form_widget(materialForm.kana.kana02, {'attr': { 'placeholder': 'メイ' }}) }}
+                                    {{ form_errors(materialForm.kana.kana01) }}
+                                    {{ form_errors(materialForm.kana.kana02) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.age, 'ご年齢', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-select{{ has_errors(materialForm.age) ? ' error' }}">
+                                    {{ form_widget(materialForm.age) }}
+                                    {{ form_errors(materialForm.age) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.company, 'お客様', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(materialForm.company) ? ' error' }}">
+                                    {{ form_widget(materialForm.company) }}
+                                    {{ form_errors(materialForm.company) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.department, '所属部署', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-telInput{{ has_errors(materialForm.department) ? ' error' }}">
+                                    {{ form_widget(materialForm.department) }}
+                                    {{ form_errors(materialForm.department) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.product, '検討中の製品', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(materialForm.product) ? ' error' }}">
+                                    {{ form_widget(materialForm.product) }}
+                                    {{ form_errors(materialForm.product) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.care, '介護認定の有無', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-select{{ has_errors(materialForm.care) ? ' error' }}">
+                                    {{ form_widget(materialForm.care) }}
+                                    {{ form_errors(materialForm.care) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.content_type, 'お問合せ内容', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(materialForm.content_type) ? ' error' }}">
+                                    {{ form_widget(materialForm.content_type) }}
+                                    {{ form_errors(materialForm.content_type) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.type, '資料の種類(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(materialForm.type) ? ' error' }}">
+                                    {{ form_widget(materialForm.type) }}
+                                    {{ form_errors(materialForm.type) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.delivery_method, 'ご希望の資料送付方法', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(materialForm.delivery_method) ? ' error' }}">
+                                    {{ form_widget(materialForm.delivery_method) }}
+                                    {{ form_errors(materialForm.delivery_method) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.address, '郵送先住所', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-zipInput{{ has_errors(materialForm.postal_code) ? ' error' }}">
+                                    <span>{{ '〒'|trans }}</span>
+                                    {{ form_widget(materialForm.postal_code) }}
+                                    {{ form_errors(materialForm.postal_code) }}
+                                </div>
+                                <div class="ec-zipInputHelp">
+                                    <div class="ec-zipInputHelp__icon">
+                                        <div class="ec-icon"><img
+                                                    src="{{ asset('assets/icon/question-white.svg') }}" alt="">
+                                        </div>
+                                    </div><a href="https://www.post.japanpost.jp/zipcode/" target="_blank"><span>{{ '郵便番号検索'|trans }}</span></a>
+                                </div>
+                                {{ form_errors(materialForm.postal_code) }}
+                                <div class="ec-select{{ has_errors(materialForm.address.pref) ? ' error' }}">
+                                    {{ form_widget(materialForm.address.pref) }}
+                                    {{ form_errors(materialForm.address.pref) }}
+                                </div>
+                                <div class="ec-input{{ has_errors(materialForm.address.addr01) ? ' error' }}">
+                                    {{ form_widget(materialForm.address.addr01, { 'attr': { 'placeholder': '市区町村名(例：大阪市北区)' }}) }}
+                                    {{ form_errors(materialForm.address.addr01) }}
+                                </div>
+                                <div class="ec-input{{ has_errors(materialForm.address.addr02) ? ' error' }}">
+                                    {{ form_widget(materialForm.address.addr02,  { 'attr': { 'placeholder': '番地・ビル名(例：西梅田1丁目6-8)' }}) }}
+                                    {{ form_errors(materialForm.address.addr02) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.phone_number, '電話番号', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-telInput{{ has_errors(materialForm.phone_number) ? ' error' }}">
+                                    {{ form_widget(materialForm.phone_number) }}
+                                    {{ form_errors(materialForm.phone_number) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.email, 'メールアドレス', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(materialForm.email) ? ' error' }}">
+                                    {{ form_widget(materialForm.email) }}
+                                    {{ form_errors(materialForm.email) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.moment, 'CUBEを知ったきっかけ', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(materialForm.moment) ? ' error' }}">
+                                    {{ form_widget(materialForm.moment) }}
+                                    {{ form_errors(materialForm.moment) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.keyword, 'インターネット検索と回答された方は、検索された際のキーワード(おわかりになる方)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(materialForm.keyword) ? ' error' }}">
+                                    {{ form_widget(materialForm.keyword) }}
+                                    {{ form_errors(materialForm.keyword) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.contents, 'お問い合わせ内容', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(materialForm.contents) ? ' error' }}">
+                                    {{ form_widget(materialForm.contents) }}
+                                    {{ form_errors(materialForm.contents) }}
+                                </div>
+                                <p>{{ 'ご注文に関するお問い合わせには、必ず「ご注文番号」をご記入くださいますようお願いいたします。'|trans }}</p>
+                            </dd>
+                        </dl>
+                        {# エンティティ拡張の自動出力 #}
+                        {% for f in materialForm|filter(f => f.vars.eccube_form_options.auto_render) %}
+                            {% if f.vars.eccube_form_options.form_theme %}
+                                {% form_theme f f.vars.eccube_form_options.form_theme %}
+                                {{ form_row(f) }}
+                            {% else %}
+                                <dl>
+                                    <dt>
+                                        {{ form_label(f) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
+                                            {{ form_widget(f) }}
+                                            {{ form_errors(f) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="ec-RegisterRole__actions">
+                        <div class="ec-off4Grid">
+                            <div class="ec-off4Grid__cell">
+                                {{ form_widget(materialForm.prefix) }}
+                                <button type="submit" class="ec-blockBtn--action" name="mode" value="confirm">{{ '確認ページへ'|trans }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            `;
+
+            var careManagerForm = `
+                <form method="post" action="{{ url('material') }}" class="h-adr" novalidate>
+                    <span class="p-country-name" style="display:none;">Japan</span>
+                    {{ form_widget(careManagerForm._token) }}
+                    <p class="ec-para-normal">{{ '内容によっては回答をさしあげるのにお時間をいただくこともございます。また、休業日は翌営業日以降の対応となりますのでご了承ください。'|trans|nl2br }}</p>
+                    <div class="ec-borderedDefs">
+                        <dl>
+                            <dt>
+                                {{ form_label(careManagerForm.company, '会社/団体名', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-telInput{{ has_errors(careManagerForm.company) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.company) }}
+                                    {{ form_errors(careManagerForm.company) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(careManagerForm.name, 'お名前', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-halfInput{{ has_errors(careManagerForm.name.name01, careManagerForm.name.name02) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.name.name01, {'attr': { 'placeholder': '姓' }}) }}
+                                    {{ form_widget(careManagerForm.name.name02, {'attr': { 'placeholder': '名' }}) }}
+                                    {{ form_errors(careManagerForm.name.name01) }}
+                                    {{ form_errors(careManagerForm.name.name02) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(careManagerForm.kana, 'お名前(カナ)', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-halfInput{{ has_errors(careManagerForm.kana.kana01, careManagerForm.kana.kana02) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.kana.kana01, {'attr': { 'placeholder': 'セイ' }}) }}
+                                    {{ form_widget(careManagerForm.kana.kana02, {'attr': { 'placeholder': 'メイ' }}) }}
+                                    {{ form_errors(careManagerForm.kana.kana01) }}
+                                    {{ form_errors(careManagerForm.kana.kana02) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(careManagerForm.type, '種別', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-select{{ has_errors(careManagerForm.type) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.type) }}
+                                    {{ form_errors(careManagerForm.type) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(careManagerForm.address, 'ご連絡先', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-zipInput{{ has_errors(careManagerForm.postal_code) ? ' error' }}">
+                                    <span>{{ '〒'|trans }}</span>
+                                    {{ form_widget(careManagerForm.postal_code) }}
+                                    {{ form_errors(careManagerForm.postal_code) }}
+                                </div>
+                                <div class="ec-zipInputHelp">
+                                    <div class="ec-zipInputHelp__icon">
+                                        <div class="ec-icon"><img
+                                                    src="{{ asset('assets/icon/question-white.svg') }}" alt="">
+                                        </div>
+                                    </div><a href="https://www.post.japanpost.jp/zipcode/" target="_blank"><span>{{ '郵便番号検索'|trans }}</span></a>
+                                </div>
+                                {{ form_errors(careManagerForm.postal_code) }}
+                                <div class="ec-select{{ has_errors(careManagerForm.address.pref) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.address.pref) }}
+                                    {{ form_errors(careManagerForm.address.pref) }}
+                                </div>
+                                <div class="ec-input{{ has_errors(careManagerForm.address.addr01) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.address.addr01, { 'attr': { 'placeholder': '市区町村名(例：大阪市北区)' }}) }}
+                                    {{ form_errors(careManagerForm.address.addr01) }}
+                                </div>
+                                <div class="ec-input{{ has_errors(careManagerForm.address.addr02) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.address.addr02,  { 'attr': { 'placeholder': '番地・ビル名(例：西梅田1丁目6-8)' }}) }}
+                                    {{ form_errors(careManagerForm.address.addr02) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(careManagerForm.email, 'メールアドレス', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(careManagerForm.email) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.email) }}
+                                    {{ form_errors(careManagerForm.email) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(careManagerForm.contents, 'お問い合わせ内容', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-select{{ has_errors(careManagerForm.contents) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.contents) }}
+                                    {{ form_errors(careManagerForm.contents) }}
+                                </div>
+                                <p>
+                                    ※「資料請求」をご希望の方は「ご連絡先」の項目を必ずご記入ください <br />
+                                    ※「取り扱いがある貸与事業所の情報」を選択された場合は、設置場所のご住所（市町村）を質問内容の欄にご記入ください。
+                                </p>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(careManagerForm.delivery_method, 'ご希望の資料送付方法', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(careManagerForm.delivery_method) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.delivery_method) }}
+                                    {{ form_errors(careManagerForm.delivery_method) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(careManagerForm.moment, 'CUBEを知ったきっかけ', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(careManagerForm.moment) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.moment) }}
+                                    {{ form_errors(careManagerForm.moment) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(careManagerForm.keyword, 'インターネット検索と回答された方は、検索された際のキーワード(おわかりになる方)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(careManagerForm.keyword) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.keyword) }}
+                                    {{ form_errors(careManagerForm.keyword) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(careManagerForm.query, '質問内容', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(careManagerForm.query) ? ' error' }}">
+                                    {{ form_widget(careManagerForm.query) }}
+                                    {{ form_errors(careManagerForm.query) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        {# エンティティ拡張の自動出力 #}
+                        {% for f in careManagerForm|filter(f => f.vars.eccube_form_options.auto_render) %}
+                            {% if f.vars.eccube_form_options.form_theme %}
+                                {% form_theme f f.vars.eccube_form_options.form_theme %}
+                                {{ form_row(f) }}
+                            {% else %}
+                                <dl>
+                                    <dt>
+                                        {{ form_label(f) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
+                                            {{ form_widget(f) }}
+                                            {{ form_errors(f) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="ec-RegisterRole__actions">
+                        <div class="ec-off4Grid">
+                            <div class="ec-off4Grid__cell">
+                                {{ form_widget(careManagerForm.prefix) }}
+                                <button type="submit" class="ec-blockBtn--action" name="mode" value="confirm">{{ '確認ページへ'|trans }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            `;
+
+            {% if app.request.request is not empty and app.request.request.get('care_manager') is not empty %}
+                $('#welfare').prop("checked", true);
+                $('.ec-off1Grid__cell').html(careManagerForm);
+            {% else %}
+                $('#material').prop("checked", true);
+                $('.ec-off1Grid__cell').html(materialForm);
+            {% endif %}
+            
+            $('#material').on('change', function() {
+                if ($(this).is(':checked')) {
+                    $('.ec-off1Grid__cell').html(materialForm);
+                }
+            });
+            
+            $('#welfare').on('change', function() {
+                if ($(this).is(':checked')) {
+                    $('.ec-off1Grid__cell').html(careManagerForm);
+                }
+            });
+        });
+    </script>
+
+{% endblock javascript %}
+
+{% block main %}
+<div class="ec-modifiedLayoutRole__contents">
+    <div class="ec-contactRole">
+        <div class="ec-pageHeader">
+            <h1>{{ '資料請求'|trans }}</h1>
+        </div>
+        <div class="ec-off1Grid">
+            <div id="options">
+                <input type="radio" id="material" name="material">
+                <label for="material">一般資料請求</label><br>
+                <input type="radio" id="welfare" name="material">
+                <label for="welfare">福祉用具貸与事業者資料請求</label>
+            </div>
+            <div class="ec-off1Grid__cell">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

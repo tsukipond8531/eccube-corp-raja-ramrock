@@ -1,0 +1,60 @@
+{#
+ Copyright(c) 2020 Shadow Enterprise, Inc. All rights reserved.
+ http://www.shadow-ep.co.jp/
+#}
+
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'enquete_page' %}
+
+{% block javascript %}
+    <script>
+    </script>
+{% endblock %}
+
+{% block stylesheet %}
+    <style>
+        .enquete-list-ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .enquete-list-img {
+            max-width: 600px;
+        }
+    </style>
+{% endblock%}
+
+{% block main %}
+    {% if Collection|length < 1 %}
+        <div class="ec-role">
+            <p class="errormsg text-danger">{{ 'se_enquete.common.message.list_not_found'|trans|nl2br }}</p>
+        </div>
+    {% else %}
+        <div class="ec-role">
+            <ul class="enquete-list-ul">
+                {% for Enquete in Collection %}
+                <li class="">
+                    <a href="{{ url('se_enquete_detail', {'id': Enquete.id}) }}">
+                        {% if Enquete.thumbnail is not null %}
+                        <p class="enquete-list-img">
+                            <img src="{{ asset( 'SeEnquete4/assets/img/' ~ Enquete.thumbnail, 'plugin') }}">
+                        </p>
+                        {% else %}
+                            <p>{{ Enquete.title }}</p>
+                        {% endif %}
+                    </a>
+                    {% if Enquete.subTitle %}
+                        <p>{{ Enquete.subTitle|raw|nl2br }}</p>
+                    {% endif %}
+                    <p class="col text-right">
+                        {{ Enquete.startDate|date("Y/m/d", "Asia/Tokyo") }} 〜 {% if Enquete.endDate is not null %}{{ Enquete.endDate|date("Y/m/d", "Asia/Tokyo") }}{% endif %}
+                    </p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="ec-pagerRole">
+            {#% include "pager.twig" with {'pages': pagination.paginationData} %#}
+        </div>
+    {% endif %}
+{% endblock %}

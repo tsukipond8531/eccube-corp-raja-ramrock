@@ -10,19 +10,116 @@ file that was distributed with this source code.
 #}
 {% extends 'default_frame.twig' %}
 
+{% set mypageno = 'cancel' %}
+
 {% form_theme form 'Form/form_div_layout.twig' %}
+
+{% block stylesheet %}
+    <style>
+        .ec-historyRole .ec-historyRole__contents {
+            align-items: center;
+            border: unset;
+        }
+        .ec-historyRole .ec-historyRole__header {
+            width: 40px;
+        }
+        .ec-historyRole .ec-historyRole__detail {
+            width: calc(100% - 40px);
+        }
+        .ec-borderedDefs dd {
+            line-height: 2;
+        }
+        .ec-modal .ec-modal-box {
+            text-align: left;
+        }
+        .ec-modal .ec-modal-box .ec-role {
+            font-size: 14px;
+        }
+        .color-red {
+            color: #EB0000;
+        }
+        .cs-btn-group {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        .cs-btn-group .ec-inlineBtn--cancel,
+        .cs-btn-group .ec-blockBtn--action {
+            width: 150px;
+            height: 56px;
+            padding-top: 0;
+            padding-bottom: 0;
+            line-height: 56px;
+        }
+        #ec-modal-header {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        @media only screen and (min-width: 768px) {
+            .ec-imageGrid .ec-imageGrid__img {
+                padding-left: 20px;
+            }
+            .ec-imageGrid .ec-imageGrid__content {
+                padding-left: 40px;
+            }
+        }
+        @media only screen and (max-width: 767px) {
+            .ec-historyRole .ec-historyRole__contents {
+                flex-direction: unset;
+            }
+            .ec-historyRole .ec-historyRole__detail {
+                border-top: unset;
+            }
+            .ec-modal-box {
+                max-height: 300px;
+                overflow: auto;
+            }
+        }
+    </style>
+{% endblock stylesheet %}
 
 {% block javascript %}
     <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
+
+    <script>
+        $(function(){
+            var temp = $('#contact_cancel_orders').val().split(',');
+
+            for (let i = 0; i < temp.length; i++) {
+                $('#cs-historyRole-' + temp[i]).prop('checked', true);
+            }
+
+            $('button[type="submit"]').on('click', function(event){                var temp = [];
+
+                $('input[id ^= "cs-historyRole-"]').each(function(){
+                    if ($(this).is(':checked'))
+                        temp.push($(this).attr('value'));
+                });
+                $('#contact_cancel_orders').val(temp.toString());
+                
+                return true;
+            });
+
+            $('.confirm').on('click', function(){
+                $('.ec-modal').show();
+            });
+            
+            $('.ec-modal-overlay, .ec-modal, .ec-modal-close, .ec-inlineBtn--cancel').on('click', function() {
+                $('.ec-modal').hide()
+            });
+        });
+    </script>
 {% endblock javascript %}
 
 {% block main %}
 
 <div class="ec-modifiedLayoutRole__contents">
-    <div class="ec-contactRole">
+    <div class="ec-mypageRole">
         <div class="ec-pageHeader">
             <h1>{{ 'お試しキャンセル・解約申請手続き'|trans }}</h1>
         </div>
+        {% include 'Mypage/navi.twig' %}
         <div class="ec-off1Grid">
             <div class="ec-off1Grid__cell">
                 <form method="post" action="{{ url('cancel') }}" class="h-adr" novalidate>
@@ -145,6 +242,50 @@ file that was distributed with this source code.
                                 </div>
                             </dd>
                         </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.cancel_orders, '解約するプランを選択してください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                {% for Order in Orders %}
+                                    <label class="ec-historyRole" for="cs-historyRole-{{ Order.id }}">
+                                        <div class="ec-historyRole__contents">
+                                            <div class="ec-historyRole__header">
+                                                <input type="checkbox" value="{{ Order.id }}" id="cs-historyRole-{{ Order.id }}">
+                                            </div>
+                                            <div class="ec-historyRole__detail">
+                                                {% for OrderItem in Order.MergedProductOrderItems %}
+                                                    <div class="ec-imageGrid">
+                                                        <div class="ec-imageGrid__img">
+                                                            {% if OrderItem.Product is null %}
+                                                                <img src="{{ asset(''|no_image_product, 'save_image') }}"/>
+                                                            {% else %}
+                                                                <img src="{{ asset(OrderItem.Product.MainListImage|no_image_product, 'save_image') }}">
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="ec-imageGrid__content">
+                                                            <b>{{ OrderItem.product_name }}</b> <br />
+                                                            {% if OrderItem.class_category_name1 is not empty %}
+                                                                {{ OrderItem.class_category_name1 }}
+                                                            {% endif %}
+                                                            {% if OrderItem.class_category_name2 is not empty %}
+                                                                / {{ OrderItem.class_category_name2 }}
+                                                            {% endif %}<br />
+                                                            <b>{{ OrderItem.price_inc_tax|price }}
+                                                                × {{ OrderItem.quantity }}</b>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </label>
+                                {% endfor %}
+                                <div class="ec-input{{ has_errors(form.cancel_orders) ? ' error' }}">
+                                    {{ form_widget(form.cancel_orders) }}
+                                    {{ form_errors(form.cancel_orders) }}
+                                </div>
+                            </dd>
+                        </dl>
                         {# エンティティ拡張の自動出力 #}
                         {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
                             {% if f.vars.eccube_form_options.form_theme %}
@@ -168,8 +309,37 @@ file that was distributed with this source code.
                     <div class="ec-RegisterRole__actions">
                         <div class="ec-off4Grid">
                             <div class="ec-off4Grid__cell">
-                                <button type="submit" class="ec-blockBtn--action" name="mode" value="confirm">{{ '確認ページへ'|trans }}
-                                </button>
+                                <a class="ec-blockBtn--cancel confirm">{{ '確認ページへ'|trans }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ec-modal">
+                        <div class="ec-modal-overlay">
+                            <div class="ec-modal-wrap">
+                                <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
+                                <div id="ec-modal-header" class="text-left">
+                                    <h4><b>1年プランでのご契約後、最初の1年未満の解約に限り違約金が発生します。</b></h4>
+                                </div>
+                                <div class="ec-modal-box">
+                                    <div class="ec-role">
+                                        ※1年以上ご契約していただいた場合は違約金等発生しません。<br /><br />
+
+                                        ▼違約金の発生例<br />
+                                        契約6ヵ月での解約<br />
+                                        ＜残り6ヵ月分＞×￥3,900が違約金となります。<br />
+                                        みまもりCUBE 1台をご契約　3,900円×6ヵ月＝<span class="color-red">23,400</span>円(不課税)<br />
+                                        <span class="color-red">23,400</span>円(不課税)の違約金をお支払いいただきます。<br /><br />
+
+                                        違約金に関する詳細は<a href="{{ url('help_tradelaw') }}">特定商取引法に関する表示</a>に記載をしておりますので、ご確認ください。<br /><br />
+
+                                        ※見守り対象者がいる場合、解約理由が【ご逝去】【入所】の場合に限り、証明書類の送付を持って違約金免除とさせていただきます。詳しくは<a href="{{ url('help_tradelaw') }}">「特定商取引法に関する表示」</a>をご確認ください。<br />
+                                        <div class="cs-btn-group">
+                                            <span class="ec-inlineBtn--cancel">{{ 'キャンセル'|trans }}</span>
+                                            <button type="submit" class="ec-blockBtn--action" name="mode" value="confirm">{{ '同意する'|trans }}</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

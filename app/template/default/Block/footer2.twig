@@ -15,14 +15,20 @@
 						<p class="fnav02">みまもりCUBEとは</p>
 						<ul class="fnav03">
 							<li><a href="{{ url('homepage') }}user_data/function/">機能紹介</a></li>
-							<li><a href="{{ url('homepage') }}user_data/about01/">みまもりCUBEについて</a></li>
+							<li><a href="{{ url('homepage') }}user_data/about01/">活用方法</a></li>
 							<li><a href="{{ url('homepage') }}user_data/voice/">利用者の声</a></li>  
 						</ul>
 					</div>
 					<div class="fnav01">
 						<p class="fnav02">お試し申し込み</p>
 						<ul class="fnav03">
-							<li><a href="{{ url('mypage') }}">マイページ</a></li>
+							<li>
+							    {% if is_granted('ROLE_USER') %}
+							        <a href="{{ url('mypage') }}">{{ 'マイページ'|trans }}</a>
+							    {% else %}
+							        <a href="{{ url('mypage_login') }}">{{ 'ログイン'|trans }}</a>
+							    {% endif %}
+							</li>
 							<li><a href="{{ url('entry') }}">会員登録</a></li>
 							<li><a href="{{ url('cart') }}/">カート</a></li>
 						</ul>
@@ -37,10 +43,15 @@
 						</ul>
 					</div>
 					<div class="fnav01">
-						<p class="fnav02"><a href="{{ url('homepage') }}user_data/faq/">よくある質問</a></p>
-						<p class="fnav02"><a href="{{ url('homepage') }}user_data/news/">新着情報</a></p>
-						<p class="fnav02"><a href="{{ url('homepage') }}user_data/material/">検討資料請求</a></p>
-						<p class="fnav02"><a href="{{ url('homepage') }}user_data/kaigohoken/">ラムロックアイズ<br class="sp">（保険適用について）</a></p>
+					    <p class="fnav02">その他</p>
+					    <ul class="fnav03">
+    					    <li><a href="{{ url('homepage') }}user_data/faq/">よくある質問</a></li>
+    					    <li><a href="{{ url('homepage') }}page">新着情報</a></li>
+    					    <li><a href="{{ url('material') }}">検討資料請求</a></li>
+    					    <li><a href="{{ url('homepage') }}user_data/kaigohoken/">ラムロックアイズ<br class="sp">（保険適用について）</a></li>
+    					    <li><a href="{{ url('homepage') }}user_data/care_manager/">ケアマネージャー・<br>福祉用具貸与事業者の方へ</a></li>
+    					    <li><a href="{{ url('homepage') }}user_data/campaign/">お試し体験キャンペーン</a></li>
+    					</ul>
 					</div>
 				</div>
 			</div>
@@ -56,13 +67,17 @@
 		</div>
 		<ul class="sp spbtmnav">
 			<li>
-				<a href="{{ url('homepage') }}user_data/material/" class="cmnbtn type01">
+				<a href="{{ url('material') }}" class="cmnbtn type01">
 					<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_material.svg') }}"></span>
 					<span class="cmnbtntxt">検討資料請求</span>
 				</a>
 			</li>
 			<li>
-				<a href="{{ url('contact') }}" class="cmnbtn type02">
+					{% if is_granted('ROLE_USER') %}
+				        <a href="{{ url('cart') }}" class="cmnbtn type02">
+				    {% else %}
+					    <a href="{{ url('entry') }}" class="cmnbtn type02">
+					{% endif %}
 					<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_mail.svg') }}"></span>
 					<span class="cmnbtntxt">お試し申し込み</span>
 				</a>

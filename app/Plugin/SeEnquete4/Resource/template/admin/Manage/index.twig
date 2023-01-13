@@ -1,0 +1,290 @@
+{#
+ Copyright(c) 2020 Shadow Enterprise, Inc. All rights reserved.
+ http://www.shadow-ep.co.jp/
+#}
+
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['se_enquete', 'se_enquete_admin_manage_index'] %}
+
+{% block title %}{{ 'se_enquete.admin.manage.title'|trans }}{% endblock %}
+{% block sub_title %}{{ 'se_enquete.admin.manage.sub_title'|trans }}{% endblock %}
+
+{% form_theme searchForm '@admin/Form/bootstrap_4_layout.html.twig' %}
+
+{% block stylesheet %}
+<style>
+.modal-body .bd-clipboard {
+    position: relative;
+    /*display: none;*/
+    float: right;
+}
+.modal-body .btn-clipboard {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    z-index: 10;
+    display: block;
+    padding: .25rem .5rem;
+    font-size: 75%;
+    color: #818a91;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    border-radius: .25rem;
+}
+.modal-body .btn-clipboard:hover {
+    color: #fff;
+    background-color: #027de7;
+}
+.modal-body figure.highlight {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    position: relative;
+}
+.modal-body figure.highlight pre {
+    margin-bottom: 0;
+}
+.modal-body figure.highlight .example {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    font-size: 10px;
+    color: #818a91;
+}
+</style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+<script>
+    $(function () {
+      $('button.btn-clipboard').on('click',function() {
+        // テキスト要素を選択＆クリップボードにコピー
+        var textElem = $(this).parent().next('.highlight').find('.language-html');
+        var htmlText = ($(textElem).html()).replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+
+        let $textarea = $('<textarea></textarea>');
+        $textarea.text(htmlText);
+        $(this).append($textarea);
+        $textarea.select();
+        document.execCommand('copy');
+        $textarea.remove();
+
+        alert('Copied!');
+      })
+    })
+</script>
+{% endblock javascript %}
+
+{% block main %}
+<!--検索条件設定テーブルここから-->
+<div class="c-outsideBlock">
+  <form name="search_form" method="POST" action="{{ url('se_enquete_admin_manage_index') }}">
+    {{ form_widget(searchForm._token) }}
+    <div class="c-outsideBlock__contents">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-row">
+            <div class="form-group col-12">
+              <p class="col-form-label">{{ 'se_enquete.admin.manage.search_condition_keyword'|trans }}</p>
+              {{ form_widget(searchForm.keyword, {'label_attr': {'class': 'checkbox-inline'}}) }}
+              {{ form_errors(searchForm.keyword) }}
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-12">
+              <p class="col-form-label">{{ 'se_enquete.admin.manage.search_condition_status'|trans }}</p>
+              {{ form_widget(searchForm.status, {'label_attr': {'class': 'checkbox-inline'}}) }}
+              {{ form_errors(searchForm.status) }}
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-row">
+            <div class="form-group col-12">
+              <p class="col-form-label">{{ 'se_enquete.admin.manage.search_condition_day_term'|trans }}</p>
+              <div class="form-row align-items-center">
+                <div class="col">
+                {{ form_widget(searchForm.start_date, {'label_attr': {'class': 'checkbox-inline'}}) }}
+                </div>
+                <div class="col-auto text-center"><span>〜</span></div>
+                <div class="col">
+                {{ form_widget(searchForm.end_date, {'label_attr': {'class': 'checkbox-inline'}}) }}
+                </div>
+              </div>
+              <div class="form-row">
+                {{ form_errors(searchForm.start_date) }}
+                {{ form_errors(searchForm.end_date) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="c-outsideBlock__contents">
+      <div class="row">
+        <div class="mb-4">
+          <div class="col-12">
+            <button class="btn btn-ec-conversion px-5" type="submit">{{ 'se_enquete.admin.manage.search'|trans }}</button>
+            {% if pagination %}
+            <span class="font-weight-bold ml-2">{{ 'se_enquete.admin.manage.search_result_count'|trans({ '%count%': pagination.totalItemCount }) }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<!--検索条件設定テーブルここまで-->
+
+<div class="c-contentsArea__cols">
+  <div class="c-contentsArea__primaryCol">
+    <div class="c-primaryCol">
+      {% if pagination and pagination.totalItemCount %}
+      <form id="form" method="POST" action="">
+        <div class="card rounded border-0 mb-4">
+          <div class="card-body p-0">
+            <table class="table table-sm" id="search_result">
+              <thead>
+                <tr>
+                  <th class="border-top-0 pt-2 pb-2 text-center">{{ 'se_enquete.admin.manage.col_title'|trans }}</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">{{ 'se_enquete.admin.manage.col_start_date'|trans }}</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">{{ 'se_enquete.admin.manage.col_end_date'|trans }}</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">{{ 'se_enquete.admin.manage.col_member_existance'|trans }}</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">{{ 'se_enquete.admin.manage.col_mail_existance'|trans }}</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">{{ 'se_enquete.admin.manage.col_personal_flg'|trans }}</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">{{ 'se_enquete.admin.manage.col_status'|trans }}</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">{{ 'se_enquete.admin.manage.col_tag'|trans }}</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">{{ 'se_enquete.admin.manage.col_view'|trans }}</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">{{ 'se_enquete.admin.manage.col_delete'|trans }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for Enquete in pagination %}
+                <tr>
+                  <td class="align-middle text-left"><span class="pl-4"><a class="action-edit" href="{{ url('se_enquete_admin_manage_edit', { id : Enquete.id }) }}">{{ Enquete.title }}</a></span></td>
+                  <td class="align-middle text-center">{{ Enquete.startDate|date("Y/m/d", "Asia/Tokyo") }}</td>
+                  <td class="align-middle text-center">
+                    {% if Enquete.endDate is not null %}
+                      {{ Enquete.endDate|date("Y/m/d", "Asia/Tokyo") }}
+                    {% else %}
+                      {{ 'se_enquete.admin.manage.no_end_date'|trans }}
+                    {% endif %}
+                  </td>
+                  <td class="align-middle text-center">{{ list_memberFlg[Enquete.memberFlg] }}</td>
+                  <td class="align-middle text-center">{{ list_mailFlg[Enquete.mailFlg] }}</td>
+                  <td class="align-middle text-center">{{ list_personalFlg[Enquete.personalFlg] }}</td>
+                  <td class="align-middle text-center">{{ list_status[Enquete.status] }}</td>
+                  <td class="align-middle text-center">
+                    <div class="px-1 d-inline-block" data-tooltip="true" data-placement="top" title="{{ 'se_enquete.admin.manage.col_tag'|trans }}">
+                      <a class="btn btn-ec-actionIcon" data-toggle="modal" data-target="#enqueteViewTag-{{ Enquete.id }}" href="">
+                        <i class="fa fa-edit fa-fw text-secondary" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="enqueteViewTag-{{ Enquete.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">[ {{ Enquete.title }} ] {{ 'se_enquete.common.message.view_tag'|trans }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body text-left">
+                            <p><span>{{ 'se_enquete.common.message.copy_tag'|trans }}</span></p>
+                            <div class="bd-clipboard">
+                                <button type="button" class="btn-clipboard" data-tooltip="true" data-placement="top" title="Copy to clipboard">Copy</button>
+                            </div>
+                            <figure class="highlight">
+                              <pre><code class="language-html" data-lang="html">&lt;div class="setEnqueteLink__append" data-id="{{ Enquete.id }}"&gt;&lt;/div&gt;</code></pre>
+                            </figure>
+                          </div>
+                          <div class="modal-body text-left">
+                            <p><span>{{ 'se_enquete.common.message.copy_tag2'|trans }}</span></p>
+                            <figure class="highlight">
+                              <div class="example">{{ 'se_enquete.common.label.use_example'|trans }}</div>
+                              <pre><code class="language-html" data-lang="html">&lt;div class="setEnqueteLink__append" 
+    data-id="{{ Enquete.id }}" 
+    style="margin: 20px; width: 300px;"&gt;&lt;/div&gt;</code></pre>
+                            </figure>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="align-middle text-center">
+                    <div class="px-1 d-inline-block" data-tooltip="true" data-placement="top" title="{{ 'se_enquete.admin.manage.col_view'|trans }}">
+                      <a class="btn btn-ec-actionIcon" href="{{ url('se_enquete_admin_manage_view') }}?id={{ Enquete.id }}">
+                        <i class="fa fa-file-text-o fa-fw text-secondary" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                    <div class="px-1 d-inline-block" data-tooltip="true" data-placement="top" title="{{ 'se_enquete.admin.manage.col_export_csv'|trans }}">
+                      <a class="btn btn-ec-actionIcon" href="{{ url('se_enquete_admin_manage_export', { id : Enquete.id }) }}">
+                        <i class="fa fa-download fa-fw text-secondary" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                  </td>
+                  <td class="align-middle text-center">
+                    <!--a class="action-delete" href="{{ url('se_enquete_admin_manage_delete', { id : Enquete.id }) }}">{{ 'se_enquete.admin.manage.button_delete'|trans }}</a-->
+                    <div class="px-1 d-inline-block" data-tooltip="true" data-placement="top" title="{{ 'admin.common.delete'|trans }}">
+                      <a class="btn btn-ec-actionIcon" data-toggle="modal" data-target="#discontinuance-{{ Enquete.id }}">
+                        <i class="fa fa-close fa-lg text-secondary" aria-hidden="true"></i>
+                      </a>
+                    </div>
+                    <div class="modal fade" id="discontinuance-{{ Enquete.id }}" tabindex="-1" role="dialog" aria-labelledby="discontinuance" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title font-weight-bold">
+                              {{ 'admin.common.delete_modal__title'|trans }}</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                          </div>
+                          <div class="modal-body text-left">
+                            <p class="text-left">
+                              {{ 'admin.common.delete_modal__message'|trans({ '%name%' : Enquete.title }) }}</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-ec-sub" type="button" data-dismiss="modal">
+                              {{ 'admin.common.cancel'|trans }}
+                            </button>
+                            <a href="{{ url('se_enquete_admin_manage_delete', {'id' : Enquete.id}) }}" class="btn btn-ec-delete"{{ csrf_token_for_anchor() }} data-method="delete" data-confirm="false">
+                              {{ 'admin.common.delete'|trans }}
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <div class="row justify-content-md-center mb-4"></div>
+          </div>
+          <div class="row justify-content-md-center mb-4">
+            {% if pagination.totalItemCount > 0 %}
+              {% include "@admin/pager.twig" with { 'pages' : pagination.paginationData, 'routes' : 'se_enquete.admin.manage_index_pageno' } %}
+            {% endif %}
+          </div>
+        </div>
+      </form>
+      {% else %}
+      <div class="card rounded border-0">
+        <div class="card-body p-4">
+          <div class="text-center text-muted mb-4 h5">{{ 'se_enquete.admin.manage.no_result'|trans }}</div>
+          <div class="text-center text-muted">{{ 'se_enquete.admin.manage.change_condition'|trans }}</div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

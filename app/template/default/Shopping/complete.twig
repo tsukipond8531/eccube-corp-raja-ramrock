@@ -67,9 +67,17 @@ file that was distributed with this source code.
                     <h2>{{ 'ご注文ありがとうございました'|trans }}</h2>
                 </div>
                 <p class="ec-reportDescription">
-                    {{ 'ただいま、ご注文の確認メールをお送りさせていただきました。
-    万一、ご確認メールが届かない場合は、トラブルの可能性もありますので大変お手数ではございますがお問い合わせくださいますようお願いいたします。
-    '|trans|nl2br }}
+                    ただいま、ご注文の確認メールをお送りさせていただきました。<br />
+                    万一、ご確認メールが届かない場合は、トラブルの可能性もありますので<br />
+                    大変お手数ではございますがお問い合わせくださいますようお願いいたします。
+                </p>
+                <p class="ec-reportDescription">
+                    みまもりCUBEのお申込みには、ご本人確認書類が必要です。<br />
+                    商品のお申込み手続き後、身分証明画像送信フォーム<br />
+                    <a href="{{ url('proof') }}" target="_blank">(URL: {{ url('proof') }})</a>より<br />
+                    ご本人確認書類をご送付ください。
+                </p>
+                <p class="ec-reportDescription">
                     {% if Order.id %}
                         <br /><br /><strong>{{ 'ご注文番号'|trans }} : {{ Order.orderNo }}</strong>
                     {% endif %}

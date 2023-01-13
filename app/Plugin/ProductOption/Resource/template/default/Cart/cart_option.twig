@@ -14,5 +14,5 @@ word-break: break-all;
 </style>
 
 {% for CartItemOption in CartItem.CartItemOptions %}
-    <br>{{ CartItemOption.label }}:{% for CartItemOptionCategory in CartItemOption.CartItemOptionCategories %}{{ CartItemOptionCategory.value }}{%if loop.last == false %},{% endif %}{% endfor %}
+    <br><span class="cs-cart_class">{{ CartItemOption.label }}:{% for CartItemOptionCategory in CartItemOption.CartItemOptionCategories %}{{ CartItemOptionCategory.value }}{%if loop.last == false %},{% endif %}{% endfor %}</span>
 {% endfor %}

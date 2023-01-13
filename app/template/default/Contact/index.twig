@@ -28,9 +28,16 @@ file that was distributed with this source code.
                 <form method="post" action="{{ url('contact') }}" class="h-adr" novalidate>
                     <span class="p-country-name" style="display:none;">Japan</span>
                     {{ form_widget(form._token) }}
-                    <p class="ec-para-normal">{{ '内容によっては回答をさしあげるのにお時間をいただくこともございます。
-また、休業日は翌営業日以降の対応となりますのでご了承ください。
-'|trans|nl2br }}</p>
+                    <p class="ec-para-normal">
+                        【お問い合わせが多い質問は<a href="{{ url('homepage') }}user_data/faq/">よくある質問ページ</a>に掲載しています】<br /><br />
+                        個別の製品に対するお問い合わせについては、必ず「質問内容」項目に製品名をご記入ください。<br /><br />
+
+                        <span class="cs-span-highlight">ご利用中の方は<a href="{{ url('operation_center') }}">オペレーションセンターお問合せフォーム</a>よりお願いします。</span><br />
+                        通常、お問い合わせのご返信は3営業日以内を心がけております。<br />
+                        数日経過致しましても弊社からの返信がない場合は、ご入力いただいたメールアドレスに間違い、<br />
+                        又はお客様の受信設定などにより「迷惑メール」として分類された可能性がございます。<br />
+                        以上をご確認の上、お手数ですが再度お問い合わせくださいますようお願い申し上げます。<br />
+                    </p>
                     <div class="ec-borderedDefs">
                         <dl>
                             <dt>
@@ -55,6 +62,94 @@ file that was distributed with this source code.
                                     {{ form_widget(form.kana.kana02, {'attr': { 'placeholder': 'メイ' }}) }}
                                     {{ form_errors(form.kana.kana01) }}
                                     {{ form_errors(form.kana.kana02) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.age, 'ご年齢', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-select{{ has_errors(form.age) ? ' error' }}">
+                                    {{ form_widget(form.age) }}
+                                    {{ form_errors(form.age) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.company, 'お客様', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.company) ? ' error' }}">
+                                    {{ form_widget(form.company) }}
+                                    {{ form_errors(form.company) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.department, '所属部署', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(form.department) ? ' error' }}">
+                                    {{ form_widget(form.department) }}
+                                    {{ form_errors(form.department) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.product, '検討中の製品', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.product) ? ' error' }}">
+                                    {{ form_widget(form.product) }}
+                                    {{ form_errors(form.product) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.care, '介護認定の有無', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-select{{ has_errors(form.care) ? ' error' }}">
+                                    {{ form_widget(form.care) }}
+                                    {{ form_errors(form.care) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query_type, 'お問い合わせ内容', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-select{{ has_errors(form.query_type) ? ' error' }}">
+                                    {{ form_widget(form.query_type) }}
+                                    {{ form_errors(form.query_type) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.usage_type, '利用形態', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.usage_type) ? ' error' }}">
+                                    {{ form_widget(form.usage_type) }}
+                                    {{ form_errors(form.usage_type) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.delivery_method, '資料送付方法', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.delivery_method) ? ' error' }}">
+                                    {{ form_widget(form.delivery_method) }}
+                                    {{ form_errors(form.delivery_method) }}
                                 </div>
                             </dd>
                         </dl>
@@ -114,14 +209,32 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.contents, 'お問い合わせ内容', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                {{ form_label(form.moment, 'CUBEを知ったきっかけ(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.moment) ? ' error' }}">
+                                    {{ form_widget(form.moment) }}
+                                    {{ form_errors(form.moment) }}
+                                </div>
+                                <p>
+                                    その他を選択された場合、ご入力ください。<br />
+                                    ※インターネット検索を選択された方は、検索ワードをご入力ください。
+                                </p>
+                                <div class="ec-input{{ has_errors(form.keyword) ? ' error' }}">
+                                    {{ form_widget(form.keyword) }}
+                                    {{ form_errors(form.keyword) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.email, '質問内容', { 'label_attr': { 'class': 'ec-label' }}) }}
                             </dt>
                             <dd>
                                 <div class="ec-input{{ has_errors(form.contents) ? ' error' }}">
                                     {{ form_widget(form.contents) }}
                                     {{ form_errors(form.contents) }}
                                 </div>
-                                <p>{{ 'ご注文に関するお問い合わせには、必ず「ご注文番号」をご記入くださいますようお願いいたします。'|trans }}</p>
                             </dd>
                         </dl>
                         {# エンティティ拡張の自動出力 #}
@@ -145,6 +258,13 @@ file that was distributed with this source code.
                         {% endfor %}
                     </div>
                     <div class="ec-RegisterRole__actions">
+                        <div class="ec-checkbox{{ has_errors(form.user_policy_check) ? ' error' }}" style="text-align: center">
+                            <label>
+                                {{ form_widget(form.user_policy_check) }}
+                                {{ '<a class="ec-link" href="%url%" target="_blank">プライバシーポリシー</a>について同意する'|trans({ '%url%': url('help_agreement') })|raw }}
+                            </label>
+                            {{ form_errors(form.user_policy_check) }}
+                        </div>
                         <div class="ec-off4Grid">
                             <div class="ec-off4Grid__cell">
                                 <button type="submit" class="ec-blockBtn--action" name="mode" value="confirm">{{ '確認ページへ'|trans }}

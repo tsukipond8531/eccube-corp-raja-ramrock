@@ -1,0 +1,276 @@
+##
+#  Copyright(c) 2020 Shadow Enterprise, Inc. All rights reserved.
+#  http://www.shadow-ep.co.jp/
+##
+
+# パラメータ定義
+parameters:
+
+    Swiftmailer_url: '%env(MAILER_URL)%'
+
+    Se_Enquete_img_upload_dir: 'html/plugin/SeEnquete4/assets/img/'
+    Se_Enquete_img_valid_extention: '.jpg,.jpeg,.png,.gif'
+
+    Se_Enquete_org_block_file: 'Resource/template/Block/enquete_js_block.twig'
+    Se_Enquete_org_block_name: 'アンケートブロック用JS'
+
+
+    Se_Enquete_page_initial_data:
+        se_enquete_list:
+            filename: 'SeEnquete4/list'
+            name: 'アンケート/一覧'
+        se_enquete_detail:
+            filename: 'SeEnquete4/detail'
+            name: 'アンケート/詳細'
+        se_enquete_complete:
+            filename: 'SeEnquete4/complete'
+            name: 'アンケート/完了'
+
+    Se_Enquete_config_initial_data:
+        text:
+            title: 'テキスト'
+            keyword: text
+        textarea:
+            title: 'テキストエリア'
+            keyword: textarea
+        pulldown:
+            title: 'プルダウン'
+            keyword: pulldown
+        radio:
+            title: 'ラジオボタン'
+            keyword: radio
+        check:
+            title: 'チェックボックス'
+            keyword: check
+        etc:
+            title: '何か文章'
+            keyword: etc
+
+    Se_Enquete_admin_manage_limit: 20
+    Se_Enquete_admin_view_limit: 20
+
+    Se_Enquete_master_list:
+        list_memberFlg:
+            0: se_enquete.common.label.public
+            1: se_enquete.common.label.member
+        list_mailFlg:
+            0: se_enquete.common.label.unsend
+            1: se_enquete.common.label.send
+        list_radio:
+            0: se_enquete.common.label.text
+            1: se_enquete.common.label.thumbnail
+        list_required:
+            0: se_enquete.common.label.optional
+            1: se_enquete.common.label.required
+        list_status:
+            0: se_enquete.common.label.invalid
+            1: se_enquete.common.label.valid
+        list_personalFlg:
+            0: se_enquete.common.label.noacquisition
+            1: se_enquete.common.label.acquisition
+
+    Se_Enquete_sample_article:
+        title: サンプルアンケート
+        sub_title: |
+            Webサイトに関するサンプルです。
+            アンケートにご協力お願いします。
+        member_flg: 0
+        mail_flg: 1
+        address_list: 'taro@example.com,jiro@example.com'
+        thumbnail: 'sample.png'
+        personal_flg: 1
+        personal_title: 個人情報の取扱いに同意する
+        personal_text: |
+            <h4>応募規約</h4>
+            ＿＿＿＿＿＿株式会社（以下「当社」といいます。）が実施する＿＿キャンペーン（以下，「本キャンペーン」といいます。）へ応募を希望される方は，この応募規約（以下，「本規約」といいます。）をよくお読みの上，同意される場合のみ応募してください。なお，本キャンペーンに応募された方は，本規約に同意したものとみなします。
+            <h5>◆第1条（適用）</h5>
+            本規約は，本キャンペーンの応募者（以下，「応募者」といいます。）と当社との間の本キャンペーンに関わる一切の関係に適用されます。
+            <h5>◆第2条（個人情報の提供）</h5>
+            本キャンペーンへの応募にあたり応募者の氏名や住所等を正確に提供して頂く必要がある場合，提供された内容の全部又は一部について，虚偽，誤記又は記載漏れがあった場合には，本キャンペーンの対象外とさせて頂くことがあります。
+            <h5>◆第3条（応募者の投稿やデータファイル）</h5>
+            応募者は，当社及び当社から本サービスを承継した第三者に対して，自らが本キャンペーンを通じてアップロードした投稿やデータファイルについて使用，複製，配布，他言語への翻訳を含む派生著作物の作成，表示及び実行に関する全世界的，無償，非独占的，サブライセンス可能かつ譲渡可能なライセンスを付与し，著作者人格権を行使しないことに同意したことになります。
+            応募者は，他の応募者がアップロードした投稿やデータファイルを商用利用することはできません。
+            <h5>◆第4条（禁止事項）</h5>
+            本キャンペーンへの応募に際しては，以下の行為を禁止します。当社は，応募者が以下に該当する行為を行ったと判断した場合には，事前に通知することなく，本キャンペーンから当該応募者を対象外としたり、又はその投稿データを一次的に非掲載とし若しくは削除することがあります。
+            本キャンペーンの運営を妨げる行為
+            本規約に違反する行為
+            他人に迷惑，不利益，損害，または不快感を与える行為
+            他人を誹謗中傷し，またはその名誉もしくは信用を害する行為
+            他人の著作権その他の知的財産権を侵害する行為
+            他人の財産，プライバシーもしくは肖像権を侵害する行為
+            営利を目的とした情報提供，広告宣伝もしくは勧誘行為
+            公序良俗に反する行為
+            応募に使用するSNSの利用規約その他各規定に違反する行為
+            その他当社が相当でないと判断する行為
+            <h5>◆第5条（本サービスの提供の停止等）</h5>
+            当社は，以下のいずれかの事由があると判断した場合，応募者に事前に通知することなく本キャンペーンを中断または中止することがあります。
+            本サービス実施にかかるコンピュータシステムの保守点検または更新を行う場合
+            地震，落雷，火災，停電または天災などの不可抗力により，本キャンペーンの実施が困難となった場合
+            コンピュータまたは通信回線等が事故により停止した場合
+            応募に使用するSNSのサービスが中断または中止した場合
+            その他，当社が本キャンペーンの実施を困難と判断した場合
+            当社は，前項による本キャンペーンの中断または中止により，応募者が被った不利益または損害について，一切の責任を負わないものとします。
+            <h5>◆第6条（免責）</h5>
+            当社は，本キャンペーンに関連して生じた応募者の損害について，当社の故意または重大な過失がない限り，一切の責任を負わないものとします。
+            当社は，本キャンペーンに関連して生じた応募者間または応募者と第三者の間におけるトラブルについて一切の責任を負わないものとします。
+            <h5>◆第7条（キャンペーン内容の変更等）
+            当社は，応募者に予告することなく，本キャンペーンの内容の一部または全部を変更し，もしくは本サービスの提供を中止することがあります。当社は，これによって応募者に生じた損害について一切の責任を負いません。
+            <h5>◆第8条（本規約の変更）</h5>
+            当社は，必要と判断した場合には，応募者に予告することなく，本規約を変更することができるものとします。
+            <h5>◆第9条（個人情報の取扱い）</h5>
+            本キャンペーンにあたってご提供いただいた個人情報は，以下の目的でのみ使用いたします。
+            当選者への賞品の発送
+            上記に関する連絡
+            商品やサービスの参考とするための個人を特定しない統計情報の形での利用
+            本キャンペーンにあたってご提供いただいた個人情報は，応募者ご本人の同意がある場合を除いて，第三者に提供されることはありません。ただし，法令の定めがある場合等，当社「プライバシーポリシー」にて定める事由がある場合を除きます。詳しくは当社「プライバシーポリシー」をご覧ください。
+            <h5>◆第10条（通知または連絡）</h5>
+            当社から応募者に対する通知または連絡は，当社の定める方法で行うものとし，応募者のメールアドレスの不備等により通知または連絡が到達しなかった場合には，本キャンペーンの対象外とさせて頂くことがあります。
+            以上
+        submit_title: 回答する
+        status: 0
+        children: 
+            - 
+                enquete_config: 4
+                title: 'Q1: あなたは、このウェブサイトを何から見聞きして知りましたか。'
+                text: ''
+                placeholder: ''
+                ness_flg: 1
+                children:
+                    - values: 'テレビ'
+                    - values: '新聞'
+                    - values: 'ラジオ'
+                    - values: '雑誌'
+                    - values: 'その他'
+            -
+                enquete_config: 2
+                title: 'Q2: その他を選択した場合は詳細を記入ください。'
+                text: ''
+                placeholder: ''
+                ness_flg: 0
+            -
+                enquete_config: 3
+                title: 'Q3: このウェブサイトにどのくらいの頻度でアクセスしていますか。'
+                text: ''
+                placeholder: ''
+                ness_flg: 1
+                children:
+                    - values: 'ほぼ毎日'
+                    - values: '1週間に2～3回程度'
+                    - values: '1週間に1回程度'
+                    - values: '1ヶ月に2～3回程度'
+                    - values: '1ヶ月に1回程度'
+                    - values: '2～3ヶ月に1回程度'
+                    - values: 'それ以下'
+            -
+                enquete_config: 4
+                title: 'Q4: このウェブサイトについて、総合的にどのくらい満足していますか。'
+                text: ''
+                placeholder: ''
+                ness_flg: 1
+                children:
+                    - values: '満足' 
+                    - values: 'やや満足'
+                    - values: 'どちらともいえない'
+                    - values: 'やや不満'
+                    - values: '不満'
+            -
+                enquete_config: 2
+                title: 'Q5: 「Q4」での回答した理由をお書きください。'
+                text: ''
+                placeholder: '自由に記入してください'
+                ness_flg: 0
+            -
+                enquete_config: 5
+                title: 'Q6: このウェブサイトの内容・コンテンツでよかったページを選択してください。'
+                text: ''
+                placeholder: ''
+                ness_flg: 0
+                children:
+                    - values: 'トップページ' 
+                    - values: '商品一覧ページ'
+                    - values: '商品詳細ページ'
+                    - values: 'その他'
+            -
+                enquete_config: 6
+                title: ''
+                text: 'ここからはあなた自身についてお聞かせください'
+                placeholder: ''
+                ness_flg: 0
+            -
+                enquete_config: 4
+                title: 'Q7: 好きな動物を選択してください'
+                text: ''
+                placeholder: ''
+                ness_flg: 1
+                children:
+                    - values: 'sample-chicken.jpeg'
+                    - values: 'sample-dog.jpeg'
+                    - values: 'sample-hourse.jpeg'
+                    - values: 'sample-monkey.jpeg'
+                    - values: 'sample-rabbit.jpeg'
+            -
+                enquete_config: 3
+                title: 'Q8: 性別'
+                text: ''
+                placeholder: ''
+                ness_flg: 1
+                children:
+                    - values: '男性'
+                    - values: '女性'
+            -
+                enquete_config: 3
+                title: 'Q9: 年齢'
+                text: ''
+                placeholder: ''
+                ness_flg: 1
+                children:
+                    - values: '〜19歳'
+                    - values: '20〜29歳'
+                    - values: '30〜39歳'
+                    - values: '40〜49歳'
+                    - values: '50歳〜'
+
+    Se_Enquete_sample_answer:
+        customer_id: 0
+        answer_json: 
+            'Q1: あなたは、このウェブサイトを何から見聞きして知りましたか。': 'その他'
+            'Q2: その他を選択した場合は詳細を記入ください。': '知人からの紹介'
+            'Q3: このウェブサイトにどのくらいの頻度でアクセスしていますか。': '1週間に2～3回程度'
+            'Q4: このウェブサイトについて、総合的にどのくらい満足していますか。': 'やや満足'
+            'Q5: 「Q4」での回答した理由をお書きください。': '好きな商品があるので'
+            'Q6: このウェブサイトの内容・コンテンツでよかったページを選択してください。': [ '商品一覧ページ', 'その他' ]
+            'Q7: 好きな動物を選択してください': 'sample-monkey.jpeg'
+            'Q8: 性別': '男性'
+            'Q9: 年齢': '30〜39歳'
+        user_agent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML%2C like Gecko) Mobile/15E148'
+        ip: '255.255.255.255'
+
+swiftmailer:
+    url: '%env(MAILER_URL)%'
+    spool: { type: 'memory' }
+
+
+# コンテナ定義
+services:
+    SeEnquete.log.formatter.line:
+        class: Monolog\Formatter\LineFormatter
+        arguments:
+            - "[%%datetime%%] %%level_name%% [%%extra.session_id%%] [%%extra.user_id%%] [%%extra.http_method%%, %%extra.url%%, %%extra.ip%%, %%extra.referrer%%, %%extra.user_agent%%]\n--------------------------------------------------------------------------------\n%%message%%\n--------------------------------------------------------------------------------\n"
+
+# ログ定義
+monolog:
+    channels: ['SeEnquete4']
+    handlers:
+        SeEnquete4:
+            type: fingers_crossed
+            action_level: error
+            passthru_level: info
+            handler: Se_Enquete_rotating_file
+            channels: ['SeEnquete4']
+            #channels: ['!event', '!doctrine']
+        Se_Enquete_rotating_file:
+            type: rotating_file
+            max_files: 60
+            path: '%kernel.logs_dir%/%kernel.environment%/SeEnquete.log'
+            formatter: SeEnquete.log.formatter.line
+            level: info

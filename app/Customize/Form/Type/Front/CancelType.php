@@ -24,6 +24,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -81,6 +82,10 @@ class CancelType extends AbstractType
             ])
             ->add('requirement', TextareaType::class, [
                 'required' => false,
+            ])
+            ->add('cancel_orders', HiddenType::class, [
+                'required' => true,
+                'mapped' => false,
             ]);
     }
 

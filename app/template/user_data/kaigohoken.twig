@@ -1,6 +1,7 @@
 {% extends 'default_frame.twig' %}
 
 {% block main %}
+<link rel="stylesheet" href="{{ asset('assets/css/remodal-default-theme.css') }}">
 <!--content-->
 <div class="cmncontent">
 
@@ -31,7 +32,7 @@
 				<h3 class="ins_rental_head">
 					<span class="ins_rental_head_span01">ラムロックアイズみまもりCUBEは</span>徘徊感知機器として<span class="ins_rental_head_span02">介護保険レンタルが可能です</span>
 				</h3>
-				<p class="ins_rental_req">※⼀般レンタル（みまもりCUBE）とレンタル福祉⽤具（ラムロックアイズみまもりCUBE）は別商材でございます。<br class="pc"><a href="{{ url('homepage') }}user_data/flow/" class="link_orange">導入までの流れはこちら</a>をご確認ください。</p>
+				<p class="ins_rental_req">※⼀般レンタル（みまもりCUBE）とレンタル福祉⽤具（ラムロックアイズみまもりCUBE）は別商材でございます。<br class="pc"><a href="{{ url('homepage') }}user_data/care_manager/" class="link_orange">導入までの流れはこちら</a>をご確認ください。</p>
 				<div class="ins_rental_btn"><span class="flow_option_btn hover" data-remodal-target="01">一般レンタルとの違いは？</span></div>
 				<div class="ins_rental_funcWrap">
 					<h4 class="flow_sim_headTop type_func">⾒守りカメラに欲しかった機能が凝縮！</h4>
@@ -63,8 +64,8 @@
 				<div class="ins_ctaBox">
 					<div class="ins_ctaBox_item">
 						<h4 class="ins_ctaBox_head">介護保険レンタル</h4>
-						<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="/flow/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
-						<a href={{ url('homepage') }}user_data"/material/" class="cmnbtn type02">
+						<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="{{ url('homepage') }}user_data/care_manager/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
+						<a href="{{ url('homepage') }}material/" class="cmnbtn type02">
 							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta01.png') }}"></span>
 							<span class="cmnbtntxt">検討資料はこちら</span>
 						</a>
@@ -72,7 +73,11 @@
 					<div class="ins_ctaBox_item type02">
 						<h4 class="ins_ctaBox_head">一般レンタル</h4>
 						<p class="ins_ctaBox_txt">みまもりCUBEはこちらからお申し込み可能です。<br class="pc">（弊社とご契約）</p>
-						<a href={{ url('homepage') }}"contact/" class="cmnbtn type02">
+						{% if is_granted('ROLE_USER') %}
+					        <a href="{{ url('cart') }}" class="cmnbtn type02">
+					    {% else %}
+						    <a href="{{ url('entry') }}" class="cmnbtn type02">
+						{% endif %}
 							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta02.png') }}"></span>
 							<span class="cmnbtntxt">お申込みはこちら</span>
 						</a>
@@ -323,8 +328,8 @@
 				<div class="ins_ctaBox">
 					<div class="ins_ctaBox_item">
 						<h4 class="ins_ctaBox_head">介護保険レンタル</h4>
-						<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="/flow/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
-						<a href="{{ url('homepage') }}user_data/material/" class="cmnbtn type02">
+						<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="{{ url('homepage') }}user_data/care_manager/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
+						<a href="{{ url('homepage') }}material/" class="cmnbtn type02">
 							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta01.png') }}"></span>
 							<span class="cmnbtntxt">検討資料はこちら</span>
 						</a>
@@ -332,7 +337,11 @@
 					<div class="ins_ctaBox_item type02">
 						<h4 class="ins_ctaBox_head">一般レンタル</h4>
 						<p class="ins_ctaBox_txt">みまもりCUBEはこちらからお申し込み可能です。<br class="pc">（弊社とご契約）</p>
-						<a href="{{ url('homepage') }}contact/" class="cmnbtn type02">
+						{% if is_granted('ROLE_USER') %}
+					        <a href="{{ url('cart') }}" class="cmnbtn type02">
+					    {% else %}
+						    <a href="{{ url('entry') }}" class="cmnbtn type02">
+						{% endif %}   
 							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta02.png') }}"></span>
 							<span class="cmnbtntxt">お申込みはこちら</span>
 						</a>
@@ -341,7 +350,7 @@
 			</div>
 		</section>
 
-		<section class="ins_use">
+		<section class="ins_use" id="ins_use">
 			<div class="cmnbox01">
 				<div class="ins_use_box">
 					<h3 class="ins_rental_top type_use">介護保険レンタルが使える？</h3>
@@ -366,7 +375,7 @@
 		介護保険適応かが分かる！<br>
 		簡単シュミレーション！</p>
 		<div class="float_bnr_btnWrap">
-			<a href="" class="cmnbtn type02 typecta">
+			<a href="#ins_use" class="cmnbtn type02 typecta">
 				<span class="cmnbtntxt">詳しくはこちら</span>
 				<span class="cmnbtnicon02"><img src="{{ asset('assets/img/common/icon_arrow.svg') }}"></span>
 			</a>

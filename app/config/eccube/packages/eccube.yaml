@@ -117,6 +117,11 @@ parameters:
     eccube_reset_complete_mail_template_id: 7 #パスワードリマインダー
     eccube_shipping_notify_mail_template_id: 8 #出荷通知メール
     eccube_cancel_mail_template_id: 9 #お試しキャンセル・解約申請手続き通知メール
+    eccube_proof_mail_template_id: 10 #本人確認書類通知メール
+    eccube_plan_change_mail_template_id: 11 #プラン変更手続き通知メール
+    eccube_material_mail_template_id: 12 #資料請求通知メール
+    eccube_operation_center_mail_template_id: 13 #オペレーションセンターお問合せメール
+    eccube_customer_change_mail_template_id: 14 #会員情報変更メール
     # メールアドレスをRFC準拠でチェックするか true: チェックする、false: チェックしない
     eccube_rfc_email_check: false
     eccube_package_api_url: '%env(ECCUBE_PACKAGE_API_URL)%'

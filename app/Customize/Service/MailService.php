@@ -113,4 +113,300 @@ class MailService extends BaseService
 
         return $count;
     }
+    
+    /**
+     * Send proof mail.
+     *
+     * @param $formData 本人確認書類内容
+     */
+    public function sendProofMail($formData)
+    {
+        log_info('本人確認書類受付メール送信開始');
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_proof_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'data' => $formData,
+            'BaseInfo' => $this->BaseInfo,
+        ]);
+
+        // 問い合わせ者にメール送信
+        $message = (new \Swift_Message())
+            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setTo([$formData['email']])
+            ->setBcc($this->BaseInfo->getEmail02())
+            ->setReplyTo($this->BaseInfo->getEmail02())
+            ->setReturnPath($this->BaseInfo->getEmail04());
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'data' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $event = new EventArgs(
+            [
+                'message' => $message,
+                'formData' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+            ],
+            null
+        );
+        // $this->eventDispatcher->dispatch(EccubeEvents::MAIL_PROOF, $event);
+
+        $count = $this->mailer->send($message);
+
+        log_info('本人確認書類受付メール送信完了', ['count' => $count]);
+
+        return $count;
+    }
+    
+    /**
+     * Send plan change mail.
+     *
+     * @param $formData 本人確認書類内容
+     */
+    public function sendPlanChangeMail($formData)
+    {
+        log_info('プラン変更手続き通知メール送信開始');
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_plan_change_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'data' => $formData,
+            'BaseInfo' => $this->BaseInfo,
+        ]);
+
+        // 問い合わせ者にメール送信
+        $message = (new \Swift_Message())
+            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setTo([$formData['email']])
+            ->setBcc($this->BaseInfo->getEmail02())
+            ->setReplyTo($this->BaseInfo->getEmail02())
+            ->setReturnPath($this->BaseInfo->getEmail04());
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'data' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $event = new EventArgs(
+            [
+                'message' => $message,
+                'formData' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+            ],
+            null
+        );
+        // $this->eventDispatcher->dispatch(EccubeEvents::MAIL_PLAN_CHANGE, $event);
+
+        $count = $this->mailer->send($message);
+
+        log_info('プラン変更手続き通知メール送信完了', ['count' => $count]);
+
+        return $count;
+    }
+
+    /**
+     * Send material mail.
+     *
+     * @param $formData 本人確認書類内容
+     */
+    public function sendMaterialMail($formData, $options)
+    {
+        log_info('資料請求メール送信開始');
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_material_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'data' => $formData,
+            'BaseInfo' => $this->BaseInfo,
+            'type' => $options['type'],
+        ]);
+
+        // 資料請求メール送信
+        $message = (new \Swift_Message())
+            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setTo([$formData['email']])
+            ->setBcc($this->BaseInfo->getEmail02())
+            ->setReplyTo($this->BaseInfo->getEmail02())
+            ->setReturnPath($this->BaseInfo->getEmail04());
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'data' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+                'type' => $options['type'],
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $event = new EventArgs(
+            [
+                'message' => $message,
+                'formData' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+            ],
+            null
+        );
+        // $this->eventDispatcher->dispatch(EccubeEvents::MAIL_MATERIAL, $event);
+
+        $count = $this->mailer->send($message);
+
+        log_info('資料請求メール送信完了', ['count' => $count]);
+
+        return $count;
+    }
+    
+    /**
+     * Send opeation cetner mail.
+     *
+     * @param $formData オペレーションセンターお問合せ内容
+     */
+    public function sendOperationCenterMail($formData, $options)
+    {
+        log_info('オペレーションセンターお問合せメール送信開始');
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_operation_center_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'data' => $formData,
+            'BaseInfo' => $this->BaseInfo,
+            'type' => $options['type'],
+        ]);
+
+        // オペレーションセンターお問合せメール送信
+        $message = (new \Swift_Message())
+            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setTo([$formData['email']])
+            ->setBcc($this->BaseInfo->getEmail02())
+            ->setReplyTo($this->BaseInfo->getEmail02())
+            ->setReturnPath($this->BaseInfo->getEmail04());
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'data' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+                'type' => $options['type'],
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $event = new EventArgs(
+            [
+                'message' => $message,
+                'formData' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+            ],
+            null
+        );
+        // $this->eventDispatcher->dispatch(EccubeEvents::MAIL_OPERATION_CENTER, $event);
+
+        $count = $this->mailer->send($message);
+
+        log_info('オペレーションセンターお問合せメール送信完了', ['count' => $count]);
+
+        return $count;
+    }
+
+    /**
+     * Send material mail.
+     *
+     * @param $formData 会員情報変更メール
+     */
+    public function sendCustomerChangeMail($formData, $options)
+    {
+        log_info('会員情報変更メール送信開始');
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_customer_change_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'data' => $formData,
+            'BaseInfo' => $this->BaseInfo,
+            'type' => $options['type'],
+        ]);
+
+        // 会員情報変更メール送信
+        $message = (new \Swift_Message())
+            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setTo([$formData['email']])
+            ->setBcc($this->BaseInfo->getEmail02())
+            ->setReplyTo($this->BaseInfo->getEmail02())
+            ->setReturnPath($this->BaseInfo->getEmail04());
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'data' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+                'type' => $options['type'],
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $event = new EventArgs(
+            [
+                'message' => $message,
+                'formData' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+            ],
+            null
+        );
+        // $this->eventDispatcher->dispatch(EccubeEvents::MAIL_MATERIAL, $event);
+
+        $count = $this->mailer->send($message);
+
+        log_info('会員情報変更メール送信完了', ['count' => $count]);
+
+        return $count;
+    }
 }

@@ -1,0 +1,183 @@
+{#
+ Copyright(c) 2020 Shadow Enterprise, Inc. All rights reserved.
+ http://www.shadow-ep.co.jp/
+#}
+
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['se_enquete', 'se_enquete_admin_manage_index'] %}
+
+{% block title %}{{ 'se_enquete.admin.manage.title'|trans }}{% endblock %}
+{% block sub_title %}{{ 'se_enquete.admin.manage.sub_title'|trans }}{% endblock %}
+
+{#% form_theme searchForm '@admin/Form/bootstrap_4_layout.html.twig' %#}
+
+{% block stylesheet %}
+<style>
+#search_result {
+    width: 100%;
+    table-layout: fixed;
+    display: block;
+    overflow-x: scroll;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+#search_result tbody tr:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+.answer-blocks {
+    display: table;
+    white-space: initial;
+    width: 800px;
+}
+.answer-blocks:not(:last-child) {
+    border-bottom: 1px solid #eee;
+}
+.answer-blocks .form-question,
+.answer-blocks .form-answer {
+    display: table-cell;
+}
+.answer-blocks .form-question {
+    width: 60%;
+    border-right: 1px solid #eee;
+}
+.answer-blocks .form-answer {
+    width: 40%;
+}
+.radio-thumbnail img {
+    max-width: 300px;
+    width: 100%;
+}
+</style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+<script>
+    $(function () {
+        // テーブル幅の調整
+        $('#search_result').css('width', $('.c-pageTitle__titles').outerWidth());
+
+        $(window).on('load resize', function() {
+            $('#search_result').css('width', $('.c-pageTitle__titles').outerWidth());
+        })
+
+        // 選択肢が画像の場合は置換
+        var elem = '.form-answer span';
+        if ( $(elem).length ) {
+            var prefix = "{{ asset('SeEnquete4/assets/img/', 'plugin') }}";
+            var uploaded_extention = '{{ eccube_config['Se_Enquete_img_valid_extention'] }}';
+            uploaded_extention = uploaded_extention.split(',');
+
+            $(elem).each(function() {
+                var nowElem = $(this);
+                filename = $(nowElem).html();
+                if ( typeof filename !== 'undefined' && filename != '' ) {
+                    var pos = filename.lastIndexOf('.');
+                    if (pos === -1) return true ;
+                    if ( $.inArray( filename.slice(pos), uploaded_extention ) ) {
+                        // $(nowElem).load(prefix + filename);  /* for svg */
+                        $(nowElem).replaceWith('<span class="radio-thumbnail"><img src="' + prefix + filename + '" alt="' + filename + '" /></span>');
+                    }
+                }
+            })
+        }
+ 
+    })
+</script>
+{% endblock javascript %}
+
+{% block main %}
+<div class="c-outsideBlock">
+    <div class="c-outsideBlock__contents">
+      <div class="row">
+        <div class="mb-4">
+          <div class="col-12">
+            {% if pagination %}
+            <span class="font-weight-bold ml-2">{{ 'se_enquete.admin.manage.view_result_count'|trans({ '%count%': pagination.totalItemCount }) }}</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="c-contentsArea__cols">
+  <div class="c-contentsArea__primaryCol">
+    <div class="c-primaryCol">
+      {% if pagination and pagination.totalItemCount %}
+        <div class="row justify-content-md-center mb-4">
+          {% if pagination.totalItemCount > 0 %}
+            {% include "@admin/pager.twig" with { 'pages' : pagination.paginationData, 'routes' : 'se_enquete_admin_manage_view' } %}
+          {% endif %}
+        </div>
+        <div class="card rounded border-0 mb-4">
+          <div class="card-body p-0">
+            <table class="table table-sm" id="search_result">
+              <thead>
+                <tr>
+                  <th class="border-top-0 pt-2 pb-2 text-center">会員有無</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">会員ステータス</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">回答結果</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">ユーザエージェント</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">IP</th>
+                  <th class="border-top-0 pt-2 pb-2 text-center">回答日時</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for EnqueteUser in pagination %}
+                <tr>
+                  <td class="align-middle text-center">
+                      {% if EnqueteUser.customerId > 0 %}
+                          <span><a href="{{ url('admin_customer_edit', { id : EnqueteUser.customer.id }) }}">{{ EnqueteUser.customer.__toString }}</a></span>
+                      {% else %}
+                          <span>-</span>
+                      {% endif %}
+                  </div>
+                  <td class="align-middle text-center">
+                      {% if EnqueteUser.customerId > 0 %}
+                          <span>{{ EnqueteUser.customer.status.name }}</span>
+                      {% else %}
+                          <span>-</span>
+                      {% endif %}
+                  </div>
+                  <td class="align-middle text-center">
+                      {% for question, answer in EnqueteUser.answerJson %}
+                          <div class="answer-blocks text-left">
+                              <div class="form-question p-1"><span>{{ question }}</span></div>
+                              <div class="form-answer p-1">
+                                  {% if answer is iterable %}
+                                      {% for answerChild in answer %}
+                                          <span>{{ answerChild }}</span>
+                                      {% endfor %}
+                                  {% else %}
+                                      <span>{{ answer }}</span>
+                                  {% endif %}
+                              </div>
+                          </div>
+                      {% endfor %}
+                  </td>
+                  <td class="align-middle text-center">{{ EnqueteUser.userAgent }}</td>
+                  <td class="align-middle text-center">{{ EnqueteUser.ip }}</td>
+                  <td class="align-middle text-center">{{ EnqueteUser.createDate|date("Y/m/d", "Asia/Tokyo") }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <div class="row justify-content-md-center mb-4"></div>
+          </div>
+        </div>
+          <div class="row justify-content-md-center mb-4">
+            {% if pagination.totalItemCount > 0 %}
+              {% include "@admin/pager.twig" with { 'pages' : pagination.paginationData, 'routes' : 'se_enquete_admin_manage_view' } %}
+            {% endif %}
+          </div>
+      {% else %}
+      <div class="card rounded border-0">
+        <div class="card-body p-4">
+          <div class="text-center text-muted mb-4 h5">{{ 'se_enquete.admin.manage.no_result'|trans }}</div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

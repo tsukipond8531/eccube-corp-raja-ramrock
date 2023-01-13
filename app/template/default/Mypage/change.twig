@@ -134,6 +134,19 @@ file that was distributed with this source code.
                                 </dl>
                                 <dl>
                                     <dt>
+                                        {{ form_label(form.birth, '生年月日', { 'label_attr': {'class': 'ec-label' }}) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="ec-birth{{ has_errors(form.birth) ? ' error'}}">
+                                            {{ form_widget(form.birth.year) }}<span>/</span>
+                                            {{ form_widget(form.birth.month) }}<span>/</span>
+                                            {{ form_widget(form.birth.day) }}
+                                            {{ form_errors(form.birth) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>
                                         {{ form_label(form.password, 'パスワード', { 'label_attr': {'class': 'ec-label' }}) }}
                                     </dt>
                                     <dd>
@@ -155,36 +168,18 @@ file that was distributed with this source code.
                                 </dl>
                                 <dl>
                                     <dt>
-                                        {{ form_label(form.birth, '生年月日', { 'label_attr': {'class': 'ec-label' }}) }}
+                                        {{ form_label(form.password_tip_answer, 'パスワードを忘れた時のヒント', { 'label_attr': {'class': 'ec-label' }}) }}
                                     </dt>
                                     <dd>
-                                        <div class="ec-birth{{ has_errors(form.birth) ? ' error'}}">
-                                            {{ form_widget(form.birth.year) }}<span>/</span>
-                                            {{ form_widget(form.birth.month) }}<span>/</span>
-                                            {{ form_widget(form.birth.day) }}
-                                            {{ form_errors(form.birth) }}
+                                        質問：
+                                        <div class="ec-select{{ has_errors(form.password_tip_query) ? ' error' }}">
+                                            {{ form_widget(form.password_tip_query) }}
+                                            {{ form_errors(form.password_tip_query) }}
                                         </div>
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt>
-                                        {{ form_label(form.sex, '性別', { 'label_attr': { 'class': 'ec-label' }}) }}
-                                    </dt>
-                                    <dd>
-                                        <div class="ec-radio{{ has_errors(form.sex) ? ' error' }}">
-                                            {{ form_widget(form.sex) }}
-                                            {{ form_errors(form.sex) }}
-                                        </div>
-                                    </dd>
-                                </dl>
-                                <dl>
-                                    <dt>
-                                        {{ form_label(form.job, '職業', { 'label_attr': {'class': 'ec-label' }}) }}
-                                    </dt>
-                                    <dd>
-                                        <div class="ec-select{{ has_errors(form.job) ? ' error' }}">
-                                            {{ form_widget(form.job) }}
-                                            {{ form_errors(form.job) }}
+                                        答え：
+                                        <div class="ec-input{{ has_errors(form.password_tip_answer) ? ' error' }}">
+                                            {{ form_widget(form.password_tip_answer, { attr: { style: 'width: 220px;' } }) }}
+                                            {{ form_errors(form.password_tip_answer) }}
                                         </div>
                                     </dd>
                                 </dl>
