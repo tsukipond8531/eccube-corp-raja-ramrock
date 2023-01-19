@@ -19,6 +19,22 @@ file that was distributed with this source code.
 {% form_theme searchCustomerModalForm '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
 {% form_theme searchProductModalForm '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
 
+{% block stylesheet %}
+    <style>
+        .identity_image {
+            width: 170px;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        .identity_image img {
+            width: 100%;
+        }
+        .identity_image:hover img {
+            opacity: 0.8;
+        }
+    </style>
+{% endblock stylesheet %}
+
 {% block javascript %}
     <script src="https://yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
     <script>
@@ -357,7 +373,8 @@ file that was distributed with this source code.
                                 <div class="col-1 text-right"><a class="d-block" data-toggle="collapse" href="#ordererInfo" aria-expanded="false" aria-controls="ordererInfo"><i class="fa {{ id ? 'fa-angle-down' : 'fa-angle-up' }} fa-lg"></i></a></div>
                             </div>
                         </div>
-                        <div class="collapse {{ id ? '' : 'show' }} ec-cardCollapse h-adr" id="ordererInfo">
+                        {# <div class="collapse {{ id ? '' : 'show' }} ec-cardCollapse h-adr" id="ordererInfo"> #}
+                        <div class="collapse show ec-cardCollapse h-adr" id="ordererInfo">
                             <span class="p-country-name" style="display:none;">Japan</span>
                             <div class="card-body">
                                 {% if Order.id is empty %}
@@ -451,6 +468,21 @@ file that was distributed with this source code.
                                                         {{ form_errors(form.address.addr02) }}
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                        <div class="row form-group">
+                                            <label class="col-3 col-form-label">{{ '本人確認書類'|trans }}<span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span></label>
+                                            <div class="col">
+                                                {% if Order.image1 is not empty %}
+                                                    <a href="{{ asset(Order.image1, 'save_image') }}" target="_blank" class="identity_image">
+                                                        <img src="{{ asset(Order.image1, 'save_image') }}" alt="" >
+                                                    </a>
+                                                {% endif %}
+                                                {% if Order.image2 is not empty %}
+                                                    <a href="{{ asset(Order.image2, 'save_image') }}" target="_blank" class="identity_image">
+                                                        <img src="{{ asset(Order.image2, 'save_image') }}" alt="" >
+                                                    </a>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>

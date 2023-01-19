@@ -86,7 +86,7 @@ class ShippingType extends BaseType
                     if ($OrderItem->getPrice() == CAMPAIGN_PRICE) $isCampaign = true;
                 }
 
-                // 販売種別に紐づく配送業者を取得.
+                // // 販売種別に紐づく配送業者を取得.
                 $allDeliveries = $this->deliveryRepository->getDeliveries($SaleTypes);
                 $Deliveries = [];
 
@@ -96,6 +96,10 @@ class ShippingType extends BaseType
                 } else {
                     $Deliveries[] = $allDeliveries[1];
                 }
+                
+
+                // 販売種別に紐づく配送業者を取得.
+                // $Deliveries = $this->deliveryRepository->getDeliveries($SaleTypes);
 
                 // 配送業者のプルダウンにセット.
                 $form = $event->getForm();

@@ -126,6 +126,8 @@ file that was distributed with this source code.
                             {{ form_widget(form.query, { type : 'hidden' }) }}
                         </dd>
                     </dl>
+                    
+                    {{ form_widget(form.user_policy_check, { type: 'hidden'}) }}
                     {# エンティティ拡張の自動出力 #}
                     {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
                         {% if f.vars.eccube_form_options.form_theme %}
@@ -206,7 +208,15 @@ file that was distributed with this source code.
                     </dl>
                     <dl>
                         <dt>
-                            {{ form_label(form.company, 'お客様', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            {{ form_label(form.client, 'お客様', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        </dt>
+                        <dd>{{ form.client.vars.data }}
+                            {{ form_widget(form.client, { type : 'hidden' }) }}
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>
+                            {{ form_label(form.company, '会社/団体名', { 'label_attr': { 'class': 'ec-label' }}) }}
                         </dt>
                         <dd>{{ form.company.vars.data }}
                             {{ form_widget(form.company, { type : 'hidden' }) }}
@@ -249,12 +259,10 @@ file that was distributed with this source code.
                             {{ form_label(form.type, '資料の種類(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                         </dt>
                         <dd>
-                            {% set types = '' %}
-                            {% if app.request.request is not empty and app.request.request.get('material').type is defined %}
-                                {% set types = app.request.request.get('material')['type']|join(', ') %}
-                            {% endif %}
-                            {{ types }}
-                            <input type="hidden" id="material_type" name="material[type]" required="required" value="{{ types }}">
+                            {{ form.type.vars.data|join(',') }}
+                            <div style="display: none">
+                                {{ form_widget(form.type) }}
+                            </div>
                         </dd>
                     </dl>
                     <dl>
@@ -324,6 +332,7 @@ file that was distributed with this source code.
                             {{ form_widget(form.contents, { type : 'hidden' }) }}
                         </dd>
                     </dl>
+                    {{ form_widget(form.user_policy_check, { type: 'hidden'}) }}
                     {# エンティティ拡張の自動出力 #}
                     {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
                         {% if f.vars.eccube_form_options.form_theme %}

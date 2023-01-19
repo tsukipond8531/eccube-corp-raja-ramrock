@@ -88,6 +88,11 @@ class CustomerEditController extends AbstractController
         );
         $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_CUSTOMER_EDIT_INDEX_INITIALIZE, $event);
 
+        $enquete = null;
+        if ($Customer->getEnquete()) {
+            $enquete = json_decode($Customer->getEnqueteBody());
+        }
+
         $form = $builder->getForm();
 
         $form->handleRequest($request);
@@ -137,6 +142,7 @@ class CustomerEditController extends AbstractController
         return [
             'form' => $form->createView(),
             'Customer' => $Customer,
+            'enquete' => $enquete,
         ];
     }
 }

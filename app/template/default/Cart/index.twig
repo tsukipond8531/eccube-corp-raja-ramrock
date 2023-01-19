@@ -11,8 +11,40 @@ file that was distributed with this source code.
 {% extends 'default_frame.twig' %}
 
 {% set body_class = 'cart_page' %}
+{% set anshin_count = 0 %}
+{% set totalSum = 0 %}
 
 {% block main %}
+<style>
+    @media (max-width: 767px) {
+        .ec-cartRole {
+            padding: 0 15px;
+        }
+        form.ec-cartRole {
+            padding: 0;
+        }
+        .ec-layoutRole .ec-modifiedLayoutRole__contents {
+            max-width : 100%;
+        }
+        .ec-cartRow {
+            display: block;
+        }
+        .ec-cartRow .ec-cartRow__delColumn {
+            width : 100%;
+            border: none;
+        }
+        .ec-cartRow .ec-cartRow__img {
+            width: 20%;
+        }
+        .ec-cartRow .ec-cartRow__amountColumn .ec-cartRow__amountUpDown {
+            align-items: center;
+            column-gap: 10px;
+        }
+        .ec-cartRole .cs-cart_class {
+            margin-top: 0!important;
+        }
+    }
+</style>
 <div class="ec-modifiedLayoutRole__contents">
     <div class="ec-role">
         <div class="ec-pageHeader">
@@ -157,12 +189,20 @@ file that was distributed with this source code.
                                     </li>
                                     <li class="ec-cartRow__amountColumn">
                                         {# <div class="ec-cartRow__amount">{{ CartItem.quantity|number_format }}</div> #}
-                                        <div class="ec-cartRow__amountSP">{{ '小計'|trans }}{{ ProductClass.price02|price }}</div>
+                                        {# <div class="ec-cartRow__amountSP">{{ '小計'|trans }}{{ ProductClass.price02|price }}</div> #}
                                         <div class="ec-cartRow__amountUpDown">
                                             {{ ProductClass.price02|price }}
                                             <div class="cs-cart_class">{{ '消費税'|trans }}{{ (ProductClass.getPrice02IncTax - ProductClass.price02)|price }}</div>
-                                            {% for CartItemOption in CartItem.CartItemOptions if campagin == false %}
-                                                <div class="cs-cart_class">{{ CartItemOption.Option.name|trans }}{{ CartItemOption.getOptionTotalPrice|price }}</div>
+                                            {% for CartItemOption in CartItem.CartItemOptions %}
+                                                {% if CartItemOption.getOptionTotalPrice > 0 %}<div class="cs-cart_class">{{ CartItemOption.Option.name|trans }}{{ CartItemOption.getOptionTotalPrice|price }}</div>{% endif %}
+                                                
+                                                {% if CartItemOption.Option.name == 'あんしん保守パック' %}
+                                                    {% if ProductClass.ClassCategory1.name in ['検知オプションなし 2台', '検知オプションあり 2台', '検知オプションなし 1台、検知オプションあり 1台'] %}
+                                                        {% set anshin_count = anshin_count + 2 %}
+                                                    {% else %}
+                                                        {% set anshin_count = anshin_count + 1 %}
+                                                    {% endif %}
+                                                {% endif %}
                                             {% endfor %}
                                             {# {% if CartItem.quantity > 1 %}
                                                 <a href="{{ url('cart_handle_item', {'operation': 'down', 'productClassId': ProductClass.id}) }}" {{ csrf_token_for_anchor() }} class="ec-cartRow__amountDownButton load-overlay" data-method="put" data-confirm="false">
@@ -180,6 +220,7 @@ file that was distributed with this source code.
                                     </li>
                                     <li class="ec-cartRow__amountColumn">
                                         <div class="ec-cartRow__sutbtotal">
+                                            {% set totalSum = totalSum + CartItem.total_price %}
                                             {{ CartItem.total_price|price }}
                                         </div>
                                     </li>
@@ -224,6 +265,7 @@ file that was distributed with this source code.
                             {% for CartItem in Cart.CartItems %}
                                 {% set ProductClass = CartItem.ProductClass %}
                                 {% set Product = ProductClass.Product %}
+                                {% set totalSum = totalSum + ProductClass.default_price_inc_tax %}
                                 <ul class="ec-cartRow">
                                     <li class="ec-cartRow__contentColumn">
                                         <div class="ec-cartRow__summary">
@@ -250,13 +292,16 @@ file that was distributed with this source code.
                                     </li>
                                     <li class="ec-cartRow__amountColumn">
                                         <div class="ec-cartRow__sutbtotalSP">{{ ProductClass.default_price_inc_tax|price }}</div>
+                                        {% if loop.last and anshin_count > 0 %}<div class="cs-cart_class">あんしん保守パック：{{ anshin_count }}台</div>{% endif %}
                                     </li>
                                 </ul>
                             {% endfor %}
+                            {% set totalSum = totalSum + anshin_count * 330 %}
                         </div>
                     </div>
                     <div class="ec-cartRole__actions">
-                        <div class="ec-cartRole__total">{{ '合計：'|trans }}<span class="ec-cartRole__totalAmount">{{ Cart.totalPrice|price }}</span>
+                        {# <div class="ec-cartRole__total">{{ '合計：'|trans }}<span class="ec-cartRole__totalAmount">{{ Cart.totalPrice|price }}</span> #}
+                        <div class="ec-cartRole__total">{{ '合計：'|trans }}<span class="ec-cartRole__totalAmount">{{ totalSum|price }}</span>
                         </div>
                         <a class="ec-blockBtn--action" href="{{ path('cart_buystep', {'cart_key':cartKey}) }}">{{ 'お支払いへ進む'|trans }}</a>
                         {% if loop.last %}

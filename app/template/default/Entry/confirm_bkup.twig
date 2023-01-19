@@ -1,0 +1,519 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'registration_page' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/fileupload/jquery.fileupload.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/fileupload/jquery.fileupload-ui.css') }}">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <style>
+        #thumb div {
+            float: left;
+            margin: 4px
+        }
+
+        .ui-state-highlight {
+            height: 70px;
+            width: 70px;
+            border: dashed 1px #ccc;
+            background: #fff;
+        }
+
+        .media-body {
+            margin-bottom: 30px;
+            line-height: 1;
+        }
+        
+        .c-form__fileUploadThumbnail {
+            display: inline-block;
+            width: 170px;
+            height: 170px;
+            background-color: #f5f6f8;
+            background-image: url(../../img/moc.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .c-form__fileUploadThumbnail:hover::before {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .c-form__fileUploadThumbnail::before {
+            display: block;
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .c-form__fileUploadThumbnail .delete-image {
+            display: none;
+            font-family: FontAwesome;
+            font-size: 18px;
+            line-height: 1;
+            color: #54687A;
+            padding: 5px;
+            background: #fff;
+            border-radius: 3px;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+        }
+
+        .c-form__fileUploadThumbnail:hover .delete-image {
+            display: inline-block;
+            font-family: FontAwesome;
+            font-size: 18px;
+            line-height: 1;
+            color: #54687A;
+            padding: 5px;
+            background: #fff;
+            border-radius: 3px;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+        }
+
+        .btn-ec-regular {
+            border-radius: 4px;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            background-color: #FFFFFF;
+            cursor: pointer;
+        }
+        .btn-ec-regular:hover {
+            color: #262626;
+            background-color: #F2F2F2;
+            border-color: #262626;
+            text-decoration: none;
+        }
+        
+        .ec-registerRole .ec-borderedDefs dl {
+            padding: 15px 0;
+        }
+        .ec-registerRole .ec-borderedDefs dt {
+            padding-right: 10px;
+        }
+        .ec-registerRole .ec-borderedDefs dd {
+            padding-left: 10px;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+    <script src="{{ asset('assets/js/fileupload/vendor/jquery.ui.widget.js') }}"></script>
+    <script src="{{ asset('assets/js/fileupload/jquery.iframe-transport.js') }}"></script>
+    <script src="{{ asset('assets/js/fileupload/jquery.fileupload.js') }}"></script>
+    <script src="{{ asset('assets/js/fileupload/jquery.fileupload-process.js') }}"></script>
+    <script src="{{ asset('assets/js/fileupload/jquery.fileupload-validate.js') }}"></script>
+    <script>var bootstrapTooltip = $.fn.tooltip.noConflict();</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
+
+    <script>
+        $.fn.tooltip = bootstrapTooltip;
+        $(document).on('drop dragover', function(e) {
+            e.preventDefault();
+        });
+        $(function() {
+            var proto_img = '<div class="c-form__fileUploadThumbnail" style="background-image:url(\'__path__\');">' +
+                '</div>';
+            var proto_add = '{{ form_widget(form.add_images.vars.prototype) }}';
+            var proto_del = '{{ form_widget(form.delete_images.vars.prototype) }}';
+            {% for add_image in form.add_images %}
+            var $img = $(proto_img.replace(/__path__/g, '{{ asset(add_image.vars.value, 'temp_image') }}'));
+            var $widget = $('{{ form_widget(add_image) }}');
+            $widget.val('{{ add_image.vars.value }}');
+            $("#thumb").append($img.append($widget));
+            {% endfor %}
+            {% for delete_image in form.delete_images %}
+            $("#thumb").append('{{ form_widget(delete_image) }}');
+            {% endfor %}
+            var hideThumbnail = function() {
+                if ($("#thumb div").length > 0) {
+                    $("#icon_no_image").css("display", "none");
+                } else {
+                    $("#icon_no_image").css("display", "");
+                }
+            };
+            hideThumbnail();
+
+            var enqueteForm = `
+                {{ form_widget(enqueteForm._token) }}
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query1, '問1:みまもりCUBEを利用するきっかけは？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query1.vars.data|join(',') }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query1, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query1_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query1_other.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query1_other, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query2, '問2:みまもりCUBE知ったきっかけは？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query2.vars.data|join(',') }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query2, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query2_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query2_other.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query2_other, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query3, '問3:具体的にどの様な事が心配ですか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query3.vars.data|join(',') }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query3, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query3_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query3_other.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query3_other, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query4, '問4:いつ頃からみまもりカメラを探されていましたか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query4.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query4, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query4_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query4_other.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query4_other, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query5, '問5:今まで見守り等をする為にご利用になった商品はありますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query5.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query5, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query5_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query5_other.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query5_other, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query6_1, '【わかりやすかったこと】具体的にどの部分がそう思われましたか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query6_1.vars.data|join(',') }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query6_1, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query6_1_other, 'あればご記入ください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query6_1_other.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query6_1_other, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query6_2, '【わかりづらかったこと】具体的にどの部分がそう思われましたか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query6_2.vars.data|join(',') }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query6_2, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query6_2_other, 'あればご記入ください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query6_2_other.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query6_2_other, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query7, '問7:みまもりCUBEのどこに魅力を感じましたか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query7.vars.data|join(',') }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query7, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query7_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query7_other.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query7_other, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query8, '問8:みまもりCUBEのどの機能をメインに使われる予定ですか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query8.vars.data|join(',') }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query8, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query8_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query8_other.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query8_other, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query9, '問9:普段、SNSを利用していますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query9.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query9, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query9_other, '問9で「利用している」とお答えいただいたは、ご利用のSNSを選択してください。(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query9_other.vars.data|join(',') }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query9_other, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query10, '問10:みまもりＣＵＢＥを設置する都道府県を教えてください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query10.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query10, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query11, '問11:ライブ映像・録画の確認、声かけ、現地の音を聞く　これらの機能を使用できて月額3,900円の価格はどう思われますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query11.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query11, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query12, '問12:今回お申込みいただくまでにお電話やメール等でお問合せはされましたか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query12.vars.data|join(',') }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query12, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query12_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query12_other.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query12_other, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>
+                        {{ form_label(enqueteForm.query13, '問13:最後にご意見・ご質問をお聞かせください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                    </dt>
+                    <dd>{{ enqueteForm.query13.vars.data }}
+                        <div style="display: none;">{{ form_widget(enqueteForm.query13, { type : 'hidden' }) }}</div>
+                    </dd>
+                </dl>
+            `;
+
+            {% if form.enquete.vars.data %}
+                $('#enquete-container').html(enqueteForm);
+            {% endif %}
+        });
+    </script>
+{% endblock javascript %}
+
+{% block main %}
+<div class="ec-modifiedLayoutRole__contents">
+    <div class="ec-registerRole">
+        <div class="ec-pageHeader">
+            <h1>{{ 'お試し体験お申込み確認（会員登録確認）'|trans }}</h1>
+        </div>
+        <div class="ec-off1Grid">
+            <div class="ec-off1Grid__cell">
+                <form method="post" action="{{ url('entry') }}">
+                    {{ form_widget(form._token) }}
+                    <p>{{ '下記の内容で登録してもよろしいでしょうか？
+よろしければ、一番下の「会員登録をする」ボタンをクリックしてください。
+'|trans|nl2br }}</p>
+                    <div class="ec-borderedDefs">
+                        <dl>
+                            <dt>
+                                {{ form_label(form.name, 'お名前', { 'label_attr': { 'class': 'ec-label '}}) }}
+                            </dt>
+                            <dd>
+                                {{ form.name.name01.vars.data }} {# form.vars.value = form.vars.data = Customer #}
+                                {{ form.name.name02.vars.data }}
+                                {{ form_widget(form.name.name01, { type : 'hidden' }) }}
+                                {{ form_widget(form.name.name02, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.kana, 'お名前(カナ)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                {{ form.kana.kana01.vars.data }}
+                                {{ form.kana.kana02.vars.data }}
+                                {{ form_widget(form.kana.kana01, { type : 'hidden' }) }}
+                                {{ form_widget(form.kana.kana02, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.address, '住所', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                {# 郵便番号 #}
+                                <span>{{ '〒'|trans }}</span>{{ form.postal_code.vars.data }}
+                                {{ form_widget(form.postal_code, { type : 'hidden' }) }}
+                                {# 都道府県・住所 #}
+                                {{ form.address.pref.vars.data }} {{ form.address.addr01.vars.data }} {{ form.address.addr02.vars.data }}
+                                {{ form_widget(form.address.pref, { type : 'hidden' }) }}
+                                {{ form_widget(form.address.addr01, { type : 'hidden' }) }}
+                                {{ form_widget(form.address.addr02, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.phone_number, '電話番号', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>{{ form.phone_number.vars.data }}
+                                {{ form_widget(form.phone_number, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.email, 'メールアドレス', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>
+                                {{ form.email.vars.data }}
+                                {{ form_widget(form.email.first, { type : 'hidden' }) }}
+                                {{ form_widget(form.email.second, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.birth, '生年月日', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                {{ form.birth.vars.data ? form.birth.vars.data|date_day() }}
+                                {{ form_widget(form.birth.year, { type : 'hidden' }) }}
+                                {{ form_widget(form.birth.month, { type : 'hidden' }) }}
+                                {{ form_widget(form.birth.day, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        {# <dl>
+                            <dt>
+                                {{ form_label(form.phone_number, '本人確認書類', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="col mb-2">
+                                    <div class="progress" style="display: none;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div id="thumb" class="c-form__fileUploadThumbnails clearfix"></div>
+                                </div>
+                            </dd>
+                        </dl> #}
+                        <dl>
+                            <dt>
+                                {{ form_label(form.password, 'パスワード', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                ********
+                                {{ form_widget(form.password.first, { type : 'hidden' }) }}
+                                {{ form_widget(form.password.second, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.password_tip_answer, 'パスワードを忘れた時のヒント', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                ********
+                                {{ form_widget(form.password_tip_query, { type : 'hidden' }) }}
+                                {{ form_widget(form.password_tip_answer, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        
+                        <div id="enquete-container"></div>
+
+                        {{ form_widget(form.user_policy_check, { type: 'hidden'}) }}
+                        {{ form_widget(form.enquete, { type: 'hidden'}) }}
+
+                        {# エンティティ拡張の自動出力 #}
+                        {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
+                            {% if f.vars.eccube_form_options.form_theme %}
+                                {% form_theme f f.vars.eccube_form_options.form_theme %}
+                                {{ form_row(f) }}
+                            {% else %}
+                                <dl>
+                                    <dt>
+                                        {{ form_label(f) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
+                                            {{ f.vars.data }}
+                                            {{ form_widget(f, { type: 'hidden'}) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="ec-registerRole__actions">
+                        <div class="ec-off4Grid">
+                            <div class="ec-off4Grid__cell">
+                                <button class="ec-blockBtn--action" type="submit" name="mode" value="complete">{{ '会員登録をする'|trans }}</button>
+                                <button class="ec-blockBtn--cancel" type="submit" name="mode" value="back">{{ '戻る'|trans }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

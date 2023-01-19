@@ -28,6 +28,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class CareManagerType extends AbstractType
 {
@@ -135,6 +138,14 @@ class CareManagerType extends AbstractType
             ->add('prefix', HiddenType::class, [
                 'required' => true,
                 'empty_data' => 'care_manager',
+            ])
+            ->add('user_policy_check', CheckboxType::class, [
+                'required' => true,
+                'label' => null,
+                'mapped' => false,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
             ]);
     }
 

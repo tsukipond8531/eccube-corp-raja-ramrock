@@ -1,0 +1,118 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<body bgcolor="#F0F0F0" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="margin-top:0;margin-bottom:0;margin-right:0;margin-left:0;padding-top:0;padding-bottom:0;padding-right:0;padding-left:0;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;">
+<br>
+<br>
+<div align="center"><a href="{{ url('homepage') }}" style="font-family:Helvetica, Arial, sans-serif;font-size:30px;color:#333333;text-decoration:none;">{{ BaseInfo.shop_name }}</a></div>
+<!-- 100% background wrapper (grey background) -->
+<table border="0" width="100%" height="100%" cellpadding="0" cellspacing="0" bgcolor="#F0F0F0" style="border-spacing:0;mso-table-lspace:0pt;mso-table-rspace:0pt;">
+    <tr>
+        <td align="center" valign="top" bgcolor="#F0F0F0" style="background-color:#F0F0F0;border-collapse:collapse;">
+            <br>
+            <!-- 600px container (white background) -->
+            <table id="html-mail-table1" border="0" width="600px" cellpadding="10" cellspacing="0" class="container" style="border-spacing:0;mso-table-lspace:0pt;mso-table-rspace:0pt;">
+                <tr>
+                    <td class="container-padding content" align="left" style="border-collapse:collapse;padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff;">
+                        <br>
+                        <div class="title" style="font-family:Helvetica, Arial, sans-serif;font-size:18px;font-weight:600;color:#374550;">お問い合わせを受付いたしました。</div>
+                        <br>
+                        <div class="body-text" style="font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:20px;text-align:left;color:#333333;">
+                            ご質問をご入力いただいたお客様は、改めて担当者よりご連絡をさせていただきますので、<br>
+                            今しばらくお待ちくださいませ。<br>
+                            <br>
+                            <br>
+                            ≪資料請求をご希望のお客様へ≫<br>
+                            データ送付をご希望のお客様は、下記URLよりダウンロードをお願い致します。<br>
+							■一般レンタル 資料（<a href="https://ramrock-eyes.jp/ram-eyes/img/ippan_shiryou.pdf">https://ramrock-eyes.jp/ram-eyes/img/ippan_shiryou.pdf</a>）<br>
+							■介護保険適用商品 資料（<a href="https://ramrock-eyes.test01.biz/html/template/default/assets/pdf/3345192998509dc16d69c010196e2c6b.pdf">https://ramrock-eyes.test01.biz/html/template/default/assets/pdf/3345192998509dc16d69c010196e2c6b.pdf</a>）<br>
+                            <br>
+                            <br>
+                            郵送をご希望のお客様は、郵送の準備が整い次第発送させていただきます。<br>
+                            ※お急ぎの場合はダウンロードURLより資料のダウンロードをお願い致します。<br>
+                            <br>
+                            <br>
+                            ≪キャンペーンのご案内≫<br>
+                            ●一般レンタル<br>
+                            現在、お試し体験キャンペーンを行っており、 弊社ホームページよりお申込みを受付ております。<br>
+                            詳細は、 <a href="https://ramrock-eyes.test01.biz/user_data/campaign">https://ramrock-eyes.test01.biz/user_data/campaign</a> をご覧ください。<br>
+                            もし継続でご利用されない場合は、キャンペーン期間内にご返却いただきますとキャンセル料金などは 一切発生いたしません。<br>
+                            ぜひ一度、この機会にみまもり CUBE をお試しくださいませ。<br>
+                            <br>
+                            <br>
+                            ≪介護保険利用時の流れ≫<br>
+                            ●介護保険レンタル<br>
+                            介護保険にてご利用の場合、<br>
+                            原則 「要介護2以上」 「認知症と診断された方」 「徘徊でお困りの方」 が保険適用となりますが、<br>
+                            適用の可否は、まずは一度担当のケアマネージャー様へご相談ください。<br>
+                            <br>
+                            <br>
+                            (1)担当のケアマネージャー様へご相談<br>
+                            (2)福祉用具貸与事業所様からレンタル<br>
+                            (3) デモ設置<br>
+                            (4) ご契約<br>
+                            ※お取り扱いの福祉用具貸与事業所につきましては弊社へお問い合わせください。<br>
+                            <br>
+                            <br>
+                            受付内容<br>
+                            -----------------------------------------------------------------------------
+                            <br>
+                            <br>
+                            お名前： {{ data.name01 }} {{ data.name02 }}<br>
+                            お名前(カナ)： {{ data.kana01 }} {{ data.kana02 }}<br>
+                            ご年齢： {{ data.age }}<br><br>
+
+                            お客様： {{ data.client }}<br>
+                            会社/団体名： {{ data.company }}<br><br>
+
+                            検討中の製品： {{ data.product }}<br>
+                            介護認定の有無： {{ data.care }}<br>
+                            お問い合わせ内容： {{ data.query_type }}<br>
+                            利用形態： {{ data.usage_type }}<br><br>
+
+                            資料送付方法： {{ data.delivery_method }}<br>
+                            住所： 〒{{ data.postal_code }} {{ data.pref.name }}{{ data.addr01 }}{{ data.addr02 }}<br>
+                            電話番号： {{ data.phone_number }}<br>
+                            メールアドレス： {{ data.email }}<br><br>
+
+                            CUBEを知ったきっかけ： {{ data.moment|join(',') }}<br>
+                            検索キーワード：{{ data.keyword }}<br>
+                            お問い合わせ内容： <br>
+                                {{ data.contents }}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <!--/600px container -->
+            <br>
+            <br>
+            <table id="html-mail-table2" border="0" width="600" cellpadding="10" cellspacing="0" class="container" style="border-spacing:0;mso-table-lspace:0pt;mso-table-rspace:0pt;">
+                <tr>
+                    <td class="container-padding content footer-text" align="left" style="border-collapse:collapse;font-family:Helvetica, Arial, sans-serif;font-size:12px;line-height:16px;color:#aaaaaa;padding-left:24px;padding-right:24px;padding-top:12px;padding-bottom:12px;background-color:#ffffff;">
+                        本メールは、{{ BaseInfo.shop_name }}より送信しております。<br/>
+                        もしお心当たりが無い場合は、その旨 <a href="mailto:customer@ramrock.co.jp" style="text-decoration:none;">customer@ramrock.co.jp</a> までご連絡いただければ幸いです。<br/>
+                        <br/>
+                        <div class="title" style="font-size:14px;font-family:Helvetica, Arial, sans-serif;font-weight:600;color:#374550;"><a href="{{ url('homepage') }}" style="color:#aaaaaa;text-decoration:none;">{{ BaseInfo.shop_name }}</a></div>
+                        <div>copyright &copy; {{ BaseInfo.shop_name }} all rights reserved.</div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<!--/100% background wrapper-->
+<br>
+<br>
+</body>
+
+</html>

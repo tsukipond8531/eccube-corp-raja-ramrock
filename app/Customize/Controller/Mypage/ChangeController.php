@@ -25,6 +25,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
+use Eccube\Service\MailService;
+
 class ChangeController extends AbstractController
 {
     /**
@@ -42,14 +44,21 @@ class ChangeController extends AbstractController
      */
     protected $encoderFactory;
 
+    /**
+     * @var MailService
+     */
+    protected $mailService;
+
     public function __construct(
         CustomerRepository $customerRepository,
         EncoderFactoryInterface $encoderFactory,
-        TokenStorageInterface $tokenStorage
+        TokenStorageInterface $tokenStorage,
+        MailService $mailService
     ) {
         $this->customerRepository = $customerRepository;
         $this->encoderFactory = $encoderFactory;
         $this->tokenStorage = $tokenStorage;
+        $this->mailService = $mailService;
     }
 
     /**
@@ -121,6 +130,7 @@ class ChangeController extends AbstractController
 
         return [
             'form' => $form->createView(),
+            'Customer' => $Customer,
         ];
     }
 

@@ -256,6 +256,112 @@ file that was distributed with this source code.
                                         {{ form_errors(form.point) }}
                                     </div>
                                 </div>
+                                {% if Customer and Customer.enquete and enquete is not empty %}
+                                    <div class="row mt-4 mb-4">
+                                        <div class="col font-weight-bolder">アンケートキャンペーン</div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <div class="col-6">
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">みまもりCUBEを利用するきっかけは？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query1|join(',') }}
+                                                    {% if enquete.query1_other is not empty %}　（{{ enquete.query1_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">みまもりCUBE知ったきっかけは？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query2|join(',') }}
+                                                    {% if enquete.query2_other is not empty %}　（{{ enquete.query2_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">具体的にどの様な事が心配ですか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query3|join(',') }}
+                                                    {% if enquete.query3_other is not empty %}　（{{ enquete.query3_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">いつ頃からみまもりカメラを探されていましたか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query4 }}
+                                                    {% if enquete.query4_other is not empty %}　（{{ enquete.query4_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">今まで見守り等をする為にご利用になった商品はありますか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query5 }}
+                                                    {% if enquete.query5_other is not empty %}　（{{ enquete.query5_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">【わかりやすかったこと】具体的にどの部分がそう思われましたか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query6_1|join(',') }}
+                                                    {% if enquete.query6_1_other is not empty %}　（{{ enquete.query6_1_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">【わかりづらかったこと】具体的にどの部分がそう思われましたか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query6_2|join(',') }}
+                                                    {% if enquete.query6_2_other is not empty %}　（{{ enquete.query6_2_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">みまもりCUBEのどこに魅力を感じましたか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query7|join(',') }}
+                                                    {% if enquete.query7_other is not empty %}　（{{ enquete.query7_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">みまもりCUBEのどの機能をメインに使われる予定ですか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query8|join(',') }}
+                                                    {% if enquete.query8_other is not empty %}　（{{ enquete.query8_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">普段、SNSを利用していますか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query9 }}
+                                                    {% if enquete.query9_other is not empty %}　（{{ enquete.query9_other|join(',') }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">みまもりＣＵＢＥを設置する都道府県を教えてください</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query10 }}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">ライブ映像・録画の確認、声かけ、現地の音を聞く　これらの機能を使用できて月額3,900円の価格はどう思われますか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query11 }}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">今回お申込みいただくまでにお電話やメール等でお問合せはされましたか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query12|join(',') }}
+                                                    {% if enquete.query12_other is not empty %}　（{{ enquete.query12_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">最後にご意見・ご質問をお聞かせください</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query13 }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
 
                                 {# エンティティ拡張の自動出力 #}
                                 {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}

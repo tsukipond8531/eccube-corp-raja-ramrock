@@ -141,6 +141,9 @@ class ZeusPaymentService
         if($type=="ebank"){
             $this->savePageLayout('ZEUS銀行振込決済','zeus_ebank_payment','@ZeusPayment4/ebank');
         }
+        if($type=="eaccount"){
+            $this->savePageLayout('ZEUS口座振替決済','zeus_eaccount_payment','@ZeusPayment4/eaccount');
+        }
 
     }
 
@@ -1023,6 +1026,11 @@ class ZeusPaymentService
                     return "Failed";
                 }
                 break;
+            case 'eaccount':
+                if (! $this->orderStatusUpdateEaccount($order, $zeusResponse)) {
+                    return "Failed";
+                }
+                break;
             default:
                 break;
         }
@@ -1185,6 +1193,90 @@ class ZeusPaymentService
 
             } catch (\Throwable $e) {
                 $this->errorExit('[ゼウス銀行振込決済ステータス変更] ステータス変更失敗。sendpoint:' . $zeusResponse['sendpoint'] . " " . $e->getMessage());
+                log_error($e);
+
+                $orderRepository = $this->entityManager->getRepository(Order::class);
+                $order = $orderRepository->find($zeusResponse['sendid']);
+
+                $curStatusId = $order->getOrderStatus()->getId();
+                if ($curStatusId != $orderStatus) {
+                    $order->setNote($str . $memo);
+                    $order->setOrderStatus($this->app['eccube.repository.order_status']->find($orderStatus));
+                }
+
+                if (strlen($order->getNote()) > 0) {
+                    $str = $order->getNote() . "\r\n";
+                } else {
+                    $str = "";
+                }
+                $order->setNote($str . "注文情報作成失敗しました。");
+                $this->entityManager->persist($order);
+                $this->entityManager->flush();
+                return false;
+            }
+        }
+        return true;
+    }
+    
+
+    /*
+     * 口座振替決済の注文データを更新
+     */
+    function orderStatusUpdateEaccount($order, $zeusResponse)
+    {
+        if ($order) {
+            $memo = "ゼウスオーダー番号：[" . $zeusResponse['order_no'] . "]\n" . "受付番号：[" . $zeusResponse['tracking_no'] . "]\nステータス：[" . $zeusResponse['status'] . "]\n";
+
+            $orderStatus = '';
+            switch ($zeusResponse['status']) {
+                case $this->eccubeConfig['zeus_eaccount_wait']: // 受付中
+                case $this->eccubeConfig['zeus_eaccount_end']: // 未入金
+                    $orderStatus = OrderStatus::NEW; // ->入金待ち
+                    break;
+                case $this->eccubeConfig['zeus_eaccount_paid']: // 入金済
+                    $order->setPaymentDate(new \DateTime());
+                    $orderStatus = OrderStatus::PAID; // ->入金済み(注文受付)
+                    break;
+                case $this->eccubeConfig['zeus_eaccount_failed']: // エラー
+                    return true;
+                case $this->eccubeConfig['zeus_eaccount_stopped']: // 未入金
+                    $orderStatus = OrderStatus::CANCEL; // ->キャンセル
+                    break;
+                default:
+                    return true;
+            }
+            try {
+                if (strlen($order->getNote()) > 0) {
+                    $str = $order->getNote() . "\r\n";
+                } else {
+                    $str = "";
+                }
+                $order->setNote($str . $memo);
+                $order->setOrderStatus($this->orderStatusRepository->find($orderStatus));
+
+                if ($zeusResponse['status'] == $this->eccubeConfig['zeus_eaccount_paid']) {
+
+                    $order->setZeusOrderId($zeusResponse['order_no']);
+                    $order->setZeusResponseData(print_r($zeusResponse,true));
+                    if (null === $order->getOrderDate()) {
+                        $order->setOrderDate(new \DateTime());
+                    }
+
+                    //$this->checkStock($order);
+
+                    $this->purchaseFlow->prepare($order, new PurchaseContext());
+                    $this->purchaseFlow->commit($order, new PurchaseContext());
+                }
+                $order->setOrderStatus($this->orderStatusRepository->find($orderStatus));
+                $this->entityManager->persist($order);
+                $this->entityManager->flush();
+                if ($zeusResponse['status'] == $this->eccubeConfig['zeus_eaccount_paid']) {
+                    $this->mailService->sendOrderMail($order);
+                    $this->entityManager->flush();
+                }
+
+            } catch (\Throwable $e) {
+                $this->errorExit('[ゼウス口座振替決済ステータス変更] ステータス変更失敗。sendpoint:' . $zeusResponse['sendpoint'] . " " . $e->getMessage());
                 log_error($e);
 
                 $orderRepository = $this->entityManager->getRepository(Order::class);

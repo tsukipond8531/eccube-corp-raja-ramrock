@@ -28,6 +28,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class MaterialType extends AbstractType
 {
@@ -73,7 +76,7 @@ class MaterialType extends AbstractType
                     new Assert\NotBlank(),
                 ],
             ])
-            ->add('company', ChoiceType::class, [
+            ->add('client', ChoiceType::class, [
                 'required' => true,
                 'choices' => [
                     'その他' => 'その他',
@@ -86,6 +89,9 @@ class MaterialType extends AbstractType
                     new Assert\NotBlank(),
                 ],
             ])
+            ->add('company', TextType::class, [
+                'required' => false,
+            ])
             ->add('department', TextType::class, [
                 'required' => false,
             ])
@@ -94,6 +100,7 @@ class MaterialType extends AbstractType
                 'choices' => [
                     '一般レンタル' => '一般レンタル',
                     '介護保険' => '介護保険',
+                    'まだわからない' => 'まだわからない',
                 ],
                 'expanded' => true,
                 'multiple' => false,
@@ -137,22 +144,19 @@ class MaterialType extends AbstractType
                     '代理店向け' => '代理店向け',
                 ],
                 'expanded' => true,
-                'multiple' => false,
+                'multiple' => true,
                 'constraints' => [
                     new Assert\NotBlank(),
                 ],
             ])
             ->add('delivery_method', ChoiceType::class, [
-                'required' => true,
+                'required' => false,
                 'choices' => [
                     '郵送' => '郵送',
                     'データ' => 'データ',
                 ],
                 'expanded' => true,
                 'multiple' => false,
-                'constraints' => [
-                    new Assert\NotBlank(),
-                ],
             ])
             ->add('postal_code', PostalType::class, [
                 'required' => false,
@@ -194,6 +198,14 @@ class MaterialType extends AbstractType
             ->add('prefix', HiddenType::class, [
                 'required' => true,
                 'empty_data' => 'material',
+            ])
+            ->add('user_policy_check', CheckboxType::class, [
+                'required' => true,
+                'label' => null,
+                'mapped' => false,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
             ]);
     }
 

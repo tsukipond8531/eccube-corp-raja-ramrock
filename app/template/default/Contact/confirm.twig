@@ -66,18 +66,18 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.company, '会社/団体名', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                {{ form_label(form.client, 'お客様', { 'label_attr': { 'class': 'ec-label' }}) }}
                             </dt>
-                            <dd>{{ form.company.vars.data }}
-                                {{ form_widget(form.company, { type : 'hidden' }) }}
+                            <dd>{{ form.client.vars.data }}
+                                {{ form_widget(form.client, { type : 'hidden' }) }}
                             </dd>
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.department, '所属部署', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                {{ form_label(form.company, '会社名', { 'label_attr': { 'class': 'ec-label' }}) }}
                             </dt>
-                            <dd>{{ form.department.vars.data }}
-                                {{ form_widget(form.department, { type : 'hidden' }) }}
+                            <dd>{{ form.company.vars.data }}
+                                {{ form_widget(form.company, { type : 'hidden' }) }}
                             </dd>
                         </dl>
                         <dl>

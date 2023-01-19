@@ -92,6 +92,9 @@ class OrderHelper extends BaseService
             $Delivery = $allDeliveries[1];
         }
 
+        // 販売種別に紐づく配送業者を取得.
+        // $Deliveries = $this->deliveryRepository->getDeliveries($SaleTypes);
+
         // 初期の配送業者を設定
         // $Delivery = current($Deliveries);
         $Shipping->setDelivery($Delivery);

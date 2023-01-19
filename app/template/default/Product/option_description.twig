@@ -19,7 +19,6 @@
                 <p>{{ Option.description|raw|nl2br }}</p>
             </div>
 
-
             {% if Option.OptionCategories|length > 0%}
                 {# テキストボックス、テキストエリア、日付、数値入力タイプの場合 #}
                 {% if Option.type == constant('Plugin\\ProductOption\\Entity\\Option::TEXT_TYPE') or Option.type == constant('Plugin\\ProductOption\\Entity\\Option::TEXTAREA_TYPE') or Option.type == constant('Plugin\\ProductOption\\Entity\\Option::NUMBER_TYPE') or Option.type == constant('Plugin\\ProductOption\\Entity\\Option::DATE_TYPE') %}

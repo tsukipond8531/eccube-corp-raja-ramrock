@@ -66,7 +66,7 @@ class ContactType extends BaseType
                     new Assert\NotBlank(),
                 ],
             ])
-            ->add('company', ChoiceType::class, [
+            ->add('client', ChoiceType::class, [
                 'required' => true,
                 'choices' => [
                     'その他' => 'その他',
@@ -79,7 +79,7 @@ class ContactType extends BaseType
                     new Assert\NotBlank(),
                 ],
             ])
-            ->add('department', TextType::class, [
+            ->add('company', TextType::class, [
                 'required' => false,
             ])
             ->add('product', ChoiceType::class, [
@@ -87,6 +87,7 @@ class ContactType extends BaseType
                 'choices' => [
                     '一般レンタル' => '一般レンタル',
                     '介護保険' => '介護保険',
+                    'まだわからない' => 'まだわからない',
                 ],
                 'expanded' => true,
                 'multiple' => false,
@@ -124,8 +125,8 @@ class ContactType extends BaseType
             ->add('usage_type', ChoiceType::class, [
                 'required' => true,
                 'choices' => [
-                    '直接販売' => '直接販売',
-                    '介護保険' => '介護保険',
+                    '一般レンタル' => '一般レンタル',
+                    '介護保険レンタル' => '介護保険レンタル',
                     '代理店契約' => '代理店契約',
                     'その他' => 'その他',
                 ],
@@ -136,15 +137,12 @@ class ContactType extends BaseType
                 ],
             ])
             ->add('delivery_method', ChoiceType::class, [
-                'required' => true,
+                'required' => false,
                 'expanded' => true,
                 'multiple' => false,
                 'choices' => [
                     '郵送' => '郵送',
                     'データ' => 'データ',
-                ],
-                'constraints' => [
-                    new Assert\NotBlank(),
                 ],
             ])
             ->add('postal_code', PostalType::class, [

@@ -445,6 +445,9 @@ file that was distributed with this source code.
                         {% if Product.stock_find %}
                             <div class="ec-productRole__actions">
                                 {% if form.classcategory_id1 is defined %}
+                                    {% if campagin %}
+                                        {{ '現在検討中のプランをご選択ください。プラン内容は本契約時に変更可能です。 <br /><br />'|raw|nl2br }}
+                                    {% endif %}
                                     <div class="ec-select">
                                         {{ form_widget(form.classcategory_id1) }}
                                         {{ form_errors(form.classcategory_id1) }}
@@ -508,9 +511,6 @@ file that was distributed with this source code.
                         </form>
                     {% endif %}
                     <div class="ec-productRole__description">
-                        {% if campagin %}
-                            {{ '現在検討中のプランをご選択ください。プラン内容は本契約時に変更可能です。 <br /><br />'|raw|nl2br }}
-                        {% endif %}
                         {{ Product.description_detail|raw|nl2br }}
                     </div>
                 </div>

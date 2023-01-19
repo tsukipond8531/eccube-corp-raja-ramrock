@@ -55,6 +55,7 @@
 		<div class="footerbtm">
 			<div class="cmnbox01">
 				<ul class="btmnav01">
+					<li><a href="/help/privacy">プライバシーポリシー</a></li>
 					<li><a href="/user_data/makerpolicy/">メーカー直販ポリシー</a></li>
 					<li><a href="/user_data/first-tokutei/">特定商取引に基づく表記</a></li>
 				</ul>

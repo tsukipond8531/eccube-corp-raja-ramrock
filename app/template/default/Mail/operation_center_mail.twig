@@ -1,0 +1,49 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% autoescape 'safe_textmail' %}
+この度はお問合せ頂き誠にありがとうございます。
+改めて担当者よりご連絡をさせていただきます。
+
+受付内容
+-----------------------------------------------------------------------------
+
+会員ID：{{ data.customer_id }}
+お名前：{{ data.name01 }} {{ data.name02 }}
+フリガナ：{{ data.kana01 }} {{ data.kana02 }}
+会社/団体名：{{ data.company }}
+
+電話番号：{{ data.phone_number }}
+メールアドレス：{{ data.email }}
+
+{% if data.add_images is not empty %}
+    添付ファイル：
+    {% for image in data.add_images %}
+        {{ url('homepage') }}{{ asset(image, 'temp_image') }} ,
+    {% endfor %}
+{% endif %}
+お問い合わせ内容：
+{{ data.contents }}
+
+-----------------------------------------------------------------------------
+株式会社ラムロック
+〒820-1111
+福岡県飯塚市勢田1950-1
+
+フリーダイヤル　0120-927-760
+携帯・PHS　0948-96-8160
+お問い合わせ専用アドレス　customer@ramrock.co.jp
+公式HP　https://ramrock-eyes.jp
+-----------------------------------------------------------------------------
+※このメールは送信専用のアドレスから自動送信されているため、
+ご返信いただいても内容の確認や回答ができません。
+ご質問はお問合せ専用アドレスよりご連絡ください。
+
+{% endautoescape  %}

@@ -64,19 +64,25 @@ file that was distributed with this source code.
         <div class="ec-off3Grid ec-text-ac">
             <div class="ec-off3Grid__cell">
                 <div class="ec-reportHeading">
-                    <h2>{{ 'ご注文ありがとうございました'|trans }}</h2>
+                    {% if app.session.has('is_eaccount') and app.session.get('is_eaccount') == true %}
+                        <h2>{{ 'ご注文を受付いたしました。（お手続きはまだ完了していません）'|trans }}</h2>
+                    {% else %}
+                        <h2>{{ 'ご注文を受付いたしました。'|trans }}</h2>
+                    {% endif %}
                 </div>
                 <p class="ec-reportDescription">
                     ただいま、ご注文の確認メールをお送りさせていただきました。<br />
                     万一、ご確認メールが届かない場合は、トラブルの可能性もありますので<br />
                     大変お手数ではございますがお問い合わせくださいますようお願いいたします。
                 </p>
+                {# {% if app.session.has('is_eaccount') == false %}
                 <p class="ec-reportDescription">
                     みまもりCUBEのお申込みには、ご本人確認書類が必要です。<br />
                     商品のお申込み手続き後、身分証明画像送信フォーム<br />
-                    <a href="{{ url('proof') }}" target="_blank">(URL: {{ url('proof') }})</a>より<br />
+                    <a href="{{ url('proof') }}" target="_blank" class="ec-link">(URL: {{ url('proof') }})</a>より<br />
                     ご本人確認書類をご送付ください。
                 </p>
+                {% endif %} #}
                 <p class="ec-reportDescription">
                     {% if Order.id %}
                         <br /><br /><strong>{{ 'ご注文番号'|trans }} : {{ Order.orderNo }}</strong>
@@ -88,10 +94,14 @@ file that was distributed with this source code.
                 {% endif %}
 
                 <div class="ec-off4Grid">
-                    {% if hasNextCart %}
-                        <div class="ec-off4Grid__cell"><a class="ec-blockBtn--primary" href="{{ url('cart') }}">{{ '購入を続ける'|trans }}</a></div>
+                    {% if app.session.has('is_eaccount') and app.session.get('is_eaccount') == true %}
+                        <div class="ec-off4Grid__cell"><a class="ec-blockBtn--primary" href="{{ url('zeus_eaccount_payment') }}">{{ '口座振替決済へ進む'|trans }}</a></div>
                     {% else %}
-                        <div class="ec-off4Grid__cell"><a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'トップページへ'|trans }}</a></div>
+                        {% if hasNextCart %}
+                            <div class="ec-off4Grid__cell"><a class="ec-blockBtn--primary" href="{{ url('cart') }}">{{ '購入を続ける'|trans }}</a></div>
+                        {% else %}
+                            <div class="ec-off4Grid__cell"><a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'トップページへ'|trans }}</a></div>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>

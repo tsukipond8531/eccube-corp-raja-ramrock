@@ -10,6 +10,7 @@ parameters:
     zeus_cvs_link_point_url: https://linkpt.cardservice.co.jp/cgi-bin/cvs.cgi
     zeus_edy_link_point_url: https://linkpt.cardservice.co.jp/cgi-bin/edy.cgi
     zeus_ebank_link_point_url: https://linkpt.cardservice.co.jp/cgi-bin/ebank.cgi
+    zeus_eaccount_link_point_url: https://linkpt.cardservice.co.jp/cgi-bin/kfgw/order.cgi
     zeus_secure_link_url: https://linkpt.cardservice.co.jp/cgi-bin/secure/api.cgi
     zeus_secure_3d_link_url: https://linkpt.cardservice.co.jp/cgi-bin/secure/api.cgi
     zeus_secure_3d_information_link_url: https://linkpt.cardservice.co.jp/cgi-bin/secure/api.cgi
@@ -26,6 +27,7 @@ parameters:
     zeus_payment_method_cvs: ZEUSコンビニ決済
     zeus_payment_method_edy: ZEUS楽天Edy決済
     zeus_payment_method_ebank: ZEUS銀行振込決済
+    zeus_payment_method_eaccount: ZEUS口座振替決済
 
     zeus_payment_3ds2_norisk: true
 
@@ -53,6 +55,17 @@ parameters:
     zeus_ebank_error: 04
 #入金失敗
     zeus_ebank_failed: 05
+
+#申込中
+    zeus_eaccount_wait: 01
+#申込完了
+    zeus_eaccount_paid: 02
+#申込失敗
+    zeus_eaccount_failed: 03
+#期日切
+    zeus_eaccount_end: 04
+#番組停止
+    zeus_eaccount_stopped: 05
 
     zeus_credit_options:
         payment_choices:

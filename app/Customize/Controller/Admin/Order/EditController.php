@@ -56,6 +56,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Customize\Form\Type\Front\InstallationAgentType;
 use Customize\Form\Type\Front\WatchTarget1Type;
 use Customize\Form\Type\Front\WatchTarget2Type;
+use Eccube\Entity\CustomerAddress;
 
 !defined('INSTALLATION_AGENT_LABEL') && define('INSTALLATION_AGENT_LABEL', '設置代行オプション');
 !defined('ADDRESS_TYPE_INSTALL') && define('ADDRESS_TYPE_INSTALL', 'ADDRESS_TYPE_INSTALL');
@@ -234,23 +235,25 @@ class EditController extends AbstractController
         $form->handleRequest($request);
         $purchaseContext = new PurchaseContext($OriginOrder, $OriginOrder->getCustomer());
 
-        $installationAgent = NULL;
-        $watchTarget1 = NULL;
-        $watchTarget2 = NULL;
+        $installationAgent = null;
+        $watchTarget1 = null;
+        $watchTarget2 = null;
 
-        foreach ($OriginOrder->getAddresses() as $Address) {
-            switch ($Address->getType()) {
-                case ADDRESS_TYPE_INSTALL:
-                    $installationAgent = $Address;
-                    break;
-
-                case ADDRESS_TYPE_WATCH1:
-                    $watchTarget1 = $Address;
-                    break;
-
-                case ADDRESS_TYPE_WATCH2:
-                    $watchTarget2 = $Address;
-                    break;
+        if ($OriginOrder && $OriginOrder->getAddresses()) {
+            foreach ($OriginOrder->getAddresses() as $Address) {
+                switch ($Address->getType()) {
+                    case ADDRESS_TYPE_INSTALL:
+                        $installationAgent = $Address;
+                        break;
+    
+                    case ADDRESS_TYPE_WATCH1:
+                        $watchTarget1 = $Address;
+                        break;
+    
+                    case ADDRESS_TYPE_WATCH2:
+                        $watchTarget2 = $Address;
+                        break;
+                }
             }
         }
         
@@ -328,8 +331,8 @@ class EditController extends AbstractController
                         $installationAgentTemp = $installationAgentForm->getData();
                         $watchTarget1Temp = $watchTarget1Form->getData();
                         $watchTarget2Temp = $watchTarget2Form->getData();
-                        
-                        if(!empty($installationAgentTemp)) {
+
+                        if($installationAgentTemp->getName01() && $installationAgentTemp->getName02()) {
                             if (empty($installationAgent)) {
                                 $installationAgentTemp->setType(ADDRESS_TYPE_INSTALL);
                                 $installationAgentTemp->setOrder($TargetOrder);
@@ -341,8 +344,8 @@ class EditController extends AbstractController
                                 $this->entityManager->persist($installationAgent);
                             }
                         }
-                        
-                        if(!empty($watchTarget1Temp)) {
+
+                        if($watchTarget1Temp->getName01() && $watchTarget1Temp->getName02()) {
                             if (empty($installationAgent)) {
                                 $watchTarget1Temp->setType(ADDRESS_TYPE_WATCH1);
                                 $watchTarget1Temp->setOrder($TargetOrder);
@@ -355,7 +358,7 @@ class EditController extends AbstractController
                             }
                         }
                         
-                        if(!empty($watchTarget2Temp)) {
+                        if($watchTarget2Temp->getName01() && $watchTarget2Temp->getName02()) {
                             if (empty($installationAgent)) {
                                 $watchTarget2Temp->setType(ADDRESS_TYPE_WATCH2);
                                 $watchTarget2Temp->setOrder($TargetOrder);

@@ -3241,7 +3241,7 @@ td.br04 {
 	margin-bottom: 20px;
 }
 .ins_use_img img {
-	width: 500px;
+	width: 100%;
 	max-width: 1000px;
 }
 .ins_price_req.type_use{
@@ -3502,7 +3502,9 @@ td.br04 {
 	margin-top: 20px;
     margin-bottom: 25px;
   }
-	
+.top_fix_item{
+display: none;
+}	
 }
 
 

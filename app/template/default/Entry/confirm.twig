@@ -157,167 +157,116 @@ file that was distributed with this source code.
                 {{ form_widget(enqueteForm._token) }}
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query1, '問1:みまもりCUBEを利用するきっかけは？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(form.email, 'みまもりCUBEを利用するきっかけは？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
-                    <dd>{{ enqueteForm.query1.vars.data|join(',') }}
+                    <dd>
+                        {{ enqueteForm.query1.vars.data|join(',') }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query1, { type : 'hidden' }) }}</div>
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query1_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(form.email, 'みまもりCUBE知ったきっかけは？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
-                    <dd>{{ enqueteForm.query1_other.vars.data }}
-                        <div style="display: none;">{{ form_widget(enqueteForm.query1_other, { type : 'hidden' }) }}</div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query2, '問2:みまもりCUBE知ったきっかけは？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>{{ enqueteForm.query2.vars.data|join(',') }}
+                    <dd>
+                        {{ enqueteForm.query2.vars.data|join(',') }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query2, { type : 'hidden' }) }}</div>
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query2_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(form.email, '具体的にどの様な事が心配ですか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
-                    <dd>{{ enqueteForm.query2_other.vars.data }}
-                        <div style="display: none;">{{ form_widget(enqueteForm.query2_other, { type : 'hidden' }) }}</div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query3, '問3:具体的にどの様な事が心配ですか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>{{ enqueteForm.query3.vars.data|join(',') }}
+                    <dd>
+                        {{ enqueteForm.query3.vars.data|join(',') }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query3, { type : 'hidden' }) }}</div>
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query3_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(form.email, 'いつ頃からみまもりカメラを探されていましたか？', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
-                    <dd>{{ enqueteForm.query3_other.vars.data }}
-                        <div style="display: none;">{{ form_widget(enqueteForm.query3_other, { type : 'hidden' }) }}</div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query4, '問4:いつ頃からみまもりカメラを探されていましたか？', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>{{ enqueteForm.query4.vars.data }}
+                    <dd>
+                        {{ enqueteForm.query4.vars.data }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query4, { type : 'hidden' }) }}</div>
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query4_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(form.email, '今まで見守り等をする為にご利用になった商品はありますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
-                    <dd>{{ enqueteForm.query4_other.vars.data }}
-                        <div style="display: none;">{{ form_widget(enqueteForm.query4_other, { type : 'hidden' }) }}</div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query5, '問5:今まで見守り等をする為にご利用になった商品はありますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>{{ enqueteForm.query5.vars.data }}
+                    <dd>
+                        {{ enqueteForm.query5.vars.data }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query5, { type : 'hidden' }) }}</div>
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query5_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        ホームページについて教えてください <br />
+                        <label class="ec-label required">
+                            【わかりやすかったこと】具体的にどの部分がそう思われましたか？
+                        </label><br />
+                        ※複数回答可
+                        <span class="ec-required">必須</span>
                     </dt>
-                    <dd>{{ enqueteForm.query5_other.vars.data }}
-                        <div style="display: none;">{{ form_widget(enqueteForm.query5_other, { type : 'hidden' }) }}</div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query6_1, '【わかりやすかったこと】具体的にどの部分がそう思われましたか？', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>{{ enqueteForm.query6_1.vars.data|join(',') }}
+                    <dd>
+                        {{ enqueteForm.query6_1.vars.data|join(',') }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query6_1, { type : 'hidden' }) }}</div>
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query6_1_other, 'あればご記入ください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        ホームページについて教えてください <br />
+                        <label class="ec-label required">
+                            【わかりづらかったこと】具体的にどの部分がそう思われましたか？
+                        </label><br />
+                        ※複数回答可
+                        <span class="ec-required">必須</span>
                     </dt>
-                    <dd>{{ enqueteForm.query6_1_other.vars.data }}
-                        <div style="display: none;">{{ form_widget(enqueteForm.query6_1_other, { type : 'hidden' }) }}</div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query6_2, '【わかりづらかったこと】具体的にどの部分がそう思われましたか？', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>{{ enqueteForm.query6_2.vars.data|join(',') }}
+                    <dd>
+                        {{ enqueteForm.query6_2.vars.data|join(',') }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query6_2, { type : 'hidden' }) }}</div>
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query6_2_other, 'あればご記入ください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(form.email, 'みまもりCUBEのどこに魅力を感じましたか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
-                    <dd>{{ enqueteForm.query6_2_other.vars.data }}
-                        <div style="display: none;">{{ form_widget(enqueteForm.query6_2_other, { type : 'hidden' }) }}</div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query7, '問7:みまもりCUBEのどこに魅力を感じましたか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>{{ enqueteForm.query7.vars.data|join(',') }}
+                    <dd>
+                        {{ enqueteForm.query7.vars.data|join(',') }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query7, { type : 'hidden' }) }}</div>
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query7_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(form.email, 'みまもりCUBEのどの機能をメインに使われる予定ですか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
-                    <dd>{{ enqueteForm.query7_other.vars.data }}
-                        <div style="display: none;">{{ form_widget(enqueteForm.query7_other, { type : 'hidden' }) }}</div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query8, '問8:みまもりCUBEのどの機能をメインに使われる予定ですか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>{{ enqueteForm.query8.vars.data|join(',') }}
+                    <dd>
+                        {{ enqueteForm.query8.vars.data|join(',') }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query8, { type : 'hidden' }) }}</div>
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query8_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(form.email, '普段、SNSを利用していますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
-                    <dd>{{ enqueteForm.query8_other.vars.data }}
-                        <div style="display: none;">{{ form_widget(enqueteForm.query8_other, { type : 'hidden' }) }}</div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query9, '問9:普段、SNSを利用していますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>{{ enqueteForm.query9.vars.data }}
+                    <dd>
+                        {{ enqueteForm.query9.vars.data }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query9, { type : 'hidden' }) }}</div>
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query9_other, '問9で「利用している」とお答えいただいたは、ご利用のSNSを選択してください。(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query9_other, '上記質問で「利用している」とお答えいただいたは、ご利用のSNSを選択してください。(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
-                    <dd>{{ enqueteForm.query9_other.vars.data|join(',') }}
+                    <dd>
+                        {{ enqueteForm.query9_other.vars.data|join(',') }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query9_other, { type : 'hidden' }) }}</div>
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query10, '問10:みまもりＣＵＢＥを設置する都道府県を教えてください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(form.email, 'みまもりＣＵＢＥを設置する都道府県を教えてください', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>{{ enqueteForm.query10.vars.data }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query10, { type : 'hidden' }) }}</div>
@@ -325,7 +274,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query11, '問11:ライブ映像・録画の確認、声かけ、現地の音を聞く　これらの機能を使用できて月額3,900円の価格はどう思われますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(form.email, 'ライブ映像・録画の確認、声かけ、現地の音を聞く　これらの機能を使用できて月額3,900円の価格はどう思われますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>{{ enqueteForm.query11.vars.data }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query11, { type : 'hidden' }) }}</div>
@@ -333,23 +282,16 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query12, '問12:今回お申込みいただくまでにお電話やメール等でお問合せはされましたか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query12, '今回お申込みいただくまでにお電話やメール等でお問合せはされましたか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
-                    <dd>{{ enqueteForm.query12.vars.data|join(',') }}
+                    <dd>
+                        {{ enqueteForm.query12.vars.data|join(',') }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query12, { type : 'hidden' }) }}</div>
                     </dd>
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query12_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>{{ enqueteForm.query12_other.vars.data }}
-                        <div style="display: none;">{{ form_widget(enqueteForm.query12_other, { type : 'hidden' }) }}</div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query13, '問13:最後にご意見・ご質問をお聞かせください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query13, '最後にご意見・ご質問をお聞かせください', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>{{ enqueteForm.query13.vars.data }}
                         <div style="display: none;">{{ form_widget(enqueteForm.query13, { type : 'hidden' }) }}</div>

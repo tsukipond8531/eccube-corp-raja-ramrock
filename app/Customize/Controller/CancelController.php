@@ -26,6 +26,7 @@ use Eccube\Controller\AbstractController;
 use Customize\Form\Type\Front\CancelType;
 use Eccube\Repository\OrderRepository;
 use Eccube\Repository\Master\OrderStatusRepository;
+use Eccube\Entity\Master\OrderStatus;
 
 class CancelController extends AbstractController
 {
@@ -100,8 +101,13 @@ class CancelController extends AbstractController
                 ]
             );
             
+            $excludes = [OrderStatus::CANCEL, OrderStatus::PENDING, OrderStatus::PROCESSING, OrderStatus::RETURNED];
             $Orders = $this->orderRepository
-                ->getActiveOrdersByCustomer($user)
+                ->createQueryBuilder('o')
+                ->where('o.Customer = :Customer')
+                ->andWhere('o.OrderStatus NOT IN (:excludes)')
+                ->setParameter(':Customer', $user)
+                ->setParameter(':excludes', $excludes)
                 ->getQuery()
                 ->getResult();
         }

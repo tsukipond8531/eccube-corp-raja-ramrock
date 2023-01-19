@@ -47,10 +47,7 @@ class WatchTarget1Type extends AbstractType
     {
         $builder
             ->add('name', NameType::class, [
-                'required' => true,
-                'constraints' => [
-                    new Assert\NotBlank(),
-                ],
+                'required' => false,
             ])
             ->add('kana', KanaType::class, [
                 'required' => false,

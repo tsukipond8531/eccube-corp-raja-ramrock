@@ -86,14 +86,6 @@ class CartOperationController extends CartController
 
         // カートが分割された時のセッション情報を削除
         $request->getSession()->remove(OrderHelper::SESSION_CART_DIVIDE_FLAG);
-        
-        $campagin = true;
-
-        if ($this->isGranted('ROLE_USER')) {
-            $Customer = $this->getUser();
-
-            if (count($Customer->getOrders())) $campagin = false;
-        }
 
         return [
             'totalPrice' => $totalPrice,
@@ -103,7 +95,6 @@ class CartOperationController extends CartController
             'least' => $least,
             'quantity' => $quantity,
             'is_delivery_free' => $isDeliveryFree,
-            'campagin' => $campagin,
         ];
     }
 

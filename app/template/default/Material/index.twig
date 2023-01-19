@@ -13,16 +13,43 @@ file that was distributed with this source code.
 {% form_theme materialForm 'Form/form_div_layout.twig' %}
 {% form_theme careManagerForm 'Form/form_div_layout.twig' %}
 
+{% block stylesheet %}
+    <style>
+        [id $= '_placeholder'],
+        [for $= '_placeholder'] {
+            display: none !important;
+        }
+
+        .ec-off1Grid__cell .body {
+            margin-top: 15px;
+        }
+        #welfare {
+            margin-left: 15px;
+        }
+
+        @media only screen and (max-width: 767px) {
+            #options label {
+                display: unset;
+            }
+            #options label::after {
+                content: '\a';
+                white-space: pre;
+            }
+            #welfare {
+                margin-left: 0;
+            }
+        }
+    </style>
+{% endblock %}
+
 {% block javascript %}
     <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
-
     <script>
         $(function() {
             var materialForm = `
                 <form method="post" action="{{ url('material') }}" class="h-adr" novalidate>
                     <span class="p-country-name" style="display:none;">Japan</span>
                     {{ form_widget(materialForm._token) }}
-                    <p class="ec-para-normal">{{ '内容によっては回答をさしあげるのにお時間をいただくこともございます。また、休業日は翌営業日以降の対応となりますのでご了承ください。'|trans|nl2br }}</p>
                     <div class="ec-borderedDefs">
                         <dl>
                             <dt>
@@ -63,10 +90,21 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(materialForm.company, 'お客様', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                {{ form_label(materialForm.client, 'お客様', { 'label_attr': { 'class': 'ec-label' }}) }}
                             </dt>
                             <dd>
-                                <div class="ec-checkbox{{ has_errors(materialForm.company) ? ' error' }}">
+                                <div class="ec-checkbox{{ has_errors(materialForm.client) ? ' error' }}">
+                                    {{ form_widget(materialForm.client) }}
+                                    {{ form_errors(materialForm.client) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(materialForm.company, '会社/団体名', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(materialForm.company) ? ' error' }}">
                                     {{ form_widget(materialForm.company) }}
                                     {{ form_errors(materialForm.company) }}
                                 </div>
@@ -77,7 +115,7 @@ file that was distributed with this source code.
                                 {{ form_label(materialForm.department, '所属部署', { 'label_attr': { 'class': 'ec-label' }}) }}
                             </dt>
                             <dd>
-                                <div class="ec-telInput{{ has_errors(materialForm.department) ? ' error' }}">
+                                <div class="ec-input{{ has_errors(materialForm.department) ? ' error' }}">
                                     {{ form_widget(materialForm.department) }}
                                     {{ form_errors(materialForm.department) }}
                                 </div>
@@ -247,6 +285,13 @@ file that was distributed with this source code.
                         {% endfor %}
                     </div>
                     <div class="ec-RegisterRole__actions">
+                        <div class="ec-checkbox text-center{{ has_errors(materialForm.user_policy_check) ? ' error' }}">
+                            <label>
+                                {{ form_widget(materialForm.user_policy_check) }}
+                                <a class="ec-link" href="{{ url('help_privacy') }}" target="_blank">プライバシーポリシー</a>に同意してお進みください
+                            </label>
+                            {{ form_errors(materialForm.user_policy_check) }}
+                        </div>
                         <div class="ec-off4Grid">
                             <div class="ec-off4Grid__cell">
                                 {{ form_widget(materialForm.prefix) }}
@@ -269,7 +314,7 @@ file that was distributed with this source code.
                                 {{ form_label(careManagerForm.company, '会社/団体名', { 'label_attr': { 'class': 'ec-label' }}) }}
                             </dt>
                             <dd>
-                                <div class="ec-telInput{{ has_errors(careManagerForm.company) ? ' error' }}">
+                                <div class="ec-input{{ has_errors(careManagerForm.company) ? ' error' }}">
                                     {{ form_widget(careManagerForm.company) }}
                                     {{ form_errors(careManagerForm.company) }}
                                 </div>
@@ -435,6 +480,13 @@ file that was distributed with this source code.
                         {% endfor %}
                     </div>
                     <div class="ec-RegisterRole__actions">
+                        <div class="ec-checkbox text-center{{ has_errors(careManagerForm.user_policy_check) ? ' error' }}">
+                            <label>
+                                {{ form_widget(careManagerForm.user_policy_check) }}
+                                <a class="ec-link" href="{{ url('help_privacy') }}" target="_blank">プライバシーポリシー</a>に同意してお進みください
+                            </label>
+                            {{ form_errors(careManagerForm.user_policy_check) }}
+                        </div>
                         <div class="ec-off4Grid">
                             <div class="ec-off4Grid__cell">
                                 {{ form_widget(careManagerForm.prefix) }}
@@ -448,26 +500,35 @@ file that was distributed with this source code.
 
             {% if app.request.request is not empty and app.request.request.get('care_manager') is not empty %}
                 $('#welfare').prop("checked", true);
-                $('.ec-off1Grid__cell').html(careManagerForm);
+                $('.ec-off1Grid__cell .body').html(careManagerForm);
+
+
             {% else %}
                 $('#material').prop("checked", true);
-                $('.ec-off1Grid__cell').html(materialForm);
+                $('.ec-off1Grid__cell .body').html(materialForm);
             {% endif %}
             
             $('#material').on('change', function() {
                 if ($(this).is(':checked')) {
-                    $('.ec-off1Grid__cell').html(materialForm);
+                    $('.ec-off1Grid__cell .body').html(materialForm);
                 }
             });
             
             $('#welfare').on('change', function() {
                 if ($(this).is(':checked')) {
-                    $('.ec-off1Grid__cell').html(careManagerForm);
+                    $('.ec-off1Grid__cell .body').html(careManagerForm);
                 }
+            });
+
+            $('.ec-off1Grid__cell').on('input', '.p-postal-code', function() {
+                new YubinBango.MicroformatDom();
+            });
+
+            $('.ec-off1Grid__cell').on('change', '.p-postal-code', function() {
+                new YubinBango.MicroformatDom();
             });
         });
     </script>
-
 {% endblock javascript %}
 
 {% block main %}
@@ -477,13 +538,16 @@ file that was distributed with this source code.
             <h1>{{ '資料請求'|trans }}</h1>
         </div>
         <div class="ec-off1Grid">
-            <div id="options">
-                <input type="radio" id="material" name="material">
-                <label for="material">一般資料請求</label><br>
-                <input type="radio" id="welfare" name="material">
-                <label for="welfare">福祉用具貸与事業者資料請求</label>
-            </div>
             <div class="ec-off1Grid__cell">
+                <p class="ec-para-normal">{{ '内容によっては回答をさしあげるのにお時間をいただくこともございます。また、休業日は翌営業日以降の対応となりますのでご了承ください。'|trans|nl2br }}</p>
+                <div id="options">
+                    <input type="radio" id="material" name="material">
+                    <label for="material">一般・介護保険レンタル資料請求</label>
+                    <input type="radio" id="welfare" name="material">
+                    <label for="welfare">貸与事業所様資料請求</label>
+                </div>
+                <div class="body">
+                </div>
             </div>
         </div>
     </div>

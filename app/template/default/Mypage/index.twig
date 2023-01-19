@@ -103,7 +103,7 @@ file that was distributed with this source code.
             </div>
             {% if pagination.totalItemCount > 0 %}
                 {# <p class="ec-para-normal">{{ '%count%件の履歴があります'|trans({'%count%':pagination.totalItemCount}) }}</p> #}
-                <h2 class="ec-para-normal" style="margin: 30px 0 10px; color: brown;">今月の請求金額： {{ totalPrice|price }}</h2>
+                {# <h2 class="ec-para-normal" style="margin: 30px 0 10px; color: brown;">今月の請求金額： {{ totalPrice|price }}</h2> #}
                 {% for Order in pagination %}
                     <div class="ec-historyRole {% if Order.OrderStatus.id == 3 %}cancelled{% endif %}">
                         <div class="ec-historyRole__contents">

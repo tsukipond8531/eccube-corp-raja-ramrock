@@ -12,6 +12,103 @@ file that was distributed with this source code.
 
 {% form_theme form 'Form/form_div_layout.twig' %}
 
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/fileupload/jquery.fileupload.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/fileupload/jquery.fileupload-ui.css') }}">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <style>
+        #thumb div {
+            float: left;
+            margin: 4px
+        }
+
+        .ui-state-highlight {
+            height: 70px;
+            width: 70px;
+            border: dashed 1px #ccc;
+            background: #fff;
+        }
+
+        .media-body {
+            margin-bottom: 30px;
+            line-height: 1;
+        }
+        
+        .c-form__fileUploadThumbnail {
+            display: inline-block;
+            width: 170px;
+            height: 170px;
+            background-color: #f5f6f8;
+            background-image: url(../../img/moc.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .c-form__fileUploadThumbnail:hover::before {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .c-form__fileUploadThumbnail::before {
+            display: block;
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .c-form__fileUploadThumbnail .delete-image {
+            display: none;
+            font-family: FontAwesome;
+            font-size: 18px;
+            line-height: 1;
+            color: #54687A;
+            padding: 5px;
+            background: #fff;
+            border-radius: 3px;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+        }
+
+        .c-form__fileUploadThumbnail:hover .delete-image {
+            display: inline-block;
+            font-family: FontAwesome;
+            font-size: 18px;
+            line-height: 1;
+            color: #54687A;
+            padding: 5px;
+            background: #fff;
+            border-radius: 3px;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+        }
+
+        .btn-ec-regular {
+            border-radius: 4px;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            background-color: #FFFFFF;
+            cursor: pointer;
+        }
+        .btn-ec-regular:hover {
+            color: #262626;
+            background-color: #F2F2F2;
+            border-color: #262626;
+            text-decoration: none;
+        }
+        .identity_image {
+            width: 170px;
+            height: auto;
+            margin-right: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+{% endblock stylesheet %}
+
 {% block main %}
 
 <div class="ec-modifiedLayoutRole__contents">
@@ -137,6 +234,26 @@ file that was distributed with this source code.
                         </div>
                     {% endfor %}
                 </div>
+                <div class="ec-borderedDefs" style="border-top: none;">
+                    <dl>
+                        <dt>
+                            {{ form_label(form.watch_target, '本人確認書類', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            {{ form_widget(form.image0, { type : 'hidden' }) }}
+                        </dt>
+                        <dd style="display: flex; align-items: center; flex-wrap: wrap;">
+                            {% if Order.image1 %}
+                                <div class="identity_image">
+                                    <img src="{{ asset(Order.image1, 'save_image') }}" alt="">
+                                </div>
+                            {% endif %}
+                            {% if Order.image2 %}
+                                <div class="identity_image">
+                                    <img src="{{ asset(Order.image2, 'save_image') }}" alt="">
+                                </div>
+                            {% endif %}
+                        </dd>
+                    </dl>
+                </div>
                 <div class="cs-orderOptions">
                     {% if installationAgent is defined and installationAgent is not empty %}
                         <div class="cs-installation_agent">
@@ -150,13 +267,14 @@ file that was distributed with this source code.
                             </div>
                         </div>
                     {% endif %}
+                    {{ form_widget(form.watch_target, { type: 'hidden'}) }}
                     {% if (watchTarget1 is defined and watchTarget1 is not empty) or (watchTarget2 is defined and watchTarget2 is not empty) %}
                         <div class="cs-watch_target" style="margin-top: 15px;">
                             <div class="ec-rectHeading">
                                 <h2>{{ '見守り対象者がいる場合はご入力ください'|trans }}</h2>
                             </div>
                             <div id="watchTargetContent">
-                                {% if watchTarget1 is defined and watchTarget1 is not empty %}
+                                {% if watchTarget1 is defined and watchTarget1.name01 is not empty and watchTarget1.name02 is not empty %}
                                     <div class="ec-borderedDefs">
                                         <div class="cs-orderOptions_title">
                                             {{ '1人目'|trans }}
@@ -168,7 +286,7 @@ file that was distributed with this source code.
                                         </div>
                                     </div>
                                 {% endif %}
-                                {% if watchTarget2 is defined and watchTarget2 is not empty %}
+                                {% if watchTarget2 is defined and watchTarget2.name01 is not empty and watchTarget2.name02 is not empty %}
                                     <div class="ec-borderedDefs">
                                         <div class="cs-orderOptions_title">
                                             {{ '2人目'|trans }}

@@ -40,6 +40,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 use Eccube\Controller\AbstractController;
+use Eccube\Entity\Order;
+use Eccube\Entity\Master\OrderStatus;
 
 class ProductController extends AbstractController
 {
@@ -275,6 +277,10 @@ class ProductController extends AbstractController
      */
     public function detail(Request $request, Product $Product)
     {
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $this->redirectToRoute('mypage_login');
+        }
+
         if (!$this->checkVisibility($Product)) {
             throw new NotFoundHttpException();
         }
@@ -301,16 +307,28 @@ class ProductController extends AbstractController
         $is_favorite = false;
         $Customer = null;
         $campagin = true;
+        $orderRepository = $this->entityManager->getRepository(Order::class);
+        $excludes = [OrderStatus::PENDING, OrderStatus::PROCESSING, OrderStatus::RETURNED];
 
         if ($this->isGranted('ROLE_USER')) {
             $Customer = $this->getUser();
             $is_favorite = $this->customerFavoriteProductRepository->isFavorite($Customer, $Product);
 
-            if (count($Customer->getOrders())) $campagin = false;
+            $Orders = $orderRepository
+                ->createQueryBuilder('o')
+                ->where('o.Customer = :Customer')
+                ->andWhere('o.OrderStatus NOT IN (:excludes)')
+                ->setParameter(':Customer', $Customer)
+                ->setParameter(':excludes', $excludes)
+                ->getQuery()
+                ->getResult();
+
+            if (count($Orders)) $campagin = false;
         }
 
-        if ($campagin) {
-            $Product = $this->productRepository->find(6);
+        if ($campagin && $Product->getId() != 6) {
+            // $Product = $this->productRepository->find(6);
+            return $this->redirectToRoute('product_detail', [ 'id' => 6 ]);
         }
 
         return [

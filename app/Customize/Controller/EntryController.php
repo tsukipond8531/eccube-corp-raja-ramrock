@@ -159,7 +159,7 @@ class EntryController extends AbstractController
         $form->handleRequest($request);
         $enqueteForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $enqueteForm->isSubmitted() && $enqueteForm->isValid()) {
+        if ($form->isSubmitted() && $form->isValid() && ($request->request->get('enquete') == null || ($enqueteForm->isSubmitted() && $enqueteForm->isValid())) ) {
             switch ($request->get('mode')) {
                 case 'confirm':
                     log_info('会員登録確認開始');
@@ -216,6 +216,8 @@ class EntryController extends AbstractController
                     //     $OldCustomer->setId($Customer->getId());
                     //     $this->entityManager->persist($OldCustomer);
                     // }
+                    
+                    $Customer->setEnqueteBody(json_encode($enqueteForm->getData()));
 
                     $this->entityManager->persist($Customer);
                     $this->entityManager->flush();

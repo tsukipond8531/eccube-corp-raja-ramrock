@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class EntryTypeExtension extends AbstractTypeExtension
 {
@@ -88,8 +89,17 @@ class EntryTypeExtension extends AbstractTypeExtension
             ]
         ])
         ->add('password_tip_answer', TextType::class, [])
-        ->add('enquete', CheckboxType::class, [
-            'required' => false,
+        ->add('enquete', ChoiceType::class, [
+            'required' => true,
+            'choices' => [
+                '参加する' => '1',
+                '参加しない' => '0',
+            ],
+            'expanded' => true,
+            'multiple' => false,
+            'constraints' => [
+                new Assert\NotBlank(),
+            ],
         ]);
     }
 }

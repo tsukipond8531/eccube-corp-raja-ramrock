@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Entity\Master\OrderStatus;
 use Eccube\Event\TemplateEvent;
 use Plugin\ZeusPayment4\Service\Method\EbankPayment;
+use Plugin\ZeusPayment4\Service\Method\EaccountPayment;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Plugin\ZeusPayment4\Repository\ConfigRepository;
 use Plugin\ZeusPayment4\Service\ZeusPaymentService;
@@ -138,6 +139,7 @@ class ZeusPaymentEvent implements EventSubscriberInterface
 
         $this->csvRenameButton($event,$config);
         $this->ebankRenameButton($event,$config);
+        $this->eaccountRenameButton($event,$config);
 
         $parameters = $event->getParameters();
         $zeus_credit = array();
@@ -204,6 +206,19 @@ class ZeusPaymentEvent implements EventSubscriberInterface
         $event->addSnippet('@ZeusPayment4/ebank_confirm_rename_button.twig');
     }
 
+    private function eaccountRenameButton($event, $config){
+
+        $parameters = $event->getParameters();
+        $order = $parameters['Order'];
+
+        $payment = $order->getPayment();
+        if (!$payment || $payment->getMethodClass() != \Plugin\ZeusPayment4\Service\Method\EaccountPayment::class) {
+            return;
+        }
+
+        $event->addSnippet('@ZeusPayment4/eaccount_confirm_rename_button.twig');
+    }
+
     public function onKernelController(FilterControllerEvent $event)
     {
         $request = $event->getRequest();
@@ -225,7 +240,7 @@ class ZeusPaymentEvent implements EventSubscriberInterface
         if(!$payment){
             return;
         }
-        if($payment->getMethodClass()!=CvsPayment::class && $payment->getMethodClass()!=EbankPayment::class){
+        if($payment->getMethodClass()!=CvsPayment::class && $payment->getMethodClass()!=EbankPayment::class && $payment->getMethodClass()!=EaccountPayment::class){
             return;
         }
 

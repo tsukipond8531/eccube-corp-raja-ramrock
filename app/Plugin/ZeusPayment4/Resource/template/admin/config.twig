@@ -374,6 +374,143 @@
 				</div>
 			</div>
 		</div>
+
+
+		<div class="c-primaryCol">
+			<div class="card rounded border-0 mb-4">
+				<div class="card-header">
+					<div class="row">
+						<div class="col-8">
+							<div class="d-inline-block" data-toggle="tooltip"
+								 data-placement="top" title="Tooltip">
+								<span class="eaccount-title">ZEUS口座振替決済</span>
+							</div>
+						</div>
+						<div class="col-4 text-right">
+							<a data-toggle="collapse" href="#eaccount" class=""> <i
+										class="fa fa-lg fa-angle-down {% if(selectedTab=='eaccount') %}fa-angle-up{% endif %}"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<div class="ec-cardCollapse collapse {% if(selectedTab=='eaccount') %}show{% endif %}" id="eaccount" style="">
+					<div class="card-body">
+						<p>
+							<br /> ゼウス入金おまかせ（口座振替）決済モジュールをご利用頂く為には、ユーザ様ご自身で
+							株式会社ゼウスとご契約を行っていただく必要があります。  <br />
+							お申し込みにつきましては、下記のページからお申し込みを行って下さい。 ⇒<a
+									href='http://www.cardservice.co.jp/' target='_blank'>
+								株式会社ゼウス</a>
+						</p>
+                        {% if isInputting and formEaccount.vars.errors|length > 0 -%}
+							<div class="alert alert-danger" style="margin-top: 16px;">
+								<ul class="list-unstyled">
+                                    {%- for error in formEaccount.vars.errors -%}
+										<li><span class="glyphicon glyphicon-exclamation-sign"></span>
+                                            {{ error.message }}</li>
+                                    {%- endfor -%}
+									<li><br />詳しくは<span style="text-decoration: underline;">sales@cardservice.co.jp</span>もしくは03-3498-9030までご連絡下さい。</li>
+								</ul>
+							</div>
+                        {%- endif %}
+						<form name="formeaccount" role="form" class="form-horizontal"
+							  id="formEaccount" method="post" action="">
+							<input type="hidden" id="disp_zeus_tab_selected"
+								   name="disp_zeus_tab_selected" value="eaccount" />
+                            {{ form_widget(formEaccount._token) }}
+							<div class="row mb-2">
+								<div class="col-sm-3 control-label required ">
+									<label>加盟店IPコード<span class="text-danger"> *</span></label>
+								</div>
+								<div class="col-sm-9">
+                                    {% if isInputting %}
+                                        {{ form_widget(formEaccount.clientip_eaccount) }}
+                                        {{ form_errors(formEaccount.clientip_eaccount) }}
+                                    {% else %}
+                                        {{ formEaccount.clientip_eaccount.vars.data }}
+                                        {{ form_widget(formEaccount.clientip_eaccount, { type : 'hidden' }) }}
+                                    {% endif %}
+								</div>
+							</div>
+
+							<div class="row mb-2">
+								<div class="col-sm-3 control-label required">
+									<label>完了ページ戻りURL<br />(PC/スマートフォン用)</label>
+								</div>
+								<div class="col">
+                                    {% if isInputting %}
+                                        {{ form_widget(formEaccount.eaccount_success_url) }}
+                                        {{ form_errors(formEaccount.eaccount_success_url) }}
+                                    {% else %}
+                                        {{ formEaccount.eaccount_success_url.vars.data }}
+                                        {{ form_widget(formEaccount.eaccount_success_url, { type : 'hidden' }) }}
+                                    {% endif %}
+								</div>
+							</div>
+
+							<div class="row mb-2">
+								<div class="col-sm-3 control-label required">
+									<label>完了ページ戻りURL文言<br />(PC/スマートフォン用)</label>
+								</div>
+								<div class="col">
+                                    {% if isInputting %}
+                                        {{ form_widget(formEaccount.eaccount_success_str) }}
+                                        {{ form_errors(formEaccount.eaccount_success_str) }}
+                                    {% else %}
+                                        {{ formEaccount.eaccount_success_str.vars.data }}
+                                        {{ form_widget(formEaccount.eaccount_success_str, { type : 'hidden' }) }}
+                                    {% endif %}
+								</div>
+							</div>
+							
+							<div class="row mb-2">
+								<div class="col-sm-3 control-label required">
+									<label>失敗ページ戻りURL<br />(PC/スマートフォン用)</label>
+								</div>
+								<div class="col">
+                                    {% if isInputting %}
+                                        {{ form_widget(formEaccount.eaccount_failure_url) }}
+                                        {{ form_errors(formEaccount.eaccount_failure_url) }}
+                                    {% else %}
+                                        {{ formEaccount.eaccount_failure_url.vars.data }}
+                                        {{ form_widget(formEaccount.eaccount_failure_url, { type : 'hidden' }) }}
+                                    {% endif %}
+								</div>
+							</div>
+
+							<div class="row mb-2">
+								<div class="col-sm-3 control-label required">
+									<label>失敗ページ戻りURL文言<br />(PC/スマートフォン用)</label>
+								</div>
+								<div class="col">
+                                    {% if isInputting %}
+                                        {{ form_widget(formEaccount.eaccount_failure_str) }}
+                                        {{ form_errors(formEaccount.eaccount_failure_str) }}
+                                    {% else %}
+                                        {{ formEaccount.eaccount_failure_str.vars.data }}
+                                        {{ form_widget(formEaccount.eaccount_failure_str, { type : 'hidden' }) }}
+                                    {% endif %}
+								</div>
+							</div>
+
+
+                            {% if isInputting %}
+								<button type="submit"
+										class="btn btn-ec-conversion px-5 ladda-button" name="mode"
+										value="confirm">確認</button>
+                            {% else %}
+								<button type="submit" class="btn btn-info px-5 ladda-button"
+										name="mode" value="back">戻る</button>
+								<button type="submit"
+										class="btn btn-ec-conversion px-5 ladda-button" name="mode"
+										value="complete">保存</button>
+                            {% endif %}
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
 {% endblock %}

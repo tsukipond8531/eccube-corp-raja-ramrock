@@ -134,7 +134,7 @@
                                     {{ form_label(form.option1, '変更内容', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
                                 <dd>
-                                    <div class="ec-input{{ has_errors(form.option1) ? ' error' }}">
+                                    <div class="ec-select{{ has_errors(form.option1) ? ' error' }}">
                                         {{ form_widget(form.option1) }}
                                         {{ form_errors(form.option1) }}
                                     </div>
@@ -145,7 +145,7 @@
                                     {{ form_label(form.option2, 'データ容量の追加', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
                                 <dd>
-                                    <div class="ec-input{{ has_errors(form.option2) ? ' error' }}">
+                                    <div class="ec-select{{ has_errors(form.option2) ? ' error' }}">
                                         {{ form_widget(form.option2) }}
                                         {{ form_errors(form.option2) }}
                                     </div>

@@ -54,6 +54,13 @@ trait CustomerTrait
     private $enquete = false;
 
     /**
+     * @var string|null
+     *
+     * @ORM\Column(name="enquete_body", type="string", nullable=true, length=4000)
+     */
+    private $enquete_body;
+
+    /**
      * Set id.
      *
      * @param int $id
@@ -209,5 +216,29 @@ trait CustomerTrait
     public function getEnquete()
     {
         return $this->enquete;
+    }
+    
+    /**
+     * Set enquete_body.
+     *
+     * @param string $enquete_body
+     *
+     * @return this
+     */
+    public function setEnqueteBody($enqueteBody)
+    {
+        $this->enquete_body = $enqueteBody;
+
+        return $this;
+    }
+
+    /**
+     * Get enquete_body.
+     *
+     * @return string
+     */
+    public function getEnqueteBody()
+    {
+        return $this->enquete_body;
     }
 }

@@ -2032,7 +2032,7 @@ td.br04 {
 	left: 0;
 }
 .underMv_cont_head {
-	font-size: 50px;
+	font-size: 48px;
 	color: rgb(34, 34, 34);
 	font-weight: 800;
 	line-height: 1.12;
@@ -3919,4 +3919,16 @@ td.br04 {
 .single_sec .tnews06{
 	margin-top: 50px;
 	margin-bottom: 50px;
+}
+.top_fix_item{
+	position: fixed;
+    bottom:80px;
+    right: 4%;
+    z-index: 999;
+}
+.top_fix_item .fix_item:not(:last-child){
+	margin-bottom: 10px;
+}
+.top_fix_item .fix_item a{
+    display: block;
 }

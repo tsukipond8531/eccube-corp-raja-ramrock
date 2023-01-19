@@ -1,0 +1,45 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% autoescape 'safe_textmail' %}
+
+お試しキャンセル・解約申請を受け付けました。
+
+【お試しキャンセルの方】
+弊社にてみまもり CUBE の返却の確認が取れ次第、手続き完了となります。 
+お手数おかけいたしますが、商品のご返却の程よろしくお願い申し上げます。
+
+【ご解約の方】
+弊社より解約受付完了メールをお送りさせていただきます。
+
+
+
+受付内容
+-----------------------------------------------------------------
+
+会員 ID: {{ data.customer_id }}
+お名前: {{ data.name01 }} {{ data.name02 }}
+フリガナ: {{ data.kana01 }} {{ data.kana02 }}
+
+
+ご連絡先
+{% if data.postal_code %}〒{{ data.postal_code }}{% endif %} {% if data.pref.name is defined %} {{ data.pref.name }}{% endif %}{{ data.addr01 }}{{ data.addr02 }}
+TEL {{ data.phone_number }}
+メールアドレス: {{ data.email }}
+
+
+お試しキャンセル・解約理由: 
+{{ data.reason }}
+
+ご要望等:
+{{ data.requirement }}
+
+
+{% endautoescape  %}

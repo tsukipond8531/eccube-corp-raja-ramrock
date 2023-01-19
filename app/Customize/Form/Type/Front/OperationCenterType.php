@@ -26,8 +26,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+
+use Eccube\Form\Type\Front\EntryType;
+use Symfony\Component\Form\AbstractTypeExtension;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class OperationCenterType extends AbstractType
 {
@@ -86,7 +92,30 @@ class OperationCenterType extends AbstractType
                 ],
             ])
             ->add('file', FileType::class, [
+                'multiple' => true,
                 'required' => false,
+                'mapped' => false,
+            ])
+            // 画像
+            ->add('images', CollectionType::class, [
+                'entry_type' => HiddenType::class,
+                'prototype' => true,
+                'mapped' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+            ])
+            ->add('add_images', CollectionType::class, [
+                'entry_type' => HiddenType::class,
+                'prototype' => true,
+                'allow_add' => true,
+                'allow_delete' => true,
+            ])
+            ->add('delete_images', CollectionType::class, [
+                'entry_type' => HiddenType::class,
+                'prototype' => true,
+                'mapped' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
             ])
             ->add('contents', TextareaType::class, [
                 'constraints' => [

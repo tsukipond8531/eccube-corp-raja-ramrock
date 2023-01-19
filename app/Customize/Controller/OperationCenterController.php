@@ -112,7 +112,7 @@ class OperationCenterController extends AbstractController
                         ],
                         $request
                     );
-                    $this->eventDispatcher->dispatch(EccubeEvents::FRONT_OPERATION_CENTER_INDEX_COMPLETE, $event);
+                    // $this->eventDispatcher->dispatch(EccubeEvents::FRONT_OPERATION_CENTER_INDEX_COMPLETE, $event);
 
                     $data = $event->getArgument('data');
 
@@ -137,5 +137,43 @@ class OperationCenterController extends AbstractController
     public function complete()
     {
         return [];
+    }
+
+    /**
+     * @Route("/operation_center/file/add", name="operation_file_add", methods={"POST"})
+     */
+    public function addFile(Request $request)
+    {
+        if (!$request->isXmlHttpRequest() && $this->isTokenValid()) {
+            throw new BadRequestHttpException();
+        }
+
+        $images = $request->files->get('operation_center');
+
+        $allowExtensions = ['gif', 'jpg', 'jpeg', 'png'];
+        $files = [];
+        if (count($images) > 0) {
+            foreach ($images as $img) {
+                foreach ($img as $image) {
+                    //ファイルフォーマット検証
+                    $mimeType = $image->getMimeType();
+                    if (0 !== strpos($mimeType, 'image')) {
+                        throw new UnsupportedMediaTypeHttpException();
+                    }
+
+                    // 拡張子
+                    $extension = $image->getClientOriginalExtension();
+                    if (!in_array(strtolower($extension), $allowExtensions)) {
+                        throw new UnsupportedMediaTypeHttpException();
+                    }
+
+                    $filename = date('mdHis').uniqid('_').'.'.$extension;
+                    $image->move($this->eccubeConfig['eccube_temp_image_dir'], $filename);
+                    $files[] = $filename;
+                }
+            }
+        }
+
+        return $this->json(['files' => $files], 200);
     }
 }

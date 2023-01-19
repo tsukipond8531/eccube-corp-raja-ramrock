@@ -167,15 +167,8 @@ class AddcartController extends AbstractController
                     }
                 }
             }
-            $campagin = true;
 
-            if ($this->isGranted('ROLE_USER')) {
-                $Customer = $this->getUser();
-
-                if (count($Customer->getOrders())) $campagin = false;
-            }
-
-            $this->cartService->addProductOption($addCartData['product_class_id'], $Options, $addCartData['quantity'], $campagin);
+            $this->cartService->addProductOption($addCartData['product_class_id'], $Options, $addCartData['quantity']);
 
             // 明細の正規化
             $Carts = $this->cartService->getCarts();

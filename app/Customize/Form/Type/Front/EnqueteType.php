@@ -243,6 +243,7 @@ class EnqueteType extends AbstractType
             ->add('query10', ChoiceType::class, [
                 'required' => true,
                 'choices' => [
+                    '' => '',
                     '北海道' => '北海道',
                     '青森県' => '青森県',
                     '岩手県' => '岩手県',
@@ -309,7 +310,7 @@ class EnqueteType extends AbstractType
                 ],
             ])
             ->add('query12', ChoiceType::class, [
-                'required' => false,
+                'required' => true,
                 'choices' => [
                     '電話でお問合せをした' => '電話でお問合せをした',
                     'メールでお問合せをした' => 'メールでお問合せをした',
@@ -319,6 +320,9 @@ class EnqueteType extends AbstractType
                 ],
                 'expanded' => true,
                 'multiple' => true,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
             ])
             ->add('query12_other', TextareaType::class, [
                 'required' => false,

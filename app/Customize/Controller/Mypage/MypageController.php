@@ -36,10 +36,12 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Eccube\Entity\Master\OrderStatus;
 
 // CAMPAIGN_PRICE is a constant to check if it is CAMPAIGN product.
 !defined('CAMPAIGN_PRICE') && define('CAMPAIGN_PRICE', 2900);
 !defined('CAMPAIGN_PERIOD') && define('CAMPAIGN_PERIOD', 30);
+!defined('CAMPAIGN_PRODUCT_ID') && define('CAMPAIGN_PRODUCT_ID', 6);
 
 class MypageController extends AbstractController
 {
@@ -156,8 +158,15 @@ class MypageController extends AbstractController
             ->enable('incomplete_order_status_hidden');
 
         // paginator
-        $qb = $this->orderRepository->getQueryBuilderByCustomer($Customer);
-
+        // $qb = $this->orderRepository->getQueryBuilderByCustomer($Customer);
+        $excludes = [OrderStatus::PENDING, OrderStatus::PROCESSING, OrderStatus::RETURNED];
+        $qb = $this->orderRepository
+            ->createQueryBuilder('o')
+            ->where('o.Customer = :Customer')
+            ->andWhere('o.OrderStatus NOT IN (:excludes)')
+            ->setParameter(':Customer', $Customer)
+            ->setParameter(':excludes', $excludes);
+            
         $event = new EventArgs(
             [
                 'qb' => $qb,
@@ -174,7 +183,15 @@ class MypageController extends AbstractController
         );
 
         $totalPrice = 0;
-        $Orders = $qb->getQuery()->getResult();
+        $excludes = [OrderStatus::CANCEL, OrderStatus::PENDING, OrderStatus::PROCESSING, OrderStatus::RETURNED];
+        $Orders = $this->orderRepository
+            ->createQueryBuilder('o')
+            ->where('o.Customer = :Customer')
+            ->andWhere('o.OrderStatus NOT IN (:excludes)')
+            ->setParameter(':Customer', $Customer)
+            ->setParameter(':excludes', $excludes)
+            ->getQuery()
+            ->getResult();
 
         foreach ($Orders as $Order) {
             $orderDate = $Order->getUpdateDate();
@@ -183,11 +200,11 @@ class MypageController extends AbstractController
             
             foreach ($Order->getMergedProductOrderItems() as $OrderItem) {
                 // Check if Campaign product is purchased
-                if ($OrderItem->getPrice() == CAMPAIGN_PRICE && $interval->d <= CAMPAIGN_PERIOD) {
+                if ($OrderItem->getProduct()->getId() == CAMPAIGN_PRODUCT_ID && $interval->d <= CAMPAIGN_PERIOD) {
                     continue;
                 }
 
-                $totalPrice += $OrderItem->getTotalPrice();
+                $totalPrice += $OrderItem->getProductClass()->getDefaultPriceIncTax();
             }
         }
 

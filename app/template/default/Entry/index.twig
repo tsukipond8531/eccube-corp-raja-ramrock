@@ -303,7 +303,7 @@ file that was distributed with this source code.
                 {{ form_widget(enqueteForm._token) }}
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query1, '問1:みまもりCUBEを利用するきっかけは？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query1, 'みまもりCUBEを利用するきっかけは？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query1) ? ' error' }}">
@@ -314,18 +314,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query1_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>
-                        <div class="ec-input{{ has_errors(enqueteForm.query1_other) ? ' error' }}">
-                            {{ form_widget(enqueteForm.query1_other) }}
-                            {{ form_errors(enqueteForm.query1_other) }}
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query2, '問2:みまもりCUBE知ったきっかけは？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query2, 'みまもりCUBE知ったきっかけは？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query2) ? ' error' }}">
@@ -336,18 +325,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query2_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>
-                        <div class="ec-input{{ has_errors(enqueteForm.query2_other) ? ' error' }}">
-                            {{ form_widget(enqueteForm.query2_other) }}
-                            {{ form_errors(enqueteForm.query2_other) }}
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query3, '問3:具体的にどの様な事が心配ですか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query3, '具体的にどの様な事が心配ですか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query3) ? ' error' }}">
@@ -358,18 +336,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query3_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>
-                        <div class="ec-input{{ has_errors(enqueteForm.query3_other) ? ' error' }}">
-                            {{ form_widget(enqueteForm.query3_other) }}
-                            {{ form_errors(enqueteForm.query3_other) }}
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query4, '問4:いつ頃からみまもりカメラを探されていましたか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query4, 'いつ頃からみまもりカメラを探されていましたか？', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query4) ? ' error' }}">
@@ -380,18 +347,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query4_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>
-                        <div class="ec-input{{ has_errors(enqueteForm.query4_other) ? ' error' }}">
-                            {{ form_widget(enqueteForm.query4_other) }}
-                            {{ form_errors(enqueteForm.query4_other) }}
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query5, '問5:今まで見守り等をする為にご利用になった商品はありますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query5, '今まで見守り等をする為にご利用になった商品はありますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query5) ? ' error' }}">
@@ -402,18 +358,12 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query5_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>
-                        <div class="ec-input{{ has_errors(enqueteForm.query5_other) ? ' error' }}">
-                            {{ form_widget(enqueteForm.query5_other) }}
-                            {{ form_errors(enqueteForm.query5_other) }}
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query6_1, '【わかりやすかったこと】具体的にどの部分がそう思われましたか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        ホームページについて教えてください <br />
+                        <label class="ec-label required">
+                            【わかりやすかったこと】具体的にどの部分がそう思われましたか？
+                        </label><br />
+                        ※複数回答可
+                        <span class="ec-required">必須</span>
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query6_1) ? ' error' }}">
@@ -424,18 +374,12 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query6_1_other, 'あればご記入ください', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>
-                        <div class="ec-input{{ has_errors(enqueteForm.query6_1_other) ? ' error' }}">
-                            {{ form_widget(enqueteForm.query6_1_other) }}
-                            {{ form_errors(enqueteForm.query6_1_other) }}
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query6_2, '【わかりづらかったこと】具体的にどの部分がそう思われましたか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        ホームページについて教えてください <br />
+                        <label class="ec-label required">
+                            【わかりづらかったこと】具体的にどの部分がそう思われましたか？
+                        </label><br />
+                        ※複数回答可
+                        <span class="ec-required">必須</span>
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query6_2) ? ' error' }}">
@@ -446,18 +390,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query6_2_other, 'あればご記入ください', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>
-                        <div class="ec-input{{ has_errors(enqueteForm.query6_2_other) ? ' error' }}">
-                            {{ form_widget(enqueteForm.query6_2_other) }}
-                            {{ form_errors(enqueteForm.query6_2_other) }}
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query7, '問7:みまもりCUBEのどこに魅力を感じましたか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query7, 'みまもりCUBEのどこに魅力を感じましたか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query7) ? ' error' }}">
@@ -468,18 +401,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query7_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>
-                        <div class="ec-input{{ has_errors(enqueteForm.query7_other) ? ' error' }}">
-                            {{ form_widget(enqueteForm.query7_other) }}
-                            {{ form_errors(enqueteForm.query7_other) }}
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query8, '問8:みまもりCUBEのどの機能をメインに使われる予定ですか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query8, 'みまもりCUBEのどの機能をメインに使われる予定ですか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query8) ? ' error' }}">
@@ -490,18 +412,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query8_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>
-                        <div class="ec-input{{ has_errors(enqueteForm.query8_other) ? ' error' }}">
-                            {{ form_widget(enqueteForm.query8_other) }}
-                            {{ form_errors(enqueteForm.query8_other) }}
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query9, '問9:普段、SNSを利用していますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query9, '普段、SNSを利用していますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query9) ? ' error' }}">
@@ -512,7 +423,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query9_other, '問9で「利用している」とお答えいただいたは、ご利用のSNSを選択してください。(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query9_other, '上記質問で「利用している」とお答えいただいたは、ご利用のSNSを選択してください。(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query9_other) ? ' error' }}">
@@ -523,7 +434,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query10, '問10:みまもりＣＵＢＥを設置する都道府県を教えてください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query10, 'みまもりＣＵＢＥを設置する都道府県を教えてください', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-select{{ has_errors(enqueteForm.query10) ? ' error' }}">
@@ -534,7 +445,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query11, '問11:ライブ映像・録画の確認、声かけ、現地の音を聞く　これらの機能を使用できて月額3,900円の価格はどう思われますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query11, 'ライブ映像・録画の確認、声かけ、現地の音を聞く　これらの機能を使用できて月額3,900円の価格はどう思われますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query11) ? ' error' }}">
@@ -545,7 +456,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query12, '問12:今回お申込みいただくまでにお電話やメール等でお問合せはされましたか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query12, '今回お申込みいただくまでにお電話やメール等でお問合せはされましたか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-checkbox{{ has_errors(enqueteForm.query12) ? ' error' }}">
@@ -556,18 +467,7 @@ file that was distributed with this source code.
                 </dl>
                 <dl>
                     <dt>
-                        {{ form_label(enqueteForm.query12_other, 'その他を選択された場合、ご入力ください。', { 'label_attr': { 'class': 'ec-label' }}) }}
-                    </dt>
-                    <dd>
-                        <div class="ec-input{{ has_errors(enqueteForm.query12_other) ? ' error' }}">
-                            {{ form_widget(enqueteForm.query12_other) }}
-                            {{ form_errors(enqueteForm.query12_other) }}
-                        </div>
-                    </dd>
-                </dl>
-                <dl>
-                    <dt>
-                        {{ form_label(enqueteForm.query13, '問13:最後にご意見・ご質問をお聞かせください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                        {{ form_label(enqueteForm.query13, '最後にご意見・ご質問をお聞かせください', { 'label_attr': { 'class': 'ec-label' }}) }}
                     </dt>
                     <dd>
                         <div class="ec-input{{ has_errors(enqueteForm.query13) ? ' error' }}">
@@ -576,17 +476,43 @@ file that was distributed with this source code.
                         </div>
                     </dd>
                 </dl>
+                {% for f in enqueteForm|filter(f => f.vars.eccube_form_options.auto_render) %}
+                    {% if f.vars.eccube_form_options.form_theme %}
+                        {% form_theme f f.vars.eccube_form_options.form_theme %}
+                        {{ form_row(f) }}
+                    {% else %}
+                        <dl>
+                            <dt>
+                                {{ form_label(f) }}
+                            </dt>
+                            <dd>
+                                <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
+                                    {{ form_widget(f) }}
+                                    {{ form_errors(f) }}
+                                </div>
+                            </dd>
+                        </dl>
+                    {% endif %}
+                {% endfor %}
             `;
-
-            if ($('#entry_enquete').is(':checked')) {
+            
+            if ($('#entry_enquete_0').is(':checked')) {
                 $('#enquete-container').html(enqueteForm);
             }
+            
+            if ($('#entry_enquete_1').is(':checked')) {
+                $('#enquete-container').empty();
+            }
 
-            $('#entry_enquete').on('change', function(){
+            $('#entry_enquete_0').on('change', function() {
                 if ($(this).is(':checked')) {
                     $('#enquete-container').html(enqueteForm);
-                } else {
-                     $('#enquete-container').empty();
+                }
+            });
+
+            $('#entry_enquete_1').on('change', function() {
+                if ($(this).is(':checked')) {
+                    $('#enquete-container').empty();
                 }
             });
         });
@@ -764,11 +690,11 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                アンケートキャンペーン
+                                {{ form_label(form.enquete, 'アンケートキャンペーン', { 'label_attr': {'class': 'ec-label' }}) }}
                             </dt>
                             <dd>
                                 <div class="ec-checkbox{{ has_errors(form.enquete) ? ' error' }}">
-                                    {{ form_widget(form.enquete) }} <label for="entry_enquete">参加する</label>
+                                    {{ form_widget(form.enquete) }}
                                     {{ form_errors(form.enquete) }}
                                 </div>
                             </dd>

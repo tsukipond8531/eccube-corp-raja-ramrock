@@ -9,8 +9,39 @@ For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 #}
 {% autoescape 'safe_textmail' %}
-※本メールは自動配信メールです。
 
+会員登録内容の変更が完了いたしました。
+今後ともご愛顧賜りますようよろしくお願い申し上げます。
 
+受付内容
+-----------------------------------------------------------------------------
+
+会員ID： {{ app.user.id }}
+お名前： {{ data.name01 }} {{ data.name02 }}
+お名前(カナ)： {{ data.kana01 }} {{ data.kana02 }}
+会社名： {{ data.company_name }}
+
+住所： 〒{{ data.postal_code }} {{ data.Pref.name }}{{ data.addr01 }}{{ data.addr02 }}
+電話番号： {{ data.phone_number }}
+メールアドレス： {{ data.email }}
+
+生年月日： {{ data.birth|date("Y年m月d日") }}
+パスワード： *********************
+{{ data.password_tip_query }}： {{ data.password_tip_answer }}
+メールマガジン：{% if data.mailmaga_flg %} 受け取る  {% else %} 受け取らない {% endif %}
+
+-----------------------------------------------------------------------------
+株式会社ラムロック
+〒820-1111
+福岡県飯塚市勢田1950-1
+
+フリーダイヤル　0120-927-760
+携帯・PHS　0948-96-8160
+お問い合わせ専用アドレス　customer@ramrock.co.jp
+公式HP　https://ramrock-eyes.jp
+-----------------------------------------------------------------------------
+※このメールは送信専用のアドレスから自動送信されているため、
+ご返信いただいても内容の確認や回答ができません。
+ご質問はお問合せ専用アドレスよりご連絡ください。
 
 {% endautoescape %}

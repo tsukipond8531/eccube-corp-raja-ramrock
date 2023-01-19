@@ -54,7 +54,7 @@ class ProductOptionCartService extends CartService
         $this->taxRuleService = $taxRuleService;
     }
 
-    public function addProductOption($productClassId, $Options, $quantity = 1, $campagin = false)
+    public function addProductOption($productClassId, $Options, $quantity = 1)
     {
         $ProductClass = $this->productClassRepository->find($productClassId);
         if(!$ProductClass)return false;
@@ -118,7 +118,6 @@ class ProductOptionCartService extends CartService
                 }
             }
         }
-        if ($campagin) $total_option_price = 0;
         $price = $ProductClass->getPrice02() + $total_option_price;
         $newItem->setPrice($price + $this->taxRuleService->getTax($price,$ProductClass->getProduct(),$ProductClass));
         $this->restoreCarts($allCartItems);

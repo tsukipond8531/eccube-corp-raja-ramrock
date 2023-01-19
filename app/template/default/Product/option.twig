@@ -7,7 +7,6 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 #}
-
 {% if Product.ProductOptions %}
         {% for ProductOption in Product.ProductOptions %}
             {% set value = 'productoption' ~ ProductOption.Option.id %}
@@ -105,4 +104,5 @@
                 </div>
             {% endif %}
         {% endfor %}
+        <p style="margin-top: 5px">※本契約時に適用</p>
 {% endif %}
