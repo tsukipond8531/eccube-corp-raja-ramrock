@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c19f9cc80cf2997acb8a2eb33f1574f9",
+    "content-hash": "90de5511540f374d9e6f1f9a3aa95698",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -2434,6 +2434,30 @@
             },
             "abandoned": true,
             "time": "2019-10-24T07:13:31+00:00"
+        },
+        {
+            "name": "ec-cube/coupon4",
+            "version": "4.1.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://package-api-c2.ec-cube.net/ec-cube/coupon4/4.1.1/Coupon4-4.1.1.tgz"
+            },
+            "require": {
+                "ec-cube/plugin-installer": "~0.0.4 || ^2.0"
+            },
+            "type": "eccube-plugin",
+            "extra": {
+                "code": "Coupon4",
+                "id": 1923
+            },
+            "description": "Coupon Plugin for EC-CUBE4",
+            "transport-options": {
+                "http": {
+                    "header": [
+                        "X-ECCUBE-KEY: 3d7dd408aa862e7b4768ba6bd27f84075a5b13e2"
+                    ]
+                }
+            }
         },
         {
             "name": "ec-cube/jsysasi",

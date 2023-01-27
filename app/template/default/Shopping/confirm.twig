@@ -348,6 +348,14 @@ file that was distributed with this source code.
                         <dt>{{ '送料'|trans }}</dt>
                         <dd>{{ Order.deliveryFeeTotal|price }}</dd>
                     </dl>
+                    {% for item in Order.tax_free_discount_items %}
+                        {# {% if loop.first %}<div class="ec-totalBox__total"></div>{% endif %} #}
+                        <dl class="ec-totalBox__spec">
+                            {# <dt>{{ item.product_name }}</dt> #}
+                            <dt> 割引 </dt>
+                            <dd>{{ item.total_price|price }}</dd>
+                        </dl>
+                    {% endfor %}
                     {% if Order.taxable_discount < 0 %}
                     <dl class="ec-totalBox__spec">
                         <dt>{{ '値引き'|trans }}</dt>
@@ -359,13 +367,6 @@ file that was distributed with this source code.
                         <dl class="ec-totalBox__taxRate">
                             <dt>{{ '税率 %rate% %対象'|trans({ '%rate%': rate }) }}</dt>
                             <dd>{{ total|price }}</dd>
-                        </dl>
-                    {% endfor %}
-                    {% for item in Order.tax_free_discount_items %}
-                        {% if loop.first %}<div class="ec-totalBox__total"></div>{% endif %}
-                        <dl class="ec-totalBox__spec">
-                            <dt>{{ item.product_name }}</dt>
-                            <dd>{{ item.total_price|price }}</dd>
                         </dl>
                     {% endfor %}
                     <div class="ec-totalBox__paymentTotal">{{ 'お支払い合計'|trans }}<span class="ec-totalBox__price">{{ Order.payment_total|price }}</span><span class="ec-totalBox__taxLabel">{{ '税込'|trans }}</span></div>

@@ -26,6 +26,17 @@ file that was distributed with this source code.
         #welfare {
             margin-left: 15px;
         }
+        .body .ec-borderedDefs dd label::after {
+            content: '\a';
+            white-space: pre;
+        }
+
+        .body .ec-checkbox label {
+            display: unset;
+        }
+        .ec-borderedDefs dl {
+            padding: 15px 0;
+        }
 
         @media only screen and (max-width: 767px) {
             #options label {
@@ -307,7 +318,6 @@ file that was distributed with this source code.
                 <form method="post" action="{{ url('material') }}" class="h-adr" novalidate>
                     <span class="p-country-name" style="display:none;">Japan</span>
                     {{ form_widget(careManagerForm._token) }}
-                    <p class="ec-para-normal">{{ '内容によっては回答をさしあげるのにお時間をいただくこともございます。また、休業日は翌営業日以降の対応となりますのでご了承ください。'|trans|nl2br }}</p>
                     <div class="ec-borderedDefs">
                         <dl>
                             <dt>

@@ -46,6 +46,10 @@ use Customize\Form\Type\Front\WatchTarget2Type;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 use Symfony\Component\HttpFoundation\File\File;
+use Plugin\Coupon4\Repository\CouponRepository;
+use Plugin\Coupon4\Repository\CouponOrderRepository;
+use Plugin\Coupon4\Service\CouponService;
+use Eccube\Entity\Master\OrderStatus;
 
 !defined('INSTALLATION_AGENT_LABEL') && define('INSTALLATION_AGENT_LABEL', '設置代行オプション');
 !defined('ADDRESS_TYPE_INSTALL') && define('ADDRESS_TYPE_INSTALL', 'ADDRESS_TYPE_INSTALL');
@@ -74,16 +78,32 @@ class ShoppingController extends AbstractShoppingController
      */
     protected $orderRepository;
 
+    /**
+     * @var CouponService
+     */
+    private $couponService;
+
+    /**
+     * @var CouponRepository
+     */
+    private $couponRepository;
+
     public function __construct(
         CartService $cartService,
         MailService $mailService,
         OrderRepository $orderRepository,
+        CouponService $couponService,
+        CouponRepository $couponRepository,
+        CouponOrderRepository $couponOrderRepository,
         OrderHelper $orderHelper
     ) {
         $this->cartService = $cartService;
         $this->mailService = $mailService;
         $this->orderRepository = $orderRepository;
         $this->orderHelper = $orderHelper;
+        $this->couponService = $couponService;
+        $this->couponRepository = $couponRepository;
+        $this->couponOrderRepository = $couponOrderRepository;
     }
 
     /**
@@ -125,6 +145,33 @@ class ShoppingController extends AbstractShoppingController
         // 集計処理.
         log_info('[注文手続] 集計処理を開始します.', [$Order->getId()]);
         $flowResult = $this->executePurchaseFlow($Order, false);
+
+        // $campagin = true;
+        // $excludes = [OrderStatus::PENDING, OrderStatus::PROCESSING, OrderStatus::RETURNED];
+
+        // $Orders = $this->orderRepository
+        //     ->createQueryBuilder('o')
+        //     ->where('o.Customer = :Customer')
+        //     ->andWhere('o.OrderStatus NOT IN (:excludes)')
+        //     ->setParameter(':Customer', $Customer)
+        //     ->setParameter(':excludes', $excludes)
+        //     ->getQuery()
+        //     ->getResult();
+
+        // if (count($Orders)) $campagin = false;
+
+        // if ($Customer->getEnquete() && !$Customer->getCouponUsed()) {
+        //     if ($campagin) {
+        //         $Coupon = $this->couponRepository->find(1);
+        //     } else {
+        //         $Coupon = $this->couponRepository->find(2);
+        //     }
+        //     $couponProducts = $this->couponService->existsCouponProduct($Coupon, $Order);
+        //     $discount = $this->couponService->recalcOrder($Coupon, $couponProducts);
+
+        //     // クーポン情報を登録
+        //     $this->couponService->saveCouponOrder($Order, $Coupon, $Coupon->getCouponCd(), $Customer, $discount);
+        // }
         $this->entityManager->flush();
 
         if ($flowResult->hasError()) {
@@ -177,11 +224,6 @@ class ShoppingController extends AbstractShoppingController
         }
 
         $installationAgentForm = NULL;
-        
-        $installationAgentForm = $this->createForm(InstallationAgentType::class);
-        if ($redirectParams) {
-            $this->mapFormAndAddress($installationAgentForm, $redirectParams['installation_agent']);
-        }
 
         $watchTarget1Form = $this->createForm(WatchTarget1Type::class);
         if ($redirectParams) {
@@ -194,6 +236,11 @@ class ShoppingController extends AbstractShoppingController
         }
 
         if ($isInstallationAgent) {
+            $installationAgentForm = $this->createForm(InstallationAgentType::class);
+            if ($redirectParams) {
+                $this->mapFormAndAddress($installationAgentForm, $redirectParams['installation_agent']);
+            }
+
             $installationAgentForm = $installationAgentForm->createView();
         }
 
@@ -622,6 +669,14 @@ class ShoppingController extends AbstractShoppingController
 
         $Order = $this->orderRepository->find($orderId);
 
+        if ($this->couponOrderRepository->findBy(['order_id' => $Order->getId()])) {
+            $Customer = $this->getUser() ;
+            $Customer->setCouponUsed(true);
+
+            $this->entityManager->persist($Customer);
+            $this->entityManager->flush();
+        }
+
         $event = new EventArgs(
             [
                 'Order' => $Order,
@@ -1028,7 +1083,9 @@ class ShoppingController extends AbstractShoppingController
         $form['kana']['kana02']->setData($address->getKana02());
         $form['company_name']->setData($address->getCompanyName());
         $form['postal_code']->setData($address->getPostalCode());
-        $form['address']['pref']->setData( $prefRepository->findOneBy(['name' => $address->getPref()->getName()]) );
+        if ($address->getPref() && $address->getPref()->getName()) {
+            $form['address']['pref']->setData( $prefRepository->findOneBy(['name' => $address->getPref()->getName()]) );
+        }
         $form['address']['addr01']->setData($address->getAddr01());
         $form['address']['addr02']->setData($address->getAddr02());
         $form['phone_number']->setData($address->getPhoneNumber());

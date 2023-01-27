@@ -40,12 +40,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 use Eccube\Service\OrderHelper as BaseService;
-
-// CAMPAIGN_PRICE is a constant to check if it is CAMPAIGN product.
-!defined('CAMPAIGN_PRICE') && define('CAMPAIGN_PRICE', 2900);
+use Symfony\Component\Security\Core\Security;
 
 class OrderHelper extends BaseService
 {
+    private $security;
     public function __construct(
         ContainerInterface $container,
         EntityManagerInterface $entityManager,
@@ -57,10 +56,13 @@ class OrderHelper extends BaseService
         DeviceTypeRepository $deviceTypeRepository,
         PrefRepository $prefRepository,
         MobileDetector $mobileDetector,
-        SessionInterface $session
+        SessionInterface $session,
+        Security $security
     ) {
         parent::__construct($container, $entityManager, $orderRepository, $orderItemTypeRepository, $orderStatusRepository, $deliveryRepository,
-            $paymentRepository, $deviceTypeRepository, $prefRepository, $mobileDetector, $session);
+            $paymentRepository, $deviceTypeRepository, $prefRepository, $mobileDetector, $session, $security);
+        
+        $this->security = $security;
     }
 
     /**
@@ -68,7 +70,20 @@ class OrderHelper extends BaseService
      */
     protected function setDefaultDelivery(Shipping $Shipping)
     {
-        $isCampaign = false;
+        $Customer = $this->security->getUser();
+        $isCampaign = true;
+        $excludes = [OrderStatus::PENDING, OrderStatus::PROCESSING, OrderStatus::RETURNED];
+
+        $Orders = $this->orderRepository
+            ->createQueryBuilder('o')
+            ->where('o.Customer = :Customer')
+            ->andWhere('o.OrderStatus NOT IN (:excludes)')
+            ->setParameter(':Customer', $Customer)
+            ->setParameter(':excludes', $excludes)
+            ->getQuery()
+            ->getResult();
+
+        if (count($Orders)) $isCampaign = false;
 
         // 配送商品に含まれる販売種別を抽出.
         $OrderItems = $Shipping->getOrderItems();
@@ -78,8 +93,6 @@ class OrderHelper extends BaseService
             $ProductClass = $OrderItem->getProductClass();
             $SaleType = $ProductClass->getSaleType();
             $SaleTypes[$SaleType->getId()] = $SaleType;
-
-            if ($OrderItem->getPrice() == CAMPAIGN_PRICE) $isCampaign = true;
         }
 
         // 販売種別に紐づく配送業者を取得.

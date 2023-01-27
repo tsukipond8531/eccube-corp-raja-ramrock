@@ -1,0 +1,40 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% block main %}
+<div class="ec-modifiedLayoutRole__contents">
+    <div class="ec-role">
+        <div class="ec-pageHeader">
+            <h1>{{ '【みまもりCUBE Plus】お問い合わせ(完了)'|trans }}</h1>
+        </div>
+    </div>
+    <div class="ec-contactCompleteRole">
+        <div class="ec-off3Grid ec-text-ac">
+            <div class="ec-off3Grid__cell">
+                <div class="ec-reportHeading">
+                    <h2>{{ 'お問い合わせありがとうございました'|trans }}</h2>
+                </div>
+                <p class="ec-reportDescription">
+                    この度は、みまもりCUBEのお問い合わせありがとうございました。 <br />
+                    改めて担当者よりご連絡をさせていただきます。 <br />
+                    3営業日を過ぎても連絡がない場合は、申し訳ございませんが、  <br />
+                    下記連絡先までご連絡ください。 <br />
+                    <a href="mailto:customer@ramrock.co.jp">customer@ramrock.co.jp</a>
+                </p>
+                <div class="ec-off4Grid">
+                    <div class="ec-off4Grid__cell"><a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{'トップページへ'|trans}}</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

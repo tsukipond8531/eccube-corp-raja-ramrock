@@ -13,6 +13,7 @@ file that was distributed with this source code.
 {% set body_class = 'cart_page' %}
 {% set anshin_count = 0 %}
 {% set totalSum = 0 %}
+{% set isCampaign = false %}
 
 {% block main %}
 <style>
@@ -266,6 +267,8 @@ file that was distributed with this source code.
                                 {% set ProductClass = CartItem.ProductClass %}
                                 {% set Product = ProductClass.Product %}
                                 {% set totalSum = totalSum + ProductClass.default_price_inc_tax %}
+
+                                {% if Product.id == 6 %}{% set isCampaign = true %}{% endif %}
                                 <ul class="ec-cartRow">
                                     <li class="ec-cartRow__contentColumn">
                                         <div class="ec-cartRow__summary">
@@ -301,8 +304,11 @@ file that was distributed with this source code.
                     </div>
                     <div class="ec-cartRole__actions">
                         {# <div class="ec-cartRole__total">{{ '合計：'|trans }}<span class="ec-cartRole__totalAmount">{{ Cart.totalPrice|price }}</span> #}
-                        <div class="ec-cartRole__total">{{ '合計：'|trans }}<span class="ec-cartRole__totalAmount">{{ totalSum|price }}</span>
-                        </div>
+                        {% if isCampaign == false %}
+                            <div class="ec-cartRole__total">
+                                {{ '合計：'|trans }}<span class="ec-cartRole__totalAmount">{{ totalSum|price }}</span>
+                            </div>
+                        {% endif %}
                         <a class="ec-blockBtn--action" href="{{ path('cart_buystep', {'cart_key':cartKey}) }}">{{ 'お支払いへ進む'|trans }}</a>
                         {% if loop.last %}
                             <a class="ec-blockBtn--cancel" href="{{ path('homepage') }}">{{ 'お買い物を続ける'|trans }}</a>

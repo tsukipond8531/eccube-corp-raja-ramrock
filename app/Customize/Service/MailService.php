@@ -74,11 +74,11 @@ class MailService extends BaseService
 
         // 問い合わせ者にメール送信
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
-            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
+            ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc($this->BaseInfo->getEmail02())
-            ->setReplyTo($this->BaseInfo->getEmail02())
+            ->setBcc('customer@ramrock-eyes.jp')
+            ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath($this->BaseInfo->getEmail04());
 
         // HTMLテンプレートが存在する場合
@@ -129,11 +129,11 @@ class MailService extends BaseService
 
         // 問い合わせ者にメール送信
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
-            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
+            ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc($this->BaseInfo->getEmail02())
-            ->setReplyTo($this->BaseInfo->getEmail02())
+            ->setBcc('customer@ramrock-eyes.jp')
+            ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath($this->BaseInfo->getEmail04());
 
         // HTMLテンプレートが存在する場合
@@ -169,7 +169,7 @@ class MailService extends BaseService
     /**
      * Send plan change mail.
      *
-     * @param $formData 本人確認書類内容
+     * @param $formData プラン変更内容
      */
     public function sendPlanChangeMail($formData)
     {
@@ -187,11 +187,11 @@ class MailService extends BaseService
 
         // 問い合わせ者にメール送信
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
-            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
+            ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc($this->BaseInfo->getEmail02())
-            ->setReplyTo($this->BaseInfo->getEmail02())
+            ->setBcc('customer@ramrock-eyes.jp')
+            ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath($this->BaseInfo->getEmail04());
 
         // HTMLテンプレートが存在する場合
@@ -227,11 +227,11 @@ class MailService extends BaseService
     /**
      * Send material mail.
      *
-     * @param $formData 本人確認書類内容
+     * @param $formData 一般・介護保険レンタル資料請求内容
      */
     public function sendMaterialMail($formData, $options = null)
     {
-        log_info('自動返信メール開始');
+        log_info('一般・介護保険レンタル資料請求返信メール開始');
 
         $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_material_mail_template_id']);
 
@@ -241,14 +241,14 @@ class MailService extends BaseService
             'type' => $options['type'],
         ]);
 
-        // 自動返信メール
+        // 一般・介護保険レンタル資料請求返信メール
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
-            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
+            ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc($this->BaseInfo->getEmail02())
-            ->setReplyTo($this->BaseInfo->getEmail02())
-            ->setReturnPath($this->BaseInfo->getEmail04());
+            ->setBcc('customer@ramrock-eyes.jp')
+            ->setReplyTo('customer@ramrock-eyes.jp')
+            ->setReturnPath('customer@ramrock-eyes.jp');
 
         // HTMLテンプレートが存在する場合
         $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
@@ -299,11 +299,11 @@ class MailService extends BaseService
 
         // オペレーションセンターお問合せメール送信
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
-            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
+            ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc($this->BaseInfo->getEmail02())
-            ->setReplyTo($this->BaseInfo->getEmail02())
+            ->setBcc('customer@ramrock-eyes.jp')
+            ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath($this->BaseInfo->getEmail04());
 
         // HTMLテンプレートが存在する場合
@@ -354,11 +354,11 @@ class MailService extends BaseService
 
         // 会員情報変更メール送信
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
-            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
+            ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc($this->BaseInfo->getEmail02())
-            ->setReplyTo($this->BaseInfo->getEmail02())
+            ->setBcc('customer@ramrock-eyes.jp')
+            ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath($this->BaseInfo->getEmail04());
 
         // HTMLテンプレートが存在する場合
@@ -409,7 +409,7 @@ class MailService extends BaseService
         ]);
 
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
             ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
             ->setTo([$Order->getEmail()])
             ->setBcc($this->BaseInfo->getEmail01())
@@ -449,9 +449,9 @@ class MailService extends BaseService
         ]);
 
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
             ->setFrom([$Order->getEmail()])
-            ->setTo([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()]);
+            ->setTo(['customer@ramrock.co.jp' => $this->BaseInfo->getShopName()]);
 
         // HTMLテンプレートが存在する場合
         $htmlFileName = $this->getHtmlTemplate('Mail/order_reply.twig');
@@ -507,12 +507,12 @@ class MailService extends BaseService
 
         // 問い合わせ者にメール送信
         $message = (new \Swift_Message())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
-            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
+            ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc($this->BaseInfo->getEmail02())
-            ->setReplyTo($this->BaseInfo->getEmail02())
-            ->setReturnPath($this->BaseInfo->getEmail04());
+            ->setBcc('customer@ramrock-eyes.jp')
+            ->setReplyTo('customer@ramrock-eyes.jp')
+            ->setReturnPath('customer@ramrock-eyes.jp');
 
         // HTMLテンプレートが存在する場合
         $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
@@ -545,11 +545,259 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$formData['email']])
+            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()])
+            ->setBcc('mimamori-cube@ramrock.co.jp');
+        $this->mailer->send($message);
+
+        log_info('お問い合わせ受付メール送信完了', ['count' => $count]);
+
+        return $count;
+    }
+
+    /**
+     * Send customer complete mail.
+     *
+     * @param $Customer 会員情報
+     */
+    public function sendCustomerCompleteMail(Customer $Customer)
+    {
+        log_info('会員登録完了メール送信開始');
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_entry_complete_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'Customer' => $Customer,
+            'BaseInfo' => $this->BaseInfo,
+        ]);
+
+        $message = (new \Swift_Message())
+            ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
+            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setTo([$Customer->getEmail()])
+            ->setBcc($this->BaseInfo->getEmail02())
+            ->setReplyTo($this->BaseInfo->getEmail02())
+            ->setReturnPath($this->BaseInfo->getEmail04());
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'Customer' => $Customer,
+                'BaseInfo' => $this->BaseInfo,
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $event = new EventArgs(
+            [
+                'message' => $message,
+                'Customer' => $Customer,
+                'BaseInfo' => $this->BaseInfo,
+            ],
+            null
+        );
+        $this->eventDispatcher->dispatch(EccubeEvents::MAIL_CUSTOMER_COMPLETE, $event);
+
+        $count = $this->mailer->send($message);
+
+        log_info('会員登録完了メール送信完了', ['count' => $count]);
+        
+        // 自動返信メール
+        $message
+            ->setFrom([$Customer->getEmail()])
             ->setTo([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
             ->setBcc($this->BaseInfo->getEmail02());
         $this->mailer->send($message);
 
+        return $count;
+    }
+
+    /**
+     * Send contact light mail.
+     *
+     * @param $formData お問い合わせ内容
+     */
+    public function sendContactLightMail($formData)
+    {
+        log_info('お問い合わせ受付メール送信開始');
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_contact_light_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'data' => $formData,
+            'BaseInfo' => $this->BaseInfo,
+        ]);
+
+        // 問い合わせ者にメール送信
+        $message = (new \Swift_Message())
+            ->setSubject($MailTemplate->getMailSubject())
+            ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
+            ->setTo([$formData['email']])
+            ->setBcc('customer@ramrock-eyes.jp')
+            ->setReplyTo('customer@ramrock-eyes.jp')
+            ->setReturnPath('customer@ramrock-eyes.jp');
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'data' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $event = new EventArgs(
+            [
+                'message' => $message,
+                'formData' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+            ],
+            null
+        );
+
+        $count = $this->mailer->send($message);
+        
+        // 自動返信メール
+        $message
+            ->setFrom([$formData['email']])
+            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()])
+            ->setBcc('mimamori-cube@ramrock.co.jp');
+        $this->mailer->send($message);
+
         log_info('お問い合わせ受付メール送信完了', ['count' => $count]);
+
+        return $count;
+    }
+
+    /**
+     * Send contact plus mail.
+     *
+     * @param $formData お問い合わせ内容
+     */
+    public function sendContactPlusMail($formData)
+    {
+        log_info('お問い合わせ受付メール送信開始');
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_contact_plus_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'data' => $formData,
+            'BaseInfo' => $this->BaseInfo,
+        ]);
+
+        // 問い合わせ者にメール送信
+        $message = (new \Swift_Message())
+            ->setSubject($MailTemplate->getMailSubject())
+            ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
+            ->setTo([$formData['email']])
+            ->setBcc('customer@ramrock-eyes.jp')
+            ->setReplyTo('customer@ramrock-eyes.jp')
+            ->setReturnPath('customer@ramrock-eyes.jp');
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'data' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $event = new EventArgs(
+            [
+                'message' => $message,
+                'formData' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+            ],
+            null
+        );
+
+        $count = $this->mailer->send($message);
+        
+        // 自動返信メール
+        $message
+            ->setFrom([$formData['email']])
+            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()])
+            ->setBcc('mimamori-cube@ramrock.co.jp');
+        $this->mailer->send($message);
+
+        log_info('お問い合わせ受付メール送信完了', ['count' => $count]);
+
+        return $count;
+    }
+    
+
+    /**
+     * Send enquete mail.
+     *
+     * @param $formData アンケート内容
+     */
+    public function sendEnqueteMail($Customer, $formData)
+    {
+        log_info('アンケート受付メール送信開始');
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_enquete_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'data' => $formData,
+            'BaseInfo' => $this->BaseInfo,
+        ]);
+
+        // アンケート者にメール送信
+        $message = (new \Swift_Message())
+            ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
+            ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
+            ->setTo([$Customer->getEmail()])
+            ->setBcc('customer@ramrock-eyes.jp')
+            ->setReplyTo('customer@ramrock-eyes.jp')
+            ->setReturnPath('customer@ramrock-eyes.jp');
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'data' => $formData,
+                'BaseInfo' => $this->BaseInfo,
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $count = $this->mailer->send($message);
+        
+        // 自動返信メール
+        $message
+            ->setFrom([$Customer->getEmail()])
+            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()])
+            ->setBcc('mimamori-cube@ramrock.co.jp');
+        $this->mailer->send($message);
+
+        log_info('アンケート受付メール送信完了', ['count' => $count]);
 
         return $count;
     }

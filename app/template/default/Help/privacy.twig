@@ -11,112 +11,121 @@ file that was distributed with this source code.
 {% extends 'default_frame.twig' %}
 
 {% block main %}
-<div class="ec-modifiedLayoutRole__contents">
-    <div class="ec-role">
-        <div class="ec-pageHeader">
-            <h1>{{ 'プライバシーポリシー'|trans }}</h1>
-        </div>
-        <div class="ec-off1Grid">
-            <div class="ec-off1Grid__cell">
-                <p>
-                    個人情報の適正な保護・管理を重大な社会的責務と認識し、以下に定める個人情報保護方針に従い、適正な管理を実行、継続的に取り組んでまいります。
-                </p>
-                <ul>
-                    <li>
-                        1.個人情報保護に関する法律を遵守するとともに、継続的に取り組んで参ります。
-                    </li>
-                    <li>
-                        2.個人情報の取得に関しては、利用目的を特定して通知又は公表し、その目的に従って個人情報を取り扱います
-                    </li>
-                    <li>
-                        3.個人情報を適切に管理し、不正アクセスや紛失、破壊、改ざん及び、漏洩等に関する予防に努め、安全管理措置を実施していきます。
-                    </li>
-                </ul>
+<!--content-->
+<div class="cmncontent">
+    <ul class="breadcrumb cmnbox01">
+		<li class="breadcrumb_list"><a href="{{ url('homepage') }}">HOME</a></li>
+		<li class="breadcrumb_list">プライバシーポリシー</li>
+	</ul>
+	<section>
+		<div>
+			<div class="cmnbox01">
+                <div class="ec-pageHeader">
+                    <h1>{{ 'プライバシーポリシー'|trans }}</h1>
+                </div>
+                <div class="ec-off1Grid">
+                    <div class="ec-off1Grid__cell">
+                        <p>
+                            個人情報の適正な保護・管理を重大な社会的責務と認識し、以下に定める個人情報保護方針に従い、適正な管理を実行、継続的に取り組んでまいります。
+                        </p>
+                        <ul>
+                            <li>
+                                1.個人情報保護に関する法律を遵守するとともに、継続的に取り組んで参ります。
+                            </li>
+                            <li>
+                                2.個人情報の取得に関しては、利用目的を特定して通知又は公表し、その目的に従って個人情報を取り扱います
+                            </li>
+                            <li>
+                                3.個人情報を適切に管理し、不正アクセスや紛失、破壊、改ざん及び、漏洩等に関する予防に努め、安全管理措置を実施していきます。
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ec-off1Grid">
+                    <div class="ec-off1Grid__cell">
+                        <div class="ec-heading-bold">個人情報利用目的</div>
+                        <p>
+                            取得した個人情報を当社の遂行する事業各種サービス提供、資料・情報等の作成・提供・連絡案内PRや調査研究活動でのアンケート送付など以下に示す事項を目的として利用させて頂きます。
+                        </p>
+                        <ul>
+                            <li>
+                                1.当社及びグループ企業からの商品・サービスに関するご案内・ご提供<br>
+                                ※お客様ご本人からのサービス停止要請がございましたら案内を止めさせていただきます
+                            </li>
+                            <li>
+                                2.商品・サービスに関連する各種手続きの支援や取次ぎ
+                            </li>
+                            <li>
+                                3.商品・サービスの開発や改善
+                            </li>
+                            <li>
+                                4.各種お問い合わせ、資料請求等に関する対応等
+                            </li>
+                            <li>
+                                5.統計資料の作成<br>
+                                万が一、上記以外での目的で利用する場合は予めその利用目的をお客様へ通知し、許可を頂いた上で利用いたします。
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ec-off1Grid">
+                    <div class="ec-off1Grid__cell">
+                        <div class="ec-heading-bold">個人情報の取得方法</div>
+                        <p>
+                            個人情報は適正な手段で取得します。<br>
+                            取得に際して、利用目的を出来る限り特定して通知または、公表し、その利用目的にしたがって個人情報を取り扱います。
+                        </p>
+                    </div>
+                </div>
+                <div class="ec-off1Grid">
+                    <div class="ec-off1Grid__cell">
+                        <div class="ec-heading-bold">第三者への提供</div>
+                        <p>
+                            当社が保有する個人情報は、以下の場合を除き第三者へは提供されません。
+                        </p>
+                        <ul>
+                            <li>
+                                1.ご本人の同意がある場合
+                            </li>
+                            <li>
+                                2.人命、身体、財産等の保護の為に必要がある場合で、ご本人の同意を得ることが困難である時
+                            </li>
+                            <li>
+                                3.法令の規定に基づく場合
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="ec-off1Grid">
+                    <div class="ec-off1Grid__cell">
+                        <div class="ec-heading-bold">個人情報開示訂正について</div>
+                        <p>
+                            当社が保有する個人情報の開示・訂正・追加・削除・利用停止等に関するご本人からの要請があれば、遅滞なく対応させて頂きます。
+                        </p>
+                        <p>
+                            本方針は、法令等の改正や個人情報保護の一層の改善のため、適宜、見直し・改定をしてまいります。
+                        </p>
+                    </div>
+                </div>
+                <div class="ec-off1Grid">
+                    <div class="ec-off1Grid__cell">
+                        <div class="ec-heading-bold">プライバシーポリシーに関するお問い合わせ</div>
+                        <p>
+                            株式会社ラムロック<br>
+                            〒820-1111 福岡県飯塚市勢田1950-1<br>
+                            カスタマーセンター：<br>
+                            0120-927-760（月～土）9：30～18：00
+                        </p>
+                        <p>
+                            TEL　0948-92-3156<br>
+                            FAX　0948-92-3157<br>
+                            Mail　<a href="{{ url('contact') }}">お問い合わせ</a><br>
+                            URL　ramrock-eyes.jp
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="ec-off1Grid">
-            <div class="ec-off1Grid__cell">
-                <div class="ec-heading-bold">個人情報利用目的</div>
-                <p>
-                    取得した個人情報を当社の遂行する事業各種サービス提供、資料・情報等の作成・提供・連絡案内PRや調査研究活動でのアンケート送付など以下に示す事項を目的として利用させて頂きます。
-                </p>
-                <ul>
-                    <li>
-                        1.当社及びグループ企業からの商品・サービスに関するご案内・ご提供<br>
-                        ※お客様ご本人からのサービス停止要請がございましたら案内を止めさせていただきます
-                    </li>
-                    <li>
-                        2.商品・サービスに関連する各種手続きの支援や取次ぎ
-                    </li>
-                    <li>
-                        3.商品・サービスの開発や改善
-                    </li>
-                    <li>
-                        4.各種お問い合わせ、資料請求等に関する対応等
-                    </li>
-                    <li>
-                        5.統計資料の作成<br>
-                        万が一、上記以外での目的で利用する場合は予めその利用目的をお客様へ通知し、許可を頂いた上で利用いたします。
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="ec-off1Grid">
-            <div class="ec-off1Grid__cell">
-                <div class="ec-heading-bold">個人情報の取得方法</div>
-                <p>
-                    個人情報は適正な手段で取得します。<br>
-                    取得に際して、利用目的を出来る限り特定して通知または、公表し、その利用目的にしたがって個人情報を取り扱います。
-                </p>
-            </div>
-        </div>
-        <div class="ec-off1Grid">
-            <div class="ec-off1Grid__cell">
-                <div class="ec-heading-bold">第三者への提供</div>
-                <p>
-                    当社が保有する個人情報は、以下の場合を除き第三者へは提供されません。
-                </p>
-                <ul>
-                    <li>
-                        1.ご本人の同意がある場合
-                    </li>
-                    <li>
-                        2.人命、身体、財産等の保護の為に必要がある場合で、ご本人の同意を得ることが困難である時
-                    </li>
-                    <li>
-                        3.法令の規定に基づく場合
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="ec-off1Grid">
-            <div class="ec-off1Grid__cell">
-                <div class="ec-heading-bold">個人情報開示訂正について</div>
-                <p>
-                    当社が保有する個人情報の開示・訂正・追加・削除・利用停止等に関するご本人からの要請があれば、遅滞なく対応させて頂きます。
-                </p>
-                <p>
-                    本方針は、法令等の改正や個人情報保護の一層の改善のため、適宜、見直し・改定をしてまいります。
-                </p>
-            </div>
-        </div>
-        <div class="ec-off1Grid">
-            <div class="ec-off1Grid__cell">
-                <div class="ec-heading-bold">プライバシーポリシーに関するお問い合わせ</div>
-                <p>
-                    株式会社ラムロック<br>
-                    〒820-1111 福岡県飯塚市勢田1950-1<br>
-                    カスタマーセンター：<br>
-                    0120-927-760（月～土）9：30～18：00
-                </p>
-                <p>
-                    TEL　0948-92-3156<br>
-                    FAX　0948-92-3157<br>
-                    Mail　<a href="{{ url('contact') }}">お問い合わせ</a><br>
-                    URL　ramrock-eyes.jp
-                </p>
-            </div>
-        </div>
-    </div>
+    </section>
 </div>
 {% endblock %}

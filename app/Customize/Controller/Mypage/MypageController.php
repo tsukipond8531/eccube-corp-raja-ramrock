@@ -38,8 +38,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Eccube\Entity\Master\OrderStatus;
 
-// CAMPAIGN_PRICE is a constant to check if it is CAMPAIGN product.
-!defined('CAMPAIGN_PRICE') && define('CAMPAIGN_PRICE', 2900);
 !defined('CAMPAIGN_PERIOD') && define('CAMPAIGN_PERIOD', 30);
 !defined('CAMPAIGN_PRODUCT_ID') && define('CAMPAIGN_PRODUCT_ID', 6);
 

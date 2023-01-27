@@ -29,7 +29,7 @@ file that was distributed with this source code.
 
 
 ご連絡先
-{% if data.postal_code %}〒{{ data.postal_code }}{% endif %} {% if data.pref.name is defined %} {{ data.pref.name }}{% endif %}{{ data.addr01 }}{{ data.addr02 }}
+{% if data.postal_code %}〒{{ data.postal_code }}{% endif %} {% if data.pref is defined %} {{ data.pref.name }}{% endif %}{{ data.addr01 }}{{ data.addr02 }}
 TEL {{ data.phone_number }}
 メールアドレス: {{ data.email }}
 

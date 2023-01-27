@@ -23,7 +23,7 @@ file that was distributed with this source code.
             <a href="{{ url('mypage_delivery') }}">お届け先<br />追加・変更</a>
         </li>
         <li class="ec-navlistRole__item {% if mypageno|default('') == 'detail' %}active{% endif %}">
-            <a href="{{ url('product_detail', {'id': 1}) }}">カメラ追加申込<br />(ご利用中の方)</a>
+            <a href="{{ url('product_detail', {'id': 1}) }}">カメラ申込<br />(カメラ追加)</a>
         </li>
         <li class="ec-navlistRole__item {% if mypageno|default('') == 'operation_center' %}active{% endif %}">
             <a href="{{ url('operation_center') }}">オペレーション<br />センターフォーム</a>
@@ -39,6 +39,9 @@ file that was distributed with this source code.
         </li>
         <li class="ec-navlistRole__item {% if mypageno|default('') == 'logout' %}active{% endif %}">
             <a href="{{ url('logout') }}">{{ 'ログアウト'|trans }}</a>
+        </li>
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'enquete' %}active{% endif %}">
+            <a href="{{ url('enquete') }}">{{ 'アンケートに答える'|trans }}</a>
         </li>
     </ul>
 </div>

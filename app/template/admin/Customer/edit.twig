@@ -213,21 +213,21 @@ file that was distributed with this source code.
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-3">
-                                        <span>{{ 'admin.common.birth_day'|trans }}</span>
-                                    </div>
-                                    <div class="col">
-                                        {{ form_widget(form.birth) }}
-                                        {{ form_errors(form.birth) }}
-                                    </div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-3">
                                         <span>{{ 'admin.common.password_for_confirmation'|trans }}</span>
                                         <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
                                     </div>
                                     <div class="col">
                                         {{ form_widget(form.password.second, { type : 'password'}) }}
                                         {{ form_errors(form.password.second) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'admin.common.birth_day'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.birth) }}
+                                        {{ form_errors(form.birth) }}
                                     </div>
                                 </div>
                                 <div class="row mb-2">

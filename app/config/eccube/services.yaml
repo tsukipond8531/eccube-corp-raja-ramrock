@@ -238,3 +238,6 @@ services:
 
     Customize\Repository\OrderRepository:
         decorates: Eccube\Repository\OrderRepository
+
+    Customize\Service\PurchaseFlow\Processor\TaxProcessor:
+        decorates: Eccube\Service\PurchaseFlow\Processor\TaxProcessor

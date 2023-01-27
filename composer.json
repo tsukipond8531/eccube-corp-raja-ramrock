@@ -33,6 +33,7 @@
         "doctrine/migrations": "^1.8",
         "doctrine/orm": "^2.6",
         "easycorp/easy-log-handler": "^1.0",
+        "ec-cube/coupon4": "^4.1",
         "ec-cube/jsysasi": "^1.1",
         "ec-cube/mailmagazine4": "^4.1",
         "ec-cube/plugin-installer": "^2.0",

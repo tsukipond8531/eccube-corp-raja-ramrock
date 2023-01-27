@@ -1,0 +1,42 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'registration_page' %}
+
+{% block main %}
+<div class="ec-modifiedLayoutRole__contents">
+    <div class="ec-role">
+        <div class="ec-pageHeader">
+            <h1>{{ 'アンケート回答完了'|trans }}</h1>
+        </div>
+    </div>
+    <div class="ec-registerCompleteRole">
+        <div class="ec-off3Grid ec-text-ac">
+            <div class="ec-off3Grid__cell">
+                <div class="ec-reportHeading">
+                    <h2>{{ 'アンケートにご回答いただきありがとうございます。'|trans }}</h2>
+                </div>
+                <p class="ec-reportDescription">
+                    アンケートを受け付けいたしました。<br />
+                    カメラ申込時にアンケート割引価格が適⽤されます。<br />
+                    割引価格が適⽤されない場合は、<br />
+                    下記連絡先までご連絡ください。<br />
+                    customer@ramrock.co.jp
+                </p>
+                <div class="ec-off4Grid">
+                    <div class="ec-off4Grid__cell"><a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'トップページへ'|trans }}</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

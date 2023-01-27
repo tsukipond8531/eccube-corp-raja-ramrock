@@ -158,6 +158,9 @@
             "ref": "70062abc2cd58794d2a90274502f81b55cd9951b"
         }
     },
+    "ec-cube/coupon4": {
+        "version": "4.1.1"
+    },
     "ec-cube/jsysasi": {
         "version": "1.1.0"
     },

@@ -122,6 +122,9 @@ parameters:
     eccube_material_mail_template_id: 12 #資料請求通知メール
     eccube_operation_center_mail_template_id: 13 #オペレーションセンターお問合せメール
     eccube_customer_change_mail_template_id: 14 #会員情報変更メール
+    eccube_contact_light_mail_template_id: 15 #みまもりCUBE Lightメール
+    eccube_contact_plus_mail_template_id: 16 #みまもりCUBE Plusメール
+    eccube_enquete_mail_template_id: 17 #アンケート受付メール
     # メールアドレスをRFC準拠でチェックするか true: チェックする、false: チェックしない
     eccube_rfc_email_check: false
     eccube_package_api_url: '%env(ECCUBE_PACKAGE_API_URL)%'

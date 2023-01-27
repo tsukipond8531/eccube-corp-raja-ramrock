@@ -343,14 +343,21 @@ file that was distributed with this source code.
                                 </div>
                             {% endif %}
                         </div>
-                        {# 月額利用料 #}
-                        <div class="ec-productRole__price">                        
-                            <div class="ec-price">
-                                <span class="cs-price-label">{{ '月額利用料'|trans }}</span>： <span class="ec-price__price default-price">{{ '4290'|price }}</span>
-                                <span class="ec-price__tax">{{ '税込/月'|trans }}</span>
-                            </div>
-                        </div>
                     {% endif %}
+                    {# アンケート割引価格 #}
+                    <div class="ec-productRole__price">
+                        <div class="ec-price">
+                            <span class="cs-price-label">{{ 'アンケート割引価格'|trans }}</span>： <span class="ec-price__price enquete-price">{{ '2860'|price }}</span>
+                            <span class="ec-price__tax">{{ '税込'|trans }}</span>
+                        </div>
+                    </div>
+                    {# 月額利用料 #}
+                    <div class="ec-productRole__price">                        
+                        <div class="ec-price">
+                            <span class="cs-price-label">{{ '月額利用料'|trans }}</span>： <span class="ec-price__price default-price">{{ '4290'|price }}</span>
+                            <span class="ec-price__tax">{{ '税込/月'|trans }}</span>
+                        </div>
+                    </div>
                     {# 商品コード #}
                     {% if Product.code_min is not empty %}
                         <div class="ec-productRole__code">

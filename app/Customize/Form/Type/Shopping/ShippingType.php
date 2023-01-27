@@ -31,12 +31,14 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 use Eccube\Form\Type\Shopping\ShippingType as BaseType;
 use Eccube\Form\Type\Shopping\OrderItemType;
-
-// CAMPAIGN_PRICE is a constant to check if it is CAMPAIGN product.
-!defined('CAMPAIGN_PRICE') && define('CAMPAIGN_PRICE', 2900);
+use Symfony\Component\Security\Core\Security;
+use Eccube\Repository\OrderRepository;
+use Eccube\Entity\Master\OrderStatus;
 
 class ShippingType extends BaseType
 {
+    private $orderRepository;
+    private $security;
     /**
      * ShippingType constructor.
      *
@@ -44,9 +46,17 @@ class ShippingType extends BaseType
      * @param DeliveryRepository $deliveryRepository
      * @param DeliveryFeeRepository $deliveryFeeRepository
      */
-    public function __construct(EccubeConfig $eccubeConfig, DeliveryRepository $deliveryRepository, DeliveryFeeRepository $deliveryFeeRepository)
+    public function __construct(
+        EccubeConfig $eccubeConfig,
+        DeliveryRepository $deliveryRepository,
+        DeliveryFeeRepository $deliveryFeeRepository,
+        OrderRepository $orderRepository,
+        Security $security)
     {
         parent::__construct($eccubeConfig, $deliveryRepository, $deliveryFeeRepository);
+
+        $this->orderRepository = $orderRepository;
+        $this->security = $security;
     }
 
     /**
@@ -72,8 +82,22 @@ class ShippingType extends BaseType
                 if (is_null($Shipping) || !$Shipping->getId()) {
                     return;
                 }
-                
-                $isCampaign = false;
+
+                $Customer = $this->security->getUser();
+
+                $isCampaign = true;
+                $excludes = [OrderStatus::PENDING, OrderStatus::PROCESSING, OrderStatus::RETURNED];
+
+                $Orders = $this->orderRepository
+                    ->createQueryBuilder('o')
+                    ->where('o.Customer = :Customer')
+                    ->andWhere('o.OrderStatus NOT IN (:excludes)')
+                    ->setParameter(':Customer', $Customer)
+                    ->setParameter(':excludes', $excludes)
+                    ->getQuery()
+                    ->getResult();
+
+                if (count($Orders)) $isCampaign = false;
 
                 // 配送商品に含まれる販売種別を抽出.
                 $OrderItems = $Shipping->getProductOrderItems();
@@ -82,8 +106,6 @@ class ShippingType extends BaseType
                     $ProductClass = $OrderItem->getProductClass();
                     $SaleType = $ProductClass->getSaleType();
                     $SaleTypes[$SaleType->getId()] = $SaleType;
-
-                    if ($OrderItem->getPrice() == CAMPAIGN_PRICE) $isCampaign = true;
                 }
 
                 // // 販売種別に紐づく配送業者を取得.

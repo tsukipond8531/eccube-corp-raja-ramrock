@@ -81,7 +81,7 @@ file that was distributed with this source code.
                             利用形態： {{ data.usage_type }}<br><br>
 
                             資料送付方法： {{ data.delivery_method }}<br>
-                            住所： 〒{{ data.postal_code }} {{ data.pref.name }}{{ data.addr01 }}{{ data.addr02 }}<br>
+                            住所： 〒{{ data.postal_code }} {% if data.pref is defined %} {{ data.pref.name }} {% endif %} {{ data.addr01 }}{{ data.addr02 }}<br>
                             電話番号： {{ data.phone_number }}<br>
                             メールアドレス： {{ data.email }}<br><br>
 

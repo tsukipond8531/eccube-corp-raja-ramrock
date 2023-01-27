@@ -65,7 +65,7 @@ file that was distributed with this source code.
     資料の種類： {{ data.type|join(',') }}
 
     ご希望の資料送付方法： {{ data.delivery_method }}
-    郵送先住所： 〒{{ data.postal_code }} {{ data.pref.name }}{{ data.addr01 }}{{ data.addr02 }}
+    郵送先住所： 〒{{ data.postal_code }} {% if data.pref is defined %} {{ data.pref.name }} {% endif %} {{ data.addr01 }}{{ data.addr02 }}
     電話番号： {{ data.phone_number }}
     メールアドレス： {{ data.email }}
 
@@ -80,7 +80,7 @@ file that was distributed with this source code.
     種別：{{ data.type }}
 
     ご連絡先：
-    〒{{ data.postal_code }} {{ data.pref.name }}{{ data.addr01 }}{{ data.addr02 }}
+    〒{{ data.postal_code }} {% if data.pref is defined %} {{ data.pref.name }} {% endif %} {{ data.addr01 }}{{ data.addr02 }}
     メールアドレス：{{ data.email }}
 
     お問い合わせ内容：{{ data.contents }}

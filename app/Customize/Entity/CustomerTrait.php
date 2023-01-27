@@ -54,6 +54,13 @@ trait CustomerTrait
     private $enquete = false;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="coupon_used", type="boolean", options={"default":false})
+     */
+    private $coupon_used = false;
+
+    /**
      * @var string|null
      *
      * @ORM\Column(name="enquete_body", type="string", nullable=true, length=4000)
@@ -216,6 +223,30 @@ trait CustomerTrait
     public function getEnquete()
     {
         return $this->enquete;
+    }
+    
+    /**
+     * Set coupon_used.
+     *
+     * @param boolean $coupon_used
+     *
+     * @return this
+     */
+    public function setCouponUsed($coupon_used)
+    {
+        $this->coupon_used = $coupon_used;
+
+        return $this;
+    }
+
+    /**
+     * Get coupon_used.
+     *
+     * @return boolean
+     */
+    public function getCouponUsed()
+    {
+        return $this->coupon_used;
     }
     
     /**
