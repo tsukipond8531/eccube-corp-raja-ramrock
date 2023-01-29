@@ -239,18 +239,14 @@ file that was distributed with this source code.
                         <dt>
                             {{ form_label(form.watch_target, '本人確認書類', { 'label_attr': { 'class': 'ec-label' }}) }}
                             {{ form_widget(form.image0, { type : 'hidden' }) }}
+                            {{ form_widget(form.add_images, { type: 'hidden'}) }}
                         </dt>
                         <dd style="display: flex; align-items: center; flex-wrap: wrap;">
-                            {% if Order.image1 %}
+                            {% for image in form.add_images.vars.value %}
                                 <div class="identity_image">
-                                    <img src="{{ asset(Order.image1, 'save_image') }}" alt="">
+                                    <img src="{{ asset(image, 'temp_image') }}" alt="">
                                 </div>
-                            {% endif %}
-                            {% if Order.image2 %}
-                                <div class="identity_image">
-                                    <img src="{{ asset(Order.image2, 'save_image') }}" alt="">
-                                </div>
-                            {% endif %}
+                            {% endfor %}
                         </dd>
                     </dl>
                 </div>

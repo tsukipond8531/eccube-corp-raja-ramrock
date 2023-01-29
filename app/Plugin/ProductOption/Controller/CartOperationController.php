@@ -86,6 +86,8 @@ class CartOperationController extends CartController
 
         // カートが分割された時のセッション情報を削除
         $request->getSession()->remove(OrderHelper::SESSION_CART_DIVIDE_FLAG);
+        $this->session->remove('shopping_redirect_params');
+        $this->session->remove('is_eaccount');
 
         return [
             'totalPrice' => $totalPrice,

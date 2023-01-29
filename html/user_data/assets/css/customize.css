@@ -141,6 +141,31 @@
     background-color: #ffecec;
 }
 
+.enquete-body {
+    margin-top: 30px;
+}
+
+.enquete-body fieldset {
+    margin-bottom: 30px;
+}
+
+.enquete-body fieldset legend label {
+    margin: 0 10px;
+}
+
+.enquete-body fieldset legend.required span.badge {
+    color: red;
+    font-size: 14px;
+}
+
+.enquete-body fieldset .enquete-form-check {
+    margin-left: 5px;
+}
+
+.enquete-body fieldset textarea {
+    min-width: 350px;
+}
+
 @media only screen and (min-width: 768px) {
     .product-options .ec-checkbox.anshin {
         max-width: 350px;

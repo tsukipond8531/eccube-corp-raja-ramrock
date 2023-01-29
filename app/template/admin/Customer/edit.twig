@@ -32,6 +32,28 @@ file that was distributed with this source code.
         .identity img:hover {
             opacity: 0.8;
         }
+        #enqueteHistory tbody tr {
+            margin-bottom: 20px;
+        }
+        .answer-blocks {
+            display: table;
+            white-space: initial;
+            width: 800px;
+        }
+        .answer-blocks:not(:last-child) {
+            border-bottom: 1px solid #eee;
+        }
+        .answer-blocks .form-question,
+        .answer-blocks .form-answer {
+            display: table-cell;
+        }
+        .answer-blocks .form-question {
+            width: 60%;
+            border-right: 1px solid #eee;
+        }
+        .answer-blocks .form-answer {
+            width: 40%;
+        }
     </style>
 {% endblock stylesheet %}
 
@@ -256,7 +278,7 @@ file that was distributed with this source code.
                                         {{ form_errors(form.point) }}
                                     </div>
                                 </div>
-                                {% if Customer and Customer.enquete and enquete is not empty %}
+                                {# {% if Customer and Customer.enquete and enquete is not empty %}
                                     <div class="row mt-4 mb-4">
                                         <div class="col font-weight-bolder">アンケートキャンペーン</div>
                                     </div>
@@ -361,7 +383,7 @@ file that was distributed with this source code.
                                             </div>
                                         </div>
                                     </div>
-                                {% endif %}
+                                {% endif %} #}
 
                                 {# エンティティ拡張の自動出力 #}
                                 {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
@@ -559,6 +581,75 @@ file that was distributed with this source code.
                             </div>
                         </div>
                     {% endif %}
+                    
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                         title="{{ 'アンケートキャンペーン'|trans }}">
+                                    <span class="card-title">
+                                        {{ 'アンケートキャンペーン'|trans }}
+                                        <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <a data-toggle="collapse" href="#enqueteHistory" aria-expanded="false"
+                                       aria-controls="enqueteHistory">
+                                        <i class="fa fa-angle-up fa-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse show ec-cardCollapse" id="enqueteHistory">
+                            {% set enqueteRepository = repository('Plugin\\SeEnquete4\\Entity\\Enquete') %}
+                            {% set enqueteUserRepository = repository('Plugin\\SeEnquete4\\Entity\\EnqueteUser') %}
+                            {% set enquete0 = enqueteRepository.find(2) %}
+                            {% set enqueteUsers = enqueteUserRepository.findBy({ 'Enquete': enquete0, 'customer_id': Customer.id }) %}
+                            {% if enqueteUsers|length > 0 %}
+                                <div class="card-body">
+                                    <table class="table table-striped table-sm">
+                                        <thead class="table-active">
+                                            <th class="border-top-0 pt-2 pb-2 text-center">回答結果</th>
+                                            <th class="border-top-0 pt-2 pb-2 text-center">回答日時</th>
+                                        </thead>
+                                        <tbody>
+                                        {% for enqueteUser in enqueteUsers %}
+                                            <tr>
+                                                <td class="align-middle text-center">
+                                                    {% for question, answer in enqueteUser.answerJson %}
+                                                        <div class="answer-blocks text-left">
+                                                            <div class="form-question p-2"><span>{{ question }}</span></div>
+                                                            <div class="form-answer p-2">
+                                                                {% if answer is iterable %}
+                                                                    {% for answerChild in answer %}
+                                                                        <span>{{ answerChild }}</span>
+                                                                    {% endfor %}
+                                                                {% else %}
+                                                                    <span>{{ answer }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </td>
+                                                <td class="align-middle text-center">{{ enqueteUser.createDate|date("Y/m/d", "Asia/Tokyo") }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <div class="card-body">
+                                    <div id="history_box" class="data-empty">
+                                    <span>
+                                        {{ 'アンケート履歴がありません。'|trans }}
+                                    </span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
 
                     <div class="card rounded border-0 mb-4">
                         <div class="card-header">

@@ -5,6 +5,7 @@ namespace Customize\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Eccube\Annotation\EntityExtension;
 use Eccube\Entity\CustomerAddress;
+use Plugin\SeEnquete4\Entity\EnqueteUser;
 
 /**
   * @EntityExtension("Eccube\Entity\Customer")
@@ -66,6 +67,55 @@ trait CustomerTrait
      * @ORM\Column(name="enquete_body", type="string", nullable=true, length=4000)
      */
     private $enquete_body;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $EnqueteUsers;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->EnqueteUsers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add enqueteUser.
+     *
+     * @param EnqueteUser $enqueteUser
+     *
+     * @return Customer
+     */
+    public function addEnqueteUser(EnqueteUser $enqueteUser)
+    {
+        $this->EnqueteUsers[] = $enqueteUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove enqueteUser.
+     *
+     * @param EnqueteUser $enqueteUser
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeEnqueteUser(EnqueteUser $enqueteUser)
+    {
+        return $this->EnqueteUsers->removeElement($enqueteUser);
+    }
+
+    /**
+     * Get EnqueteUsers.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEnqueteUsers()
+    {
+        return $this->EnqueteUsers;
+    }
 
     /**
      * Set id.

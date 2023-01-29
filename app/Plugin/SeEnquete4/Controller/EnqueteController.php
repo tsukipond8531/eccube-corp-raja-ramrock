@@ -33,6 +33,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Eccube\Service\MailService;
+
+
+!defined('ENQUETE_ID') && define('ENQUETE_ID', 2);
 
 class EnqueteController extends AbstractController
 {
@@ -78,6 +82,11 @@ class EnqueteController extends AbstractController
     protected $enqueteConfig;
 
     /**
+     * @var MailService
+     */
+    protected $mailService;
+
+    /**
      * EnqueteController constructor.
      *
      * @param \Swift_Mailer $mailer
@@ -95,6 +104,7 @@ class EnqueteController extends AbstractController
         EnqueteConfigRepository $enqueteConfigRepository,
         EnqueteItemRepository $enqueteItemRepository,
         EnqueteMetaRepository $enqueteMetaRepository,
+        MailService $mailService,
         EnqueteMailService $enqueteMailService
     ) {
         $this->mailer = $mailer;
@@ -104,6 +114,7 @@ class EnqueteController extends AbstractController
         $this->enqueteItemRepository = $enqueteItemRepository;
         $this->enqueteMetaRepository = $enqueteMetaRepository;
         $this->enqueteMailService = $enqueteMailService;
+        $this->mailService = $mailService;
 
         // 設定情報を取得
         $this->enqueteConfig = $this->enqueteConfigRepository->findBy( [], [ 'sort_no' => 'ASC' ] );
@@ -321,6 +332,7 @@ class EnqueteController extends AbstractController
                     $Customer = $this->getUser();
                     if ( $Customer ) {
                         $enqueteUserEntity->setCustomerId( $Customer->getId() );
+                        $this->mailService->sendEnqueteMail($Customer, $userData);
                     } else {
                         $enqueteUserEntity->setCustomerId( 0 );
                     }

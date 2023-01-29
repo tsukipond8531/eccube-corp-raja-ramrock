@@ -25,6 +25,11 @@ use Eccube\Service\PurchaseFlow\PurchaseContext;
 use Eccube\Service\TaxRuleService;
 
 use Eccube\Service\PurchaseFlow\Processor\TaxProcessor as BaseService;
+use Plugin\SeEnquete4\Repository\EnqueteUserRepository;
+use Plugin\SeEnquete4\Repository\EnqueteRepository;
+
+!defined('ENQUETE_ID') && define('ENQUETE_ID', 2);
+!defined('ENQUETE_DISCOUNT_PRICE') && define('ENQUETE_DISCOUNT_PRICE', 2600);
 
 class TaxProcessor extends BaseService
 {
@@ -44,17 +49,33 @@ class TaxProcessor extends BaseService
     protected $taxRuleService;
 
     /**
+     * @var EnqueteUserRepository
+     */
+    protected $enqueteUserRepository;
+
+    /**
+     * @var EnqueteRepository
+     */
+    protected $enqueteRepository;
+
+    /**
      * TaxProcessor constructor.
      *
      * @param TaxRuleRepository $taxRuleRepository
      * @param TaxRuleService $taxRuleService
+     * @param EnqueteUserRepository $enqueteUserRepository
+     * @param EnqueteRepository $enqueteRepository
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         TaxRuleRepository $taxRuleRepository,
+        EnqueteUserRepository $enqueteUserRepository,
+        EnqueteRepository $enqueteRepository,
         TaxRuleService $taxRuleService
     ) {
         parent::__construct($entityManager, $taxRuleRepository, $taxRuleService);
+        $this->enqueteUserRepository = $enqueteUserRepository;
+        $this->enqueteRepository = $enqueteRepository;
     }
 
     /**
@@ -101,8 +122,10 @@ class TaxProcessor extends BaseService
                     ->setTaxAdjust($TaxRule->getTaxAdjust())
                     ->setRoundingType($TaxRule->getRoundingType());
 
-                if ($Customer->getEnquete() && !$Customer->getCouponUsed() && $item->getOrderItemType()->isProduct()) {
-                    $item->setPrice(2600);
+                $Enquete = $this->enqueteRepository->find(ENQUETE_ID);
+                $EnqueteUser = $this->enqueteUserRepository->findBy(['Enquete' => $Enquete, 'customer_id' => $Customer->getId()]);
+                if ($EnqueteUser && !$Customer->getCouponUsed() && $item->getOrderItemType()->isProduct()) {
+                    $item->setPrice(ENQUETE_DISCOUNT_PRICE);
                 }
             }
 

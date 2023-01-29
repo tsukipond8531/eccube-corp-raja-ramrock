@@ -9,43 +9,11 @@ For the full copyright and license information, please view the LICENSE
 file that was distributed with this source code.
 #}
 {% autoescape 'safe_textmail' %}
-【みまもりCUBE Plus】お問い合わせを受付いたしました。
+この度はお問合せ頂き誠にありがとうございます。
 
 ご質問をご入力いただいたお客様は、改めて担当者よりご連絡をさせていただきますので、
 今しばらくお待ちくださいませ。
-
-
-≪資料請求をご希望のお客様へ≫
-データ送付をご希望のお客様は、下記URLよりダウンロードをお願い致します。
-■一般レンタル 資料（https://ramrock-eyes.jp/ram-eyes/img/ippan_shiryou.pdf）
-■介護保険適用商品 資料（https://ramrock-eyes.test01.biz/html/template/default/assets/pdf/3345192998509dc16d69c010196e2c6b.pdf）
-
-
-郵送をご希望のお客様は、郵送の準備が整い次第発送させていただきます。
-※お急ぎの場合はダウンロードURLより資料のダウンロードをお願い致します。
-
-
-≪キャンペーンのご案内≫
-●一般レンタル
-現在、お試し体験キャンペーンを行っており、 弊社ホームページよりお申込みを受付ております。
-詳細は、 https://ramrock-eyes.test01.biz/user_data/campaign をご覧ください。
-もし継続でご利用されない場合は、キャンペーン期間内にご返却いただきますとキャンセル料金などは 一切発生いたしません。
-ぜひ一度、この機会にみまもり CUBE をお試しくださいませ。
-
-
-≪介護保険利用時の流れ≫
-●介護保険レンタル
-介護保険にてご利用の場合、
-原則 「要介護2以上」 「認知症と診断された方」 「徘徊でお困りの方」 が保険適用となりますが、
-適用の可否は、まずは一度担当のケアマネージャー様へご相談ください。
-
-
-(1)担当のケアマネージャー様へご相談
-(2)福祉用具貸与事業所様からレンタル
-(3) デモ設置
-(4) ご契約
-※お取り扱いの福祉用具貸与事業所につきましては弊社へお問い合わせください。
-
+※郵送をご希望のお客様は、郵送の準備が整い次第発送させていただきます。
 
 受付内容
 -----------------------------------------------------------------------------
@@ -58,18 +26,28 @@ file that was distributed with this source code.
 所属部署： {{ data.department }}
 
 お問い合わせ内容： {{ data.query_type }}
-
 資料送付方法： {{ data.delivery_method }}
-住所： 〒{{ data.postal_code }} {% if data.pref is defined %} {{ data.pref.name }} {% endif %} {{ data.addr01 }}{{ data.addr02 }}
+
+郵送先住所： 
+    〒{{ data.postal_code }} {% if data.pref is defined %} {{ data.pref.name }} {% endif %} {{ data.addr01 }}{{ data.addr02 }}
 電話番号： {{ data.phone_number }}
 メールアドレス： {{ data.email }}
 
-CUBEを知ったきっかけ： {{ data.moment|join(',') }}
+みまもりCUBE Plusを知ったきっかけ(複数回答可)： {{ data.moment|join(',') }}
 検索キーワード：{{ data.keyword }}
 質問内容/お困りごと：
     {{ data.contents }}
 -----------------------------------------------------------------------------
 
+株式会社ラムロック
+〒820-1111
+福岡県飯塚市勢田1950-1
+
+フリーダイヤル　0120-927-760
+携帯・PHS　0948-96-8160
+お問い合わせ専用アドレス　customer@ramrock.co.jp
+公式HP　https://ramrock-eyes.jp
+-----------------------------------------------------------------------------
 ※このメールは送信専用のアドレスから自動送信されているため、
 ご返信いただいても内容の確認や回答ができません。
 ご質問はお問合せ専用アドレスよりご連絡ください。

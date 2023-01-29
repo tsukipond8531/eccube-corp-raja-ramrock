@@ -40,8 +40,11 @@ file that was distributed with this source code.
         <li class="ec-navlistRole__item {% if mypageno|default('') == 'logout' %}active{% endif %}">
             <a href="{{ url('logout') }}">{{ 'ログアウト'|trans }}</a>
         </li>
-        <li class="ec-navlistRole__item {% if mypageno|default('') == 'enquete' %}active{% endif %}">
+        {# <li class="ec-navlistRole__item {% if mypageno|default('') == 'enquete' %}active{% endif %}">
             <a href="{{ url('enquete') }}">{{ 'アンケートに答える'|trans }}</a>
+        </li> #}
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'enquete' %}active{% endif %}">
+            <a href="{{ url('se_enquete_detail', { id: 2 }) }}">{{ 'アンケートに答える'|trans }}</a>
         </li>
     </ul>
 </div>

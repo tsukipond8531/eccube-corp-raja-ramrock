@@ -117,8 +117,6 @@
                   <th class="border-top-0 pt-2 pb-2 text-center">会員有無</th>
                   <th class="border-top-0 pt-2 pb-2 text-center">会員ステータス</th>
                   <th class="border-top-0 pt-2 pb-2 text-center">回答結果</th>
-                  <th class="border-top-0 pt-2 pb-2 text-center">ユーザエージェント</th>
-                  <th class="border-top-0 pt-2 pb-2 text-center">IP</th>
                   <th class="border-top-0 pt-2 pb-2 text-center">回答日時</th>
                 </tr>
               </thead>
@@ -131,7 +129,7 @@
                       {% else %}
                           <span>-</span>
                       {% endif %}
-                  </div>
+                  </td>
                   <td class="align-middle text-center">
                       {% if EnqueteUser.customerId > 0 %}
                           <span>{{ EnqueteUser.customer.status.name }}</span>
@@ -155,8 +153,6 @@
                           </div>
                       {% endfor %}
                   </td>
-                  <td class="align-middle text-center">{{ EnqueteUser.userAgent }}</td>
-                  <td class="align-middle text-center">{{ EnqueteUser.ip }}</td>
                   <td class="align-middle text-center">{{ EnqueteUser.createDate|date("Y/m/d", "Asia/Tokyo") }}</td>
                 </tr>
                 {% endfor %}

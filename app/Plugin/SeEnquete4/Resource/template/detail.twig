@@ -115,7 +115,6 @@
             <div class="c-contentsArea__primaryCol">
                 <div class="c-primaryCol">
                     <div class="card rounded border-0 mb-4">
-
                         <div id="enquete-header">
                             <div class="row">
                                 <div class="col-8">
@@ -141,7 +140,7 @@
                         </div>
 
                         <div class="collapse show ec-cardCollapse" id="ordererInfo">
-                            <div class="card-body">
+                            <div class="card-body enquete-body">
                                 {% for i, val in keyList %}
                                 <div class="row mb-2">
                                     <div class="col">
@@ -161,7 +160,7 @@
                                             {% else %}
                                             <fieldset class="form-group">
                                                 <legend class="col-form-label required">
-                                                    {{ val.label }}
+                                                    <label class="ec-label"> {{ val.label|raw|nl2br }} </label>
                                                     {% if val.required %}<span class="badge badge-primary ml-1">{{ 'common.required'|trans }}</span>{% endif %}
                                                 </legend>
                                                 <div class="col">

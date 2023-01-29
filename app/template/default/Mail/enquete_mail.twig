@@ -39,7 +39,13 @@ file that was distributed with this source code.
 
 受付内容
 ----------------------------------------------------------------------------- 
-みまもりCUBEを利用するきっかけは？ ：               {{ data.query1|join(',') }}
+
+{% for enqueteTitle, enqueteContent in data %}
+    {{ enqueteTitle }} ： {{ enqueteContent|join(',') }}
+    
+{% endfor %}
+
+{# みまもりCUBEを利用するきっかけは？ ：               {{ data.query1|join(',') }}
 
 みまもりCUBE知ったきっかけは？ ：                   {{ data.query2|join(',') }}
 
@@ -67,7 +73,7 @@ file that was distributed with this source code.
 
 今回お申込みいただくまでにお電話やメール等でお問合せはされましたか？ ： {{ data.query12|join(',') }}
 
-最後にご意見・ご質問をお聞かせください ：              {{ data.query13 }}
+最後にご意見・ご質問をお聞かせください ：              {{ data.query13 }} #}
 
 -----------------------------------------------------------------------------
 
