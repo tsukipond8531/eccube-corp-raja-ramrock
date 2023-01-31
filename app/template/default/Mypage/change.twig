@@ -183,21 +183,6 @@ file that was distributed with this source code.
                                         </div>
                                     </dd>
                                 </dl>
-                                <dl style="display: none;">
-                                    <dt>
-                                        {{ form_label(form.enquete, 'アンケートキャンペーン', { 'label_attr': {'class': 'ec-label' }}) }}
-                                    </dt>
-                                    <dd>
-                                        <div class="ec-checkbox{{ has_errors(form.enquete) ? ' error' }}">
-                                            {% if Customer.enquete == 1 %}
-                                                {{ form_widget(form.enquete) }}
-                                            {% else %}
-                                                {{ form_widget(form.enquete, { attr: { value: 0 } } ) }}
-                                            {% endif %}
-                                            {{ form_errors(form.enquete) }}
-                                        </div>
-                                    </dd>
-                                </dl>
                                 {# エンティティ拡張の自動出力 #}
                                 {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
                                     {% if f.vars.eccube_form_options.form_theme %}

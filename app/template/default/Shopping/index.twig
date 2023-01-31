@@ -141,6 +141,16 @@ file that was distributed with this source code.
     .ec-link:hover {
         color: chocolate;
     }
+
+    .ec-orderPayment .ec-radio {
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .ec-orderPayment .ec-radio label {
+        margin-right: 30px;
+    }
     @media only screen and (max-width: 767px) {
         #shopping_order_watch_target label {
             display: unset;
@@ -148,6 +158,10 @@ file that was distributed with this source code.
         #shopping_order_watch_target label::after {
             content: '\a';
             white-space: pre;
+        }
+        
+        .ec-orderPayment .ec-radio label {
+            margin-right: 20px;
         }
     }
 </style>

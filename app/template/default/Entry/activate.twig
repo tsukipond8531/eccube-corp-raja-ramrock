@@ -26,16 +26,22 @@ file that was distributed with this source code.
                     <h2>{{ '会員登録ありがとうございます'|trans }}</h2>
                 </div>
                 <p class="ec-reportDescription">
-                    本会員登録完了メールをお送りいたしました。<br />
-                    メール内にあるＵＲＬよりお申し手続きをお願いいたします。
+                    お客様アンケート割引を実施中です。<br />
+                    アンケートにご協⼒いただいた⽅には、特典としてキャンペーン価格を<br />
+                    330円割引させていただいております。<br />
+                    ※カメラ申込時にアンケート割引価格が適⽤されます。
                 </p>
-                <div class="ec-off4Grid">
-                    <div class="ec-off4Grid__cell">
+                <div class="ec-off2Grid">
+                    <div class="ec-off2Grid__cell" style="display: flex;">
+                        <a class="ec-blockBtn--action" href="{{ url('se_enquete_detail', { id: 2 }) }}" style="margin-right: 20px;">{{ 'アンケートページへ'|trans }}</a>
                         {% if qtyInCart %}
                             <a class="ec-blockBtn--action" style="margin-bottom: 3px" href="{{ url('cart') }}">{{ 'カートへ進む'|trans }}</a>
                         {% endif %}
                         <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'トップページへ'|trans }}</a>
                     </div>
+                    {# <div class="ec-off3Grid__cell">
+                        <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'トップページへ'|trans }}</a>
+                    </div> #}
                 </div>
             </div>
         </div>

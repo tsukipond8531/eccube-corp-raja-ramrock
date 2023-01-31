@@ -39,7 +39,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 
 use Symfony\Component\HttpFoundation\File\File;
-use Customize\Form\Type\Front\EnqueteType;
+// use Customize\Form\Type\Front\EnqueteType;
 
 class EntryController extends AbstractController
 {
@@ -142,7 +142,7 @@ class EntryController extends AbstractController
 
         /* @var $builder \Symfony\Component\Form\FormBuilderInterface */
         $builder = $this->formFactory->createBuilder(EntryType::class, $Customer);
-        $enqueteForm = $this->formFactory->createBuilder(EnqueteType::class)->getForm();
+        // $enqueteForm = $this->formFactory->createBuilder(EnqueteType::class)->getForm();
 
         $event = new EventArgs(
             [
@@ -157,9 +157,10 @@ class EntryController extends AbstractController
         $form = $builder->getForm();
 
         $form->handleRequest($request);
-        $enqueteForm->handleRequest($request);
+        // $enqueteForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && ($request->request->get('enquete') == null || ($enqueteForm->isSubmitted() && $enqueteForm->isValid())) ) {
+        // if ($form->isSubmitted() && $form->isValid() && ($request->request->get('enquete') == null || ($enqueteForm->isSubmitted() && $enqueteForm->isValid())) ) {
+        if ($form->isSubmitted() && $form->isValid()) {
             switch ($request->get('mode')) {
                 case 'confirm':
                     log_info('会員登録確認開始');
@@ -172,7 +173,7 @@ class EntryController extends AbstractController
                         'Entry/confirm.twig',
                         [
                             'form' => $form->createView(),
-                            'enqueteForm' => $enqueteForm->createView(),
+                            // 'enqueteForm' => $enqueteForm->createView(),
                             'Page' => $this->pageRepository->getPageByRoute('entry_confirm'),
                         ]
                     );
@@ -217,7 +218,7 @@ class EntryController extends AbstractController
                     //     $this->entityManager->persist($OldCustomer);
                     // }
                     
-                    $Customer->setEnqueteBody(json_encode($enqueteForm->getData()));
+                    // $Customer->setEnqueteBody(json_encode($enqueteForm->getData()));
 
                     $this->entityManager->persist($Customer);
                     $this->entityManager->flush();
@@ -227,7 +228,7 @@ class EntryController extends AbstractController
                     $event = new EventArgs(
                         [
                             'form' => $form,
-                            'enqueteForm' => $enqueteForm->createView(),
+                            // 'enqueteForm' => $enqueteForm->createView(),
                             'Customer' => $Customer,
                         ],
                         $request
@@ -265,7 +266,7 @@ class EntryController extends AbstractController
 
         return [
             'form' => $form->createView(),
-            'enqueteForm' => $enqueteForm->createView(),
+            // 'enqueteForm' => $enqueteForm->createView(),
         ];
     }
 

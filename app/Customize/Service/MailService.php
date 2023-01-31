@@ -77,7 +77,6 @@ class MailService extends BaseService
             ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
             ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc('customer@ramrock-eyes.jp')
             ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath($this->BaseInfo->getEmail04());
 
@@ -104,8 +103,7 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$formData['email']])
-            ->setTo([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
-            ->setBcc($this->BaseInfo->getEmail02());
+            ->setTo(['customer@ramrock.co.jp' => $this->BaseInfo->getShopName()]);
         $this->mailer->send($message);
 
         return $count;
@@ -132,7 +130,6 @@ class MailService extends BaseService
             ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
             ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc('customer@ramrock-eyes.jp')
             ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath($this->BaseInfo->getEmail04());
 
@@ -159,8 +156,7 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$formData['email']])
-            ->setTo([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
-            ->setBcc($this->BaseInfo->getEmail02());
+            ->setTo(['customer@ramrock.co.jp' => $this->BaseInfo->getShopName()]);
         $this->mailer->send($message);
 
         return $count;
@@ -190,7 +186,6 @@ class MailService extends BaseService
             ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
             ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc('customer@ramrock-eyes.jp')
             ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath($this->BaseInfo->getEmail04());
 
@@ -217,8 +212,7 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$formData['email']])
-            ->setTo([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
-            ->setBcc($this->BaseInfo->getEmail02());
+            ->setTo(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()]);
         $this->mailer->send($message);
 
         return $count;
@@ -246,7 +240,6 @@ class MailService extends BaseService
             ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
             ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc('customer@ramrock-eyes.jp')
             ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath('customer@ramrock-eyes.jp');
 
@@ -272,8 +265,7 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$formData['email']])
-            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()])
-            ->setBcc('mimamori-cube@ramrock.co.jp');
+            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()]);
         $this->mailer->send($message);
 
         log_info('自動返信メール完了', ['count' => $count]);
@@ -302,7 +294,6 @@ class MailService extends BaseService
             ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
             ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc('customer@ramrock-eyes.jp')
             ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath($this->BaseInfo->getEmail04());
 
@@ -329,8 +320,7 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$formData['email']])
-            ->setTo([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
-            ->setBcc($this->BaseInfo->getEmail02());
+            ->setTo(['customer@ramrock.co.jp' => $this->BaseInfo->getShopName()]);
         $this->mailer->send($message);
 
         return $count;
@@ -357,7 +347,6 @@ class MailService extends BaseService
             ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
             ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc('customer@ramrock-eyes.jp')
             ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath($this->BaseInfo->getEmail04());
 
@@ -384,8 +373,7 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$formData['email']])
-            ->setTo([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
-            ->setBcc($this->BaseInfo->getEmail02());
+            ->setTo(['customer@ramrock.co.jp' => $this->BaseInfo->getShopName()]);
         $this->mailer->send($message);
 
         return $count;
@@ -412,7 +400,6 @@ class MailService extends BaseService
             ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
             ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
             ->setTo([$Order->getEmail()])
-            ->setBcc($this->BaseInfo->getEmail01())
             ->setReplyTo($this->BaseInfo->getEmail03())
             ->setReturnPath($this->BaseInfo->getEmail04());
 
@@ -510,7 +497,6 @@ class MailService extends BaseService
             ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
             ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc('customer@ramrock-eyes.jp')
             ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath('customer@ramrock-eyes.jp');
 
@@ -545,8 +531,7 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$formData['email']])
-            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()])
-            ->setBcc('mimamori-cube@ramrock.co.jp');
+            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()]);
         $this->mailer->send($message);
 
         log_info('お問い合わせ受付メール送信完了', ['count' => $count]);
@@ -574,7 +559,6 @@ class MailService extends BaseService
             ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
             ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
             ->setTo([$Customer->getEmail()])
-            ->setBcc($this->BaseInfo->getEmail02())
             ->setReplyTo($this->BaseInfo->getEmail02())
             ->setReturnPath($this->BaseInfo->getEmail04());
 
@@ -611,8 +595,7 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$Customer->getEmail()])
-            ->setTo([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
-            ->setBcc($this->BaseInfo->getEmail02());
+            ->setTo([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()]);
         $this->mailer->send($message);
 
         return $count;
@@ -639,7 +622,6 @@ class MailService extends BaseService
             ->setSubject($MailTemplate->getMailSubject())
             ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc('customer@ramrock-eyes.jp')
             ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath('customer@ramrock-eyes.jp');
 
@@ -673,8 +655,7 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$formData['email']])
-            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()])
-            ->setBcc('mimamori-cube@ramrock.co.jp');
+            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()]);
         $this->mailer->send($message);
 
         log_info('お問い合わせ受付メール送信完了', ['count' => $count]);
@@ -703,7 +684,6 @@ class MailService extends BaseService
             ->setSubject($MailTemplate->getMailSubject())
             ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$formData['email']])
-            ->setBcc('customer@ramrock-eyes.jp')
             ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath('customer@ramrock-eyes.jp');
 
@@ -737,8 +717,7 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$formData['email']])
-            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()])
-            ->setBcc('mimamori-cube@ramrock.co.jp');
+            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()]);
         $this->mailer->send($message);
 
         log_info('お問い合わせ受付メール送信完了', ['count' => $count]);
@@ -768,7 +747,6 @@ class MailService extends BaseService
             ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
             ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$Customer->getEmail()])
-            ->setBcc('customer@ramrock-eyes.jp')
             ->setReplyTo('customer@ramrock-eyes.jp')
             ->setReturnPath('customer@ramrock-eyes.jp');
 
@@ -793,8 +771,7 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$Customer->getEmail()])
-            ->setTo(['mimamori-cube@ramrock.co.jp' => $this->BaseInfo->getShopName()])
-            ->setBcc('mimamori-cube@ramrock.co.jp');
+            ->setTo(['customer@ramrock.co.jp' => $this->BaseInfo->getShopName()]);
         $this->mailer->send($message);
 
         log_info('アンケート受付メール送信完了', ['count' => $count]);

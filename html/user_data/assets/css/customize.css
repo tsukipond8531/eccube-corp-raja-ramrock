@@ -166,6 +166,10 @@
     min-width: 350px;
 }
 
+.ec-zipInputHelp .ec-zipInputHelp__icon {
+    top: -14px;
+}
+
 @media only screen and (min-width: 768px) {
     .product-options .ec-checkbox.anshin {
         max-width: 350px;

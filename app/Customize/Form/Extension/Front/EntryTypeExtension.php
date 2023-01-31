@@ -88,18 +88,18 @@ class EntryTypeExtension extends AbstractTypeExtension
                 '好きな食べ物は' => '好きな食べ物は',
             ]
         ])
-        ->add('password_tip_answer', TextType::class, [])
-        ->add('enquete', ChoiceType::class, [
-            'required' => true,
-            'choices' => [
-                '参加する' => '1',
-                '参加しない' => '0',
-            ],
-            'expanded' => true,
-            'multiple' => false,
-            'constraints' => [
-                new Assert\NotBlank(),
-            ],
-        ]);
+        ->add('password_tip_answer', TextType::class, []);
+        // ->add('enquete', ChoiceType::class, [
+        //     'required' => true,
+        //     'choices' => [
+        //         '参加する' => '1',
+        //         '参加しない' => '0',
+        //     ],
+        //     'expanded' => true,
+        //     'multiple' => false,
+        //     'constraints' => [
+        //         new Assert\NotBlank(),
+        //     ],
+        // ]);
     }
 }

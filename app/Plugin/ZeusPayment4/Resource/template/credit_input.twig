@@ -23,7 +23,8 @@
             //$('#'+zeus_payment_id).origin_$('#'+zeus_payment_id).prop('checked');
 
             //$('#zeus_payment_input').insertAfter($("label:contains('" + paymentName + "')"));
-            $('#'+zeus_payment_id).parent().append($('#zeus_payment_input'))
+            // $('#'+zeus_payment_id).parent().append($('#zeus_payment_input'))
+            $('#'+zeus_payment_id).parents('.ec-orderPayment').append($('#zeus_payment_input'))
 
             var tokenLoaded = false;
 

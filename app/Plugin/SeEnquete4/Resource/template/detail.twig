@@ -59,6 +59,7 @@
         }
         .enquete-title {
             font-weight: bold;
+            text-align: center;
         }
         .enquete-subtitle {
             font-size: 18px;
@@ -123,7 +124,7 @@
                                         <img src="{{ asset( 'SeEnquete4/assets/img/' ~ Enquete.thumbnail, 'plugin') }}">
                                     </p>
                                     {% else %}
-                                    <h3 class="enquete-title">{{ Enquete.title }}</h3>
+                                    <h1 class="enquete-title">{{ Enquete.title }}</h1>
                                     {% endif %}
                                 </div>
                             </div>
@@ -131,9 +132,9 @@
                             <div class="row">
                                 <div class="col">
                                     <p class="enquete-subtitle">{{ Enquete.subTitle|raw|nl2br }}</p>
-                                    <div class="text-right">
+                                    {# <div class="text-right">
                                         {{ 'se_enquete.common.message.day_term'|trans }}{{ Enquete.startDate|date("Y/m/d", "Asia/Tokyo") }} 〜 {% if Enquete.endDate is not null %}{{ Enquete.endDate|date("Y/m/d", "Asia/Tokyo") }}{% endif %}
-                                    </div>
+                                    </div> #}
                                 </div>
                             </div>
                             {% endif %}
