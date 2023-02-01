@@ -313,11 +313,11 @@ file that was distributed with this source code.
                             <li class="ec-productRole__tag tag_{{ Tag.id }}">{{ Tag }}</li>
                         {% endfor %}
                     </ul>
-                    {# キャンペーン料金 #}
+                    {# キャンペーン通常料金 #}
                     {% if campagin %}
                         <div class="ec-productRole__price">
                             <div class="ec-price">
-                                <span class="cs-price-label">{{ 'キャンペーン料金'|trans }}</span>： <span class="ec-price__price campagin-price">{{ '3190'|price }}</span>
+                                <span class="cs-price-label">{{ 'キャンペーン通常料金'|trans }}</span>： <span class="ec-price__price campagin-price">{{ '3190'|price }}</span>
                                 <span class="ec-price__tax">{{ '税込'|trans }}</span>
                             </div>
                         </div>
@@ -344,17 +344,17 @@ file that was distributed with this source code.
                             {% endif %}
                         </div>
                     {% endif %}
-                    {# アンケート割引価格 #}
+                    {# アンケート割引適用時 #}
                     <div class="ec-productRole__price">
                         <div class="ec-price">
-                            <span class="cs-price-label">{{ 'アンケート割引価格'|trans }}</span>： <span class="ec-price__price enquete-price">{{ '2860'|price }}</span>
+                            <span class="cs-price-label">{{ 'アンケート割引適用時'|trans }}</span>： <span class="ec-price__price enquete-price">{{ '2860'|price }}</span>
                             <span class="ec-price__tax">{{ '税込'|trans }}</span>
                         </div>
                     </div>
-                    {# 月額利用料 #}
+                    {# 月額料金 #}
                     <div class="ec-productRole__price">                        
                         <div class="ec-price">
-                            <span class="cs-price-label">{{ '月額利用料'|trans }}</span>： <span class="ec-price__price default-price">{{ '4290'|price }}</span>
+                            <span class="cs-price-label">{{ '月額料金'|trans }}</span>： <span class="ec-price__price default-price">{{ '4290'|price }}</span>
                             <span class="ec-price__tax">{{ '税込/月'|trans }}</span>
                         </div>
                     </div>

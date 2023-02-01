@@ -121,6 +121,8 @@ class CareManagerType extends AbstractType
                     'ご家族様からのご依頼' => 'ご家族様からのご依頼',
                     'ケアマネージャー様からのご依頼' => 'ケアマネージャー様からのご依頼',
                     '弊社営業担当' => '弊社営業担当',
+                    'FAX' => 'FAX',
+                    'DM' => 'DM',
                     'その他' => 'その他',
                 ],
                 'expanded' => true,

@@ -540,6 +540,72 @@ class MailService extends BaseService
     }
 
     /**
+     * Send customer confirm mail.
+     *
+     * @param $Customer 会員情報
+     * @param string $activateUrl アクティベート用url
+     */
+    public function sendCustomerConfirmMail(Customer $Customer, $activateUrl)
+    {
+        log_info('仮会員登録メール送信開始');
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_entry_confirm_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'Customer' => $Customer,
+            'BaseInfo' => $this->BaseInfo,
+            'activateUrl' => $activateUrl,
+        ]);
+
+        $message = (new \Swift_Message())
+            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
+            ->setTo([$Customer->getEmail()])
+            ->setReplyTo($this->BaseInfo->getEmail03())
+            ->setReturnPath($this->BaseInfo->getEmail04());
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'Customer' => $Customer,
+                'BaseInfo' => $this->BaseInfo,
+                'activateUrl' => $activateUrl,
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $event = new EventArgs(
+            [
+                'message' => $message,
+                'Customer' => $Customer,
+                'BaseInfo' => $this->BaseInfo,
+                'activateUrl' => $activateUrl,
+            ],
+            null
+        );
+        $this->eventDispatcher->dispatch(EccubeEvents::MAIL_CUSTOMER_CONFIRM, $event);
+
+        $count = $this->mailer->send($message, $failures);
+
+        log_info('仮会員登録メール送信完了', ['count' => $count]);
+        
+        // 自動返信メール
+        $message
+            ->setFrom([$Customer->getEmail()])
+            ->setTo(['customer@ramrock.co.jp' => $this->BaseInfo->getShopName()]);
+        $this->mailer->send($message);
+
+        return $count;
+    }
+
+    /**
      * Send customer complete mail.
      *
      * @param $Customer 会員情報
@@ -557,7 +623,7 @@ class MailService extends BaseService
 
         $message = (new \Swift_Message())
             ->setSubject('[みまもりCUBE] '.$MailTemplate->getMailSubject())
-            ->setFrom([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()])
+            ->setFrom(['customer@ramrock-eyes.jp' => $this->BaseInfo->getShopName()])
             ->setTo([$Customer->getEmail()])
             ->setReplyTo($this->BaseInfo->getEmail02())
             ->setReturnPath($this->BaseInfo->getEmail04());
@@ -595,7 +661,7 @@ class MailService extends BaseService
         // 自動返信メール
         $message
             ->setFrom([$Customer->getEmail()])
-            ->setTo([$this->BaseInfo->getEmail02() => $this->BaseInfo->getShopName()]);
+            ->setTo(['customer@ramrock.co.jp' => $this->BaseInfo->getShopName()]);
         $this->mailer->send($message);
 
         return $count;
@@ -640,15 +706,6 @@ class MailService extends BaseService
         } else {
             $message->setBody($body);
         }
-
-        $event = new EventArgs(
-            [
-                'message' => $message,
-                'formData' => $formData,
-                'BaseInfo' => $this->BaseInfo,
-            ],
-            null
-        );
 
         $count = $this->mailer->send($message);
         
@@ -702,15 +759,6 @@ class MailService extends BaseService
         } else {
             $message->setBody($body);
         }
-
-        $event = new EventArgs(
-            [
-                'message' => $message,
-                'formData' => $formData,
-                'BaseInfo' => $this->BaseInfo,
-            ],
-            null
-        );
 
         $count = $this->mailer->send($message);
         

@@ -18,6 +18,19 @@ file that was distributed with this source code.
         [for $= '_placeholder'] {
             display: none !important;
         }
+
+        .ec-borderedDefs dd label::after {
+            content: '\a';
+            white-space: pre;
+        }
+
+        .ec-checkbox label {
+            display: unset;
+        }
+        
+        .ec-borderedDefs dl {
+            padding: 15px 0;
+        }
     </style>
 {% endblock %}
 

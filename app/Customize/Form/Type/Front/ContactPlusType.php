@@ -31,6 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContactPlusType extends AbstractType
 {
@@ -139,6 +140,8 @@ class ContactPlusType extends AbstractType
                     '新聞・広告・チラシ' => '新聞・広告・チラシ',
                     '紹介' => '紹介',
                     'SNS' => 'SNS',
+                    'FAX' => 'FAX',
+                    'DM' => 'DM',
                     'その他' => 'その他',
                 ],
                 'expanded' => true,
@@ -161,6 +164,16 @@ class ContactPlusType extends AbstractType
                     new Assert\NotBlank(),
                 ],
             ]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'csrf_protection' => false, // この行を追加
+        ]);
     }
 
     /**

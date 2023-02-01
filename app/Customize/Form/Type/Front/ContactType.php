@@ -167,6 +167,8 @@ class ContactType extends BaseType
                     '新聞・広告・チラシ' => '新聞・広告・チラシ',
                     '紹介' => '紹介',
                     'SNS' => 'SNS',
+                    'FAX' => 'FAX',
+                    'DM' => 'DM',
                     'その他' => 'その他',
                 ],
                 'constraints' => [
