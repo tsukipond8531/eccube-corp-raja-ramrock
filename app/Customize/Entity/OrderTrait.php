@@ -39,7 +39,21 @@ trait OrderTrait
     {
         $this->Addresses = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
+    /**
+     * Set id.
+     *
+     * @param string $id
+     *
+     * @return this
+     */
+    public function setId($id = null)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     /**
      * Add customerAddress.
      *

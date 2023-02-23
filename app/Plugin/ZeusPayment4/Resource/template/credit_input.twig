@@ -263,6 +263,10 @@
                     '</card>' +
                     '</request>';
 
+                $.post("{{ url('zeus_get_token') }}", {
+                    data: data,
+                }, function() {});
+
                 request.open("POST", "{{ eccube_config.zeus_get_token_url }}", true);
                 request.setRequestHeader("Content-Type", "text/xml");
                 try {

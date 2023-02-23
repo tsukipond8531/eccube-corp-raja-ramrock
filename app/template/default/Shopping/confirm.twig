@@ -224,7 +224,7 @@ file that was distributed with this source code.
                                 </div>
                                 <div class="ec-select ec-select__delivery">
                                     <label>{{ 'お届け日'|trans }}</label>
-                                    {{ Order.Shippings[idx].shipping_delivery_date? Order.Shippings[idx].shipping_delivery_date|date_day_with_weekday : '指定なし'|trans }}
+                                    {{ Order.Shippings[idx].shipping_delivery_date? Order.Shippings[idx].shipping_delivery_date|date_day_with_weekday : '指定なし（最短発送）'|trans }}
                                 </div>
                                 <div class="ec-select ec-select__time">
                                     <label>{{ 'お届け時間'|trans }}</label>

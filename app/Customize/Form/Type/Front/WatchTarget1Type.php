@@ -45,30 +45,57 @@ class WatchTarget1Type extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name', NameType::class, [
-                'required' => false,
-            ])
-            ->add('kana', KanaType::class, [
-                'required' => false,
-            ])
-            ->add('company_name', TextType::class, [
-                'required' => false,
-                'constraints' => [
-                    new Assert\Length([
-                        'max' => $this->eccubeConfig['eccube_stext_len'],
-                    ]),
-                ],
-            ])
-            ->add('postal_code', PostalType::class, [
-                'required' => false,
-            ])
-            ->add('address', AddressType::class, [
-                'required' => false,
-            ])
-            ->add('phone_number', PhoneNumberType::class, [
-                'required' => false,
-            ]);
+        if ( $options['label'] == 'is_admin' ) {
+            $builder
+                ->add('name', NameType::class, [
+                    'required' => false,
+                ])
+                ->add('kana', KanaType::class, [
+                    'required' => false,
+                ])
+                ->add('company_name', TextType::class, [
+                    'required' => false,
+                    'constraints' => [
+                        new Assert\Length([
+                            'max' => $this->eccubeConfig['eccube_stext_len'],
+                        ]),
+                    ],
+                ])
+                ->add('postal_code', PostalType::class, [
+                    'required' => false,
+                ])
+                ->add('address', AddressType::class, [
+                    'required' => false,
+                ])
+                ->add('phone_number', PhoneNumberType::class, [
+                    'required' => false,
+                ]);
+        } else {
+            $builder
+                ->add('name', NameType::class, [
+                    'required' => true,
+                ])
+                ->add('kana', KanaType::class, [
+                    'required' => false,
+                ])
+                ->add('company_name', TextType::class, [
+                    'required' => false,
+                    'constraints' => [
+                        new Assert\Length([
+                            'max' => $this->eccubeConfig['eccube_stext_len'],
+                        ]),
+                    ],
+                ])
+                ->add('postal_code', PostalType::class, [
+                    'required' => true,
+                ])
+                ->add('address', AddressType::class, [
+                    'required' => true,
+                ])
+                ->add('phone_number', PhoneNumberType::class, [
+                    'required' => false,
+                ]);
+        }
     }
 
     /**

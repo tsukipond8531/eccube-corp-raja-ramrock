@@ -53,7 +53,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-use Customize\Form\Type\Front\InstallationAgentType;
+use Customize\Form\Type\Admin\InstallationAgentType;
 use Customize\Form\Type\Front\WatchTarget1Type;
 use Customize\Form\Type\Front\WatchTarget2Type;
 use Eccube\Entity\CustomerAddress;
@@ -258,7 +258,7 @@ class EditController extends AbstractController
         }
         
         $installationAgentForm = $this->createForm(InstallationAgentType::class, $installationAgent);
-        $watchTarget1Form = $this->createForm(WatchTarget1Type::class, $watchTarget1);
+        $watchTarget1Form = $this->createForm(WatchTarget1Type::class, $watchTarget1, ['label' => 'is_admin']);
         $watchTarget2Form = $this->createForm(WatchTarget2Type::class, $watchTarget2);
 
         $installationAgentForm->handleRequest($request);

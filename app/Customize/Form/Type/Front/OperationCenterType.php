@@ -58,18 +58,6 @@ class OperationCenterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('purpose', ChoiceType::class, [
-                'required' => true,
-                'choices' => [
-                    'お問い合わせ' => 'お問い合わせ',
-                    'お支払い方法の変更' => 'お支払い方法の変更',
-                ],
-                'expanded' => true,
-                'multiple' => false,
-                'constraints' => [
-                    new Assert\NotBlank(),
-                ],
-            ])
             ->add('customer_id', TextType::class, [
                 'required' => false,
             ])

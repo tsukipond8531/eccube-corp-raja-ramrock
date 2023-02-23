@@ -1,0 +1,5 @@
+{% for shipping in Order.shippings %}
+    {% for orderItem in shipping.productOrderItems %}
+        <img src="https://px.a8.net/a8fly/earnings?a8={{ app.request.cookies.get('a8_parameter') }}&pid=s00000022378001&so={{ Order.order_no }}&si={{ orderItem .price_inctax}}-{{ orderItem .quantity}}-{{ Order.subtotal}}-{{ orderItem .product_code }}&currency=JPY" width="1" height="1" />
+    {% endfor %}
+{% endfor %}

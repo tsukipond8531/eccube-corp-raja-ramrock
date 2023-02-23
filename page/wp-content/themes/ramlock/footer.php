@@ -14,9 +14,9 @@
 					<div class="fnav01">
 						<p class="fnav02">みまもりCUBEとは</p>
 						<ul class="fnav03">
-							<li><a href="/user_data/function/">機能紹介</a></li>
-							<li><a href="/user_data/about01/">活用方法</a></li>
-							<li><a href="/user_data/voice/">利用者の声</a></li>  
+							<li><a href="/function/">機能紹介</a></li>
+							<li><a href="/about01/">活用方法</a></li>
+							<li><a href="/voice/">みまもりCUBEを使ってみて</a></li>  
 						</ul>
 					</div>
 					<div class="fnav01">
@@ -32,21 +32,21 @@
 					<div class="fnav01">
 						<p class="fnav02">ご利用方法</p>
 						<ul class="fnav03">
-							<li><a href="/user_data/flow/">月額料金・お申込みの流れ</a></li>
-							<li><a href="/user_data/first-price/">お買い物ガイド</a></li>
-							<li><a href="/user_data/first-kakunin/">本人確認書類とは</a></li>  
-							<li><a href="/user_data/first-cancel/">キャンセル・返品方法</a></li>
+							<li><a href="/flow/">月額料金・お申込みの流れ</a></li>
+							<li><a href="/first-price/">お買い物ガイド</a></li>
+							<li><a href="/first-kakunin/">本人確認書類とは</a></li>  
+							<li><a href="/first-cancel/">キャンセル・返品方法</a></li>
 						</ul>
 					</div>
 					<div class="fnav01">
 					    <p class="fnav02">その他</p>
 					    <ul class="fnav03">
-    					    <li><a href="/user_data/faq/">よくある質問</a></li>
-    					    <li><a href="/user_data/news/">新着情報</a></li>
+    					    <li><a href="/faq/">よくある質問</a></li>
+    					    <li><a href="/news/">新着情報</a></li>
     					    <li><a href="/material">検討資料請求</a></li>
-    					    <li><a href="/user_data/kaigohoken/">ラムロックアイズ<br class="sp">（保険適用について）</a></li>
-    					    <li><a href="/user_data/care_manager/">ケアマネージャー・<br>福祉用具貸与事業者の方へ</a></li>
-    					    <li><a href="/user_data/campaign/">お試し体験キャンペーン</a></li>
+    					    <li><a href="/kaigohoken/">ラムロックアイズ<br class="sp">（保険適用について）</a></li>
+    					    <li><a href="/care_manager/">ケアマネージャー・<br>福祉用具貸与事業者の方へ</a></li>
+    					    <li><a href="/campaign/">お試し体験キャンペーン</a></li>
     					</ul>
 					</div>
 				</div>
@@ -55,9 +55,10 @@
 		<div class="footerbtm">
 			<div class="cmnbox01">
 				<ul class="btmnav01">
+					<li><a href="/help/agreement">利用規約</a></li>
 					<li><a href="/help/privacy">プライバシーポリシー</a></li>
-					<li><a href="/user_data/makerpolicy/">メーカー直販ポリシー</a></li>
-					<li><a href="/user_data/first-tokutei/">特定商取引に基づく表記</a></li>
+					<li><a href="/makerpolicy/">メーカー直販ポリシー</a></li>
+					<li><a href="/first-tokutei/">特定商取引に基づく表記</a></li>
 				</ul>
 				<p class="copy">Copyright &copy; Ramrock Co., ltd. All Rights Reserved.</p>
 			</div>
@@ -84,7 +85,7 @@
 <!--/footer-->
 <script src="/html/template/default/assets/js/function.js"></script>
 <script src="/html/template/default/assets/js/eccube.js"></script>
-<script src="/html/user_data/assets/js/customize.js"></script>
+<script src="/html/assets/js/customize.js"></script>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 

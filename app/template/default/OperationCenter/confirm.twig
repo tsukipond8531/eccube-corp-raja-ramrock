@@ -160,20 +160,12 @@ file that was distributed with this source code.
                     {{ form_widget(form._token) }}
                     <p class="ec-para-normal">
                         みまもりCUBEをご利用中、ご不明な点などございましたら下記お問合せフォームよりお問合せください。<br />
-                        また、お問合せが多い質問やトラブルシューティングは<a href="{{ url('homepage') }}user_data/faq/">「よくある質問」</a>に掲載しています。<br /><br />
+                        また、お問合せが多い質問やトラブルシューティングは<a href="{{ url('homepage') }}faq/">「よくある質問」</a>に掲載しています。<br /><br />
 
                         当社営業時間外・休業日のお問い合わせに関しての対応は、休業日の翌営業日となります。<br />
                         あしからずご了承ください。
                     </p>
                     <div class="ec-borderedDefs">
-                        <dl>
-                            <dt>
-                                {{ form_label(form.purpose, 'お支払い方法変更', { 'label_attr': { 'class': 'ec-label' }}) }}
-                            </dt>
-                            <dd>{{ form.purpose.vars.data }}
-                                {{ form_widget(form.purpose, { type : 'hidden' }) }}
-                            </dd>
-                        </dl>
                         <dl>
                             <dt>
                                 {{ form_label(form.customer_id, '会員ID', { 'label_attr': { 'class': 'ec-label' }}) }}

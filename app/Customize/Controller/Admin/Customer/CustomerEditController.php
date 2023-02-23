@@ -142,6 +142,7 @@ class CustomerEditController extends AbstractController
         return [
             'form' => $form->createView(),
             'Customer' => $Customer,
+            'Orders' => $Customer->getOrders(),
             'enquete' => $enquete,
         ];
     }

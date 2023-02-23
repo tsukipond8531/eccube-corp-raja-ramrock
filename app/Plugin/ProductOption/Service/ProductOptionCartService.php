@@ -111,6 +111,12 @@ class ProductOptionCartService extends CartService
                 }
                 if(!is_null($OptionCategory)){
                     $option_price = $OptionCategory->getValue();
+
+                    // 設置代行オプションの台数が2台の場合、価格変更
+                    if ( $OptionCategory->getOption()->getName() == '設置代行オプション' && $ProductClass->getMaintenancePack() == 2 ) {
+                        $option_price = 28000;
+                    }
+
                     if($Option->getType() == Option::NUMBER_TYPE){
                         if($OptionCategory->getMultipleFlg())$option_price *= $val;
                     }

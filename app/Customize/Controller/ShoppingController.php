@@ -235,27 +235,45 @@ class ShoppingController extends AbstractShoppingController
         $redirectParams = NULL;
         if ($this->session->has('shopping_redirect_params')) {
             $redirectParams = $this->session->get('shopping_redirect_params');
+            if ( array_key_exists( 'zeus', $redirectParams ) ) {
+                $zeus = $redirectParams['zeus'];
 
-            $form['add_images']->setData($redirectParams['add_images']);
-            $form['delete_images']->setData($redirectParams['delete_images']);
-            $form['watch_target']->setData($redirectParams['watch_target']);
+                foreach ( $zeus as $key => $value ) {
+                    $key = str_replace("_", "", ucwords($key, " _"));
+                    if ( $form->has($key) ) {
+                        $form[$key]->setData($value);
+                    }
+                }
+            }
+            if ( array_key_exists( 'images', $redirectParams ) ) {
+                $form['images']->setData($redirectParams['images']);
+            }
+            if ( array_key_exists( 'add_images', $redirectParams ) ) {
+                $form['add_images']->setData($redirectParams['add_images']);
+            }
+            if ( array_key_exists( 'delete_images', $redirectParams ) ) {
+                $form['delete_images']->setData($redirectParams['delete_images']);
+            }
+            if ( array_key_exists( 'watch_target', $redirectParams ) ) {
+                $form['watch_target']->setData($redirectParams['watch_target']);
+            }
         }
 
         $installationAgentForm = NULL;
 
         $watchTarget1Form = $this->createForm(WatchTarget1Type::class);
-        if ($redirectParams) {
+        if ($redirectParams && array_key_exists( 'watch_target1', $redirectParams )) {
             $this->mapFormAndAddress($watchTarget1Form, $redirectParams['watch_target1']);
         }
 
         $watchTarget2Form = $this->createForm(WatchTarget2Type::class);
-        if ($redirectParams) {
+        if ($redirectParams && array_key_exists( 'watch_target2', $redirectParams )) {
             $this->mapFormAndAddress($watchTarget2Form, $redirectParams['watch_target2']);
         }
 
         if ($isInstallationAgent) {
             $installationAgentForm = $this->createForm(InstallationAgentType::class);
-            if ($redirectParams) {
+            if ($redirectParams && array_key_exists( 'installation_agent', $redirectParams )) {
                 $this->mapFormAndAddress($installationAgentForm, $redirectParams['installation_agent']);
             }
 
@@ -311,6 +329,16 @@ class ShoppingController extends AbstractShoppingController
         $form = $this->createForm(OrderType::class, $Order);
         $form->handleRequest($request);
 
+        $redirectParams = [];
+        $data = $form->getData()->toArray();
+        $zeus = array_filter( $data, function ( $key ) {
+            return str_contains( $key, 'zeus_' );
+        }, ARRAY_FILTER_USE_KEY );
+
+        $redirectParams['zeus'] = $zeus;
+
+        $this->session->set('shopping_redirect_params', $redirectParams);
+
         $isInstallationAgent = false;
         
         $OrderItems = $Order->getMergedProductOrderItems();
@@ -344,16 +372,17 @@ class ShoppingController extends AbstractShoppingController
             $response = $this->executePurchaseFlow($Order);
             $this->entityManager->flush();
 
-            $params = [];
-            $params['add_images'] = $form['add_images']->getData();
-            $params['delete_images'] = $form['delete_images']->getData();
+            $redirectParams['images'] = $form['images']->getData();
+            $redirectParams['add_images'] = $form['add_images']->getData();
+            $redirectParams['add_images'] = $form['add_images']->getData();
+            $redirectParams['delete_images'] = $form['delete_images']->getData();
             
-            $params['installation_agent'] = $isInstallationAgent ? $installationAgentForm->getData() : NULL;
-            $params['watch_target'] = $form['watch_target']->getData();
-            $params['watch_target1'] = $watchTarget1Form->getData();
-            $params['watch_target2'] = $watchTarget2Form->getData();
+            $redirectParams['installation_agent'] = $isInstallationAgent ? $installationAgentForm->getData() : NULL;
+            $redirectParams['watch_target'] = $form['watch_target']->getData();
+            $redirectParams['watch_target1'] = $watchTarget1Form->getData();
+            $redirectParams['watch_target2'] = $watchTarget2Form->getData();
 
-            $this->session->set('shopping_redirect_params', $params);
+            $this->session->set('shopping_redirect_params', $redirectParams);
 
             if ($response) {
                 return $response;

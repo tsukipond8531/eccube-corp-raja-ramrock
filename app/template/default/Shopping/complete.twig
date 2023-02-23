@@ -12,6 +12,10 @@ file that was distributed with this source code.
 
 {% set body_class = 'cart_page' %}
 
+{% block javascript %}
+<script type="text/javascript" src="https://js.felmat.net/fmcv.js?adid=P26630&uqid={{ Order.id }}"></script>
+{% endblock %}
+
 {% block main %}
 <div class="ec-modifiedLayoutRole__contents">
     <div class="ec-role">
@@ -73,7 +77,8 @@ file that was distributed with this source code.
                 <p class="ec-reportDescription">
                     ただいま、ご注文の確認メールをお送りさせていただきました。<br />
                     万一、ご確認メールが届かない場合は、トラブルの可能性もありますので<br />
-                    大変お手数ではございますがお問い合わせくださいますようお願いいたします。
+                    大変お手数ではございますがお問い合わせくださいますようお願いいたします。<br/>
+                    ご本人様確認完了後、メールにてご連絡させていただきます。
                 </p>
                 {# {% if app.session.has('is_eaccount') == false %}
                 <p class="ec-reportDescription">

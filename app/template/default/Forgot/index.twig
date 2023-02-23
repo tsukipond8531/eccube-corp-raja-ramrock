@@ -12,6 +12,21 @@ file that was distributed with this source code.
 
 {% form_theme form 'Form/form_div_layout.twig' %}
 
+{% block stylesheet %}
+    <style>
+        .ec-errorMessage {
+            color: red;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        @media only screen and (min-width: 768px) {
+            .ec-borderedDefs dd {
+                padding-left: 30px;
+            }
+        }
+    </style>
+{% endblock %}
+
 {% block main %}
 <div class="ec-modifiedLayoutRole__contents">
     <div class="ec-role">
@@ -26,8 +41,11 @@ file that was distributed with this source code.
                 <div class="ec-off1Grid__cell">
                     <div class="ec-forgotRole__form">
                         <div class="ec-forgotRole__intro">
-                            <p class="ec-para-normal">{{ 'ご登録時のメールアドレスを入力して「次へ」ボタンをクリックしてください。'|trans }}</p>
-                            <p class="ec-para-normal">{{ '※パスワード再発行メールを送信します。メールの内容をご確認の上、新しいパスワードを登録してください。'|trans }}</p>
+                            <p class="ec-para-normal">
+                                ご登録時に入力した下記質問の答えを入力して「次へ」ボタンをクリックしてください。 <br />
+                                ・下記質問の答えをお忘れになられた場合は、customer@ramrock.co.jpまでご連絡ください。 <br />
+                                ・新しくパスワードを発行いたしますので、お忘れになったパスワードはご利用できなくなり ます。 <br />
+                            </p>
                         </div>
                         <div class="ec-borderedDefs">
                             <dl>
@@ -39,6 +57,27 @@ file that was distributed with this source code.
                                         {{ form_widget(form.login_email) }}
                                         {{ form_errors(form.login_email) }}
                                     </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.password_tip_answer, 'パスワードを忘れた時のヒント', { 'label_attr': {'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    <div class="ec-select{{ has_errors(form.password_tip_query) ? ' error' }}">
+                                        {{ form_widget(form.password_tip_query) }}
+                                        {{ form_errors(form.password_tip_query) }}
+                                    </div>
+                                    <div class="ec-input{{ has_errors(form.password_tip_answer) ? ' error' }}">
+                                        {{ form_widget(form.password_tip_answer, { 'attr': { 'style': 'width: 250px' } }) }}
+                                        {{ form_errors(form.password_tip_answer) }}
+                                    </div>
+                                    {% if validation_error is defined and validation_error == 'email' %}
+                                        <p class="ec-errorMessage">登録されていないメールです。</p>
+                                    {% endif %}
+                                    {% if validation_error is defined and validation_error == 'tip' %}
+                                        <p class="ec-errorMessage">回答が正しくありません。</p>
+                                    {% endif %}
                                 </dd>
                             </dl>
                         </div>

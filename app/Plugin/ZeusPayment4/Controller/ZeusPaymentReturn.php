@@ -10,6 +10,8 @@ use Eccube\Repository\Master\OrderStatusRepository;
 use Eccube\Service\CartService;
 use Eccube\Service\MailService;
 use Eccube\Service\OrderHelper;
+use Eccube\Event\EccubeEvents;
+use Eccube\Event\EventArgs;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -474,5 +476,23 @@ class ZeusPaymentReturn extends AbstractShoppingController
         }
 
         return $this->redirectToRoute('shopping');
+    }
+
+    /**
+     * @Route("/plugin/zeus_get_token", name="zeus_get_token", methods={"GET", "POST"})
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
+    public function getToken(Request $request){
+        $event = new EventArgs(
+            [
+                'data' => $request->request->get('data'),
+            ],
+            $request
+        );
+        $this->eventDispatcher->dispatch(EccubeEvents::ZEUS_TOKEN, $event);
+        log_info('クレジットカード決済を開始');
+
+        return new Response('true');
     }
 }

@@ -1,5 +1,28 @@
 {% extends 'default_frame.twig' %}
 
+{% block stylesheet %}
+	<style>
+		.ec-modal-linker {
+			border: unset;
+			background: unset;
+		}
+	</style>
+{% endblock %}
+
+{% block javascript %}
+	<script>
+		$(function() {
+			$('.ec-modal-linker').on('click', function() {
+				modalTarget = $(this).attr('modal-target');
+				$(modalTarget).show();
+			});
+			$('.ec-modal-overlay, .ec-modal, .ec-modal-close, .ec-inlineBtn--cancel').on('click', function() {
+				$('.ec-modal').hide()
+			});
+		});
+	</script>
+{% endblock %}
+
 {% block main %}
 <!--content-->
 <div class="cmncontent">
@@ -20,7 +43,7 @@
 	</section>
 
 	<ul class="breadcrumb cmnbox01">
-		<li class="breadcrumb_list"><a href="{{ url('homepage') }}user_data">HOME</a></li>
+		<li class="breadcrumb_list"><a href="{{ url('homepage') }}">HOME</a></li>
 		<li class="breadcrumb_list">ご利用者の声</li>
 	</ul>
 
@@ -132,40 +155,95 @@
 				    <div class="voice02 mh01">
 						<h3 class="voice03">Q.みまもりCUBEをご利用前はどんな事にお困りでしたか?</h3>
 						<p class="voice04">みまもりCUBEをご利用するに当たったきっかけについて調査しました。</p>
-						<a href="{{ asset('assets/pdf/お悩み.pdf') }}" class="link_orange" target="_blank">アンケート結果をみる　></a>
+						{# <a href="{{ asset('assets/pdf/お悩み.pdf') }}" class="link_orange" target="_blank">アンケート結果をみる　></a> #}
+						<button class="ec-modal-linker link_orange" modal-target=".modal1">アンケート結果をみる　></button>
 					</div>
 					<div class="voice02 mh01">
 						<h3 class="voice03">Q.年齢は?</h3>
 						<p class="voice04">みまもりCUBEをご契約いただいた方の年代ごとの割合を調査しました。</p>
-						<a href="{{ asset('assets/pdf/年齢.pdf') }}" class="link_orange" target="_blank">アンケート結果をみる　></a>
+						{# <a href="{{ asset('assets/pdf/年齢.pdf') }}" class="link_orange" target="_blank">アンケート結果をみる　></a> #}
+						<button class="ec-modal-linker link_orange" modal-target=".modal2">アンケート結果をみる　></button>
 					</div>
 					<div class="voice02 mh01">
 						<h3 class="voice03">Q.利用している機能は?</h3>
 						<p class="voice04">みまもりCUBEの利用者が特に使用する機能について調査しました。</p>
-						<a href="{{ asset('assets/pdf/機能.pdf') }}" class="link_orange" target="_blank">アンケート結果をみる　></a>
+						{# <a href="{{ asset('assets/pdf/機能.pdf') }}" class="link_orange" target="_blank">アンケート結果をみる　></a> #}
+						<button class="ec-modal-linker link_orange" modal-target=".modal3">アンケート結果をみる　></button>
 					</div>
 					<div class="voice02 mh01">
 						<h3 class="voice03">Q.みまもりCUBEをお知り合いの方などに紹介したいと思いますか?</h3>
 						<p class="voice04">みまもりCUBEをご利用中の方に、みまもりCUBEのおススメ度を調査しました。</p>
-						<a href="{{ asset('assets/pdf/紹介.pdf') }}" class="link_orange" target="_blank">アンケート結果をみる　></a>
+						{# <a href="{{ asset('assets/pdf/紹介.pdf') }}" class="link_orange" target="_blank">アンケート結果をみる　></a> #}
+						<button class="ec-modal-linker link_orange" modal-target=".modal4">アンケート結果をみる　></button>
 					</div>
 				    <div class="voice02 mh01">
 						<h3 class="voice03">Q.総合的な評価は?</h3>
 						<p class="voice04">みまもりCUBEを利用いただいた方の満足度調査を行いました。</p>
-						<a href="{{ asset('assets/pdf/総合評価.pdf') }}" class="link_orange" target="_blank">アンケート結果をみる　></a>
+						{# <a href="{{ asset('assets/pdf/総合評価.pdf') }}" class="link_orange" target="_blank">アンケート結果をみる　></a> #}
+						<button class="ec-modal-linker link_orange" modal-target=".modal5">アンケート結果をみる　></button>
 					</div>
 				</div>
 
-				{#<ul class="pnav">#}
-				{#	<li class="prev"><a href="#">&nbsp;</a></li>#}
-				{#	<li class="current"><span>1</span></li>#}
-				{#	<li><a href="#">2</a></li>#}
-				{#	<li><a href="#">3</a></li>#}
-				{#	<li><a href="#">4</a></li>#}
-				{#	<li><a href="#">5</a></li>#}
-				{#	<li class="next"><a href="#">&nbsp;</a></li>#}
-				{#</ul>#}
-				
+                <div class="ec-modal modal1">
+                    <div class="ec-modal-overlay">
+                        <div class="ec-modal-wrap">
+                            <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
+                            <div class="ec-modal-box">
+								<div class="image">
+									<img src="{{ asset('assets/img/common/お悩み.png') }}" />
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ec-modal modal2">
+                    <div class="ec-modal-overlay">
+                        <div class="ec-modal-wrap">
+                            <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
+                            <div class="ec-modal-box">
+								<div class="image">
+									<img src="{{ asset('assets/img/common/年齢.png') }}" />
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ec-modal modal3">
+                    <div class="ec-modal-overlay">
+                        <div class="ec-modal-wrap">
+                            <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
+                            <div class="ec-modal-box">
+								<div class="image">
+									<img src="{{ asset('assets/img/common/機能.png') }}" />
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ec-modal modal4">
+                    <div class="ec-modal-overlay">
+                        <div class="ec-modal-wrap">
+                            <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
+                            <div class="ec-modal-box">
+								<div class="image">
+									<img src="{{ asset('assets/img/common/紹介.png') }}" />
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ec-modal modal5">
+                    <div class="ec-modal-overlay">
+                        <div class="ec-modal-wrap">
+                            <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
+                            <div class="ec-modal-box">
+								<div class="image">
+									<img src="{{ asset('assets/img/common/総合評価.png') }}" />
+								</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div>		
 	</section>

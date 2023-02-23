@@ -35,7 +35,7 @@ file that was distributed with this source code.
             <a href="{{ url('mypage_withdraw') }}">{{ '退会手続き'|trans }}</a>
         </li> #}
         <li class="ec-navlistRole__item {% if mypageno|default('') == 'plan_change' %}active{% endif %}">
-            <a href="{{ url('plan_change') }}">{{ 'プラン変更'|trans }}</a>
+            <a href="{{ url('plan_change') }}">プラン変更<br>お⽀払い⽅法変更</a>
         </li>
         <li class="ec-navlistRole__item {% if mypageno|default('') == 'logout' %}active{% endif %}">
             <a href="{{ url('logout') }}">{{ 'ログアウト'|trans }}</a>

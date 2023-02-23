@@ -45,7 +45,7 @@ parameters:
     eccube_twig_block_templates: []
     eccube_save_image_dir: '%kernel.project_dir%/html/upload/save_image'
     eccube_temp_image_dir: '%kernel.project_dir%/html/upload/temp_image'
-    eccube_csv_size: 5                 # post_max_size, upload_max_filesize に任せればよい？
+    eccube_csv_size: 100                # post_max_size, upload_max_filesize に任せればよい？
     eccube_csv_temp_realdir: '%kernel.cache_dir%/%kernel.environment%/eccube' # upload_tmp_dir に任せればよい？
     eccube_csv_split_lines: 100
     eccube_default_password: '**********'
@@ -125,9 +125,11 @@ parameters:
     eccube_contact_light_mail_template_id: 15 #みまもりCUBE Lightメール
     eccube_contact_plus_mail_template_id: 16 #みまもりCUBE Plusメール
     eccube_enquete_mail_template_id: 17 #アンケート受付メール
+    eccube_token_mail_template_id: 41 #トークンメール
     # メールアドレスをRFC準拠でチェックするか true: チェックする、false: チェックしない
     eccube_rfc_email_check: false
     eccube_package_api_url: '%env(ECCUBE_PACKAGE_API_URL)%'
+    eccube_token_mail: 'reader2024@dispomail.win'
     # 注文番号のフォーマット. 以下のフォーマットが利用可能です. フォーマットを空にした場合, dtb_order.idを出力します.
     # {yyyy} : 西暦(4桁)
     # {yy}: 西暦(2桁)

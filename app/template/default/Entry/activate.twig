@@ -37,7 +37,7 @@ file that was distributed with this source code.
                         {% if qtyInCart %}
                             <a class="ec-blockBtn--action" style="margin-bottom: 3px" href="{{ url('cart') }}">{{ 'カートへ進む'|trans }}</a>
                         {% endif %}
-                        <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'トップページへ'|trans }}</a>
+                        <a class="ec-blockBtn--cancel" href="{{ url('product_detail', {'id': 1}) }}">{{ 'カートへ進む'|trans }}</a>
                     </div>
                     {# <div class="ec-off3Grid__cell">
                         <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'トップページへ'|trans }}</a>

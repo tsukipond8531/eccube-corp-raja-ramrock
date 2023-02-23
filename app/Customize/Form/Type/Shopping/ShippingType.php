@@ -153,7 +153,7 @@ class ShippingType extends BaseType
                 }
 
                 // お届け日の設定
-                $minDate = 3;
+                $minDate = 5;
                 $deliveryDurationFlag = false;
 
                 // 配送時に最大となる商品日数を取得
@@ -200,7 +200,7 @@ class ShippingType extends BaseType
                         'E'
                     );
 
-                    foreach ($period as $day) {
+                    foreach ($period as $key => $day) {
                         $deliveryDurations[$day->format('Y/m/d')] = $day->format('Y/m/d').'('.$dateFormatter->format($day).')';
                     }
                 // }
@@ -213,7 +213,7 @@ class ShippingType extends BaseType
                         [
                             'choices' => array_flip($deliveryDurations),
                             'required' => false,
-                            'placeholder' => 'common.select__unspecified',
+                            'placeholder' => '指定なし（最短発送）',
                             'mapped' => false,
                             'data' => $Shipping->getShippingDeliveryDate() ? $Shipping->getShippingDeliveryDate()->format('Y/m/d') : null,
                         ]

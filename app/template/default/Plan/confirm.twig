@@ -26,8 +26,8 @@
                     <form method="post" action="{{ url('plan_change') }}" class="h-adr">
                         {{ form_widget(form._token) }}
                         <p>{{ '内容によっては回答をさしあげるのにお時間をいただくこともございます。
-    また、休業日は翌営業日以降の対応となりますのでご了承ください。
-    '|trans|nl2br }}</p>
+                            また、休業日は翌営業日以降の対応となりますのでご了承ください。'|trans|nl2br }}</p>
+
                         <div class="ec-borderedDefs">
                             <dl>
                                 <dt>
@@ -62,11 +62,11 @@
                             </dl>
                             <dl>
                                 <dt>
-                                    {{ form_label(form.email, 'メールアドレス', {'label_attr': {'class': 'ec-label'}}) }}
+                                    {{ form_label(form.payment_method, 'お⽀払い⽅法変更', {'label_attr': {'class': 'ec-label'}}) }}
                                 </dt>
                                 <dd>
-                                    {{ form.email.vars.data }}
-                                    {{ form_widget(form.email, { type : 'hidden' }) }}
+                                    {{ form.payment_method.vars.data }}
+                                    {{ form_widget(form.payment_method, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
                             <dl>
@@ -83,8 +83,22 @@
                                     {{ form_label(form.option2, 'データ容量の追加', {'label_attr': {'class': 'ec-label'}}) }}
                                 </dt>
                                 <dd>
-                                    {{ form.option2.vars.data }}
+                                    <div class="d-flex">
+                                        <span>現在の通信プラン {{ form.option2_origin.vars.data }} GB</span>
+                                        <span style="color: red"> => </span>
+                                        <span>変更後通信プラン {{ form.option2.vars.data }} GB</span>
+                                    </div>
+                                    {{ form_widget(form.option2_origin, { type : 'hidden' }) }}
                                     {{ form_widget(form.option2, { type : 'hidden' }) }}
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.email, 'メールアドレス', {'label_attr': {'class': 'ec-label'}}) }}
+                                </dt>
+                                <dd>
+                                    {{ form.email.vars.data }}
+                                    {{ form_widget(form.email, { type : 'hidden' }) }}
                                 </dd>
                             </dl>
                             <dl>

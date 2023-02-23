@@ -195,14 +195,19 @@ file that was distributed with this source code.
                                             {{ ProductClass.price02|price }}
                                             <div class="cs-cart_class">{{ '消費税'|trans }}{{ (ProductClass.getPrice02IncTax - ProductClass.price02)|price }}</div>
                                             {% for CartItemOption in CartItem.CartItemOptions %}
-                                                {% if CartItemOption.getOptionTotalPrice > 0 %}<div class="cs-cart_class">{{ CartItemOption.Option.name|trans }}{{ CartItemOption.getOptionTotalPrice|price }}</div>{% endif %}
+                                                {% if CartItemOption.getOptionTotalPrice > 0 %}
+                                                <div class="cs-cart_class">
+                                                    {{ CartItemOption.Option.name|trans }}
+                                                    {% if CartItemOption.Option.name == '設置代行オプション' and ProductClass.maintenance_pack == 2 %}
+                                                        {{ '30800'|price }}
+                                                    {% else %}
+                                                        {{ CartItemOption.getOptionTotalPrice|price }}
+                                                    {% endif %}
+                                                </div>
+                                                {% endif %}
                                                 
                                                 {% if CartItemOption.Option.name == 'あんしん保守パック' %}
-                                                    {% if ProductClass.ClassCategory1.name in ['検知オプションなし 2台', '検知オプションあり 2台', '検知オプションなし 1台、検知オプションあり 1台'] %}
-                                                        {% set anshin_count = anshin_count + 2 %}
-                                                    {% else %}
-                                                        {% set anshin_count = anshin_count + 1 %}
-                                                    {% endif %}
+                                                    {% set anshin_count = anshin_count + ProductClass.maintenance_pack %}
                                                 {% endif %}
                                             {% endfor %}
                                             {# {% if CartItem.quantity > 1 %}

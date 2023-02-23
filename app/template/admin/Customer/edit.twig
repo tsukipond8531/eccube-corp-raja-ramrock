@@ -580,6 +580,62 @@ file that was distributed with this source code.
                                 {% endif %}
                             </div>
                         </div>
+                        <div class="card rounded border-0 mb-4">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="d-inline-block" data-tooltip="true" data-placement="top" title="{{ 'tooltip.order.mail_history'|trans }}"><span class="card-title">{{ 'admin.order.mail_history'|trans }}</span><i class="fa fa-question-circle fa-lg ml-1"></i></div>
+                                    </div>
+                                    <div class="col-4 text-right"><a data-toggle="collapse" href="#mailHistory" aria-expanded="false" aria-controls="mailHistory"><i class="fa fa-angle-up fa-lg"></i></a></div>
+                                </div>
+                            </div>
+                            <div class="collapse show ec-cardCollapse" id="mailHistory">
+                                <div class="card-body">
+                                    <table class="table table-striped">
+                                        <thead class="table-active">
+                                        <tr>
+                                            <th class="pt-2 pb-2 pl-3">{{ 'admin.order.mail_send_date'|trans }}</th>
+                                            <th class="pt-2 pb-2 pr-3">{{ 'admin.order.mail_subject'|trans }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for Order in Orders %}
+                                            {% for MailHistory in Order.MailHistories %}
+                                                <tr>
+                                                    <td class="pl-3">{{ MailHistory.send_date|date_min }}</td>
+                                                    <td class="pr-3">
+                                                        <a class="text-primary" data-toggle="modal" data-target="#mail2-{{ loop.index }}">{{ MailHistory.mail_subject }}</a>
+                                                        <div class="modal fade" id="mail2-{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="mail2-{{ loop.index }}" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">{{ MailHistory.mail_subject }}</h5>
+                                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <p>
+                                                                            {% if MailHistory.mail_html_body|length > 0 %}
+                                                                                {{ MailHistory.mail_html_body|trans|raw }}
+                                                                            {% else %}
+                                                                                {{ MailHistory.mail_body|nl2br }}
+                                                                            {% endif %}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button class="btn btn-ec-regular" type="button" data-dismiss="modal">{{ 'admin.common.close'|trans }}</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div><!-- .card.rounded -->
                     {% endif %}
                     
                     <div class="card rounded border-0 mb-4">

@@ -14,6 +14,33 @@
     
     {% form_theme form 'Form/form_div_layout.twig' %}
     
+    {% block stylesheet %}
+        <style>
+            [id $= '_placeholder'],
+            [for $= '_placeholder'] {
+                display: none !important;
+            }
+            .ec-borderedDefs dd label::after {
+                content: '\a';
+                white-space: pre;
+            }
+            .d-flex {
+                display: flex;
+            }
+            .d-flex span {
+                margin: 0 8px;
+            }
+
+            @media only screen and ( max-width: 767px ) {
+                .d-flex {
+                    flex-wrap: wrap;   
+                }
+                .w-100 {
+                    width: 100%;
+                }
+            }
+        </style>
+    {% endblock %}
     {% block javascript %}
         <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
     {% endblock javascript %}
@@ -23,70 +50,16 @@
     <div class="ec-modifiedLayoutRole__contents cs-plan-change">
         <div class="ec-mypageRole">
             <div class="ec-pageHeader">
-                <h1>{{ 'プラン変更手続き'|trans }}</h1>
+                <h1>{{ 'プラン変更/お⽀払い⽅法変更'|trans }}</h1>
             </div>
             {% include 'Mypage/navi.twig' %}
             <div class="ec-off1Grid">
                 <div class="ec-off1Grid__cell">
-                    <p>{{ '現在ご契約中の商品に対してオプションを追加もしくは削除したい場合は、下記のフォームよりお申込みください。'|trans|nl2br }}</p>
-    
-                    <div class="ec-cartTable" style="margin-top: 25px;">
-                        <ol class="ec-cartHeader">
-                            <li class="ec-cartHeader__label">{{ '商品'|trans }}</li>
-                            <li class="ec-cartHeader__label">{{ 'ご利用いただける目安'|trans }}</li>
-                            <li class="ec-cartHeader__label">{{ '回線使用料金の追加料金'|trans }}</li>
-                        </ol>
-                        <ul class="ec-cartRow" style="text-align: center; font-weight: bold">
-                            <li class="ec-cartRow__contentColumn">
-                                みまもりCUBE
-                                <div class="cs-cart_class">（データ容量 1GB込）</div>
-                                検知オプション
-                            </li>
-                            <li class="ec-cartRow__contentColumn">
-                                <div class="cs-cart_class">
-                                    メール約20,000通 通知受信の場合<br />
-                                    または、Ramrock Player接続時間 約300分
-                                </div>
-                            </li>
-                            <li class="ec-cartRow__contentColumn">
-                                <div class="cs-cart_class">
-                                    1GB毎に＋1,000円（税込1,100円）
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <p style="margin: 15px 15px 20px">※金額はすべて税抜表示です</p>
-                    
-                    <div class="ec-cartTable" style="margin-top: 30px">
-                        <ol class="ec-cartHeader">
-                            <li class="ec-cartHeader__label"></li>
-                            <li class="ec-cartHeader__label">{{ 'ご利用状況'|trans }}</li>
-                        </ol>
-                        <ul class="ec-cartRow" style="text-align: center; font-weight: bold">
-                            <li class="ec-cartRow__contentColumn"> 1GB </li>
-                            <li class="ec-cartRow__contentColumn">
-                                <div class="cs-cart_class"> 画像付メール配信を主としたご利用 </div>
-                            </li>
-                        </ul>
-                        <ul class="ec-cartRow" style="text-align: center; font-weight: bold">
-                            <li class="ec-cartRow__contentColumn"> 3GB </li>
-                            <li class="ec-cartRow__contentColumn">
-                                <div class="cs-cart_class"> ライブ映像と録画の確認が必要 </div>
-                            </li>
-                        </ul>
-                        <ul class="ec-cartRow" style="text-align: center; font-weight: bold">
-                            <li class="ec-cartRow__contentColumn"> 5GB </li>
-                            <li class="ec-cartRow__contentColumn">
-                                <div class="cs-cart_class">
-                                    ライブ映像と録画の確認が頻繁に必要 <br/>
-                                    ライブ映像と録画の確認を2人で利用  <br/>
-                                    みまもりCUBEを2台以上設置の場合    <br/>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <p style="margin: 15px 15px 50px">※ご利用台数以上のGB数が必要です。</p>
-    
+                    <p>
+                        ご希望の変更内容を下記のフォームよりお申込みください。<br />
+                        お支払い方法変更の場合は、3営業日以内に変更用のメールをお送りさせていただきますのでお手続きの程よろしくお願いいたします。<br />
+                        プラン変更の場合は、翌月反映となります。
+                    </p>
                     <form method="post" action="{{ url('plan_change') }}" class="h-adr" novalidate>
                         <span class="p-country-name" style="display:none;">Japan</span>
                         {{ form_widget(form._token) }}
@@ -131,6 +104,17 @@
                             </dl>
                             <dl>
                                 <dt>
+                                    {{ form_label(form.payment_method, 'お⽀払い⽅法変更', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    <div class="ec-check{{ has_errors(form.payment_method) ? ' error' }}">
+                                        {{ form_widget(form.payment_method) }}
+                                        {{ form_errors(form.payment_method) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
                                     {{ form_label(form.option1, '変更内容', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
                                 <dd>
@@ -145,9 +129,24 @@
                                     {{ form_label(form.option2, 'データ容量の追加', { 'label_attr': { 'class': 'ec-label' }}) }}
                                 </dt>
                                 <dd>
-                                    <div class="ec-select{{ has_errors(form.option2) ? ' error' }}">
-                                        {{ form_widget(form.option2) }}
-                                        {{ form_errors(form.option2) }}
+                                    <div class="d-flex">
+                                        <div class="d-flex w-100">
+                                            <span>現在の通信プラン</span>
+                                            <div class="ec-select{{ has_errors(form.option2_origin) ? ' error' }}">
+                                                {{ form_widget(form.option2_origin) }}
+                                                {{ form_errors(form.option2_origin) }}
+                                            </div>
+                                            <span>GB</span>
+                                        </div>
+                                        <div class="d-flex w-100">
+                                            <span style="color: red"> => </span>
+                                            <span>変更後通信プラン</span>
+                                            <div class="ec-select{{ has_errors(form.option2) ? ' error' }}">
+                                                {{ form_widget(form.option2) }}
+                                                {{ form_errors(form.option2) }}
+                                            </div>
+                                            <span>GB</span>
+                                        </div>
                                     </div>
                                 </dd>
                             </dl>

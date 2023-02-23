@@ -45,6 +45,9 @@ if (!class_exists(OrderStatus::class, false)) {
         /** 返品 */
         const RETURNED = 9;
 
+        /** 入金待ち */
+        const WAIT_PAYMENT = 2;
+
         /**
          * 受注一覧画面で, ステータスごとの受注件数を表示するかどうか
          *

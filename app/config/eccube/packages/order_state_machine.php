@@ -35,18 +35,19 @@ $container->loadFromExtension('framework', [
                 (string) Status::PENDING,
                 (string) Status::PROCESSING,
                 (string) Status::RETURNED,
+                (string) Status::WAIT_PAYMENT,
             ],
             'transitions' => [
                 'pay' => [
-                    'from' => (string) Status::NEW,
+                    'from' => [(string) Status::NEW, (string) Status::WAIT_PAYMENT],
                     'to' => (string) Status::PAID,
                 ],
                 'packing' => [
-                    'from' => [(string) Status::NEW, (string) Status::PAID],
+                    'from' => [(string) Status::NEW, (string) Status::PAID, (string) Status::WAIT_PAYMENT],
                     'to' => (string) Status::IN_PROGRESS,
                 ],
                 'cancel' => [
-                    'from' => [(string) Status::NEW, (string) Status::IN_PROGRESS, (string) Status::PAID],
+                    'from' => [(string) Status::NEW, (string) Status::IN_PROGRESS, (string) Status::PAID, (string) Status::WAIT_PAYMENT],
                     'to' => (string) Status::CANCEL,
                 ],
                 'back_to_in_progress' => [

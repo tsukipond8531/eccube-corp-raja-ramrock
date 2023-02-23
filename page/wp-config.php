@@ -20,16 +20,16 @@
 
 // ** Database settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define( 'DB_NAME', 'creal_ramrockwp' );
+define( 'DB_NAME', 'crealwp05_ramrockwp' );
 
 /** Database username */
-define( 'DB_USER', 'creal_rock' );
+define( 'DB_USER', 'crealwp05_rock' );
 
 /** Database password */
 define( 'DB_PASSWORD', 'Ns5zLwu3' );
 
 /** Database hostname */
-define( 'DB_HOST', 'mysql5b.xserver.jp' );
+define( 'DB_HOST', 'mysql705b.xserver.jp' );
 
 /** Database charset to use in creating database tables. */
 define( 'DB_CHARSET', 'utf8mb4' );

@@ -121,7 +121,7 @@
                 </tr>
               </thead>
               <tbody>
-                {% for EnqueteUser in pagination %}
+                {% for EnqueteUser in pagination if EnqueteUser.customer is not empty %}
                 <tr>
                   <td class="align-middle text-center">
                       {% if EnqueteUser.customerId > 0 %}

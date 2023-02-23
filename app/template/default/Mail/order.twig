@@ -20,9 +20,6 @@ file that was distributed with this source code.
 -----------------------------------------------------
 
 株式会社ラムロック　カスタマーセンターです。
-ご注文内容に間違いがないか、ご確認をお願いいたします。
-　
-
 この度はご注文いただき誠にありがとうございます。下記ご注文内容にお間違えがないかご確認下さい。
 
 ************************************************
@@ -56,7 +53,16 @@ file that was distributed with this source code.
 {% if isShowReducedTaxMess %}※は軽減税率対象商品です。
 {% endif %}
 -------------------------------------------------
+{% set onInstallOption = false %}
+{% for Addresses in Order.Addresses if onInstallOption == false %}
+{% if Addresses.type == 'ADDRESS_TYPE_INSTALL' %}{% set onInstallOption = true %}{% endif %}
+{% endfor %}
+{% if onInstallOption == true %}
+設置代行オプション： ￥19,800
+小　計：{{ (Order.subtotal - 19800)|price }}
+{% else %}
 小　計：{{ Order.subtotal|price }}
+{% endif %}
 手数料：{{ Order.charge|price }}
 送　料：{{ Order.delivery_fee_total|price}}
 {% if Order.taxable_discount < 0 %}
@@ -104,7 +110,7 @@ file that was distributed with this source code.
 電話番号：{{ Shipping.phone_number }}
 
 配送方法：{{ Shipping.shipping_delivery_name }}
-お届け日：{{ Shipping.shipping_delivery_date is empty ? '指定なし' : Shipping.shipping_delivery_date|date_day }}
+お届け日：{{ Shipping.shipping_delivery_date is empty ? '指定なし（最短発送）' : Shipping.shipping_delivery_date|date_day }}
 お届け時間：{{ Shipping.shipping_delivery_time|default('指定なし') }}
 
 {%  for OrderItem in Shipping.productOrderItems %}
@@ -113,6 +119,50 @@ file that was distributed with this source code.
 数量：{{ OrderItem.quantity|number_format }}
 
 {% endfor %}
+{% endfor %}
+************************************************
+　安心保守パック
+************************************************
+{% set onAnshin = false %}
+{% for OrderItem in Order.getMergedProductOrderItems if onAnshin == false %}
+{% for Option in OrderItem.OrderItemOptions %}
+{% if Option.label == 'あんしん保守パック' %}
+{% set onAnshin = true %}
+加入する
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+{% for Addresses in Order.Addresses %}
+{% if Addresses.type == 'ADDRESS_TYPE_INSTALL' %}
+************************************************
+　設置代行オプション
+************************************************
+お名前：{{ Addresses.name01 }} {{ Addresses.name02 }} 様
+お名前(カナ)：{{ Addresses.kana01 }} {{ Addresses.kana02 }} 様
+郵便番号：〒{{ Addresses.postal_code }}
+住所：{{ Addresses.Pref.name }}{{ Addresses.addr01 }}{{ Addresses.addr02 }}
+電話番号：{{ Addresses.phone_number }}
+
+{% elseif Addresses.type == 'ADDRESS_TYPE_WATCH1' %}
+************************************************
+　見守り対象者1
+************************************************
+お名前：{{ Addresses.name01 }} {{ Addresses.name02 }} 様
+お名前(カナ)：{{ Addresses.kana01 }} {{ Addresses.kana02 }} 様
+郵便番号：〒{{ Addresses.postal_code }}
+住所：{% if Addresses.Pref is not empty %}{{ Addresses.Pref.name }}{% endif %} {{ Addresses.addr01 }}{{ Addresses.addr02 }}
+
+{% elseif Addresses.type == 'ADDRESS_TYPE_WATCH2' %}
+************************************************
+　見守り対象者2
+************************************************
+お名前：{{ Addresses.name01 }} {{ Addresses.name02 }} 様
+お名前(カナ)：{{ Addresses.kana01 }} {{ Addresses.kana02 }} 様
+郵便番号：〒{{ Addresses.postal_code }}
+住所：{% if Addresses.Pref is not empty %}{{ Addresses.Pref.name }}{% endif %} {{ Addresses.addr01 }}{{ Addresses.addr02 }}
+
+{% endif %}
 {% endfor %}
 
 {% if Order.complete_mail_message is not empty %}
