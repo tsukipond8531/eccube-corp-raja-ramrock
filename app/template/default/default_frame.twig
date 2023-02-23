@@ -51,6 +51,7 @@ file that was distributed with this source code.
             });
         });
     </script>
+    <script type="text/javascript" src="https://js.felmat.net/fmlp.js" async></script>
     {# Layout: HEAD #}
     {% if Layout.Head %}
         {{ include('block.twig', {'Blocks': Layout.Head}) }}
@@ -60,6 +61,11 @@ file that was distributed with this source code.
     <link rel="stylesheet" href="{{ asset('assets/css/customize.css', 'user_data') }}">
 </head>
 <body id="page_{{ app.request.get('_route') }}" class="{{ body_class|default('other_page') }}">
+
+{% if app.request.get('_route') == 'homepage' or app.request.get('_route') == 'product_detail' %}
+    <script> var msmaf_m_v = "3499"; </script>
+{% endif %}
+
 {# Layout: BODY_AFTER #}
 {% if Layout.BodyAfter %}
     {{ include('block.twig', {'Blocks': Layout.BodyAfter}) }}

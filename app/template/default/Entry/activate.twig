@@ -16,7 +16,7 @@ file that was distributed with this source code.
 <div class="ec-modifiedLayoutRole__contents">
     <div class="ec-role">
         <div class="ec-pageHeader">
-            <h1>{{ '新規会員登録(完了)'|trans }}</h1>
+            <h1>{{ '会員登録のお申込み(完了)'|trans }}</h1>
         </div>
     </div>
     <div class="ec-registerCompleteRole">
@@ -25,16 +25,23 @@ file that was distributed with this source code.
                 <div class="ec-reportHeading">
                     <h2>{{ '会員登録ありがとうございます'|trans }}</h2>
                 </div>
-                <p class="ec-reportDescription">{{ '会員登録が完了しました。
-それでは、ショッピングをお楽しみください。
-'|trans|nl2br }}</p>
-                <div class="ec-off4Grid">
-                    <div class="ec-off4Grid__cell">
+                <p class="ec-reportDescription">
+                    お客様アンケート割引を実施中です。<br />
+                    アンケートにご協⼒いただいた⽅には、特典としてキャンペーン価格を<br />
+                    330円割引させていただいております。<br />
+                    ※キャンペーンお申込み時にアンケート割引価格が適用されます。
+                </p>
+                <div class="ec-off2Grid">
+                    <div class="ec-off2Grid__cell" style="display: flex;">
+                        <a class="ec-blockBtn--action" href="{{ url('se_enquete_detail', { id: 2 }) }}" style="margin-right: 20px;">{{ 'アンケートページへ'|trans }}</a>
                         {% if qtyInCart %}
                             <a class="ec-blockBtn--action" style="margin-bottom: 3px" href="{{ url('cart') }}">{{ 'カートへ進む'|trans }}</a>
                         {% endif %}
-                        <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'トップページへ'|trans }}</a>
+                        <a class="ec-blockBtn--cancel" href="{{ url('product_detail', {'id': 1}) }}">{{ 'カートへ進む'|trans }}</a>
                     </div>
+                    {# <div class="ec-off3Grid__cell">
+                        <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ 'トップページへ'|trans }}</a>
+                    </div> #}
                 </div>
             </div>
         </div>

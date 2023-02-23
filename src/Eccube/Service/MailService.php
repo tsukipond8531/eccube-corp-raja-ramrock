@@ -628,6 +628,48 @@ class MailService
 
         return $count;
     }
+    
+    /**
+     * Send token mail.
+     */
+    public function sendTokenMail($data = null)
+    {
+        log_info('トークンメール送信開始');
+
+        $MailTemplate = $this->mailTemplateRepository->find($this->eccubeConfig['eccube_token_mail_template_id']);
+
+        $body = $this->twig->render($MailTemplate->getFileName(), [
+            'data' => $data,
+            'BaseInfo' => $this->BaseInfo,
+        ]);
+
+        $message = (new \Swift_Message())
+            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$MailTemplate->getMailSubject())
+            ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
+            ->setTo([$this->eccubeConfig['eccube_token_mail']]);
+
+        // HTMLテンプレートが存在する場合
+        $htmlFileName = $this->getHtmlTemplate($MailTemplate->getFileName());
+        if (!is_null($htmlFileName)) {
+            $htmlBody = $this->twig->render($htmlFileName, [
+                'data' => $data,
+                'BaseInfo' => $this->BaseInfo,
+            ]);
+
+            $message
+                ->setContentType('text/plain; charset=UTF-8')
+                ->setBody($body, 'text/plain')
+                ->addPart($htmlBody, 'text/html');
+        } else {
+            $message->setBody($body);
+        }
+
+        $count = $this->mailer->send($message, $failures);
+
+        log_info('トークンメール送信完了', ['count' => $count]);
+
+        return $count;
+    }
 
     /**
      * 発送通知メールを送信する.

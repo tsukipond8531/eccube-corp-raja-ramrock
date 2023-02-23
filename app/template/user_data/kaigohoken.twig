@@ -1,6 +1,7 @@
 {% extends 'default_frame.twig' %}
 
 {% block main %}
+<link rel="stylesheet" href="{{ asset('assets/css/remodal-default-theme.css') }}">
 <!--content-->
 <div class="cmncontent">
 
@@ -20,7 +21,7 @@
 	</section>
 
 	<ul class="breadcrumb cmnbox01">
-		<li class="breadcrumb_list"><a href="{{ url('homepage') }}user_data">HOME</a></li>
+		<li class="breadcrumb_list"><a href="{{ url('homepage') }}">HOME</a></li>
 		<li class="breadcrumb_list">ラムロックアイズ（介護保険適用について）</li>
 	</ul>
 
@@ -31,7 +32,7 @@
 				<h3 class="ins_rental_head">
 					<span class="ins_rental_head_span01">ラムロックアイズみまもりCUBEは</span>徘徊感知機器として<span class="ins_rental_head_span02">介護保険レンタルが可能です</span>
 				</h3>
-				<p class="ins_rental_req">※⼀般レンタル（みまもりCUBE）とレンタル福祉⽤具（ラムロックアイズみまもりCUBE）は別商材でございます。<br class="pc"><a href="{{ url('homepage') }}user_data/flow/" class="link_orange">導入までの流れはこちら</a>をご確認ください。</p>
+				<p class="ins_rental_req">※⼀般レンタル（みまもりCUBE）とレンタル福祉⽤具（ラムロックアイズみまもりCUBE）は別商材でございます。<br class="pc"><a href="{{ url('homepage') }}care_manager/" class="link_orange">導入までの流れはこちら</a>をご確認ください。</p>
 				<div class="ins_rental_btn"><span class="flow_option_btn hover" data-remodal-target="01">一般レンタルとの違いは？</span></div>
 				<div class="ins_rental_funcWrap">
 					<h4 class="flow_sim_headTop type_func">⾒守りカメラに欲しかった機能が凝縮！</h4>
@@ -63,16 +64,20 @@
 				<div class="ins_ctaBox">
 					<div class="ins_ctaBox_item">
 						<h4 class="ins_ctaBox_head">介護保険レンタル</h4>
-						<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="/flow/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
-						<a href={{ url('homepage') }}user_data"/material/" class="cmnbtn type02">
+						<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="{{ url('homepage') }}care_manager/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
+						<a href="{{ url('homepage') }}material/" class="cmnbtn type02">
 							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta01.png') }}"></span>
-							<span class="cmnbtntxt">検討資料はこちら</span>
+							<span class="cmnbtntxt">検討資料請求はこちら</span>
 						</a>
 					</div>
 					<div class="ins_ctaBox_item type02">
 						<h4 class="ins_ctaBox_head">一般レンタル</h4>
 						<p class="ins_ctaBox_txt">みまもりCUBEはこちらからお申し込み可能です。<br class="pc">（弊社とご契約）</p>
-						<a href={{ url('homepage') }}"contact/" class="cmnbtn type02">
+						{% if is_granted('ROLE_USER') %}
+					        <a href="{{ url('cart') }}" class="cmnbtn type02">
+					    {% else %}
+						    <a href="{{ url('entry') }}" class="cmnbtn type02">
+						{% endif %}
 							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta02.png') }}"></span>
 							<span class="cmnbtntxt">お申込みはこちら</span>
 						</a>
@@ -149,7 +154,7 @@
 							</div>
 						</div>
 						<div class="ins_detection_btn">
-							<a href="{{ url('homepage') }}user_data/function/" class="cmnbtn type02">
+							<a href="{{ url('homepage') }}function/" class="cmnbtn type02">
 								<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_movie.png') }}"></span>
 								<span class="cmnbtntxt">機能紹介はこちら</span>
 							</a>
@@ -229,7 +234,7 @@
 							</tr>
 							<tr class="ins_price_tr">
 								<td class="ins_price_td">1台</td>
-								<td class="ins_price_td">03125-000004</td>
+								<td class="ins_price_td">01325-000004</td>
 								<td class="ins_price_td">1,000単位 (10,000円/⽉)</td>
 								<td class="ins_price_td">3,850円</td>
 								<td class="ins_price_td"  rowspan="3">
@@ -242,19 +247,19 @@
 							</tr>
 							<tr class="ins_price_tr">
 								<td class="ins_price_td">2台</td>
-								<td class="ins_price_td">03125-000009</td>
+								<td class="ins_price_td">01325-000009</td>
 								<td class="ins_price_td">2,000単位 (20,000円/⽉)</td>
 								<td class="ins_price_td">5,500円</td>
 							</tr>
 							<tr class="ins_price_tr">
 								<td class="ins_price_td">3台</td>
-								<td class="ins_price_td">03125-000010</td>
+								<td class="ins_price_td">01325-000010</td>
 								<td class="ins_price_td">3,000単位 (30,000円/⽉)</td>
 								<td class="ins_price_td">7,150円</td>
 							</tr>
 							<tr class="ins_price_tr">
 								<td class="ins_price_td">4台</td>
-								<td class="ins_price_td">03125-000011</td>
+								<td class="ins_price_td">01325-000011</td>
 								<td class="ins_price_td">4,000単位 (40,000円/⽉)</td>
 								<td class="ins_price_td">8,800円</td>
 								<td class="ins_price_td">
@@ -266,7 +271,7 @@
 					<ol class="ins_price_req">
 						<li class="ins_price_req_item">実費オプション（インターネット契約）のお申込みもお取り扱いの福祉⽤具貸与事務所で⾏えます。</li>
 						<li class="ins_price_req_item">初期費⽤は新規ご契約時と、みまもりCUBEを新たに追加する際に発⽣します。</li>
-						<li class="ins_price_req_item">設置台数以上のGB数になります。（1台当たり1GB〜）<br>	複数台数設置時のデータ通信量は⼀括管理（シェア計算）されます。</li>
+						<li class="ins_price_req_item">設置台数以上のGB数になります。（1台当たり1GB〜）<br>	複数台数設置時のデータ容量は⼀括管理（シェア計算）されます。</li>
 					</ol>
 				</div>
 				<div class="ins_price_plan">
@@ -323,16 +328,20 @@
 				<div class="ins_ctaBox">
 					<div class="ins_ctaBox_item">
 						<h4 class="ins_ctaBox_head">介護保険レンタル</h4>
-						<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="/flow/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
-						<a href="{{ url('homepage') }}user_data/material/" class="cmnbtn type02">
+						<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="{{ url('homepage') }}care_manager/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
+						<a href="{{ url('homepage') }}material/" class="cmnbtn type02">
 							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta01.png') }}"></span>
-							<span class="cmnbtntxt">検討資料はこちら</span>
+							<span class="cmnbtntxt">検討資料請求はこちら</span>
 						</a>
 					</div>
 					<div class="ins_ctaBox_item type02">
 						<h4 class="ins_ctaBox_head">一般レンタル</h4>
 						<p class="ins_ctaBox_txt">みまもりCUBEはこちらからお申し込み可能です。<br class="pc">（弊社とご契約）</p>
-						<a href="{{ url('homepage') }}contact/" class="cmnbtn type02">
+						{% if is_granted('ROLE_USER') %}
+					        <a href="{{ url('cart') }}" class="cmnbtn type02">
+					    {% else %}
+						    <a href="{{ url('entry') }}" class="cmnbtn type02">
+						{% endif %}   
 							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta02.png') }}"></span>
 							<span class="cmnbtntxt">お申込みはこちら</span>
 						</a>
@@ -341,11 +350,12 @@
 			</div>
 		</section>
 
-		<section class="ins_use">
+		<section class="ins_use" id="ins_use">
 			<div class="cmnbox01">
 				<div class="ins_use_box">
 					<h3 class="ins_rental_top type_use">介護保険レンタルが使える？</h3>
-					<div class="ins_use_img"><img src="{{ asset('assets/img/kaigohoken/pic07.png') }}" alt="介護レンタル フローチャート"></div>
+					<div class="ins_use_img pc"><img src="{{ asset('assets/img/kaigohoken/pic07.png') }}" alt="介護レンタル フローチャート"></div>
+					<div class="ins_use_img sp"><img src="{{ asset('assets/img/kaigohoken/pic07_sp.png') }}" alt="介護レンタル フローチャート"></div>
 					<ol class="ins_price_req type_use">
 						<li class="ins_price_req_item">要介護2に満たない場合でも、徘徊感知機器が必要だと保険者に認められた場合は、介護保険が適用される場合がございます。</li>
 						<li class="ins_price_req_item">保険算定上は認知症老人徘徊感知機器になります。</li>
@@ -364,9 +374,9 @@
 	</p>
 	<p class="float_bnr_txt">質問に答えるだけで<br>
 		介護保険適応かが分かる！<br>
-		簡単シュミレーション！</p>
+		簡単シミュレーション！</p>
 		<div class="float_bnr_btnWrap">
-			<a href="" class="cmnbtn type02 typecta">
+			<a href="#ins_use" class="cmnbtn type02 typecta">
 				<span class="cmnbtntxt">詳しくはこちら</span>
 				<span class="cmnbtnicon02"><img src="{{ asset('assets/img/common/icon_arrow.svg') }}"></span>
 			</a>

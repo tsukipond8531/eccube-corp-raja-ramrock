@@ -23,6 +23,33 @@ file that was distributed with this source code.
             float: left;
             margin: 4px
         }
+        
+        .progress {
+            display: flex;
+            height: 1rem;
+            overflow: hidden;
+            line-height: 0;
+            font-size: 0.75rem;
+            background-color: #e9ecef;
+            border-radius: 0.25rem;
+        }
+
+        .progress-bar-striped {
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+            background-size: 1rem 1rem;
+        }
+
+        .progress-bar {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            background-color: #437ec4;
+            transition: width 0.6s ease;
+        }
 
         .ui-state-highlight {
             height: 70px;
@@ -102,6 +129,23 @@ file that was distributed with this source code.
             border-color: #262626;
             text-decoration: none;
         }
+
+        .ec-registerRole .ec-borderedDefs dl {
+            padding: 15px 0;
+        }
+        .ec-registerRole .ec-borderedDefs dt {
+            padding-right: 10px;
+        }
+        .ec-registerRole .ec-borderedDefs dd {
+            padding-left: 10px;
+        }
+        .ec-registerRole .ec-borderedDefs dd label {
+            display:inline;
+        }
+        .ec-registerRole .ec-borderedDefs dd label::after {
+            content: '\a';
+            white-space: pre;
+        }
     </style>
 {% endblock stylesheet %}
 
@@ -169,8 +213,11 @@ file that was distributed with this source code.
             };
             hideThumbnail();
             updateSortNo();
+            
             // Delete of images
+            var file_count = 0;
             var count_del = 0;
+
             $("#thumb").on("click", '.delete-image', function() {
                 var $new_delete_image = $(proto_del.replace(/__name__/g, count_del));
                 var thumbnail = $(this).parents('div.c-form__fileUploadThumbnail');
@@ -181,10 +228,10 @@ file that was distributed with this source code.
                 hideThumbnail();
                 updateSortNo();
                 count_del++;
+                file_count--;
             });
 
             var count_add = {{ form.add_images|length|default(0) }};
-            var file_count = 0;
             max = 2;
 
             $('#{{ form.customer_image.vars.id }}').fileupload({
@@ -215,6 +262,7 @@ file that was distributed with this source code.
                         $child = $img.append($new_img);
                         $('#thumb').append($child);
                         count_add++;
+                        file_count++;
                     });
                     hideThumbnail();
                     updateSortNo();
@@ -257,7 +305,7 @@ file that was distributed with this source code.
 <div class="ec-modifiedLayoutRole__contents">
     <div class="ec-registerRole">
         <div class="ec-pageHeader">
-            <h1>{{ '新規会員登録'|trans }}</h1>
+            <h1>{{ 'お試し体験お申込み（会員登録）'|trans }}</h1>
         </div>
         <div class="ec-off1Grid">
             <div class="ec-off1Grid__cell">
@@ -288,29 +336,6 @@ file that was distributed with this source code.
                                     {{ form_widget(form.kana.kana02, { 'attr': { 'placeholder': 'メイ' }}) }}
                                     {{ form_errors(form.kana.kana01) }}
                                     {{ form_errors(form.kana.kana02) }}
-                                </div>
-                            </dd>
-                        </dl>
-                        <dl>
-                            <dt>
-                                <label class="ec-label" for="entry_identity">本人確認書類</label>
-                            </dt>
-                            <dd>
-                                <div class="col mb-2">
-                                    <div class="progress" style="display: none;">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div id="thumb" class="c-form__fileUploadThumbnails clearfix"></div>
-                                    <div id="upload-zone" class="media py-5 border-ec-dashed mb-2 rounded">
-                                        <div class="media-body">
-                                            <i class="fa fa-cloud-upload fa-3x text-ec-lightGray mx-3 align-middle" aria-hidden="true"></i>
-                                            {{ form_widget(form.customer_image, { attr : { accept : 'image/*', style : 'display:none;' } }) }}
-                                            {{ form_errors(form.customer_image) }}
-                                            <a class="btn btn-ec-regular mr-2" onclick="$('#entry_customer_image').click()">
-                                                {{ 'admin.common.file_select'|trans }}
-                                            </a>
-                                        </div><!-- /.media-body -->
-                                    </div><!-- /.media -->
                                 </div>
                             </dd>
                         </dl>
@@ -373,6 +398,42 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
+                                {{ form_label(form.birth, '生年月日', { 'label_attr': {'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-birth{{ has_errors(form.birth) ? ' error' }}">
+                                    {{ form_widget(form.birth.year) }}<span>/</span>
+                                    {{ form_widget(form.birth.month) }}<span>/</span>
+                                    {{ form_widget(form.birth.day) }}
+                                    {{ form_errors(form.birth) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        {# <dl>
+                            <dt>
+                                {{ form_label(form.phone_number, '本人確認書類', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="col mb-2">
+                                    <div class="progress" style="display: none;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div id="thumb" class="c-form__fileUploadThumbnails clearfix"></div>
+                                    <div id="upload-zone" class="media py-5 border-ec-dashed mb-2 rounded">
+                                        <div class="media-body">
+                                            <i class="fa fa-cloud-upload fa-3x text-ec-lightGray mx-3 align-middle" aria-hidden="true"></i>
+                                            {{ form_widget(form.customer_image, { attr : { accept : 'image/*', style : 'display:none;' } }) }}
+                                            {{ form_errors(form.customer_image) }}
+                                            <a class="btn btn-ec-regular mr-2" onclick="$('#entry_customer_image').click()">
+                                                {{ 'admin.common.file_select'|trans }}
+                                            </a>
+                                        </div><!-- /.media-body -->
+                                    </div><!-- /.media -->
+                                </div>
+                            </dd>
+                        </dl> #}
+                        <dl>
+                            <dt>
                                 {{ form_label(form.password, 'パスワード', { 'label_attr': {'class': 'ec-label' }}) }}
                             </dt>
                             <dd>
@@ -394,14 +455,18 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.birth, '生年月日', { 'label_attr': {'class': 'ec-label' }}) }}
+                                {{ form_label(form.password_tip_answer, 'パスワードを忘れた時のヒント', { 'label_attr': {'class': 'ec-label' }}) }}
                             </dt>
                             <dd>
-                                <div class="ec-birth{{ has_errors(form.birth) ? ' error' }}">
-                                    {{ form_widget(form.birth.year) }}<span>/</span>
-                                    {{ form_widget(form.birth.month) }}<span>/</span>
-                                    {{ form_widget(form.birth.day) }}
-                                    {{ form_errors(form.birth) }}
+                                質問：
+                                <div class="ec-select{{ has_errors(form.password_tip_query) ? ' error' }}">
+                                    {{ form_widget(form.password_tip_query) }}
+                                    {{ form_errors(form.password_tip_query) }}
+                                </div>
+                                答え：
+                                <div class="ec-input{{ has_errors(form.password_tip_answer) ? ' error' }}">
+                                    {{ form_widget(form.password_tip_answer) }}
+                                    {{ form_errors(form.password_tip_answer) }}
                                 </div>
                             </dd>
                         </dl>

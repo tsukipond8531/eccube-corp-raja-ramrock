@@ -47,7 +47,7 @@
                         {% for optionCategory in Option.OptionCategories %}
                             {% if optionCategory.disable_flg != constant('Plugin\\ProductOption\\Entity\\OptionCategory::ON') %}
                                 <div>
-                                    <h3>{{ optionCategory.name }}</h3>
+                                    <h3 style="display: none;">{{ optionCategory.name }}</h3>
                                     {% for OptionImage in optionCategory.OptionImages %}
                                         <img src="{{ asset(OptionImage, 'save_image') }}"/>
                                     {% endfor %}
@@ -60,7 +60,7 @@
                                         {% endif %}
                                     {% endif %}
                                     {% if optionCategory.delivery_free_flg == constant('Plugin\\ProductOption\\Entity\\OptionCategory::ON') %}
-                                        <p>{{'productoption.common.delivery_free'|trans}}</p>
+                                        <p style="display: none;">{{'productoption.common.delivery_free'|trans}}</p>
                                     {% endif %}
                                     <button class="btn-info" id="desc_btn_{{ Option.id }}_{{ optionCategory.id }}" >{{'productoption.product.option.description.select'|trans}}</button>
                                 </div>

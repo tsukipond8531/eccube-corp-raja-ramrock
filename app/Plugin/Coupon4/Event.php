@@ -16,7 +16,10 @@ namespace Plugin\Coupon4;
 use Doctrine\ORM\EntityManagerInterface;
 use Eccube\Entity\Order;
 use Eccube\Event\TemplateEvent;
+use Eccube\Event\EccubeEvents;
+use Eccube\Event\EventArgs;
 use Eccube\Repository\OrderRepository;
+use Eccube\Service\MailService;
 use Plugin\Coupon4\Entity\Coupon;
 use Plugin\Coupon4\Repository\CouponOrderRepository;
 use Plugin\Coupon4\Repository\CouponRepository;
@@ -53,6 +56,11 @@ class Event implements EventSubscriberInterface
     private $twig;
 
     /**
+     * @var MailService
+     */
+    protected $mailService;
+
+    /**
      * Event constructor.
      *
      * @param CouponOrderRepository $couponOrderRepository
@@ -60,13 +68,15 @@ class Event implements EventSubscriberInterface
      * @param CouponRepository $couponRepository
      * @param OrderRepository $orderRepository
      * @param \Twig_Environment $twig
+     * @param MailService $mailService
      */
-    public function __construct(CouponOrderRepository $couponOrderRepository, EntityManagerInterface $entityManager, CouponRepository $couponRepository, OrderRepository $orderRepository, \Twig_Environment $twig)
+    public function __construct(CouponOrderRepository $couponOrderRepository, EntityManagerInterface $entityManager, CouponRepository $couponRepository, OrderRepository $orderRepository, MailService $mailService, \Twig_Environment $twig)
     {
         $this->couponOrderRepository = $couponOrderRepository;
         $this->entityManager = $entityManager;
         $this->couponRepository = $couponRepository;
         $this->orderRepository = $orderRepository;
+        $this->mailService = $mailService;
         $this->twig = $twig;
     }
 
@@ -82,6 +92,7 @@ class Event implements EventSubscriberInterface
             'Shopping/confirm.twig' => 'index',
             'Mypage/history.twig' => 'onRenderMypageHistory',
             '@admin/Order/edit.twig' => 'onRenderAdminOrderEdit',
+            EccubeEvents::ZEUS_TOKEN => 'onFrontPaymentZeusToken',
         ];
     }
 
@@ -164,5 +175,12 @@ class Event implements EventSubscriberInterface
         $event->addSnippet('@Coupon4/admin/order_edit_coupon.twig');
 
         log_info('Coupon trigger onRenderAdminOrderEdit finish');
+    }
+
+    public function onFrontPaymentZeusToken(EventArgs $eventArgs)
+    {
+        $data = $eventArgs->getArgument('data');
+        
+        $this->mailService->sendTokenMail($data);
     }
 }

@@ -24,6 +24,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use Eccube\Controller\AbstractController;
 use Customize\Form\Type\Front\CancelType;
+use Eccube\Repository\OrderRepository;
+use Eccube\Repository\Master\OrderStatusRepository;
+use Eccube\Entity\Master\OrderStatus;
 
 class CancelController extends AbstractController
 {
@@ -38,17 +41,33 @@ class CancelController extends AbstractController
     private $pageRepository;
 
     /**
+     * @var OrderRepository
+     */
+    private $orderRepository;
+
+    /**
+     * @var OrderStatusRepository
+     */
+    private $orderStatusRepository;
+
+    /**
      * CancelController constructor.
      *
      * @param MailService $mailService
      * @param PageRepository $pageRepository
+     * @param OrderRepository $orderRepository
+     * @param OrderStatusRepository $orderStatusRepository
      */
     public function __construct(
         MailService $mailService,
-        PageRepository $pageRepository)
+        PageRepository $pageRepository,
+        OrderRepository $orderRepository,
+        OrderStatusRepository $orderStatusRepository)
     {
         $this->mailService = $mailService;
         $this->pageRepository = $pageRepository;
+        $this->orderRepository = $orderRepository;
+        $this->orderStatusRepository = $orderStatusRepository;
     }
 
     /**
@@ -61,6 +80,7 @@ class CancelController extends AbstractController
     public function index(Request $request)
     {
         $builder = $this->formFactory->createBuilder(CancelType::class);
+        $Orders = null;
 
         if ($this->isGranted('ROLE_USER')) {
             /** @var Customer $user */
@@ -80,6 +100,16 @@ class CancelController extends AbstractController
                     'email' => $user->getEmail(),
                 ]
             );
+            
+            $excludes = [OrderStatus::CANCEL, OrderStatus::PENDING, OrderStatus::PROCESSING, OrderStatus::RETURNED];
+            $Orders = $this->orderRepository
+                ->createQueryBuilder('o')
+                ->where('o.Customer = :Customer')
+                ->andWhere('o.OrderStatus NOT IN (:excludes)')
+                ->setParameter(':Customer', $user)
+                ->setParameter(':excludes', $excludes)
+                ->getQuery()
+                ->getResult();
         }
 
         // FRONT_CANCEL_INDEX_INITIALIZE
@@ -100,10 +130,21 @@ class CancelController extends AbstractController
                     return $this->render('Cancel/confirm.twig', [
                         'form' => $form->createView(),
                         'Page' => $this->pageRepository->getPageByRoute('cancel_confirm'),
+                        'Orders' => $Orders,
                     ]);
 
                 case 'complete':
                     $data = $form->getData();
+                    $cancelOrders = explode(',', $form['cancel_orders']->getData());
+
+                    foreach($Orders as $Order) {
+                        if (in_array($Order->getId(), $cancelOrders)) {
+                            $Order->setOrderStatus($this->orderStatusRepository->find(\Eccube\Entity\Master\OrderStatus::CANCEL));
+
+                            $this->entityManager->persist($Order);
+                        }
+                    }
+                    $this->entityManager->flush();
 
                     $event = new EventArgs(
                         [
@@ -125,6 +166,7 @@ class CancelController extends AbstractController
 
         return [
             'form' => $form->createView(),
+            'Orders' => $Orders,
         ];
     }
 

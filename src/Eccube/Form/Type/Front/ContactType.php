@@ -61,9 +61,7 @@ class ContactType extends AbstractType
             ->add('address', AddressType::class, [
                 'required' => false,
             ])
-            ->add('phone_number', PhoneNumberType::class, [
-                'required' => false,
-            ])
+            ->add('phone_number', PhoneNumberType::class)
             ->add('email', EmailType::class, [
                 'constraints' => [
                     new Assert\NotBlank(),

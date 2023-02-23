@@ -151,6 +151,41 @@ class Config extends \Eccube\Entity\AbstractEntity
     /**
      * @var string
      *
+     * @ORM\Column(name="clientip_eaccount", type="string", length=10, nullable=true)
+     */
+    private $clientip_eaccount;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="eaccount_success_url", type="string", length=256, nullable=true)
+     */
+    private $eaccount_success_url;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="eaccount_success_str", type="string", length=256, nullable=true)
+     */
+    private $eaccount_success_str;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="eaccount_failure_url", type="string", length=256, nullable=true)
+     */
+    private $eaccount_failure_url;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="eaccount_failure_str", type="string", length=256, nullable=true)
+     */
+    private $eaccount_failure_str;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="cvs_key", type="string", length=256, nullable=true)
      */
     private $cvs_key;
@@ -168,6 +203,13 @@ class Config extends \Eccube\Entity\AbstractEntity
      * @ORM\Column(name="ebank_key", type="string", length=256, nullable=true)
      */
     private $ebank_key;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="eaccount_key", type="string", length=256, nullable=true)
+     */
+    private $eaccount_key;
 
     /**
      * @var int
@@ -200,6 +242,14 @@ class Config extends \Eccube\Entity\AbstractEntity
      * @ORM\JoinColumn(name="ebank_payment_id", referencedColumnName="id")
      */
     private $ebankPayment;
+
+    /**
+     * @var int
+     *
+     * @ORM\OneToOne(targetEntity="\Eccube\Entity\Payment")
+     * @ORM\JoinColumn(name="eaccount_payment_id", referencedColumnName="id")
+     */
+    private $eaccountPayment;
 
     /**
      * Set id
@@ -657,6 +707,121 @@ class Config extends \Eccube\Entity\AbstractEntity
     {
         return $this->ebank_sitestr;
     }
+    
+    /**
+     * Set clientip_eaccount
+     *
+     * @param string $clientipEaccount
+     * @return Config
+     */
+    public function setClientipEaccount($clientipEaccount)
+    {
+        $this->clientip_eaccount = $clientipEaccount;
+        
+        return $this;
+    }
+
+    /**
+     * Get clientip_eaccount
+     *
+     * @return string
+     */
+    public function getClientipEaccount()
+    {
+        return $this->clientip_eaccount;
+    }
+
+    /**
+     * Set eaccount_success_url
+     *
+     * @param string $eaccountSuccessUrl
+     * @return Config
+     */
+    public function setEaccountSuccessUrl($eaccountSuccessUrl)
+    {
+        $this->eaccount_success_url = $eaccountSuccessUrl;
+        
+        return $this;
+    }
+
+    /**
+     * Get eaccount_success_url
+     *
+     * @return string
+     */
+    public function getEaccountSuccessUrl()
+    {
+        return $this->eaccount_success_url;
+    }
+
+    /**
+     * Set eaccount_success_str
+     *
+     * @param string $eaccountSuccessStr
+     * @return Config
+     */
+    public function setEaccountSuccessStr($eaccountSuccessStr)
+    {
+        $this->eaccount_success_str = $eaccountSuccessStr;
+        
+        return $this;
+    }
+
+    /**
+     * Get eaccount_success_str
+     *
+     * @return string
+     */
+    public function getEaccountSuccessStr()
+    {
+        return $this->eaccount_success_str;
+    }
+
+    /**
+     * Set eaccount_failure_url
+     *
+     * @param string $eaccountFailureUrl
+     * @return Config
+     */
+    public function setEaccountFailureUrl($eaccountFailureUrl)
+    {
+        $this->eaccount_failure_url = $eaccountFailureUrl;
+        
+        return $this;
+    }
+
+    /**
+     * Get eaccount_failure_url
+     *
+     * @return string
+     */
+    public function getEaccountFailureUrl()
+    {
+        return $this->eaccount_failure_url;
+    }
+
+    /**
+     * Set eaccount_failure_str
+     *
+     * @param string $eaccountFailureStr
+     * @return Config
+     */
+    public function setEaccountFailureStr($eaccountFailureStr)
+    {
+        $this->eaccount_failure_str = $eaccountFailureStr;
+        
+        return $this;
+    }
+
+    /**
+     * Get eaccount_failure_str
+     *
+     * @return string
+     */
+    public function getEaccountFailureStr()
+    {
+        return $this->eaccount_failure_str;
+    }
 
     /**
      * Set cvs_key
@@ -725,6 +890,29 @@ class Config extends \Eccube\Entity\AbstractEntity
     public function getEbankKey()
     {
         return $this->ebank_key;
+    }
+
+    /**
+     * Set eaccount_key
+     *
+     * @param string $eaccountKey
+     * @return Config
+     */
+    public function setEaccountKey($eaccountKey)
+    {
+        $this->eaccount_key = $eaccountKey;
+        
+        return $this;
+    }
+
+    /**
+     * Get eaccount_key
+     *
+     * @return string
+     */
+    public function getEaccountKey()
+    {
+        return $this->eaccount_key;
     }
 
     /**
@@ -820,6 +1008,29 @@ class Config extends \Eccube\Entity\AbstractEntity
     }
 
     /**
+     * Set eaccountPayment
+     *
+     * @param \Eccube\Entity\Payment $eaccountPayment
+     * @return Config
+     */
+    public function setEaccountPayment(\Eccube\Entity\Payment $eaccountPayment = null)
+    {
+        $this->eaccountPayment = $eaccountPayment;
+        
+        return $this;
+    }
+
+    /**
+     * Get eaccountPayment
+     *
+     * @return \Eccube\Entity\Payment
+     */
+    public function getEaccountPayment()
+    {
+        return $this->eaccountPayment;
+    }
+
+    /**
      * Set Payment according to type string
      *
      * @return Config
@@ -829,6 +1040,9 @@ class Config extends \Eccube\Entity\AbstractEntity
         switch ($type) {
             case 'ebank':
                 $this->setEbankPayment($payment);
+                break;
+            case 'eaccount':
+                $this->setEaccountPayment($payment);
                 break;
             case 'edy':
                 $this->setEdyPayment($payment);
@@ -853,6 +1067,8 @@ class Config extends \Eccube\Entity\AbstractEntity
         switch ($type) {
             case 'ebank':
                 return $this->getEbankPayment();
+            case 'eaccount':
+                return $this->getEaccountPayment();
             case 'edy':
                 return $this->getEdyPayment();
             case 'cvs':
@@ -872,6 +1088,9 @@ class Config extends \Eccube\Entity\AbstractEntity
         switch ($type) {
             case 'ebank':
                 $this->setEbankKey($key);
+                break;
+            case 'eaccount':
+                $this->setEaccountKey($key);
                 break;
             case 'edy':
                 $this->setEdyKey($key);
@@ -895,6 +1114,8 @@ class Config extends \Eccube\Entity\AbstractEntity
         switch ($type) {
             case 'ebank':
                 return $this->getEbankKey();
+            case 'eaccount':
+                return $this->getEaccountKey();
             case 'edy':
                 return $this->getEdyKey();
             case 'cvs':
@@ -914,6 +1135,8 @@ class Config extends \Eccube\Entity\AbstractEntity
         switch ($type) {
             case 'ebank':
                 return $this->clientip_ebank;
+            case 'eaccount':
+                return $this->clientip_eaccount;
             case 'edy':
                 return $this->clientip_edy;
             case 'cvs':
@@ -944,6 +1167,9 @@ class Config extends \Eccube\Entity\AbstractEntity
         if ($this->ebankPayment) {
             $payments[] = $this->ebankPayment;
         }
+        if ($this->eaccountPayment) {
+            $payments[] = $this->eaccountPayment;
+        }
         return $payments;
     }
 
@@ -968,6 +1194,9 @@ class Config extends \Eccube\Entity\AbstractEntity
         }
         if ($this->ebankPayment == $payment) {
             return 'ebank';
+        }
+        if ($this->eaccountPayment == $payment) {
+            return 'eaccount';
         }
         return null;
     }

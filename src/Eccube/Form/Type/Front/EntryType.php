@@ -78,13 +78,14 @@ class EntryType extends AbstractType
             ->add('email', RepeatedEmailType::class)
             ->add('password', RepeatedPasswordType::class)
             ->add('birth', BirthdayType::class, [
-                'required' => false,
+                'required' => true,
                 'input' => 'datetime',
                 'years' => range(date('Y'), date('Y') - $this->eccubeConfig['eccube_birth_max']),
                 'widget' => 'choice',
                 'format' => 'yyyy/MM/dd',
                 'placeholder' => ['year' => '----', 'month' => '--', 'day' => '--'],
                 'constraints' => [
+                    new Assert\NotBlank(),
                     new Assert\LessThanOrEqual([
                         'value' => date('Y-m-d', strtotime('-1 day')),
                         'message' => 'form_error.select_is_future_or_now_date',

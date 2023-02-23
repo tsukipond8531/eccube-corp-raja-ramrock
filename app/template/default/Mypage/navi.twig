@@ -13,30 +13,46 @@ file that was distributed with this source code.
         <li class="ec-navlistRole__item {% if mypageno|default('') == 'index' %}active{% endif %}">
             <a href="{{ url('mypage') }}">{{ 'ご注文履歴'|trans }}</a>
         </li>
-        {% if BaseInfo.option_favorite_product %}
-            <li class="ec-navlistRole__item {% if mypageno|default('') == 'favorite' %}active{% endif %}">
-                <a href="{{ url('mypage_favorite') }}">{{ 'お気に入り一覧'|trans }}</a>
-            </li>
-        {% endif %}
         <li class="ec-navlistRole__item {% if mypageno|default('') == 'change' %}active{% endif %}">
-            <a href="{{ url('mypage_change') }}">{{ '会員情報編集'|trans }}</a>
+            <a href="{{ url('mypage_change') }}">会員登録<br />内容変更</a>
+        </li>
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'proof' %}active{% endif %}">
+            <a href="{{ url('proof') }}">本人確認書類<br />アップロード</a>
         </li>
         <li class="ec-navlistRole__item {% if mypageno|default('') == 'delivery' %}active{% endif %}">
-            <a href="{{ url('mypage_delivery') }}">{{ 'お届け先一覧'|trans }}</a>
+            <a href="{{ url('mypage_delivery') }}">お届け先<br />追加・変更</a>
+        </li>
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'detail' %}active{% endif %}">
+            <a href="{{ url('product_detail', {'id': 1}) }}">カメラ申込<br />(カメラ追加)</a>
+        </li>
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'operation_center' %}active{% endif %}">
+            <a href="{{ url('operation_center') }}">オペレーション<br />センターフォーム</a>
         </li>
         <li class="ec-navlistRole__item {% if mypageno|default('') == 'cancel' %}active{% endif %}">
-            <a href="{{ url('cancel') }}">{{ '解約手続き'|trans }}</a>
+            <a href="{{ url('cancel') }}">お試しキャンセル<br />解約申請手続き</a>
         </li>
-        <li class="ec-navlistRole__item {% if mypageno|default('') == 'withdraw' %}active{% endif %}">
+        {# <li class="ec-navlistRole__item {% if mypageno|default('') == 'withdraw' %}active{% endif %}">
             <a href="{{ url('mypage_withdraw') }}">{{ '退会手続き'|trans }}</a>
+        </li> #}
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'plan_change' %}active{% endif %}">
+            <a href="{{ url('plan_change') }}">プラン変更<br>お⽀払い⽅法変更</a>
+        </li>
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'logout' %}active{% endif %}">
+            <a href="{{ url('logout') }}">{{ 'ログアウト'|trans }}</a>
+        </li>
+        {# <li class="ec-navlistRole__item {% if mypageno|default('') == 'enquete' %}active{% endif %}">
+            <a href="{{ url('enquete') }}">{{ 'アンケートに答える'|trans }}</a>
+        </li> #}
+        <li class="ec-navlistRole__item {% if mypageno|default('') == 'enquete' %}active{% endif %}">
+            <a href="{{ url('se_enquete_detail', { id: 2 }) }}">{{ 'アンケートに答える'|trans }}</a>
         </li>
     </ul>
 </div>
 
-<div class="ec-welcomeMsg">
+{# <div class="ec-welcomeMsg">
     <p>{{ 'ようこそ%last_name% %first_name%さん'|trans({ '%last_name%': app.user.name01, '%first_name%': app.user.name02 }) }}</p>
     {% if BaseInfo.option_point %}
         <p>{{ '現在の所持ポイントは %point%pt です。'|trans({ '%point%': app.user.point|number_format}) }}</p>
     {% endif %}
-</div>
+</div> #}
 

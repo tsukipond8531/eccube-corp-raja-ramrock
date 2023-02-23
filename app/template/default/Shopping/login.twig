@@ -22,9 +22,8 @@ file that was distributed with this source code.
     </div>
 
     <div class="ec-role">
-        <div class="ec-grid3">
-
-            <div class="ec-grid3__cell2">
+        <div class="ec-off2Grid">
+            <div class="ec-off2Grid__cell">
                 <form name="shopping_login" id="shopping_login" method="post" action="{{ url('mypage_login') }}">
                     <input type="hidden" name="_target_path" value="shopping" />
                     <input type="hidden" name="_failure_path" value="shopping_login" />
@@ -69,19 +68,6 @@ file that was distributed with this source code.
                     </div>
                 </form>
             </div>
-
-            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') == false %}
-                <div class="ec-grid3__cell">
-                    <div class="ec-guest">
-                        <div class="ec-guest__inner">
-                            <p>{{ '会員登録をせずに購入手続きをされたい方は、下記よりお進みください。'|trans }}</p>
-                            <div class="ec-guest__actions"><a class="ec-blockBtn--cancel" href="{{ url('shopping_nonmember') }}">{{ 'ゲスト購入'|trans }}</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-
         </div>
     </div>
 </div>

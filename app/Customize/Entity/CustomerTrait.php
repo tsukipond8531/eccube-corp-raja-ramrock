@@ -5,6 +5,7 @@ namespace Customize\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Eccube\Annotation\EntityExtension;
 use Eccube\Entity\CustomerAddress;
+use Plugin\SeEnquete4\Entity\EnqueteUser;
 
 /**
   * @EntityExtension("Eccube\Entity\Customer")
@@ -24,6 +25,111 @@ trait CustomerTrait
      * @ORM\Column(name="image2", type="string", nullable=true)
      */
     private $image2;
+    
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="email1", type="string", nullable=true)
+     */
+    private $email1;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="password_tip_query", type="string", nullable=true)
+     */
+    private $password_tip_query;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="password_tip_answer", type="string", nullable=true)
+     */
+    private $password_tip_answer;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="enquete", type="boolean", options={"default":false})
+     */
+    private $enquete = false;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="coupon_used", type="boolean", options={"default":false})
+     */
+    private $coupon_used = false;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="enquete_body", type="string", nullable=true, length=4000)
+     */
+    private $enquete_body;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $EnqueteUsers;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->EnqueteUsers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add enqueteUser.
+     *
+     * @param EnqueteUser $enqueteUser
+     *
+     * @return Customer
+     */
+    public function addEnqueteUser(EnqueteUser $enqueteUser)
+    {
+        $this->EnqueteUsers[] = $enqueteUser;
+
+        return $this;
+    }
+
+    /**
+     * Remove enqueteUser.
+     *
+     * @param EnqueteUser $enqueteUser
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeEnqueteUser(EnqueteUser $enqueteUser)
+    {
+        return $this->EnqueteUsers->removeElement($enqueteUser);
+    }
+
+    /**
+     * Get EnqueteUsers.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEnqueteUsers()
+    {
+        return $this->EnqueteUsers;
+    }
+
+    /**
+     * Set id.
+     *
+     * @param int $id
+     *
+     * @return this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 
     /**
      * Set image1.
@@ -71,5 +177,149 @@ trait CustomerTrait
     public function getImage2()
     {
         return $this->image2;
+    }
+
+    /**
+     * Set email1.
+     *
+     * @param string $email1
+     *
+     * @return this
+     */
+    public function setEmail1($email1)
+    {
+        $this->email1 = $email1;
+
+        return $this;
+    }
+
+    /**
+     * Get email1.
+     *
+     * @return string
+     */
+    public function getEmail1()
+    {
+        return $this->email1;
+    }
+
+    /**
+     * Set password_tip_query.
+     *
+     * @param string $passwordTipQuery
+     *
+     * @return this
+     */
+    public function setPasswordTipQuery($passwordTipQuery)
+    {
+        $this->password_tip_query = $passwordTipQuery;
+
+        return $this;
+    }
+
+    /**
+     * Get password_tip_query.
+     *
+     * @return string
+     */
+    public function getPasswordTipQuery()
+    {
+        return $this->password_tip_query;
+    }
+
+    /**
+     * Set password_tip_answer.
+     *
+     * @param string $passwordTipAnswer
+     *
+     * @return this
+     */
+    public function setPasswordTipAnswer($passwordTipAnswer)
+    {
+        $this->password_tip_answer = $passwordTipAnswer;
+
+        return $this;
+    }
+
+    /**
+     * Get password_tip_answer.
+     *
+     * @return string
+     */
+    public function getPasswordTipAnswer()
+    {
+        return $this->password_tip_answer;
+    }
+    
+    /**
+     * Set enquete.
+     *
+     * @param boolean $enquete
+     *
+     * @return this
+     */
+    public function setEnquete($enquete)
+    {
+        $this->enquete = $enquete;
+
+        return $this;
+    }
+
+    /**
+     * Get enquete.
+     *
+     * @return boolean
+     */
+    public function getEnquete()
+    {
+        return $this->enquete;
+    }
+    
+    /**
+     * Set coupon_used.
+     *
+     * @param boolean $coupon_used
+     *
+     * @return this
+     */
+    public function setCouponUsed($coupon_used)
+    {
+        $this->coupon_used = $coupon_used;
+
+        return $this;
+    }
+
+    /**
+     * Get coupon_used.
+     *
+     * @return boolean
+     */
+    public function getCouponUsed()
+    {
+        return $this->coupon_used;
+    }
+    
+    /**
+     * Set enquete_body.
+     *
+     * @param string $enquete_body
+     *
+     * @return this
+     */
+    public function setEnqueteBody($enqueteBody)
+    {
+        $this->enquete_body = $enqueteBody;
+
+        return $this;
+    }
+
+    /**
+     * Get enquete_body.
+     *
+     * @return string
+     */
+    public function getEnqueteBody()
+    {
+        return $this->enquete_body;
     }
 }

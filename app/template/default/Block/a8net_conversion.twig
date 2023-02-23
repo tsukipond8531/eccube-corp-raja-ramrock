@@ -1,0 +1,19 @@
+<span id="a8sales"></span>
+<script>
+{% set Order_tsum = 0 %}
+a8sales({
+	"pid": "s00000022378001",
+	"order_number": "{{ Order.id }}",
+	"currency": "JPY",
+	"items":[{% for OrderItem in Order.MergedProductOrderItems %}
+		{
+			"code": "{{ OrderItem.product.id }}",
+			"price": {{ OrderItem.price }},
+			"quantity": {{ OrderItem.quantity }}
+			{% set Order_ssum = OrderItem.price * OrderItem.quantity %}
+			{% set Order_tsum = Order_tsum + Order_ssum %}
+		},{% endfor %}
+	],
+	"total_price":{{ Order_tsum }}
+});
+</script>

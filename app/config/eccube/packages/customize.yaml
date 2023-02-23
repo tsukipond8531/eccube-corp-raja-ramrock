@@ -1,0 +1,13 @@
+parameters:
+    eccube_proof_request_again_mail_template_id: 19
+    eccube_proof_request_mail_template_id: 20
+    eccube_proof_complete_mail_template_id: 18
+    eccube_shipping_ready_mail_template_id: 21
+    eccube_shipping_complete_mail_template_id: 22
+    eccube_continuous_use_mail_template_id: 23
+    eccube_short_plan_mail_template_id: 24
+    eccube_line_plan_change_mail_template_id: 25
+    eccube_trial_cancel_mail_template_id: 27
+    eccube_cancel_complete_mail_template_id: 30
+    eccube_withdrawal_complete_mail_template_id: 31
+    eccube_free_form_mail_template_id: 32

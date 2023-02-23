@@ -1,0 +1,210 @@
+{#
+    This file is part of EC-CUBE
+    
+    Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+    
+    http://www.ec-cube.co.jp/
+    
+    For the full copyright and license information, please view the LICENSE
+    file that was distributed with this source code.
+    #}
+    {% extends 'default_frame.twig' %}
+    
+    {% set mypageno = 'plan_change' %}
+    
+    {% form_theme form 'Form/form_div_layout.twig' %}
+    
+    {% block stylesheet %}
+        <style>
+            [id $= '_placeholder'],
+            [for $= '_placeholder'] {
+                display: none !important;
+            }
+            .ec-borderedDefs dd label::after {
+                content: '\a';
+                white-space: pre;
+            }
+            .d-flex {
+                display: flex;
+            }
+            .d-flex span {
+                margin: 0 8px;
+            }
+
+            @media only screen and ( max-width: 767px ) {
+                .d-flex {
+                    flex-wrap: wrap;   
+                }
+                .w-100 {
+                    width: 100%;
+                }
+            }
+        </style>
+    {% endblock %}
+    {% block javascript %}
+        <script src="//yubinbango.github.io/yubinbango/yubinbango.js" charset="UTF-8"></script>
+    {% endblock javascript %}
+    
+    {% block main %}
+    
+    <div class="ec-modifiedLayoutRole__contents cs-plan-change">
+        <div class="ec-mypageRole">
+            <div class="ec-pageHeader">
+                <h1>{{ 'プラン変更/お⽀払い⽅法変更'|trans }}</h1>
+            </div>
+            {% include 'Mypage/navi.twig' %}
+            <div class="ec-off1Grid">
+                <div class="ec-off1Grid__cell">
+                    <p>
+                        ご希望の変更内容を下記のフォームよりお申込みください。<br />
+                        お支払い方法変更の場合は、3営業日以内に変更用のメールをお送りさせていただきますのでお手続きの程よろしくお願いいたします。<br />
+                        プラン変更の場合は、翌月反映となります。
+                    </p>
+                    <form method="post" action="{{ url('plan_change') }}" class="h-adr" novalidate>
+                        <span class="p-country-name" style="display:none;">Japan</span>
+                        {{ form_widget(form._token) }}
+    
+                        <div class="ec-borderedDefs">
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.customer_id, '会員ID', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    <div class="ec-input{{ has_errors(form.customer_id) ? ' error' }}">
+                                        {{ form_widget(form.customer_id) }}
+                                        {{ form_errors(form.customer_id) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.name, 'お名前', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    <div class="ec-halfInput{{ has_errors(form.name.name01, form.name.name02) ? ' error' }}">
+                                        {{ form_widget(form.name.name01, {'attr': { 'placeholder': '姓' }}) }}
+                                        {{ form_widget(form.name.name02, {'attr': { 'placeholder': '名' }}) }}
+                                        {{ form_errors(form.name.name01) }}
+                                        {{ form_errors(form.name.name02) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.kana, 'お名前(カナ)', {'label_attr': {'class': 'ec-label'}}) }}
+                                </dt>
+                                <dd>
+                                    <div class="ec-halfInput{{ has_errors(form.kana.kana01, form.kana.kana02) ? ' error' }}">
+                                        {{ form_widget(form.kana.kana01, {'attr': { 'placeholder': 'セイ' }}) }}
+                                        {{ form_widget(form.kana.kana02, {'attr': { 'placeholder': 'メイ' }}) }}
+                                        {{ form_errors(form.kana.kana01) }}
+                                        {{ form_errors(form.kana.kana02) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.payment_method, 'お⽀払い⽅法変更', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    <div class="ec-check{{ has_errors(form.payment_method) ? ' error' }}">
+                                        {{ form_widget(form.payment_method) }}
+                                        {{ form_errors(form.payment_method) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.option1, '変更内容', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    <div class="ec-select{{ has_errors(form.option1) ? ' error' }}">
+                                        {{ form_widget(form.option1) }}
+                                        {{ form_errors(form.option1) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.option2, 'データ容量の追加', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    <div class="d-flex">
+                                        <div class="d-flex w-100">
+                                            <span>現在の通信プラン</span>
+                                            <div class="ec-select{{ has_errors(form.option2_origin) ? ' error' }}">
+                                                {{ form_widget(form.option2_origin) }}
+                                                {{ form_errors(form.option2_origin) }}
+                                            </div>
+                                            <span>GB</span>
+                                        </div>
+                                        <div class="d-flex w-100">
+                                            <span style="color: red"> => </span>
+                                            <span>変更後通信プラン</span>
+                                            <div class="ec-select{{ has_errors(form.option2) ? ' error' }}">
+                                                {{ form_widget(form.option2) }}
+                                                {{ form_errors(form.option2) }}
+                                            </div>
+                                            <span>GB</span>
+                                        </div>
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.email, 'メールアドレス', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    <div class="ec-input{{ has_errors(form.email) ? ' error' }}">
+                                        {{ form_widget(form.email) }}
+                                        {{ form_errors(form.email) }}
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    {{ form_label(form.contents, 'その他質問', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                </dt>
+                                <dd>
+                                    <div class="ec-input{{ has_errors(form.contents) ? ' error' }}">
+                                        {{ form_widget(form.contents) }}
+                                        {{ form_errors(form.contents) }}
+                                    </div>
+                                    <p>{{ 'ご注文に関するお問い合わせには、必ず「ご注文番号」をご記入くださいますようお願いいたします。'|trans }}</p>
+                                </dd>
+                            </dl>
+                            {# エンティティ拡張の自動出力 #}
+                            {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
+                                {% if f.vars.eccube_form_options.form_theme %}
+                                    {% form_theme f f.vars.eccube_form_options.form_theme %}
+                                    {{ form_row(f) }}
+                                {% else %}
+                                    <dl>
+                                        <dt>
+                                            {{ form_label(f) }}
+                                        </dt>
+                                        <dd>
+                                            <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
+                                                {{ form_widget(f) }}
+                                                {{ form_errors(f) }}
+                                            </div>
+                                        </dd>
+                                    </dl>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="ec-RegisterRole__actions">
+                            <div class="ec-off4Grid">
+                                <div class="ec-off4Grid__cell">
+                                    <button type="submit" class="ec-blockBtn--action" name="mode" value="confirm">{{ '確認ページへ'|trans }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endblock %}

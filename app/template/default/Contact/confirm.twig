@@ -22,9 +22,17 @@ file that was distributed with this source code.
             <div class="ec-off1Grid__cell">
                 <form method="post" action="{{ url('contact') }}" class="h-adr">
                     {{ form_widget(form._token) }}
-                    <p>{{ '内容によっては回答をさしあげるのにお時間をいただくこともございます。
-また、休業日は翌営業日以降の対応となりますのでご了承ください。
-'|trans|nl2br }}</p>
+                    <p>
+                        【お問い合わせが多い質問は<a href="{{ url('homepage') }}faq/">よくある質問ページ</a>に掲載しています】<br /><br />
+                        個別の製品に対するお問い合わせについては、必ず「質問内容」項目に製品名をご記入ください。<br /><br />
+
+                        <span class="cs-span-highlight">ご利用中の方は<a href="{{ url('operation_center') }}">オペレーションセンターお問合せフォーム</a>よりお願いします。</span><br />
+
+                        通常、お問い合わせのご返信は3営業日以内を心がけております。<br />
+                        数日経過致しましても弊社からの返信がない場合は、ご入力いただいたメールアドレスに間違い、<br />
+                        又はお客様の受信設定などにより「迷惑メール」として分類された可能性がございます。<br />
+                        以上をご確認の上、お手数ですが再度お問い合わせくださいますようお願い申し上げます。<br />
+                    </p>
                     <div class="ec-borderedDefs">
                         <dl>
                             <dt>
@@ -46,6 +54,70 @@ file that was distributed with this source code.
                                 {{ form.kana.kana02.vars.data }}
                                 {{ form_widget(form.kana.kana01, { type : 'hidden' }) }}
                                 {{ form_widget(form.kana.kana02, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.age, 'ご年齢', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>{{ form.age.vars.data }}
+                                {{ form_widget(form.age, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.client, 'お客様', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>{{ form.client.vars.data }}
+                                {{ form_widget(form.client, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.company, '会社名', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>{{ form.company.vars.data }}
+                                {{ form_widget(form.company, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.product, '検討中の製品', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>{{ form.product.vars.data }}
+                                {{ form_widget(form.product, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.care, '介護認定の有無', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>{{ form.care.vars.data }}
+                                {{ form_widget(form.care, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query_type, 'お問い合わせ内容', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>{{ form.query_type.vars.data }}
+                                {{ form_widget(form.query_type, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.usage_type, '資料送付方法', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>{{ form.usage_type.vars.data }}
+                                {{ form_widget(form.usage_type, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.delivery_method, '資料送付方法', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>{{ form.delivery_method.vars.data }}
+                                {{ form_widget(form.delivery_method, { type : 'hidden' }) }}
                             </dd>
                         </dl>
                         <dl>
@@ -82,13 +154,30 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.contents, 'お問い合わせ内容', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                {{ form_label(form.moment, 'CUBEを知ったきっかけ', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>
+                                {# {{ app.request.request.get('contact')['moment']|join(',') }} #}
+                                {{ form.moment.vars.data|join(',') }}
+                                <div style="display: none">
+                                    {{ form_widget(form.moment) }}
+                                </div>
+                                <div>
+                                    {{ form.keyword.vars.data }}
+                                    {{ form_widget(form.keyword, { type : 'hidden' }) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.email, 'お問い合わせ内容', { 'label_attr': { 'class': 'ec-label' }}) }}
                             </dt>
                             <dd>
                                 {{ form.contents.vars.data|nl2br }}
                                 {{ form_widget(form.contents, { type : 'hidden' }) }}
                             </dd>
                         </dl>
+                        {{ form_widget(form.user_policy_check, { type: 'hidden'}) }}
                         {# エンティティ拡張の自動出力 #}
                         {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
                             {% if f.vars.eccube_form_options.form_theme %}

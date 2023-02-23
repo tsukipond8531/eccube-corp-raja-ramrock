@@ -7,6 +7,12 @@
  For the full copyright and license information, please view the LICENSE
  file that was distributed with this source code.
 #}
+<style>
+    #customer_detail_box {
+        padding: 10px 0;
+    }
+</style>
+
 <script type="text/javascript">
     $(function () {
         $('#coupon_button').on("click", function () {
@@ -40,6 +46,6 @@
         {% else %}
             {{ 'plugin_coupon.front.shopping.message.empty'|trans }}
         {% endif %}
-        <p><a class="btn btn-default btn-sm" id="coupon_button" href="{{ url('plugin_coupon_shopping') }}">{{ 'plugin_coupon.front.shopping.button.add_coupon'|trans }}</a></p>
+        <p><a class="btn btn-ec-regular btn-default btn-sm" id="coupon_button" href="{{ url('plugin_coupon_shopping') }}" style="display: inline-block;">{{ 'クーポンを使用する'|trans }}</a></p>
     </div>
 </div>

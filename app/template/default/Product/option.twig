@@ -7,8 +7,8 @@
 * For the full copyright and license information, please view the LICENSE
 * file that was distributed with this source code.
 #}
-
-{% if Product.ProductOptions %}
+<div class="product-options">
+    {% if Product.ProductOptions %}
         {% for ProductOption in Product.ProductOptions %}
             {% set value = 'productoption' ~ ProductOption.Option.id %}
             {# ラジオボタン #}
@@ -24,7 +24,7 @@
                 </div>
             {# チェックボックス #}
             {% elseif ProductOption.Option.type == constant('Plugin\\ProductOption\\Entity\\Option::CHECKBOX_TYPE')%}
-                <div class="ec-checkbox" style="margin-top: 10px;">
+                <div class="ec-checkbox {% if form[value].vars.label == 'あんしん保守パック' %}anshin{% endif %}" style="margin-top: 10px;">
                     <div>
                         <label for="productoption{{ ProductOption.Option.id }}">{{ form[value].vars.label }}</label>{% if ProductOption.Option.require_min > 0 %}<span class="ec-required">{{'common.required'|trans}}</span>{% endif %}
                         {% if ProductOption.Option.description_flg == constant('Plugin\\ProductOption\\Entity\\Option::DISP_ON') %}
@@ -32,6 +32,7 @@
                         {% endif %}
                     </div>
                     {{ form_widget(form[value]) }}
+                    {% if form[value].vars.label == 'あんしん保守パック' %} <p>※本契約時に適用</p> {% endif %}
                 </div>
             {# プルダウンタイプ #}
             {% elseif  ProductOption.Option.type == constant('Plugin\\ProductOption\\Entity\\Option::SELECT_TYPE')%}
@@ -105,4 +106,5 @@
                 </div>
             {% endif %}
         {% endfor %}
-{% endif %}
+    {% endif %}
+</div>

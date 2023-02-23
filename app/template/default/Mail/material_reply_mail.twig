@@ -1,0 +1,110 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% autoescape 'safe_textmail' %}
+{% if type == 'material' %}
+    この度は一般・介護保険レンタル資料請求頂き誠にありがとうございます。
+{% else %}
+    この度は貸与事業所様資料請求頂き誠にありがとうございます。
+{% endif %}
+
+ご質問をご入力いただいたお客様は、改めて担当者よりご連絡をさせていただきますので、
+今しばらくお待ちくださいませ。
+
+≪資料請求をご希望のお客様へ≫
+データ送付をご希望のお客様は、下記URLよりダウンロードをお願い致します。
+■一般レンタル 資料（https://ramrock-eyes.jp/ram-eyes/img/ippan_shiryou.pdf）
+■介護保険適用商品 資料（https://ramrock-eyes.test01.biz/html/template/default/assets/pdf/3345192998509dc16d69c010196e2c6b.pdf）
+
+郵送をご希望のお客様は、郵送の準備が整い次第発送させていただきます。
+※お急ぎの場合はダウンロードURLより資料のダウンロードをお願い致します。
+
+≪キャンペーンのご案内≫
+●一般レンタル
+現在、お試し体験キャンペーンを行っており、弊社ホームページよりお申込みを受付ております。
+詳細は、 https://ramrock-eyes.test01.biz/user_data/campaign をご覧ください。
+もし継続でご利用されない場合は、キャンペーン期間内にご返却いただきますとキャンセル料金などは
+一切発生いたしません。
+ぜひ一度、この機会にみまもりCUBEをお試しくださいませ。
+
+≪介護保険利用時の流れ≫
+●介護保険レンタル
+介護保険にてご利用の場合、
+原則「要介護2以上」「認知症と診断された方」「徘徊でお困りの方」が保険適用となりますが、
+適用の可否は、まずは一度担当のケアマネージャー様へご相談ください。
+
+(1) 担当のケアマネージャー様へご相談
+(2) 福祉用具貸与事業所様からレンタル
+(3) デモ設置
+(4) ご契約
+※お取り扱いの福祉用具貸与事業所につきましては弊社へお問い合わせください。
+
+
+受付内容
+-----------------------------------------------------------------------------
+
+{% if type == 'material' %}
+    お名前： {{ data.name01 }} {{ data.name02 }}
+    お名前(カナ)： {{ data.kana01 }} {{ data.kana02 }}
+    ご年齢： {{ data.age }}
+
+    お客様： {{ data.client }}
+    会社/団体名 {{ data.company }}
+    所属部署： {{ data.department }}
+
+    検討中の製品： {{ data.product }}
+    介護認定の有無： {{ data.care }}
+    お問合せ内容： {{ data.content_type }}
+    資料の種類： {{ data.type|join(',') }}
+
+    ご希望の資料送付方法： {{ data.delivery_method }}
+    郵送先住所： 〒{{ data.postal_code }} {% if data.pref is defined %} {{ data.pref.name }} {% endif %} {{ data.addr01 }}{{ data.addr02 }}
+    電話番号： {{ data.phone_number }}
+    メールアドレス： {{ data.email }}
+
+    CUBEを知ったきっかけ： {{ data.moment }}
+    検索キーワード：{{ data.keyword }}
+    お問い合わせ内容： 
+        {{ data.contents }}
+{% else %}
+    会社名：{{ data.company }}
+    お名前：{{ data.name01 }} {{ data.name02 }}
+    フリガナ：{{ data.kana01 }} {{ data.kana02 }}
+    種別：{{ data.type }}
+
+    ご連絡先：
+    〒{{ data.postal_code }} {% if data.pref is defined %} {{ data.pref.name }} {% endif %} {{ data.addr01 }}{{ data.addr02 }}
+    メールアドレス：{{ data.email }}
+
+    お問い合わせ内容：{{ data.contents }}
+    資料送付方法：{{ data.delivery_method }}
+    CUBEを知ったきっかけ：{{ data.moment }}
+    検索キーワード：{{ data.keyword }}
+    質問内容：{{ data.query }}
+{% endif %}
+
+-----------------------------------------------------------------------------
+
+株式会社ラムロック
+〒820-1111
+福岡県飯塚市勢田1950-1
+
+フリーダイヤル　0120-927-760
+携帯・PHS　0948-96-8160
+お問い合わせ専用アドレス　contact@ramrock-eyes.jp
+公式HP　https://ramrock-eyes.jp
+
+-----------------------------------------------------------------------------
+
+※このメールは送信専用のアドレスから自動送信されているため、
+ご返信いただいても内容の確認や回答ができません。
+ご質問はお問合せ専用アドレスよりご連絡ください。
+
+{% endautoescape %}

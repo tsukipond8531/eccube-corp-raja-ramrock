@@ -73,7 +73,8 @@
 				<h3 class="cmntitle01"><span>キャンペーンの流れ</span></h3>
 				<div class="cflow01">
 					<div class="cflow02">
-						<img src="{{ asset('assets/img/campaign/flow_01.png') }}" alt="キャンペーンの流れ">
+						<img src="{{ asset('assets/img/campaign/flow_01.png') }}" alt="キャンペーンの流れ" class="pc">
+						<img src="{{ asset('assets/img/campaign/flow_01_sp.png') }}" alt="キャンペーンの流れ" class="sp">
 					</div>
 				</div>
 				<ul class="cflow03">
@@ -115,7 +116,8 @@
 						<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_05.png') }}" alt="FLOW01"></div>
 						<dl class="tflows04">
 							<dt>会員登録</dt>
-							<dd>見守る方（ご家族様代表の方1名）で登録をお願いします。<br>※見守られる方のお名前ではありません。</dd>
+							<dd>見守る方（ご家族様代表の方1名）で登録をお願いします。<br>※見守られる方のお名前ではありません。<br>
+							※アンケートにご協力いただいた方にはキャンペーン料金から330円割引きさせていただきます</dd>
 						</dl>
 					</div>
 					<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
@@ -130,8 +132,10 @@
 					<div class="tflows02">
 						<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_07.png') }}" alt="FLOW03"></div>
 						<dl class="tflows04">
-							<dt>台数・契約プラン・<br>オプション選択</dt>
-							<dd>現在ご検討中のご契約内容（契約期間・台数・検知オプションの有無）をお選びください。</dd>
+							<dt>本人確認書類送付</dt>
+							<dd>「ファイルを選択」ボタンを選択し、画像のアップロードをお願いします。<br>
+							※会員登録された方の本人確認書類です<br>
+							※<a href="https://ramrock-eyes.jp/first-kakunin/" class="link01" target="_blank">本人確認書類とは？</a></dd>
 						</dl>
 					</div>
 					<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
@@ -139,30 +143,33 @@
 						<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_08.png') }}" alt="FLOW04"></div>
 						<dl class="tflows04">
 							<dt>決済方法の選択</dt>
-							<dd>クレジットカードか口座振替を選択できます。<br>※ご利用可能金融機関一覧は<a href="https://www.cardservice.co.jp/service/bank/cats/terms.html" class="link01" target="_blank">こちら</a></dd>
+							<dd>
+							    ①クレジットカードか口座情報を選択し、登録<br>
+							    ②※口座振替をご希望の方はご利用可能金融機関一覧を<a href="https://www.cardservice.co.jp/service/bank/cats/terms.html" class="link01" target="_blank">こちら</a>よりご確認ください
+							</dd>
 						</dl>
 					</div>
 				</div>
 				<div class="tflows01">
+					{#<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>#}
+					{#<div class="tflows02">#}
+					{#	<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_09.png') }}" alt="FLOW05"></div>#}
+					{#	<dl class="tflows04">#}
+					{#		<dt>本人確認書類送付</dt>#}
+					{#		<dd>本人確認用画像フォーム下のアンケートにご協力いただくとキャンペーン料金から330円割引させていただきます。</dd>#}
+					{#	</dl>#}
+					{#</div>#}
+					{#<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>#}
+					{#<div class="tflows02">#}
+					{#	<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_10.png') }}" alt="FLOW06"></div>#}
+					{#	<dl class="tflows04">#}
+					{#		<dt>口座振替を選択された方は<br>口座登録用メール内より<br>お手続き</dt>#}
+					{#		<dd>会員登録された方以外の口座でもご利用いただけます。</dd>#}
+					{#	</dl>#}
+					{#</div>#}
 					<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
 					<div class="tflows02">
-						<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_09.png') }}" alt="FLOW05"></div>
-						<dl class="tflows04">
-							<dt>本人確認書類送付</dt>
-							<dd>本人確認用画像フォーム下のアンケートにご協力いただくとキャンペーン料金から330円割引させていただきます。</dd>
-						</dl>
-					</div>
-					<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
-					<div class="tflows02">
-						<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_10.png') }}" alt="FLOW06"></div>
-						<dl class="tflows04">
-							<dt>口座振替を選択された方は<br>口座登録用メール内より<br>お手続き</dt>
-							<dd>会員登録された方以外の口座でもご利用いただけます。</dd>
-						</dl>
-					</div>
-					<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
-					<div class="tflows02">
-						<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_11.png') }}" alt="FLOW07"></div>
+						<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_09.png') }}" alt="FLOW07"></div>
 						<dl class="tflows04">
 							<dt>発送</dt>
 							<dd>お申込み日の翌営業日に発送致します。</dd>

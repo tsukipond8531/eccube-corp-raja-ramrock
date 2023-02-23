@@ -1,0 +1,55 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% autoescape 'safe_textmail' %}
+この度はお問合せ頂き誠にありがとうございます。
+
+ご質問をご入力いただいたお客様は、改めて担当者よりご連絡をさせていただきますので、
+今しばらくお待ちくださいませ。
+※郵送をご希望のお客様は、郵送の準備が整い次第発送させていただきます。
+
+受付内容
+-----------------------------------------------------------------------------
+
+お名前： {{ data.name01 }} {{ data.name02 }}
+お名前(カナ)：  {{ data.kana01 }} {{ data.kana02 }}
+ご年齢： {{ data.age }}
+
+会社/団体名： {{ data.company }}
+所属部署： {{ data.department }}
+
+お問い合わせ内容： {{ data.query_type }}
+資料送付方法： {{ data.delivery_method }}
+
+郵送先住所： 
+    〒{{ data.postal_code }} {% if data.pref is defined %} {{ data.pref.name }} {% endif %} {{ data.addr01 }}{{ data.addr02 }}
+電話番号： {{ data.phone_number }}
+メールアドレス： {{ data.email }}
+
+みまもりCUBE Plusを知ったきっかけ(複数回答可)： {{ data.moment|join(',') }}
+検索キーワード：{{ data.keyword }}
+質問内容/お困りごと：
+    {{ data.contents }}
+-----------------------------------------------------------------------------
+
+株式会社ラムロック
+〒820-1111
+福岡県飯塚市勢田1950-1
+
+フリーダイヤル　0120-927-760
+携帯・PHS　0948-96-8160
+お問い合わせ専用アドレス　contact@ramrock-eyes.jp
+公式HP　https://ramrock-eyes.jp
+-----------------------------------------------------------------------------
+※このメールは送信専用のアドレスから自動送信されているため、
+ご返信いただいても内容の確認や回答ができません。
+ご質問はお問合せ専用アドレスよりご連絡ください。
+
+{% endautoescape %}

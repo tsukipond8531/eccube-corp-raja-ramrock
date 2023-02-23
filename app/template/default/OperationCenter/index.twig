@@ -1,0 +1,442 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% set mypageno = 'operation_center' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/fileupload/jquery.fileupload.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/fileupload/jquery.fileupload-ui.css') }}">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <style>
+        #thumb div {
+            float: left;
+            margin: 4px
+        }
+        
+        .progress {
+            display: flex;
+            height: 1rem;
+            overflow: hidden;
+            line-height: 0;
+            font-size: 0.75rem;
+            background-color: #e9ecef;
+            border-radius: 0.25rem;
+        }
+
+        .progress-bar-striped {
+            background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+            background-size: 1rem 1rem;
+        }
+
+        .progress-bar {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            background-color: #437ec4;
+            transition: width 0.6s ease;
+        }
+
+        .ui-state-highlight {
+            height: 70px;
+            width: 70px;
+            border: dashed 1px #ccc;
+            background: #fff;
+        }
+
+        .media-body {
+            margin-bottom: 30px;
+            line-height: 1;
+        }
+        
+        .c-form__fileUploadThumbnail {
+            display: inline-block;
+            width: 170px;
+            height: 170px;
+            background-color: #f5f6f8;
+            background-image: url(../../img/moc.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .c-form__fileUploadThumbnail:hover::before {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .c-form__fileUploadThumbnail::before {
+            display: block;
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .c-form__fileUploadThumbnail .delete-image {
+            display: none;
+            font-family: FontAwesome;
+            font-size: 18px;
+            line-height: 1;
+            color: #54687A;
+            padding: 5px;
+            background: #fff;
+            border-radius: 3px;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+        }
+
+        .c-form__fileUploadThumbnail:hover .delete-image {
+            display: inline-block;
+            font-family: FontAwesome;
+            font-size: 18px;
+            line-height: 1;
+            color: #54687A;
+            padding: 5px;
+            background: #fff;
+            border-radius: 3px;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+        }
+
+        .btn-ec-regular {
+            border-radius: 4px;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            background-color: #FFFFFF;
+            cursor: pointer;
+        }
+        .btn-ec-regular:hover {
+            color: #262626;
+            background-color: #F2F2F2;
+            border-color: #262626;
+            text-decoration: none;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+    <script src="{{ asset('assets/js/fileupload/vendor/jquery.ui.widget.js') }}"></script>
+    <script src="{{ asset('assets/js/fileupload/jquery.iframe-transport.js') }}"></script>
+    <script src="{{ asset('assets/js/fileupload/jquery.fileupload.js') }}"></script>
+    <script src="{{ asset('assets/js/fileupload/jquery.fileupload-process.js') }}"></script>
+    <script src="{{ asset('assets/js/fileupload/jquery.fileupload-validate.js') }}"></script>
+    <script>var bootstrapTooltip = $.fn.tooltip.noConflict();</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <script>
+        $.fn.tooltip = bootstrapTooltip;
+        $(document).on('drop dragover', function(e) {
+            e.preventDefault();
+        });
+        $(function() {
+            // Todo: fix drag&drop style
+            $("#thumb").sortable({
+                cursor: 'move',
+                opacity: 0.7,
+                placeholder: 'ui-state-highlight',
+                update: function(event, ui) {
+                    updateSortNo();
+                }
+            });
+            var proto_img = '<div class="c-form__fileUploadThumbnail" style="background-image:url(\'__path__\');">' +
+                '<a class="delete-image"><i class="fa fa-times" aria-hidden="true"></i></a>' +
+                '</div>';
+            var proto_add = '{{ form_widget(form.add_images.vars.prototype) }}';
+            var proto_del = '{{ form_widget(form.delete_images.vars.prototype) }}';
+            {% for image in form.images %}
+            var $img = $(proto_img.replace(/__path__/g, '{{ asset(image.vars.value, 'save_image') }}'));
+            var $widget = $('{{ form_widget(image) }}');
+            $widget.val('{{ image.vars.value }}');
+            $("#thumb").append($img.append($widget));
+            {% endfor %}
+            {% for add_image in form.add_images %}
+            var $img = $(proto_img.replace(/__path__/g, '{{ asset(add_image.vars.value, 'temp_image') }}'));
+            var $widget = $('{{ form_widget(add_image) }}');
+            $widget.val('{{ add_image.vars.value }}');
+            $("#thumb").append($img.append($widget));
+            {% endfor %}
+            {% for delete_image in form.delete_images %}
+            $("#thumb").append('{{ form_widget(delete_image) }}');
+            {% endfor %}
+            var hideThumbnail = function() {
+                if ($("#thumb div").length > 0) {
+                    $("#icon_no_image").css("display", "none");
+                } else {
+                    $("#icon_no_image").css("display", "");
+                }
+            };
+            // Todo: fix update sort by drag&drop
+            var updateSortNo = function() {
+                $("#thumb div").each(function(index) {
+                    $(this).find(".sort_no_images").remove();
+                    filename = $(this).find("input[type='hidden']").val();
+                    $sortNo = $('<input type="hidden" class="sort_no_images" name="sort_no_images[]" />');
+                    $sortNo.val(filename + '//' + parseInt(index + 1));
+                    $(this).append($sortNo);
+                });
+            };
+            hideThumbnail();
+            updateSortNo();
+            
+            // Delete of images
+            var file_count = 0;
+            var count_del = 0;
+
+            $("#thumb").on("click", '.delete-image', function() {
+                var $new_delete_image = $(proto_del.replace(/__name__/g, count_del));
+                var thumbnail = $(this).parents('div.c-form__fileUploadThumbnail');
+                var src = $(thumbnail).find('input').val();
+                $new_delete_image.val(src);
+                $("#thumb").append($new_delete_image);
+                $(thumbnail).remove();
+                hideThumbnail();
+                updateSortNo();
+                count_del++;
+                file_count--;
+            });
+
+            var count_add = {{ form.add_images|length|default(0) }};
+            max = 2;
+
+            $('#{{ form.file.vars.id }}').fileupload({
+                url: "{{ url('operation_file_add') }}",
+                type: "post",
+                sequentialUploads: true,
+                dataType: 'json',
+                dropZone: $('#upload-zone'),
+                change: function(e, data) {
+                    if ( (data.files.length + file_count) > max){
+                        data.files = [];
+                        alert("2つの画像しか登録できません。");
+                    }
+                },
+                drop: function(e, data) {
+                    if ( (data.files.length + file_count) > max){
+                        data.files = [];
+                        alert("2つの画像しか登録できません。");
+                    }
+                },
+                done: function(e, data) {
+                    $('.progress').hide();
+                    $.each(data.result.files, function(index, file) {
+                        var path = '{{ asset('', 'temp_image') }}' + file;
+                        var $img = $(proto_img.replace(/__path__/g, path));
+                        var $new_img = $(proto_add.replace(/__name__/g, count_add));
+                        $new_img.val(file);
+                        $child = $img.append($new_img);
+                        $('#thumb').append($child);
+                        count_add++;
+                        file_count++;
+                    });
+                    hideThumbnail();
+                    updateSortNo();
+                },
+                fail: function(e, data) {
+                    alert("{{ 'admin.common.upload_error'|trans }}");
+                },
+                always: function(e, data) {
+                    $('.progress').hide();
+                    $('.progress .progress-bar').width('0%');
+                },
+                start: function(e, data) {
+                    $('.progress').show();
+                },
+                acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
+                maxFileSize: 10000000,
+                maxNumberOfFiles: 10,
+                progressall: function(e, data) {
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $('.progress .progress-bar').css(
+                        'width',
+                        progress + '%'
+                    );
+                },
+                processalways: function(e, data) {
+                    if (data.files.error) {
+                        alert("{{ 'admin.common.upload_error'|trans }}");
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock javascript %}
+
+{% block main %}
+
+<div class="ec-modifiedLayoutRole__contents">
+    <div class="ec-mypageRole">
+        <div class="ec-pageHeader">
+            <h1>{{ 'オペレーションセンターお問合せ'|trans }}</h1>
+        </div>
+        {% include 'Mypage/navi.twig' %}
+        <div class="ec-off1Grid">
+            <div class="ec-off1Grid__cell">
+                <form method="post" action="{{ url('operation_center') }}" class="h-adr" novalidate>
+                    <span class="p-country-name" style="display:none;">Japan</span>
+                    {{ form_widget(form._token) }}
+                    <p class="ec-para-normal">
+                        みまもりCUBEをご利用中、ご不明な点などございましたら下記お問合せフォームよりお問合せください。<br />
+                        また、お問合せが多い質問やトラブルシューティングは<a href="{{ url('homepage') }}faq/">「よくある質問」</a>に掲載しています。<br /><br />
+
+                        当社営業時間外・休業日のお問い合わせに関しての対応は、休業日の翌営業日となります。<br />
+                        あしからずご了承ください。
+                    </p>
+                    <div class="ec-borderedDefs">
+                        <dl>
+                            <dt>
+                                {{ form_label(form.customer_id, '会員ID', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(form.customer_id) ? ' error' }}">
+                                    {{ form_widget(form.customer_id) }}
+                                    {{ form_errors(form.customer_id) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.name, 'お名前', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-halfInput{{ has_errors(form.name.name01, form.name.name02) ? ' error' }}">
+                                    {{ form_widget(form.name.name01, {'attr': { 'placeholder': '姓' }}) }}
+                                    {{ form_widget(form.name.name02, {'attr': { 'placeholder': '名' }}) }}
+                                    {{ form_errors(form.name.name01) }}
+                                    {{ form_errors(form.name.name02) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.kana, 'お名前(カナ)', {'label_attr': {'class': 'ec-label'}}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-halfInput{{ has_errors(form.kana.kana01, form.kana.kana02) ? ' error' }}">
+                                    {{ form_widget(form.kana.kana01, {'attr': { 'placeholder': 'セイ' }}) }}
+                                    {{ form_widget(form.kana.kana02, {'attr': { 'placeholder': 'メイ' }}) }}
+                                    {{ form_errors(form.kana.kana01) }}
+                                    {{ form_errors(form.kana.kana02) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.company, '会社/団体名', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(form.company) ? ' error' }}">
+                                    {{ form_widget(form.company) }}
+                                    {{ form_errors(form.company) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.phone_number, '電話番号', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-telInput{{ has_errors(form.phone_number) ? ' error' }}">
+                                    {{ form_widget(form.phone_number) }}
+                                    {{ form_errors(form.phone_number) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.email, 'メールアドレス', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(form.email) ? ' error' }}">
+                                    {{ form_widget(form.email) }}
+                                    {{ form_errors(form.email) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.file, '添付ファイル', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div>
+                                    <div class="progress" style="display: none;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div id="thumb" class="c-form__fileUploadThumbnails clearfix"></div>
+                                    <div id="upload-zone" class="media py-5 border-ec-dashed mb-2 rounded">
+                                        <div class="media-body">
+                                            <i class="fa fa-cloud-upload fa-3x text-ec-lightGray mx-3 align-middle" aria-hidden="true"></i>
+                                            {{ form_widget(form.file, { attr : { accept : 'image/*', style : 'display:none;' } }) }}
+                                            {{ form_errors(form.file) }}
+                                            <a class="btn btn-ec-regular mr-2" onclick="$('#operation_center_file').click()">
+                                                {{ 'admin.common.file_select'|trans }}
+                                            </a>
+                                        </div><!-- /.media-body -->
+                                    </div><!-- /.media -->
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.contents, 'お問い合わせ内容', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(form.contents) ? ' error' }}">
+                                    {{ form_widget(form.contents) }}
+                                    {{ form_errors(form.contents) }}
+                                </div>
+                                <p>{{ 'ご注文に関するお問い合わせには、必ず「ご注文番号」をご記入くださいますようお願いいたします。'|trans }}</p>
+                            </dd>
+                        </dl>
+                        {# エンティティ拡張の自動出力 #}
+                        {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
+                            {% if f.vars.eccube_form_options.form_theme %}
+                                {% form_theme f f.vars.eccube_form_options.form_theme %}
+                                {{ form_row(f) }}
+                            {% else %}
+                                <dl>
+                                    <dt>
+                                        {{ form_label(f) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
+                                            {{ form_widget(f) }}
+                                            {{ form_errors(f) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="ec-RegisterRole__actions">
+                        <div class="ec-off4Grid">
+                            <div class="ec-off4Grid__cell">
+                                <button type="submit" class="ec-blockBtn--action" name="mode" value="confirm">{{ '確認ページへ'|trans }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

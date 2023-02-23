@@ -32,6 +32,28 @@ file that was distributed with this source code.
         .identity img:hover {
             opacity: 0.8;
         }
+        #enqueteHistory tbody tr {
+            margin-bottom: 20px;
+        }
+        .answer-blocks {
+            display: table;
+            white-space: initial;
+            width: 800px;
+        }
+        .answer-blocks:not(:last-child) {
+            border-bottom: 1px solid #eee;
+        }
+        .answer-blocks .form-question,
+        .answer-blocks .form-answer {
+            display: table-cell;
+        }
+        .answer-blocks .form-question {
+            width: 60%;
+            border-right: 1px solid #eee;
+        }
+        .answer-blocks .form-answer {
+            width: 40%;
+        }
     </style>
 {% endblock stylesheet %}
 
@@ -232,6 +254,23 @@ file that was distributed with this source code.
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-3">
+                                        <span>{{ 'パスワードを忘れた時のヒント'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        質問：
+                                        <div class="ec-select{{ has_errors(form.password_tip_query) ? ' error' }} mt-2 mb-3">
+                                            {{ form_widget(form.password_tip_query) }}
+                                            {{ form_errors(form.password_tip_query) }}
+                                        </div>
+                                        答え：
+                                        <div class="ec-input{{ has_errors(form.password_tip_answer) ? ' error' }} mt-2 mb-3">
+                                            {{ form_widget(form.password_tip_answer) }}
+                                            {{ form_errors(form.password_tip_answer) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
                                         <span>{{ 'admin.common.point'|trans }}</span>
                                     </div>
                                     <div class="col">
@@ -239,6 +278,112 @@ file that was distributed with this source code.
                                         {{ form_errors(form.point) }}
                                     </div>
                                 </div>
+                                {# {% if Customer and Customer.enquete and enquete is not empty %}
+                                    <div class="row mt-4 mb-4">
+                                        <div class="col font-weight-bolder">アンケートキャンペーン</div>
+                                    </div>
+                                    <div class="row mb-4">
+                                        <div class="col-6">
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">みまもりCUBEを利用するきっかけは？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query1|join(',') }}
+                                                    {% if enquete.query1_other is not empty %}　（{{ enquete.query1_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">みまもりCUBE知ったきっかけは？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query2|join(',') }}
+                                                    {% if enquete.query2_other is not empty %}　（{{ enquete.query2_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">具体的にどの様な事が心配ですか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query3|join(',') }}
+                                                    {% if enquete.query3_other is not empty %}　（{{ enquete.query3_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">いつ頃からみまもりカメラを探されていましたか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query4 }}
+                                                    {% if enquete.query4_other is not empty %}　（{{ enquete.query4_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">今まで見守り等をする為にご利用になった商品はありますか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query5 }}
+                                                    {% if enquete.query5_other is not empty %}　（{{ enquete.query5_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">【わかりやすかったこと】具体的にどの部分がそう思われましたか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query6_1|join(',') }}
+                                                    {% if enquete.query6_1_other is not empty %}　（{{ enquete.query6_1_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">【わかりづらかったこと】具体的にどの部分がそう思われましたか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query6_2|join(',') }}
+                                                    {% if enquete.query6_2_other is not empty %}　（{{ enquete.query6_2_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">みまもりCUBEのどこに魅力を感じましたか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query7|join(',') }}
+                                                    {% if enquete.query7_other is not empty %}　（{{ enquete.query7_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">みまもりCUBEのどの機能をメインに使われる予定ですか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query8|join(',') }}
+                                                    {% if enquete.query8_other is not empty %}　（{{ enquete.query8_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">普段、SNSを利用していますか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query9 }}
+                                                    {% if enquete.query9_other is not empty %}　（{{ enquete.query9_other|join(',') }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">みまもりＣＵＢＥを設置する都道府県を教えてください</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query10 }}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">ライブ映像・録画の確認、声かけ、現地の音を聞く　これらの機能を使用できて月額3,900円の価格はどう思われますか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query11 }}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">今回お申込みいただくまでにお電話やメール等でお問合せはされましたか？</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query12|join(',') }}
+                                                    {% if enquete.query12_other is not empty %}　（{{ enquete.query12_other }}）{% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-6 font-weight-bold">最後にご意見・ご質問をお聞かせください</div>
+                                                <div class="col-6">
+                                                    {{ enquete.query13 }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %} #}
 
                                 {# エンティティ拡張の自動出力 #}
                                 {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
@@ -435,7 +580,132 @@ file that was distributed with this source code.
                                 {% endif %}
                             </div>
                         </div>
+                        <div class="card rounded border-0 mb-4">
+                            <div class="card-header">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="d-inline-block" data-tooltip="true" data-placement="top" title="{{ 'tooltip.order.mail_history'|trans }}"><span class="card-title">{{ 'admin.order.mail_history'|trans }}</span><i class="fa fa-question-circle fa-lg ml-1"></i></div>
+                                    </div>
+                                    <div class="col-4 text-right"><a data-toggle="collapse" href="#mailHistory" aria-expanded="false" aria-controls="mailHistory"><i class="fa fa-angle-up fa-lg"></i></a></div>
+                                </div>
+                            </div>
+                            <div class="collapse show ec-cardCollapse" id="mailHistory">
+                                <div class="card-body">
+                                    <table class="table table-striped">
+                                        <thead class="table-active">
+                                        <tr>
+                                            <th class="pt-2 pb-2 pl-3">{{ 'admin.order.mail_send_date'|trans }}</th>
+                                            <th class="pt-2 pb-2 pr-3">{{ 'admin.order.mail_subject'|trans }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for Order in Orders %}
+                                            {% for MailHistory in Order.MailHistories %}
+                                                <tr>
+                                                    <td class="pl-3">{{ MailHistory.send_date|date_min }}</td>
+                                                    <td class="pr-3">
+                                                        <a class="text-primary" data-toggle="modal" data-target="#mail2-{{ loop.index }}">{{ MailHistory.mail_subject }}</a>
+                                                        <div class="modal fade" id="mail2-{{ loop.index }}" tabindex="-1" role="dialog" aria-labelledby="mail2-{{ loop.index }}" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">{{ MailHistory.mail_subject }}</h5>
+                                                                        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <p>
+                                                                            {% if MailHistory.mail_html_body|length > 0 %}
+                                                                                {{ MailHistory.mail_html_body|trans|raw }}
+                                                                            {% else %}
+                                                                                {{ MailHistory.mail_body|nl2br }}
+                                                                            {% endif %}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button class="btn btn-ec-regular" type="button" data-dismiss="modal">{{ 'admin.common.close'|trans }}</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div><!-- .card.rounded -->
                     {% endif %}
+                    
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                         title="{{ 'アンケートキャンペーン'|trans }}">
+                                    <span class="card-title">
+                                        {{ 'アンケートキャンペーン'|trans }}
+                                        <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                    </span>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <a data-toggle="collapse" href="#enqueteHistory" aria-expanded="false"
+                                       aria-controls="enqueteHistory">
+                                        <i class="fa fa-angle-up fa-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse show ec-cardCollapse" id="enqueteHistory">
+                            {% set enqueteRepository = repository('Plugin\\SeEnquete4\\Entity\\Enquete') %}
+                            {% set enqueteUserRepository = repository('Plugin\\SeEnquete4\\Entity\\EnqueteUser') %}
+                            {% set enquete0 = enqueteRepository.find(2) %}
+                            {% set enqueteUsers = enqueteUserRepository.findBy({ 'Enquete': enquete0, 'customer_id': Customer.id }) %}
+                            {% if enqueteUsers|length > 0 %}
+                                <div class="card-body">
+                                    <table class="table table-striped table-sm">
+                                        <thead class="table-active">
+                                            <th class="border-top-0 pt-2 pb-2 text-center">回答結果</th>
+                                            <th class="border-top-0 pt-2 pb-2 text-center">回答日時</th>
+                                        </thead>
+                                        <tbody>
+                                        {% for enqueteUser in enqueteUsers %}
+                                            <tr>
+                                                <td class="align-middle text-center">
+                                                    {% for question, answer in enqueteUser.answerJson %}
+                                                        <div class="answer-blocks text-left">
+                                                            <div class="form-question p-2"><span>{{ question }}</span></div>
+                                                            <div class="form-answer p-2">
+                                                                {% if answer is iterable %}
+                                                                    {% for answerChild in answer %}
+                                                                        <span>{{ answerChild }}</span>
+                                                                    {% endfor %}
+                                                                {% else %}
+                                                                    <span>{{ answer }}</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </td>
+                                                <td class="align-middle text-center">{{ enqueteUser.createDate|date("Y/m/d", "Asia/Tokyo") }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <div class="card-body">
+                                    <div id="history_box" class="data-empty">
+                                    <span>
+                                        {{ 'アンケート履歴がありません。'|trans }}
+                                    </span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
 
                     <div class="card rounded border-0 mb-4">
                         <div class="card-header">

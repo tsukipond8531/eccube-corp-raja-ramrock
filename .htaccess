@@ -72,6 +72,7 @@ DirectoryIndex index.php index.html .ht
 
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !^(.*)\.(gif|png|jpe?g|css|ico|js|svg|map)$ [NC]
+    RewriteCond $1 !^(page/|light/|plus/|manga-lp/)
     RewriteRule ^(.*)$ index.php [QSA,L]
 </IfModule>
 <IfModule mod_mime.c>

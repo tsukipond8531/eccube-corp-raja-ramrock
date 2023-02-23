@@ -1,0 +1,196 @@
+{#
+ Copyright(c) 2020 Shadow Enterprise, Inc. All rights reserved.
+ http://www.shadow-ep.co.jp/
+#}
+
+{% extends 'default_frame.twig' %}
+
+{% set body_class = 'enquete_page' %}
+
+{% block javascript %}
+    <script>
+        $(function(){
+            // 選択肢が画像の場合は置換
+            var elem = 'form[name=enquete] .check-thumbnail label';
+            if ( $(elem).length ) {
+                var prefix = "{{ asset('SeEnquete4/assets/img/', 'plugin') }}";
+                var uploaded_extention = '{{ eccube_config['Se_Enquete_img_valid_extention'] }}';
+                uploaded_extention = uploaded_extention.split(',');
+
+                $(elem).each(function() {
+                    var nowElem = $(this);
+                    filename = $(nowElem).html();
+                    if ( typeof filename !== 'undefined' && filename != '' ) {
+                        var pos = filename.lastIndexOf('.');
+                        if (pos === -1) return true ;
+                        if ( $.inArray( filename.slice(pos), uploaded_extention ) ) {
+                            // $(nowElem).load(prefix + filename);  /* for svg */
+                            $(nowElem).html('<span class="radio-thumbnail"><img src="' + prefix + filename + '" /></span>');
+                        }
+                    }
+                })
+            }
+
+            // エラーがあればその場所までスクロール
+            if ( $('.ec-required').length ) {
+                $("html,body").animate( {scrollTop: $('.ec-required').offset().top - 60 } );
+            }
+
+        })
+    </script>
+{% endblock %}
+
+{% block stylesheet %}
+    <style>
+        form[name="enquete"] {
+            width: 80%;
+            margin: 0 auto;
+        }
+        #enquete-header {
+            margin-bottom: 20px;
+        }
+        .enquete-detail-img {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 600px;
+        }
+        .enquete-detail-img img {
+            max-width: 100%;
+        }
+        .enquete-title {
+            font-weight: bold;
+            text-align: center;
+        }
+        .enquete-subtitle {
+            font-size: 18px;
+        }
+        .enquete-form-radio {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            align-items: baseline;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+        }
+        .enquete-form-radio > div:not(:last-child) {
+            margin-right: 10px;
+        }
+        textarea.enquete-form-textarea {
+            height: calc( 1.3em * 5 );
+            line-height: 1.3em;
+        }
+        .radio-thumbnail img {
+            max-width: 150px;
+            max-height: 150px;
+        }
+        .enquete-submit-block {
+            margin-top: 40px;
+        }
+        .mw-2 { max-width: 200px; }
+        .mw-4 { max-width: 400px; }
+        .mw-6 { max-width: 600px; }
+        .mw-8 { max-width: 800px; }
+        .col-form-normal-text {
+            margin-bottom: 20px;
+        }
+        .col-form-personal-agree {
+            background-color: #fff;
+            width: 100%;
+            margin: 15px auto;
+            overflow: auto;
+            height: 300px;
+            border: 1px solid #d5d5d5;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    </style>
+{% endblock%}
+
+{% block main %}
+<div class="ec-modifiedLayoutRole__contents">
+    {{ form_start(form) }}
+        {{ form_widget(form._token) }}
+        <div class="c-contentsArea__cols">
+            <div class="c-contentsArea__primaryCol">
+                <div class="c-primaryCol">
+                    <div class="card rounded border-0 mb-4">
+                        <div id="enquete-header">
+                            <div class="row">
+                                <div class="col-8">
+                                    {% if Enquete.thumbnail is not null %}
+                                    <p class="enquete-detail-img text-center">
+                                        <img src="{{ asset( 'SeEnquete4/assets/img/' ~ Enquete.thumbnail, 'plugin') }}">
+                                    </p>
+                                    {% else %}
+                                    <h1 class="enquete-title">{{ Enquete.title }}</h1>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if Enquete.subTitle != '' %}
+                            <div class="row">
+                                <div class="col">
+                                    <p class="enquete-subtitle">{{ Enquete.subTitle|raw|nl2br }}</p>
+                                    {# <div class="text-right">
+                                        {{ 'se_enquete.common.message.day_term'|trans }}{{ Enquete.startDate|date("Y/m/d", "Asia/Tokyo") }} 〜 {% if Enquete.endDate is not null %}{{ Enquete.endDate|date("Y/m/d", "Asia/Tokyo") }}{% endif %}
+                                    </div> #}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="collapse show ec-cardCollapse" id="ordererInfo">
+                            <div class="card-body enquete-body">
+                                {% for i, val in keyList %}
+                                <div class="row mb-2">
+                                    <div class="col">
+                                        {% if val.key is defined %}
+                                            {% if personaliCheckKey != '' and val.key == personaliCheckKey %}
+                                            <fieldset class="form-group">
+                                                {% if Enquete.personalText is defined and Enquete.personalText != '' %}
+                                                <div class="col-form-personal-agree">
+                                                    {{ Enquete.personalText|raw|nl2br }}
+                                                </div>
+                                                {% endif %}
+                                                <div class="col">
+                                                    {% if has_errors(form[val.key]) %}<p class=" ec-required">{{ form_errors(form[val.key]) }}</p>{% endif %}
+                                                    {{ form_widget(form[val.key]) }}
+                                                </div>
+                                            </fieldset>
+                                            {% else %}
+                                            <fieldset class="form-group">
+                                                <legend class="col-form-label required">
+                                                    <label class="ec-label"> {{ val.label|raw|nl2br }} </label>
+                                                    {% if val.required %}<span class="badge badge-primary ml-1">{{ 'common.required'|trans }}</span>{% endif %}
+                                                </legend>
+                                                <div class="col">
+                                                    {% if has_errors(form[val.key]) %}<p class=" ec-required">{{ form_errors(form[val.key]) }}</p>{% endif %}
+                                                    {{ form_widget(form[val.key]) }}
+                                                </div>
+                                            </fieldset>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% if val.text is defined %}
+                                            <label class="col-form-normal-text">{{ val.text }}</label>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ec-RegisterRole__actions enquete-submit-block">
+            <div class="ec-off4Grid">
+                <div class="ec-off4Grid__cell">
+                    <button type="submit" class="ec-blockBtn--cancel">{{ Enquete.submitTitle }}</button>
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

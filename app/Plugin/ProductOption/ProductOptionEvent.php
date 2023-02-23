@@ -373,6 +373,9 @@ class ProductOptionEvent implements EventSubscriberInterface
                 $search = $result[0];
                 $replace = "{{ include('Product/option_description.twig') }}" . $search;
                 $source = str_replace($search, $replace, $source);
+            } else {
+                $twig = '@ProductOption/default/Product/option_description.twig';
+                $event->addSnippet($twig);
             }
         }
 

@@ -1,0 +1,129 @@
+<!--/footer-->
+<style>
+    .cmnbtn.arrow_btn {
+        position: relative;
+    }
+    .cmnbtn.arrow_btn .cmnbtnicon02 {
+        position: absolute;
+        top: 23px;
+        right: 40px;
+    }
+    @media (max-width: 767px) {
+        .cmnbtn.arrow_btn .cmnbtnicon02 {
+            top: 12px;
+        }
+    }
+</style>
+<footer>
+	<div class="footerwrap">
+		<div class="footerbg"><img src="{{ asset('assets/img/common/bg_footer.png') }}" alt="Mimamori CUBE"></div>
+		<div class="footertop">
+			<div class="cmnbox01">
+				<div class="ftt01">
+					<div class="ftt02"><img src="{{ asset('assets/img/common/footer_01.png') }}"></div>
+					<h2 class="ftt03">ケアマネージャー ・福祉用貸与事業者の方へ</h2>
+					<p class="ftt04">「ラムロックアイズーみまもりCUBE-」はデモ設置（お試し設置）が可能です。<br>
+                        介護保険適用については、こちらより詳細をご破錫ください。</p>
+					<div class="ftt05">
+						<a href="{{ url('homepage') }}user_data/care_manager" class="cmnbtn typeft arrow_btn">
+							<span class="cmnbtntxt">詳細はこちら</span>
+							<span class="cmnbtnicon02"><img src="{{ asset('assets/img/common/icon_arrow.svg') }}"></span>
+						</a>
+					</div>
+					<ul class="ftt06">
+						<li class="ftt07">お電話でのお問い合わせ</li>
+						<li class="ftt08"><span class="tel"><img src="{{ asset('assets/img/common/icon_free.svg') }}">0120-927-760</span>​</li>
+						<li class="ftt09">9:30～18:00（月～土）</li>
+						<li class="ftt10">携帯からは：0948-96-8160</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="footernav">
+			<div class="cmnbox01">
+				<div class="ftn01">
+					<div class="ftlogo"><a href="{{ url('homepage') }}"><img src="{{ asset('assets/img/common/footer_logo.png') }}" alt="みまもりCUBE" class="pc"><img src="{{ asset('assets/img/common/sp_footer_logo.png') }}" alt="みまもりCUBE" class="sp"></a></div>
+					<ul class="ftad">
+						<li>株式会社ラムロック</li>
+						<li>〒820-1111<br class="pc">福岡県飯塚市勢田1950-1</li>
+					</ul>
+				</div>
+				<div class="ftn02">
+					<div class="fnav01">
+						<p class="fnav02">みまもりCUBEとは</p>
+						<ul class="fnav03">
+							<li><a href="{{ url('homepage') }}user_data/function/">機能紹介</a></li>
+							<li><a href="{{ url('homepage') }}user_data/about01/">活用方法</a></li>
+							<li><a href="{{ url('homepage') }}user_data/voice/">みまもりCUBEを使ってみて</a></li>  
+						</ul>
+					</div>
+					<div class="fnav01">
+						<p class="fnav02">お試し申し込み</p>
+						<ul class="fnav03">
+							<li>
+							    {% if is_granted('ROLE_USER') %}
+							        <a href="{{ url('mypage') }}">{{ 'マイページ'|trans }}</a>
+							    {% else %}
+							        <a href="{{ url('mypage_login') }}">{{ 'ログイン'|trans }}</a>
+							    {% endif %}
+							</li>
+							<li><a href="{{ url('entry') }}">会員登録</a></li>
+							<li><a href="{{ url('cart') }}/">カート</a></li>
+						</ul>
+					</div>
+					<div class="fnav01">
+						<p class="fnav02">ご利用方法</p>
+						<ul class="fnav03">
+							<li><a href="{{ url('homepage') }}user_data/flow/">月額料金・お申込みの流れ</a></li>
+							<li><a href="{{ url('homepage') }}user_data/first-price/">お買い物ガイド</a></li>
+							<li><a href="{{ url('homepage') }}user_data/first-kakunin/">本人確認書類とは</a></li>  
+							<li><a href="{{ url('homepage') }}user_data/first-cancel/">キャンセル・返品方法</a></li>
+						</ul>
+					</div>
+					<div class="fnav01">
+					    <p class="fnav02">その他</p>
+					    <ul class="fnav03">
+    					    <li><a href="{{ url('homepage') }}user_data/faq/">よくある質問</a></li>
+    					    <li><a href="{{ url('homepage') }}page/">新着情報</a></li>
+    					    <li><a href="{{ url('material') }}">検討資料請求</a></li>
+    					    <li><a href="{{ url('homepage') }}user_data/kaigohoken/">ラムロックアイズ<br class="sp">（保険適用について）</a></li>
+    					    <li><a href="{{ url('homepage') }}user_data/care_manager/">ケアマネージャー・<br>福祉用具貸与事業者の方へ</a></li>
+    					    <li><a href="{{ url('homepage') }}user_data/campaign/">お試し体験キャンペーン</a></li>
+    					</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footerbtm">
+			<div class="cmnbox01">
+				<ul class="btmnav01">
+					<li><a href="{{ url('homepage') }}user_data/makerpolicy/">メーカー直販ポリシー</a></li>
+					<li><a href="{{ url('homepage') }}user_data/first-tokutei/">特定商取引に基づく表記</a></li>
+				</ul>
+				<p class="copy">Copyright &copy; Ramrock Co., ltd. All Rights Reserved.</p>
+			</div>
+		</div>
+		<ul class="sp spbtmnav">
+			<li>
+				<a href="{{ url('material') }}" class="cmnbtn type01">
+					<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_material.svg') }}"></span>
+					<span class="cmnbtntxt">検討資料請求</span>
+				</a>
+			</li>
+			<li>
+					{% if is_granted('ROLE_USER') %}
+				        <a href="{{ url('cart') }}" class="cmnbtn type02">
+				    {% else %}
+					    <a href="{{ url('entry') }}" class="cmnbtn type02">
+					{% endif %}
+					<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_mail.svg') }}"></span>
+					<span class="cmnbtntxt">お試し申し込み</span>
+				</a>
+			</li>
+		</ul>
+		<div class="pagetop">
+			<a href="#" class="to_top"><img src="{{ asset('assets/img/common/btn_pagetop.svg') }}" alt="PAGETOP"></a>
+		</div>
+	</div>		
+</footer>
+<!--/footer-->

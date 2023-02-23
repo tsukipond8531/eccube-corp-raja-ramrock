@@ -43,11 +43,22 @@ use Eccube\Controller\AbstractShoppingController;
 use Customize\Form\Type\Front\InstallationAgentType;
 use Customize\Form\Type\Front\WatchTarget1Type;
 use Customize\Form\Type\Front\WatchTarget2Type;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
+use Symfony\Component\HttpFoundation\File\File;
+use Plugin\Coupon4\Repository\CouponRepository;
+use Plugin\Coupon4\Repository\CouponOrderRepository;
+use Plugin\Coupon4\Service\CouponService;
+use Eccube\Entity\Master\OrderStatus;
+use Plugin\SeEnquete4\Repository\EnqueteUserRepository;
+use Plugin\SeEnquete4\Repository\EnqueteRepository;
 
 !defined('INSTALLATION_AGENT_LABEL') && define('INSTALLATION_AGENT_LABEL', '設置代行オプション');
 !defined('ADDRESS_TYPE_INSTALL') && define('ADDRESS_TYPE_INSTALL', 'ADDRESS_TYPE_INSTALL');
 !defined('ADDRESS_TYPE_WATCH1') && define('ADDRESS_TYPE_WATCH1', 'ADDRESS_TYPE_WATCH1');
 !defined('ADDRESS_TYPE_WATCH2') && define('ADDRESS_TYPE_WATCH2', 'ADDRESS_TYPE_WATCH2');
+!defined('ENQUETE_ID') && define('ENQUETE_ID', 2);
+!defined('ENQUETE_DISCOUNT_PRICE') && define('ENQUETE_DISCOUNT_PRICE', 2600);
 
 class ShoppingController extends AbstractShoppingController
 {
@@ -71,16 +82,46 @@ class ShoppingController extends AbstractShoppingController
      */
     protected $orderRepository;
 
+    /**
+     * @var CouponService
+     */
+    private $couponService;
+
+    /**
+     * @var CouponRepository
+     */
+    private $couponRepository;
+
+    /**
+     * @var EnqueteUserRepository
+     */
+    protected $enqueteUserRepository;
+
+    /**
+     * @var EnqueteRepository
+     */
+    protected $enqueteRepository;
+
     public function __construct(
         CartService $cartService,
         MailService $mailService,
         OrderRepository $orderRepository,
+        CouponService $couponService,
+        CouponRepository $couponRepository,
+        CouponOrderRepository $couponOrderRepository,
+        EnqueteUserRepository $enqueteUserRepository,
+        EnqueteRepository $enqueteRepository,
         OrderHelper $orderHelper
     ) {
         $this->cartService = $cartService;
         $this->mailService = $mailService;
         $this->orderRepository = $orderRepository;
         $this->orderHelper = $orderHelper;
+        $this->couponService = $couponService;
+        $this->couponRepository = $couponRepository;
+        $this->couponOrderRepository = $couponOrderRepository;
+        $this->enqueteUserRepository = $enqueteUserRepository;
+        $this->enqueteRepository = $enqueteRepository;
     }
 
     /**
@@ -97,7 +138,7 @@ class ShoppingController extends AbstractShoppingController
      * @Route("/shopping", name="shopping", methods={"GET"})
      * @Template("Shopping/index.twig")
      */
-    public function index(PurchaseFlow $cartPurchaseFlow)
+    public function index(Request $request, PurchaseFlow $cartPurchaseFlow)
     {
         // ログイン状態のチェック.
         if ($this->orderHelper->isLoginRequired()) {
@@ -122,6 +163,33 @@ class ShoppingController extends AbstractShoppingController
         // 集計処理.
         log_info('[注文手続] 集計処理を開始します.', [$Order->getId()]);
         $flowResult = $this->executePurchaseFlow($Order, false);
+
+        // $campagin = true;
+        // $excludes = [OrderStatus::PENDING, OrderStatus::PROCESSING, OrderStatus::RETURNED];
+
+        // $Orders = $this->orderRepository
+        //     ->createQueryBuilder('o')
+        //     ->where('o.Customer = :Customer')
+        //     ->andWhere('o.OrderStatus NOT IN (:excludes)')
+        //     ->setParameter(':Customer', $Customer)
+        //     ->setParameter(':excludes', $excludes)
+        //     ->getQuery()
+        //     ->getResult();
+
+        // if (count($Orders)) $campagin = false;
+
+        // if ($Customer->getEnquete() && !$Customer->getCouponUsed()) {
+        //     if ($campagin) {
+        //         $Coupon = $this->couponRepository->find(1);
+        //     } else {
+        //         $Coupon = $this->couponRepository->find(2);
+        //     }
+        //     $couponProducts = $this->couponService->existsCouponProduct($Coupon, $Order);
+        //     $discount = $this->couponService->recalcOrder($Coupon, $couponProducts);
+
+        //     // クーポン情報を登録
+        //     $this->couponService->saveCouponOrder($Order, $Coupon, $Coupon->getCouponCd(), $Customer, $discount);
+        // }
         $this->entityManager->flush();
 
         if ($flowResult->hasError()) {
@@ -164,20 +232,59 @@ class ShoppingController extends AbstractShoppingController
             }
         }
 
-        $installationAgentForm = NULL;
+        $redirectParams = NULL;
+        if ($this->session->has('shopping_redirect_params')) {
+            $redirectParams = $this->session->get('shopping_redirect_params');
+            if ( array_key_exists( 'zeus', $redirectParams ) ) {
+                $zeus = $redirectParams['zeus'];
 
-        if ($isInstallationAgent) {
-            $installationAgentForm = $this->createForm(InstallationAgentType::class)->createView();
+                foreach ( $zeus as $key => $value ) {
+                    $key = str_replace("_", "", ucwords($key, " _"));
+                    if ( $form->has($key) ) {
+                        $form[$key]->setData($value);
+                    }
+                }
+            }
+            if ( array_key_exists( 'images', $redirectParams ) ) {
+                $form['images']->setData($redirectParams['images']);
+            }
+            if ( array_key_exists( 'add_images', $redirectParams ) ) {
+                $form['add_images']->setData($redirectParams['add_images']);
+            }
+            if ( array_key_exists( 'delete_images', $redirectParams ) ) {
+                $form['delete_images']->setData($redirectParams['delete_images']);
+            }
+            if ( array_key_exists( 'watch_target', $redirectParams ) ) {
+                $form['watch_target']->setData($redirectParams['watch_target']);
+            }
         }
 
-        $watchTarget1Form = $this->createForm(WatchTarget1Type::class)->createView();
-        $watchTarget2Form = $this->createForm(WatchTarget2Type::class)->createView();
+        $installationAgentForm = NULL;
+
+        $watchTarget1Form = $this->createForm(WatchTarget1Type::class);
+        if ($redirectParams && array_key_exists( 'watch_target1', $redirectParams )) {
+            $this->mapFormAndAddress($watchTarget1Form, $redirectParams['watch_target1']);
+        }
+
+        $watchTarget2Form = $this->createForm(WatchTarget2Type::class);
+        if ($redirectParams && array_key_exists( 'watch_target2', $redirectParams )) {
+            $this->mapFormAndAddress($watchTarget2Form, $redirectParams['watch_target2']);
+        }
+
+        if ($isInstallationAgent) {
+            $installationAgentForm = $this->createForm(InstallationAgentType::class);
+            if ($redirectParams && array_key_exists( 'installation_agent', $redirectParams )) {
+                $this->mapFormAndAddress($installationAgentForm, $redirectParams['installation_agent']);
+            }
+
+            $installationAgentForm = $installationAgentForm->createView();
+        }
 
         return [
             'form' => $form->createView(),
             'installationAgentForm' => $installationAgentForm,
-            'watchTarget1Form' => $watchTarget1Form,
-            'watchTarget2Form' => $watchTarget2Form,
+            'watchTarget1Form' => $watchTarget1Form->createView(),
+            'watchTarget2Form' => $watchTarget2Form->createView(),
             'Order' => $Order,
         ];
     }
@@ -222,10 +329,60 @@ class ShoppingController extends AbstractShoppingController
         $form = $this->createForm(OrderType::class, $Order);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $redirectParams = [];
+        $data = $form->getData()->toArray();
+        $zeus = array_filter( $data, function ( $key ) {
+            return str_contains( $key, 'zeus_' );
+        }, ARRAY_FILTER_USE_KEY );
+
+        $redirectParams['zeus'] = $zeus;
+
+        $this->session->set('shopping_redirect_params', $redirectParams);
+
+        $isInstallationAgent = false;
+        
+        $OrderItems = $Order->getMergedProductOrderItems();
+        foreach($OrderItems as $OrderItem) {
+            $OrderItemOptions = $OrderItem->getOrderItemOptions();
+
+            foreach($OrderItemOptions as $Option) {
+                if ($Option->getLabel() == INSTALLATION_AGENT_LABEL) {
+                    $isInstallationAgent = true;
+
+                    break;
+                }
+            }
+        }
+
+        $installationAgentForm = NULL;
+
+        if ($isInstallationAgent) {
+            $installationAgentForm = $this->createForm(InstallationAgentType::class);
+            $installationAgentForm->handleRequest($request);
+        }
+
+        $watchTarget1Form = $this->createForm(WatchTarget1Type::class);
+        $watchTarget2Form = $this->createForm(WatchTarget2Type::class);
+
+        $watchTarget1Form->handleRequest($request);
+        $watchTarget2Form->handleRequest($request);
+
+        if (($form->isSubmitted() && $form->isValid()) || (!empty($request->request->get('redirect_option')) && $request->request->get('redirect_option') == 'option0' )) {
             log_info('[リダイレクト] 集計処理を開始します.', [$Order->getId()]);
             $response = $this->executePurchaseFlow($Order);
             $this->entityManager->flush();
+
+            $redirectParams['images'] = $form['images']->getData();
+            $redirectParams['add_images'] = $form['add_images']->getData();
+            $redirectParams['add_images'] = $form['add_images']->getData();
+            $redirectParams['delete_images'] = $form['delete_images']->getData();
+            
+            $redirectParams['installation_agent'] = $isInstallationAgent ? $installationAgentForm->getData() : NULL;
+            $redirectParams['watch_target'] = $form['watch_target']->getData();
+            $redirectParams['watch_target1'] = $watchTarget1Form->getData();
+            $redirectParams['watch_target2'] = $watchTarget2Form->getData();
+
+            $this->session->set('shopping_redirect_params', $redirectParams);
 
             if ($response) {
                 return $response;
@@ -235,7 +392,7 @@ class ShoppingController extends AbstractShoppingController
             if (empty($redirectTo)) {
                 log_info('[リダイレクト] リダイレクト先未指定のため注文手続き画面へ遷移します.');
 
-                return $this->redirectToRoute('shopping');
+                return $this->forwardToRoute('shopping');
             }
 
             try {
@@ -261,8 +418,15 @@ class ShoppingController extends AbstractShoppingController
 
         log_info('[リダイレクト] フォームエラーのため, 注文手続き画面を表示します.', [$Order->getId()]);
 
+        if (!empty($installationAgentForm)) {
+            $installationAgentForm = $installationAgentForm->createView();
+        }
+
         return [
             'form' => $form->createView(),
+            'installationAgentForm' => $installationAgentForm,
+            'watchTarget1Form' => $watchTarget1Form->createView(),
+            'watchTarget2Form' => $watchTarget2Form->createView(),
             'Order' => $Order,
         ];
     }
@@ -305,13 +469,13 @@ class ShoppingController extends AbstractShoppingController
         $watchTarget2Form = $this->createForm(WatchTarget2Type::class);
         $watchTarget2Form->handleRequest($request);
 
+        $installationAgent = $installationAgentForm->getData();
+        $watchTarget1 = $watchTarget1Form->getData();
+        $watchTarget2 = $watchTarget2Form->getData();
+
         if ($form->isSubmitted() && $form->isValid()) {
             log_info('[注文確認] 集計処理を開始します.', [$Order->getId()]);
             $response = $this->executePurchaseFlow($Order);
-
-            $installationAgent = $installationAgentForm->getData();
-            $watchTarget1 = $watchTarget1Form->getData();
-            $watchTarget2 = $watchTarget2Form->getData();
 
             if(!empty($installationAgent)) {
                 $installationAgent->setType(ADDRESS_TYPE_INSTALL);
@@ -320,14 +484,14 @@ class ShoppingController extends AbstractShoppingController
 
                 $this->entityManager->persist($installationAgent);
             }
-            if(!empty($watchTarget1)) {
+            if($watchTarget1 && $watchTarget1->getName01() && $watchTarget1->getName02()) {
                 $watchTarget1->setType(ADDRESS_TYPE_WATCH1);
                 $watchTarget1->setOrder($Order);
                 $Order->addAddress($watchTarget1);
 
                 $this->entityManager->persist($watchTarget1);
             }
-            if(!empty($watchTarget2)) {
+            if($watchTarget2 && $watchTarget2->getName01() && $watchTarget2->getName02()) {
                 $watchTarget2->setType(ADDRESS_TYPE_WATCH2);
                 $watchTarget2->setOrder($Order);
                 $Order->addAddress($watchTarget2);
@@ -374,6 +538,9 @@ class ShoppingController extends AbstractShoppingController
 
             return [
                 'form' => $form->createView(),
+                'installationAgent' => $installationAgent,
+                'watchTarget1' => $watchTarget1,
+                'watchTarget2' => $watchTarget2,
                 'Order' => $Order,
             ];
         }
@@ -385,6 +552,9 @@ class ShoppingController extends AbstractShoppingController
 
         return [
             'form' => $form->createView(),
+            'installationAgent' => $installationAgent,
+            'watchTarget1' => $watchTarget1,
+            'watchTarget2' => $watchTarget2,
             'Order' => $Order,
         ];
     }
@@ -489,6 +659,42 @@ class ShoppingController extends AbstractShoppingController
             // メール送信
             log_info('[注文処理] 注文メールの送信を行います.', [$Order->getId()]);
             $this->mailService->sendOrderMail($Order);
+
+            $Customer = $this->getUser();
+            $Enquete = $this->enqueteRepository->find(ENQUETE_ID);
+            $EnqueteUser = $this->enqueteUserRepository->findBy(['Enquete' => $Enquete, 'customer_id' => $Customer->getId()]);
+            // if ($Customer->getEnquete() && !$Customer->getCouponUsed()) {
+            if ($EnqueteUser && !$Customer->getCouponUsed()) {
+                $Customer->setCouponUsed(true);
+                $this->entityManager->persist($Customer);
+            }
+
+            if ($Order->getPaymentMethod() == '口座自動振替') {
+                $this->session->set('is_eaccount', true);
+                $this->session->set('eaccount_order_id', $Order->getId());
+            } else {
+                $this->session->remove('is_eaccount');
+                $this->session->remove('eaccount_order_id');
+            }
+
+            $images = $form->get('add_images')->getData();
+            foreach ($images as $key => $image) {
+                if ($key) {
+                    $Order->setImage2($image);
+                    
+                    // 移動
+                    $file = new File($this->eccubeConfig['eccube_temp_image_dir'].'/'.$image);
+                    $file->move($this->eccubeConfig['eccube_save_image_dir']);
+                } else {
+                    $Order->setImage1($image);
+
+                    // 移動
+                    $file = new File($this->eccubeConfig['eccube_temp_image_dir'].'/'.$image);
+                    $file->move($this->eccubeConfig['eccube_save_image_dir']);
+                }
+            }
+
+            $this->entityManager->persist($Order);
             $this->entityManager->flush();
 
             log_info('[注文処理] 注文処理が完了しました. 購入完了画面へ遷移します.', [$Order->getId()]);
@@ -513,6 +719,7 @@ class ShoppingController extends AbstractShoppingController
 
         // 受注IDを取得
         $orderId = $this->session->get(OrderHelper::SESSION_ORDER_ID);
+        $this->session->remove('shopping_redirect_params');
 
         if (empty($orderId)) {
             log_info('[注文完了] 受注IDを取得できないため, トップページへ遷移します.');
@@ -867,5 +1074,72 @@ class ShoppingController extends AbstractShoppingController
         }
 
         return null;
+    }
+
+    /**
+     * @Route("/shopping/image/add", name="shopping_image_add", methods={"POST"})
+     */
+    public function addImage(Request $request)
+    {
+        if (!$request->isXmlHttpRequest() && $this->isTokenValid()) {
+            throw new BadRequestHttpException();
+        }
+
+        $images = $request->files->get('_shopping_order');
+
+        $allowExtensions = ['gif', 'jpg', 'jpeg', 'png'];
+        $files = [];
+        if (count($images) > 0) {
+            foreach ($images as $img) {
+                foreach ($img as $image) {
+                    //ファイルフォーマット検証
+                    $mimeType = $image->getMimeType();
+                    if (0 !== strpos($mimeType, 'image')) {
+                        throw new UnsupportedMediaTypeHttpException();
+                    }
+
+                    // 拡張子
+                    $extension = $image->getClientOriginalExtension();
+                    if (!in_array(strtolower($extension), $allowExtensions)) {
+                        throw new UnsupportedMediaTypeHttpException();
+                    }
+
+                    $filename = date('mdHis').uniqid('_').'.'.$extension;
+                    $image->move($this->eccubeConfig['eccube_temp_image_dir'], $filename);
+                    $files[] = $filename;
+                }
+            }
+        }
+
+        $event = new EventArgs(
+            [
+                'images' => $images,
+                'files' => $files,
+            ],
+            $request
+        );
+        $this->eventDispatcher->dispatch(EccubeEvents::ADMIN_PRODUCT_ADD_IMAGE_COMPLETE, $event);
+        $files = $event->getArgument('files');
+
+        return $this->json(['files' => $files], 200);
+    }
+
+    private function mapFormAndAddress($form, $address) {
+        if (!$form || !$address) return;
+
+        $prefRepository = $this->entityManager->getRepository(\Eccube\Entity\Master\Pref::class);
+
+        $form['name']['name01']->setData($address->getName01());
+        $form['name']['name02']->setData($address->getName02());
+        $form['kana']['kana01']->setData($address->getKana01());
+        $form['kana']['kana02']->setData($address->getKana02());
+        $form['company_name']->setData($address->getCompanyName());
+        $form['postal_code']->setData($address->getPostalCode());
+        if ($address->getPref() && $address->getPref()->getName()) {
+            $form['address']['pref']->setData( $prefRepository->findOneBy(['name' => $address->getPref()->getName()]) );
+        }
+        $form['address']['addr01']->setData($address->getAddr01());
+        $form['address']['addr02']->setData($address->getAddr02());
+        $form['phone_number']->setData($address->getPhoneNumber());
     }
 }

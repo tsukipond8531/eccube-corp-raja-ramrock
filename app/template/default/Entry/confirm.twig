@@ -102,6 +102,16 @@ file that was distributed with this source code.
             border-color: #262626;
             text-decoration: none;
         }
+        
+        .ec-registerRole .ec-borderedDefs dl {
+            padding: 15px 0;
+        }
+        .ec-registerRole .ec-borderedDefs dt {
+            padding-right: 10px;
+        }
+        .ec-registerRole .ec-borderedDefs dd {
+            padding-left: 10px;
+        }
     </style>
 {% endblock stylesheet %}
 
@@ -150,7 +160,7 @@ file that was distributed with this source code.
 <div class="ec-modifiedLayoutRole__contents">
     <div class="ec-registerRole">
         <div class="ec-pageHeader">
-            <h1>{{ '新規会員登録(確認)'|trans }}</h1>
+            <h1>{{ 'お試し体験お申込み確認（会員登録確認）'|trans }}</h1>
         </div>
         <div class="ec-off1Grid">
             <div class="ec-off1Grid__cell">
@@ -180,19 +190,6 @@ file that was distributed with this source code.
                                 {{ form.kana.kana02.vars.data }}
                                 {{ form_widget(form.kana.kana01, { type : 'hidden' }) }}
                                 {{ form_widget(form.kana.kana02, { type : 'hidden' }) }}
-                            </dd>
-                        </dl>
-                        <dl>
-                            <dt>
-                                <label class="ec-label" for="entry_identity">本人確認書類</label>
-                            </dt>
-                            <dd>
-                                <div class="col mb-2">
-                                    <div class="progress" style="display: none;">
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <div id="thumb" class="c-form__fileUploadThumbnails clearfix"></div>
-                                </div>
                             </dd>
                         </dl>
                         <dl>
@@ -230,6 +227,30 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
+                                {{ form_label(form.birth, '生年月日', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                {{ form.birth.vars.data ? form.birth.vars.data|date_day() }}
+                                {{ form_widget(form.birth.year, { type : 'hidden' }) }}
+                                {{ form_widget(form.birth.month, { type : 'hidden' }) }}
+                                {{ form_widget(form.birth.day, { type : 'hidden' }) }}
+                            </dd>
+                        </dl>
+                        {# <dl>
+                            <dt>
+                                {{ form_label(form.phone_number, '本人確認書類', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="col mb-2">
+                                    <div class="progress" style="display: none;">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div id="thumb" class="c-form__fileUploadThumbnails clearfix"></div>
+                                </div>
+                            </dd>
+                        </dl> #}
+                        <dl>
+                            <dt>
                                 {{ form_label(form.password, 'パスワード', { 'label_attr': { 'class': 'ec-label' }}) }}
                             </dt>
                             <dd>
@@ -240,13 +261,12 @@ file that was distributed with this source code.
                         </dl>
                         <dl>
                             <dt>
-                                {{ form_label(form.birth, '生年月日', { 'label_attr': { 'class': 'ec-label' }}) }}
+                                {{ form_label(form.password_tip_answer, 'パスワードを忘れた時のヒント', { 'label_attr': { 'class': 'ec-label' }}) }}
                             </dt>
                             <dd>
-                                {{ form.birth.vars.data ? form.birth.vars.data|date_day() }}
-                                {{ form_widget(form.birth.year, { type : 'hidden' }) }}
-                                {{ form_widget(form.birth.month, { type : 'hidden' }) }}
-                                {{ form_widget(form.birth.day, { type : 'hidden' }) }}
+                                ********
+                                {{ form_widget(form.password_tip_query, { type : 'hidden' }) }}
+                                {{ form_widget(form.password_tip_answer, { type : 'hidden' }) }}
                             </dd>
                         </dl>
 

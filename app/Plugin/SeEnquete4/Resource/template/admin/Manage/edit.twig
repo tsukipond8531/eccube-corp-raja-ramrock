@@ -1,0 +1,617 @@
+{#
+ Copyright(c) 2020 Shadow Enterprise, Inc. All rights reserved.
+ http://www.shadow-ep.co.jp/
+#}
+
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['se_enquete', 'se_enquete_admin_manage_new'] %}
+
+{% block title %}{{ 'se_enquete.admin.manage.title'|trans }}{% endblock %}
+{% block sub_title %}{% if editId != '' %}{{ 'se_enquete.admin.manage.sub_title_edit'|trans }}{% else %}{{ 'se_enquete.admin.manage.sub_title_new'|trans }}{% endif %}{% endblock %}
+
+{% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block javascript %}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+<script>
+$(function(){
+
+  /* 終了していればフォームは非活性化する */
+  var endFlg = '{{ endFlg }}';
+  if ( endFlg == 1 ) {
+    setReadOnlyForm();
+  }
+
+  /* 設問フォームが存在する場合 */
+  if ( $('.child-form-content').length ) {
+    initializeChildForm( 'initial' );
+  }
+
+  /* 個人情報の有無が有ならテキストを表示する */
+  if ( $('#manage_edit_personal_flg').length ) {
+    if ( $('#manage_edit_personal_flg option:selected').val() == 1 ) {
+      $('.block-personal-hidden').show();
+    }
+
+    $('#manage_edit_personal_flg').on('change', function() {
+      if ( $(this).val() == 1 ) {
+        $('.block-personal-hidden').show();
+      } else {
+        $('.block-personal-hidden').hide();
+      }
+    })
+  }
+
+  self.moveTo(20, 20);
+  self.focus();
+
+  $('.form_content_add_button').on('click', function(){
+    var now = this;
+    $(now).find('.icon-spinner').show();
+    //return addCustomEnqueteColumns(0);
+
+    endpoint = '{{ url('se_enquete_admin_manage_get_child_content', { uniqid: 'zzzzz' }) }}';
+
+    uniqid = getUniqueStr();
+    url = endpoint.replace('/zzzzz', '/'+uniqid);
+
+    $.ajax({
+      method: 'POST',
+      url: url
+    })
+      .done(function( json ) {
+        if ( json.status == true ) {
+          $.when(
+            $('#form_content_ajax_return #sortable').append(json.content)
+          ).done(function() {
+
+            /* 念のため初期化 */
+            var optionid = 'sort_' + uniqid;
+            $('#'+optionid).find('.switch-form-type').val('');
+            $('#'+optionid).find('.switch-radio-view').val(0);
+
+            initializeChildForm( 'add' );
+
+            var optionid = 'sort_' + uniqid;
+            if ( $('input[name="optionids"]').length ) {
+              $('input[name="optionids"]').val( $('input[name="optionids"]').val()+','+optionid );
+            } else {
+              $('<input />').attr('type', 'hidden')
+                .attr('name', 'optionids')
+                .attr('value', optionid)
+                .appendTo('form');
+            }
+
+          })
+        } else {
+          alert('取得に失敗しました');
+        }
+      })
+      .fail(function() {
+        alert('通信に失敗しました');
+      })
+      .always(function() {
+        $(now).find('.icon-spinner').hide();
+      });
+  })
+
+})
+
+function getUniqueStr( myStrong ) {
+  var strong = 1000;
+  if (myStrong) strong = myStrong;
+  return new Date().getTime().toString(16)  + Math.floor(strong*Math.random()).toString(16)
+}
+
+function initializeChildForm( mode ) {
+
+    if ( mode == 'initial' ) {
+      $('.switch-form-type').each(function(){
+        if ( $(this).val() != '' ) {
+          $(this).closest('.option-enquete-addform-header').siblings('.option-enquete-addform-column').find('.option-enquete-addform-column-'+$(this).val()).show();
+        }
+      })
+
+      $('.switch-radio-view').each(function(){
+        if ( $(this).val() == 0 ) {
+          $(this).parent().siblings('.view_text').show();
+          $(this).parent().siblings('.view_thumbnail').hide();
+        } else
+        if ( $(this).val() == 1 ) {
+          $(this).parent().siblings('.view_thumbnail').show();
+          $(this).parent().siblings('.view_text').hide();
+        }
+      })
+    }
+
+    /* sortable initialize */
+    $('#sortable').sortable({
+      stop: function(event, ui) {
+        var optionids = '';
+        $('#sortable .child-form-content').each(function(e){
+          optionids += $(this).attr('id')+',';
+        });
+        if ( $('input[name="optionids"]').length ) {
+          $('input[name="optionids"]').val(optionids);
+        } else {
+          $('<input />').attr('type', 'hidden')
+            .attr('name', 'optionids')
+            .attr('value', optionids)
+            .appendTo('form');
+        }
+      }
+    });
+    $('#sortable').disableSelection();
+
+    /* イベント追加 */
+    $('.switch-radio-view').on('change', function() {
+      if ( $(this).val() == 0 ) {
+        $(this).parent().siblings('.view_text').show();
+        $(this).parent().siblings('.view_thumbnail').hide();
+      } else
+      if ( $(this).val() == 1 ) {
+        $(this).parent().siblings('.view_thumbnail').show();
+        $(this).parent().siblings('.view_text').hide();
+      } else {
+        $(this).parent().siblings('.view_thumbnail').hide();
+        $(this).parent().siblings('.view_text').hide();
+      }
+    })
+
+    $('.switch-form-type').on('change', function() {
+      var now = this;
+      $.when(
+        $(now).closest('.option-enquete-addform-header').siblings('.option-enquete-addform-column').find('.option-form-type').hide()
+      ).done(function() {
+        $(now).closest('.option-enquete-addform-header').siblings('.option-enquete-addform-column').find('.option-enquete-addform-column-'+$(now).val()).show();
+      })
+    })
+
+
+    if ( typeof $._data( $('button.child-add').get(0), 'events' ) != 'undefined' ) {
+      $('button.child-add').off("click");  /* 既存削除 */
+    }
+    $('button.child-add').on('click', function() {
+      elem = $(this).parents('.child-add-button');
+      copy = $(elem).prev().clone(true);
+      $.when(
+          $(elem).before(copy)
+      ).done(function() {
+          $(copy).find('input').val('');
+          $(copy).find('button.close').show();
+          if ( $(copy).find('.col-img img').length ) {
+              $(copy).find('.col-img img').remove();
+          }
+
+          changeFlexibleFormNum(elem);
+      })
+    })
+
+    if ( typeof $._data( $('button.initial-flexible-form').get(0), 'events' ) != 'undefined' ) {
+      $('button.initial-flexible-form').off("click");  /* 既存削除 */
+    }
+    $('button.initial-flexible-form').on('click', function() {
+      elem = $(this).parents('.flexible-child-form');
+      $(this).parents('.row.flexible-row').fadeOut('normal', function(){
+        $(this).remove();
+        changeFlexibleFormNum(elem);
+      });
+    })
+
+
+}
+
+// フォームの番号を振り直す
+function changeFlexibleFormNum( elem ) {
+
+    if ( !$(elem).hasClass('flexible-child-form') ) {
+      var elem = $(elem).parents('.flexible-child-form');
+    }
+
+    var replaceList = [ '[type=text]', '[type=file]', 'select' ];
+    $.each(replaceList, function(key, val) {
+        if ( $(elem).find(val).length ) {
+            var countNum = 1;
+            $(elem).find(val).each(function() {
+                /* IDを振り直す */
+                nowId = $(this).attr('id');
+                nowName = $(this).attr('name');
+                newId = nowId.slice( 0, nowId.lastIndexOf('_') + 1 ) + countNum;
+                newName = nowName.slice( 0, nowName.lastIndexOf('_') + 1 ) + countNum + ']';
+                $(this).attr('id', newId);
+                $(this).attr('name', newName);
+                countNum++;
+            })
+        }
+    })
+
+}
+
+// 終了してる場合は編集不可とする
+function setReadOnlyForm() {
+
+    $('input,select,textarea').attr('readonly',true);
+    $('select').each(function() {
+        $( $(this).find('option') ).each(function() {
+            if ( $(this).attr('selected') != 'selected' ) {
+                $(this).remove();
+            }
+        });
+    })
+    $('input[type=file],button.close').remove();
+    $('input[name=thumb_del]').parent().remove();
+    $('input[type=radio]').prop('disabled', true);
+
+}
+
+</script>
+{% endblock javascript %}
+
+{% block stylesheet%}
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<style>
+.sortable-cursor {
+    cursor: move;
+}
+.inner-header {
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+    background-color: inherite;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    color: #437ec4;
+}
+.child-add {
+    /*padding-right: 1.125rem !important;*/
+}
+.child-form-content {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.col-img img {
+    width: 100%;
+}
+.np { padding: 0 !important; }
+textarea {
+    height: calc( 1.3em * 5 ) !important;
+    line-height: 1.3em !important;
+}
+.enquete-personal-text textarea {
+    height: calc( 1.3em * 20 ) !important;
+}
+.ui-tooltip {
+  background: black;
+  border: 2px solid white;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 5px;
+  font-weight: normal;
+  font-size: 0.875rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  text-transform: uppercase;
+  box-shadow: none;
+}
+</style>
+{% endblock stylesheet %}
+
+{% block main %}
+    {{ form_start(form) }}
+        <span class="p-country-name" style="display:none;">Japan</span>
+        {{ form_widget(form._token) }}
+        <div class="c-contentsArea__cols">
+            <div class="c-contentsArea__primaryCol">
+                <div class="c-primaryCol">
+
+                    {% if endFlg %}
+                    <div class="alert alert-warning m-3">
+                        <span class="font-weight-bold">{{ 'se_enquete.common.message.ended'|trans }}</span>
+                    </div>
+                    {% endif %}
+
+                    {% if errorFlg == true %}
+                    <div class="alert alert-danger m-3">
+                        <span class="font-weight-bold">{{ 'se_enquete.common.message.form_errors'|trans }}</span>
+                    </div>
+                    {% endif %}
+
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-8">
+                                    <span class="card-title">{{ 'se_enquete.admin.manage.info'|trans }}</span>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <a data-toggle="collapse" href="#ordererInfo"
+                                       aria-expanded="false" aria-controls="ordererInfo">
+                                        <i class="fa fa-angle-up fa-lg"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="collapse show ec-cardCollapse" id="ordererInfo">
+                            <div class="card-body">
+                                {% if editId != '' %}
+                                    <div class="row mb-2">
+                                        <div class="col-3">
+                                            <div class="d-inline-block" data-tooltip="true" data-placement="top" 
+                                                title="{{ 'se_enquete.admin.manage.tooltip.enquete_id'|trans }}">
+                                                <span>{{ 'se_enquete.admin.manage.enquete_id'|trans }}</span>
+                                                <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <p>{{ editId }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'se_enquete.admin.common.enquete_title'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.title) }}
+                                        {{ form_errors(form.title) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'se_enquete.admin.common.enquete_sub_title'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.sub_title) }}
+                                        {{ form_errors(form.sub_title) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                            title="{{ 'se_enquete.admin.manage.tooltip.member_existance'|trans }}">
+                                            <span>{{ 'se_enquete.admin.common.enquete_member_flg'|trans }}</span><span
+                                                class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                            <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <div class="row justify-content-start">
+                                                <div class="col-2">
+                                                    {{ form_widget(form.member_flg) }}
+                                                </div>
+                                                <div class="col">
+                                                    {{ form_errors(form.member_flg) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                            title="{{ 'se_enquete.admin.manage.tooltip.mail_existance'|trans }}">
+                                            <span>{{ 'se_enquete.admin.common.enquete_mail_flg'|trans }}</span><span
+                                                class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                            <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <div class="row justify-content-start">
+                                                <div class="col-2">
+                                                    {{ form_widget(form.mail_flg) }}
+                                                </div>
+                                                <div class="col">
+                                                    {{ form_errors(form.mail_flg) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'se_enquete.admin.common.enquete_address_list'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        {{ form_widget(form.address_list) }}
+                                        {{ form_errors(form.address_list) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3 d-inline-block" data-tooltip="true" data-placement="top"
+                                         title="{{ 'se_enquete.admin.manage.tooltip.thumbnail'|trans }}">
+                                        <span>{{ 'se_enquete.admin.common.enquete_thumbnail'|trans }}</span>
+                                        <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                    </div>
+                                    {% if thumbnail != '' %}
+                                    <div class="col-2 col-img">
+                                        <img src="{{ asset( 'SeEnquete4/assets/img/' ~ thumbnail, 'plugin') }}">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="checkbox" name="thumb_del" val="" /><span class="ml-2">{{ 'se_enquete.common.label.drop'|trans }}</span>
+                                    </div>
+                                    {% endif %}
+                                    <div class="col">
+                                        {{ form_widget(form.thumbnail) }}
+                                        {{ form_errors(form.thumbnail) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                            title="{{ 'se_enquete.admin.manage.tooltip.form_content'|trans }}">
+                                            <span>{{ 'se_enquete.admin.common.enquete_form_content'|trans }}</span>
+                                            <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="inner-header">
+                                            <div class="row">
+                                                <div class="col-8"><span class="content-inner-title">{{ 'se_enquete.admin.manage.inner_content'|trans }}</span></div>
+                                                <div class="col-4 text-right">
+                                                    <a data-toggle="collapse" href="#innerContentInfo"
+                                                          aria-expanded="false" aria-controls="innerContentInfo">
+                                                        <i class="fa fa-angle-up fa-lg"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="collapse show ec-cardCollapse" id="innerContentInfo">
+
+                                            <div id="form_content_ajax_return">
+                                                <div id="sortable" class="ui-sortable">
+                                                    {% if child_formHtml %}{{ child_formHtml|raw }}{% endif %}
+                                                </div>
+                                            </div>
+
+                                            {% if endFlg != true %}
+                                            <div class="mb-3 text-right">
+                                                <div class="form_content_add_button btn btn-ec-conversion px-5">
+                                                    <span>{{ 'se_enquete.admin.common.enquete_add_button'|trans }}</span>
+                                                    <span class="icon-spinner" style="display: none;"><i class="fa fa-spinner fa-pulse fa-fw"></i></span>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                            title="{{ 'se_enquete.admin.manage.tooltip.personal_flg'|trans }}">
+                                            <span>{{ 'se_enquete.admin.common.enquete_personal_flg'|trans }}</span>
+                                            <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <div class="row justify-content-start">
+                                                <div class="col-2">
+                                                    {{ form_widget(form.personal_flg) }}
+                                                </div>
+                                                <div class="col">
+                                                    {{ form_errors(form.personal_flg) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2 block-personal-hidden" style="display: none;">
+                                    <div class="col-3">
+                                        <span>{{ 'se_enquete.admin.common.enquete_personal_title'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3 enquete-personal-title">
+                                            {{ form_widget(form.personal_title) }}
+                                            {{ form_errors(form.personal_title) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2 block-personal-hidden" style="display: none;">
+                                    <div class="col-3">
+                                        <span>{{ 'se_enquete.admin.common.enquete_personal_text'|trans|nl2br }}</span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3 enquete-personal-text">
+                                            {{ form_widget(form.personal_text) }}
+                                            {{ form_errors(form.personal_text) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <span>{{ 'se_enquete.admin.common.enquete_submit_title'|trans }}</span>
+                                        <span class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            {{ form_widget(form.submit_title) }}
+                                            {{ form_errors(form.submit_title) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                            title="{{ 'se_enquete.admin.manage.tooltip.day_term'|trans }}">
+                                            <span>{{ 'se_enquete.admin.common.enquete_day_term'|trans }}</span><span
+                                                class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                            <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="row mb-6">
+                                            <div class="col-3">
+                                                {{ form_widget(form.start_date) }}
+                                            </div>
+                                            <div class="col-1 text-center"><span>〜</span></div>
+                                            <div class="col-3">
+                                                {{ form_widget(form.end_date) }}
+                                            </div>
+                                        </div>
+                                        <div class="row mb-6">
+                                            <div class="col-3">
+                                                {{ form_errors(form.start_date) }}
+                                            </div>
+                                            <div class="col-1"></div>
+                                            <div class="col-3">
+                                                {{ form_errors(form.end_date) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-3">
+                                        <div class="d-inline-block" data-tooltip="true" data-placement="top"
+                                            title="{{ 'se_enquete.admin.manage.tooltip.status'|trans }}">
+                                            <span>{{ 'se_enquete.admin.common.enquete_status'|trans }}</span><span
+                                                class="badge badge-primary ml-1">{{ 'admin.common.required'|trans }}</span>
+                                            <i class="fa fa-question-circle fa-lg ml-1"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <div class="row justify-content-start">
+                                                <div class="col-2">
+                                                    {{ form_widget(form.status) }}
+                                                    {{ form_errors(form.status) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="c-conversionArea">
+            <div class="c-conversionArea__container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-6">
+                        <div class="c-conversionArea__leftBlockItem">
+                            <a class="c-beseLink"
+                               href="{{ url('se_enquete_admin_manage_index') }}">
+                                <i class="fa fa-backward" aria-hidden="true"></i>
+                                <span>{{ 'se_enquete.common.label.back'|trans }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row align-items-center justify-content-end">
+                            <div class="col-auto">
+                                {% if endFlg != true %}<button class="btn btn-ec-conversion px-5" type="submit">{{ 'se_enquete.common.label.save'|trans }}</button>{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if child_optionIDs %}
+            <input type="hidden" name="optionids" value="{{ child_optionIDs }}">
+        {% endif %}
+    </form>
+{% endblock %}

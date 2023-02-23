@@ -27,6 +27,12 @@ use Plugin\ProductOption\Entity\OrderItemOption;
 use Plugin\ProductOption\Entity\OrderItemOptionCategory;
 use Plugin\ProductOption\Util\CommonUtil;
 
+use Plugin\SeEnquete4\Repository\EnqueteUserRepository;
+use Plugin\SeEnquete4\Repository\EnqueteRepository;
+
+!defined('ENQUETE_ID') && define('ENQUETE_ID', 2);
+!defined('ENQUETE_DISCOUNT_PRICE') && define('ENQUETE_DISCOUNT_PRICE', 2600);
+
 /**
  * @CartFlow
  * @ShoppingFlow
@@ -37,15 +43,29 @@ class OptionPreprocessor implements ItemPreprocessor
     private $cartService;
     private $taxRuleService;
 
+    /**
+     * @var EnqueteRepository
+     */
+    private $enqueteRepository;
+
+    /**
+     * @var EnqueteUserRepository
+     */
+    protected $enqueteUserRepository;
+
     public function __construct(
             EntityManagerInterface $entityManager,
             CartService $cartService,
+            EnqueteRepository $enqueteRepository,
+            EnqueteUserRepository $enqueteUserRepository,
             TaxRuleService $taxRuleService
             )
     {
         $this->entityManager = $entityManager;
         $this->cartService = $cartService;
         $this->taxRuleService = $taxRuleService;
+        $this->enqueteRepository = $enqueteRepository;
+        $this->enqueteUserRepository = $enqueteUserRepository;
     }
 
     /**
@@ -132,7 +152,24 @@ class OptionPreprocessor implements ItemPreprocessor
                                 $item->addOrderItemOption($OrderItemOption);
                                 $this->entityManager->persist($OrderItemOption);
                             }
-                            $item->setPrice($item->getPrice() + $optionPrice);
+                            $defaultPrice = $item->getPrice();
+                            $optionPrice = 0;
+
+                            $Customer = $item->getOrder()->getCustomer();
+                            $Enquete = $this->enqueteRepository->find(ENQUETE_ID);
+                            $EnqueteUser = $this->enqueteUserRepository->findBy(['Enquete' => $Enquete, 'customer_id' => $Customer->getId()]);
+
+                            if ( $EnqueteUser && !$Customer->getCouponUsed() ) {
+                                $defaultPrice = ENQUETE_DISCOUNT_PRICE;
+                            }
+
+                            if ( isset($OrderItemOption) && $OrderItemOption->getLabel() == '設置代行オプション' ) {
+                                $optionPrice = 18000;
+                                if ( $ProductClass1->getMaintenancePack() == 2 ) {
+                                    $optionPrice = 28000;
+                                }
+                            }
+                            $item->setPrice($defaultPrice + $optionPrice);
                             $item->setTax($item->getTax() + $optionTax);
                             $item->setOptionSerial($CartItem->getOptionSerial());
                             $item->setOptionSetFlg(true);

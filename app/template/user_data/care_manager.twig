@@ -1,6 +1,7 @@
 {% extends 'default_frame.twig' %}
 
 {% block main %}
+<link rel="stylesheet" href="{{ asset('assets/css/remodal-default-theme.css') }}">
 <!--content-->
 <div class="cmncontent">
 
@@ -35,10 +36,10 @@
 				</ul>
 				<div class="care_caut_btnWrap">
 					<div class="care_caut_btn">
-						<a href="#" class="cmnbtn type02"><span class="cmnbtntxt">介護保険適用チラシのダウンロード</span></a>
+						<a href="{{ asset('assets/pdf/0114c689b69960fdb826f32d8eb1136a.pdf') }}" class="cmnbtn type02" target="_blank"><span class="cmnbtntxt">介護保険適用チラシのダウンロード</span></a>
 					</div>
 					<div class="care_caut_btn">
-						<a href="#" class="cmnbtn type02"><span class="cmnbtntxt">補足資料のダウンロード</span></a>
+						<a href="{{ asset('assets/pdf/3345192998509dc16d69c010196e2c6b.pdf') }}" class="cmnbtn type02" target="_blank"><span class="cmnbtntxt">補足資料のダウンロード</span></a>
 					</div>
 				</div>
 			</div>
@@ -106,12 +107,12 @@
 	<section class="underblock">
 		<div class="cmnbox01">
 			<h2 class="undertitle01 type01">貸与事業所の方へ</h2>
-			<p class="care_office_txt">弊社製品のお取扱いをご検討の際は下記のお問合せフォームよりお気軽にお問い合わせください。<br>
-				弊社担当者よりご連絡いたします。</p>
-			<div class="kakunin03"><span>本人確認書類</span></div>
+			<p class="care_office_txt"弊社製品のお取扱いをご検討の際はお問合せフォームよりお気軽にお問い合わせください。<br>
+弊社担当者よりご連絡いたします。</p>
+			<div class="kakunin03"><span>厚生労働省</span></div>
 			<ul>
-				<li><span class="col_orange">・</span><a href="#" class="link_orange" target="_blank" rel="noopener">要支援状態または要介護状態のおおむねの状態像<span class="icon_blank_black"><img src="{{ asset('assets/img/care_manager/icon_blank.svg') }}" alt=""></span></a></li>
-				<li><span class="col_orange">・</span><a href="#" class="link_orange" target="_blank" rel="noopener">介護保険と福祉用具（パンフレット）<span class="icon_blank_black"><img src="{{ asset('assets/img/care_manager/icon_blank.svg') }}" alt=""></span></a></li>
+				<li><span class="col_orange">・</span><a href="https://www.mhlw.go.jp/topics/kaigo/kentou/15kourei/sankou3.html" class="link_orange" target="_blank" rel="noopener">要支援状態または要介護状態のおおむねの状態像<span class="icon_blank_black"><img src="{{ asset('assets/img/care_manager/icon_blank.svg') }}" alt=""></span></a></li>
+				<li><span class="col_orange">・</span><a href="https://www.mhlw.go.jp/topics/kaigo/osirase/dl/yougu.pdf" class="link_orange" target="_blank" rel="noopener">介護保険と福祉用具（パンフレット）<span class="icon_blank_black"><img src="{{ asset('assets/img/care_manager/icon_blank.svg') }}" alt=""></span></a></li>
 			</ul>
 		</div>
 	</section>
@@ -144,7 +145,7 @@
 								<div class="tfaq07">
 									<div class="tfaq05"><span>A</span></div>
 									<div class="tfaq08">介護保険以外でご利用される場合は、一般レンタルとなります。<br>
-										<a href="#" class="link_orange">詳細はこちら。</a><br>
+										<a class="hover link02" href="{{ url('homepage') }}campaign" target="_blank">詳細はこちら。</a><br>
 										その際は、スマートフォンへの接続や固定される場合の設置はお客様にご対応いただいております。</div>
 								</div>
 							</div>
@@ -213,16 +214,20 @@
 			<div class="ins_ctaBox">
 				<div class="ins_ctaBox_item">
 					<h4 class="ins_ctaBox_head">介護保険レンタル</h4>
-					<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="{{ url('homepage') }}user_data/flow/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
-					<a href="{{ url('homepage') }}user_data/material/" class="cmnbtn type02">
+					<p class="ins_ctaBox_txt">レンタル福祉用具（ラムロックアイズみまもりCUBE）の<br class="pc">レンタルをご希望の方は<a href="{{ url('homepage') }}care_manager/" class="link_orange">ケアマネージャ―様</a>にご相談ください。</p>
+					<a href="/html/template/default/assets/pdf/3345192998509dc16d69c010196e2c6b.pdf" target="_blank" class="cmnbtn type02">
 						<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta01.png') }}"></span>
-						<span class="cmnbtntxt">検討資料はこちら</span>
+						<span class="cmnbtntxt">検討資料請求はこちら</span>
 					</a>
 				</div>
 				<div class="ins_ctaBox_item type02">
 					<h4 class="ins_ctaBox_head">一般レンタル</h4>
 					<p class="ins_ctaBox_txt">みまもりCUBEはこちらからお申し込み可能です。<br class="pc">（弊社とご契約）</p>
-					<a href="{{ url('contact') }}" class="cmnbtn type02">
+					{% if is_granted('ROLE_USER') %}
+				        <a href="{{ url('cart') }}" class="cmnbtn type02">
+				    {% else %}
+					    <a href="{{ url('entry') }}" class="cmnbtn type02">
+					{% endif %}
 						<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_cta02.png') }}"></span>
 						<span class="cmnbtntxt">お申込みはこちら</span>
 					</a>
@@ -233,5 +238,52 @@
 
 </div>
 <!--/content-->
+
+<!--modal-->
+<div class="remodal" data-remodal-id="01" data-remodal-options="hashTracking:false">
+	<div data-remodal-action="close" class="remodal_close hover"><img src="{{ asset('assets/img/kaigohoken/icon_close.png') }}" alt="close"></div>
+	<h3 class="modal_head">介護保険レンタル（みまもりCUBE）と<br>
+		介護保険レンタル（ラムロックアイズ）の違い</h3>
+	<div class="modal_table">
+		<table class="ins_price_table">
+			<tr class="ins_price_tr">
+				<th class="ins_price_th type_orange width06"></th>
+				<th class="ins_price_th type_orange width07">介護保険<br>
+					適用</th>
+				<th class="ins_price_th type_orange width08">お申し込み方法</th>
+				<th class="ins_price_th type_orange width09">機能性能</th>
+				<th class="ins_price_th type_orange width010">検知機能</th>
+				<th class="ins_price_th type_orange width011">契約先</th>
+				<th class="ins_price_th type_orange width012">設置<br>
+					メンテナンス</th>
+			</tr>
+			<tr class="ins_price_tr">
+				<td class="ins_price_td type_head">みまもりCUBE</td>
+				<td class="ins_price_td type_img"><img src="{{ asset('assets/img/kaigohoken/icon_no.png') }}" alt=""></td>
+				<td class="ins_price_td">弊社HPより</td>
+				<td class="ins_price_td">同等</td>
+				<td class="ins_price_td">オプション<br>
+					申し込み</td>
+				<td class="ins_price_td">弊社</td>
+				<td class="ins_price_td">ご契約者様</td>
+			</tr>
+			<tr class="ins_price_tr">
+				<td class="ins_price_td type_head">ラムロックアイズ<br>
+					-みまもりCUBE-</td>
+				<td class="ins_price_td type_img"><img src="{{ asset('assets/img/kaigohoken/icon_ok.png') }}" alt=""></td>
+				<td class="ins_price_td">ケアマネージャーへ<br>
+					ご相談ください</td>
+				<td class="ins_price_td">同等</td>
+				<td class="ins_price_td">検知機能必須<br>
+					（徘徊感知機器の使い方）</td>
+				<td class="ins_price_td">福祉用具<br>
+					レンタル事業所</td>
+				<td class="ins_price_td">福祉用具<br>
+					レンタル事業所</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<!--/modal-->
 
 {% endblock %}

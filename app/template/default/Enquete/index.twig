@@ -1,0 +1,263 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% extends 'default_frame.twig' %}
+
+{% form_theme form 'Form/form_div_layout.twig' %}
+
+{% block stylesheet %}
+    <style>
+        .ec-registerRole .ec-borderedDefs dl {
+            padding: 15px 0;
+        }
+        
+        .ec-registerRole .ec-borderedDefs dd label {
+            display:inline;
+        }
+
+        .ec-registerRole .ec-borderedDefs dd label::after {
+            content: '\a';
+            white-space: pre;
+        }
+
+        @media only screen and (min-width: 768px) {
+            .ec-registerRole .ec-borderedDefs dt {
+                padding-right: 20px;
+            }
+            .ec-registerRole .ec-borderedDefs dd {
+                padding-left: 20px;
+            }
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block main %}
+<div class="ec-modifiedLayoutRole__contents">
+    <div class="ec-registerRole">
+        <div class="ec-pageHeader">
+            <h1>{{ 'アンケート回答'|trans }}</h1>
+        </div>
+        <div class="ec-off1Grid">
+            <div class="ec-off1Grid__cell">
+                <form method="post" action="{{ url('enquete') }}" novalidate class="h-adr">
+                    {{ form_widget(form._token) }}
+                    <p class="ec-para-normal">
+                        アンケートにご協⼒いただいた⽅には、特典としてキャンペーン価格を330円割引させていただいております。<br />
+                        ※カメラ申込時にアンケート割引価格が適⽤されます。
+                    </p>
+                    <div class="ec-borderedDefs">
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query1, 'みまもりCUBEを利用するきっかけは？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query1) ? ' error' }}">
+                                    {{ form_widget(form.query1) }}
+                                    {{ form_errors(form.query1) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query2, 'みまもりCUBE知ったきっかけは？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query2) ? ' error' }}">
+                                    {{ form_widget(form.query2) }}
+                                    {{ form_errors(form.query2) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query3, '具体的にどの様な事が心配ですか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query3) ? ' error' }}">
+                                    {{ form_widget(form.query3) }}
+                                    {{ form_errors(form.query3) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query4, 'いつ頃からみまもりカメラを探されていましたか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query4) ? ' error' }}">
+                                    {{ form_widget(form.query4) }}
+                                    {{ form_errors(form.query4) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query5, '今まで見守り等をする為にご利用になった商品はありますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query5) ? ' error' }}">
+                                    {{ form_widget(form.query5) }}
+                                    {{ form_errors(form.query5) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                ホームページについて教えてください <br />
+                                <label class="ec-label required">
+                                    【わかりやすかったこと】具体的にどの部分がそう思われましたか？
+                                </label><br />
+                                ※複数回答可
+                                <span class="ec-required">必須</span>
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query6_1) ? ' error' }}">
+                                    {{ form_widget(form.query6_1) }}
+                                    {{ form_errors(form.query6_1) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                ホームページについて教えてください <br />
+                                <label class="ec-label required">
+                                    【わかりづらかったこと】具体的にどの部分がそう思われましたか？
+                                </label><br />
+                                ※複数回答可
+                                <span class="ec-required">必須</span>
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query6_2) ? ' error' }}">
+                                    {{ form_widget(form.query6_2) }}
+                                    {{ form_errors(form.query6_2) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query7, 'みまもりCUBEのどこに魅力を感じましたか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query7) ? ' error' }}">
+                                    {{ form_widget(form.query7) }}
+                                    {{ form_errors(form.query7) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query8, 'みまもりCUBEのどの機能をメインに使われる予定ですか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query8) ? ' error' }}">
+                                    {{ form_widget(form.query8) }}
+                                    {{ form_errors(form.query8) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query9, '普段、SNSを利用していますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query9) ? ' error' }}">
+                                    {{ form_widget(form.query9) }}
+                                    {{ form_errors(form.query9) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query9_other, '上記質問で「利用している」とお答えいただいたは、ご利用のSNSを選択してください。(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query9_other) ? ' error' }}">
+                                    {{ form_widget(form.query9_other) }}
+                                    {{ form_errors(form.query9_other) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query10, 'みまもりＣＵＢＥを設置する都道府県を教えてください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-select{{ has_errors(form.query10) ? ' error' }}">
+                                    {{ form_widget(form.query10) }}
+                                    {{ form_errors(form.query10) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query11, 'ライブ映像・録画の確認、声かけ、現地の音を聞く　これらの機能を使用できて月額3,900円の価格はどう思われますか？', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query11) ? ' error' }}">
+                                    {{ form_widget(form.query11) }}
+                                    {{ form_errors(form.query11) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query12, '今回お申込みいただくまでにお電話やメール等でお問合せはされましたか？(複数回答可)', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-checkbox{{ has_errors(form.query12) ? ' error' }}">
+                                    {{ form_widget(form.query12) }}
+                                    {{ form_errors(form.query12) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        <dl>
+                            <dt>
+                                {{ form_label(form.query13, '最後にご意見・ご質問をお聞かせください', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            </dt>
+                            <dd>
+                                <div class="ec-input{{ has_errors(form.query13) ? ' error' }}">
+                                    {{ form_widget(form.query13) }}
+                                    {{ form_errors(form.query13) }}
+                                </div>
+                            </dd>
+                        </dl>
+                        {% for f in form|filter(f => f.vars.eccube_form_options.auto_render) %}
+                            {% if f.vars.eccube_form_options.form_theme %}
+                                {% form_theme f f.vars.eccube_form_options.form_theme %}
+                                {{ form_row(f) }}
+                            {% else %}
+                                <dl>
+                                    <dt>
+                                        {{ form_label(f) }}
+                                    </dt>
+                                    <dd>
+                                        <div class="{{ f.vars.eccube_form_options.style_class }}{{ has_errors(f) ? ' error' }}">
+                                            {{ form_widget(f) }}
+                                            {{ form_errors(f) }}
+                                        </div>
+                                    </dd>
+                                </dl>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="ec-registerRole__actions">
+                        <div class="ec-off4Grid">
+                            <div class="ec-off4Grid__cell">
+                                <button class="ec-blockBtn--action" type="submit" name="mode" value="confirm">{{ '同意する'|trans }}</button>
+                                <a class="ec-blockBtn--cancel" href="{{ url('homepage') }}">{{ '同意しない'|trans }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

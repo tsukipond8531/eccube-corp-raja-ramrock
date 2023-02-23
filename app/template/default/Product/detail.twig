@@ -89,6 +89,41 @@ file that was distributed with this source code.
             height: 0;
         }
 
+        #ec-price-modal table {
+            width: 100%;
+        }
+
+        #ec-price-modal table,
+        #ec-price-modal th,
+        #ec-price-modal td {
+            border: 1px solid #ddd;
+        }
+
+        #ec-price-modal th,
+        #ec-price-modal td {
+            padding: 10px;
+        }
+
+        #ec-price-modal-link {
+            margin-top: 15px;
+        }
+
+        @media only screen and (max-width: 767px) {
+            #ec-price-modal .ec-role {
+                padding-left: 10px;
+                padding-right: 10px;
+                font-size: 14px;
+            }
+
+            #ec-price-modal table {
+                word-break: keep-all;
+            }
+
+            #ec-price-modal th,
+            #ec-price-modal td {
+                padding: 0px;
+            }
+        }
     </style>
 {% endblock %}
 
@@ -141,6 +176,9 @@ file that was distributed with this source code.
     </script>
     <script>
         $(function() {
+            $('#ec-price-modal-link').on('click', function(){
+                $('#ec-price-modal').show();
+            });
             $('.add-cart').on('click', function(event) {
                 {% if form.classcategory_id1 is defined %}
                 // 規格1フォームの必須チェック
@@ -187,7 +225,8 @@ file that was distributed with this source code.
                         $('#ec-modal-header').html(this);
                     });
 
-                    $('.ec-modal').show()
+                    // $('.ec-modal').show();
+                    $('#ec-cart-modal').show();                    
 
                     // カートブロックを更新する
                     $.ajax({
@@ -274,48 +313,48 @@ file that was distributed with this source code.
                             <li class="ec-productRole__tag tag_{{ Tag.id }}">{{ Tag }}</li>
                         {% endfor %}
                     </ul>
-                    {# 通常価格 #}
-                    {% if Product.hasProductClass -%}
-                        <div class="ec-productRole__priceRegular">
-                            {% if Product.getPrice01Min is not null and Product.getPrice01IncTaxMin == Product.getPrice01IncTaxMax %}
-                                <span class="ec-productRole__priceRegularPrice">{{ '通常価格'|trans }}：<span class="price01-default">{{ Product.getPrice01IncTaxMin|price }}</span></span>
-                                <span class="ec-productRole__priceRegularTax">{{ '税込'|trans }}</span>
-                            {% elseif Product.getPrice01Min is not null and Product.getPrice01Max is not null %}
-                                <span class="ec-productRole__priceRegularPrice">{{ '通常価格'|trans }}：<span class="price01-default">{{ Product.getPrice01IncTaxMin|price }}～ {{ Product.getPrice01IncTaxMax|price }}</span></span>
-                                <span class="ec-productRole__priceRegularTax">{{ '税込'|trans }}</span>
-                            {% endif %}
-                        </div>
-                    {% else %}
-                        {% if Product.getPrice01Max is not null %}
-                            <span class="ec-productRole__priceRegularPrice">{{ '通常価格'|trans }}：{{ Product.getPrice01IncTaxMin|price }}</span>
-                            <span class="ec-productRole__priceRegularTax">{{ '税込'|trans }}</span>
-                        {% endif %}
-                    {% endif %}
-                    {# 販売価格 #}
-                    <div class="ec-productRole__price">
-                        {% if Product.hasProductClass -%}
-                            {% if Product.getPrice02IncTaxMin == Product.getPrice02IncTaxMax %}
-                                <div class="ec-price">
-                                    {{ '初期事務手数料'|trans }}： <span class="ec-price__price price02-default">{{ Product.getPrice02IncTaxMin|price }}</span>
-                                    <span class="ec-price__tax">{{ '税込'|trans }}</span>
-                                </div>
-                            {% else %}
-                                <div class="ec-price">
-                                    {{ '初期事務手数料'|trans }}： <span class="ec-price__price price02-default">{{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}</span>
-                                    <span class="ec-price__tax">{{ '税込'|trans }}</span>
-                                </div>
-                            {% endif %}
-                        {% else %}
+                    {# キャンペーン通常料金 #}
+                    {% if campagin %}
+                        <div class="ec-productRole__price">
                             <div class="ec-price">
-                                {{ '初期事務手数料'|trans }}： <span class="ec-price__price">{{ Product.getPrice02IncTaxMin|price }}</span>
+                                <span class="cs-price-label">{{ 'キャンペーン通常料金'|trans }}</span>： <span class="ec-price__price campagin-price">{{ '3190'|price }}</span>
                                 <span class="ec-price__tax">{{ '税込'|trans }}</span>
                             </div>
-                        {% endif %}
+                        </div>
+                    {% else %}
+                        {# 販売価格 #}
+                        <div class="ec-productRole__price">
+                            {% if Product.hasProductClass -%}
+                                {% if Product.getPrice02IncTaxMin == Product.getPrice02IncTaxMax %}
+                                    <div class="ec-price">
+                                        <span class="cs-price-label">{{ '初期事務手数料'|trans }}</span>： <span class="ec-price__price price02-default">{{ Product.getPrice02IncTaxMin|price }}</span>
+                                        <span class="ec-price__tax">{{ '税込'|trans }}</span>
+                                    </div>
+                                {% else %}
+                                    <div class="ec-price">
+                                        <span class="cs-price-label">{{ '初期事務手数料'|trans }}</span>： <span class="ec-price__price price02-default">{{ Product.getPrice02IncTaxMin|price }} ～ {{ Product.getPrice02IncTaxMax|price }}</span>
+                                        <span class="ec-price__tax">{{ '税込'|trans }}</span>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                                <div class="ec-price">
+                                    <span class="cs-price-label">{{ '初期事務手数料'|trans }}</span>： <span class="ec-price__price">{{ Product.getPrice02IncTaxMin|price }}</span>
+                                    <span class="ec-price__tax">{{ '税込'|trans }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    {# アンケート割引適用時 #}
+                    <div class="ec-productRole__price">
+                        <div class="ec-price">
+                            <span class="cs-price-label">{{ 'アンケート割引適用時'|trans }}</span>： <span class="ec-price__price enquete-price">{{ '2860'|price }}</span>
+                            <span class="ec-price__tax">{{ '税込'|trans }}</span>
+                        </div>
                     </div>
-                    {# 月額利用料 #}
+                    {# 月額料金 #}
                     <div class="ec-productRole__price">                        
                         <div class="ec-price">
-                            {{ '月額利用料'|trans }}： <span class="ec-price__price default-price">{{ '4290'|price }}</span>
+                            <span class="cs-price-label">{{ '月額料金'|trans }}</span>： <span class="ec-price__price default-price">{{ '4290'|price }}</span>
                             <span class="ec-price__tax">{{ '税込/月'|trans }}</span>
                         </div>
                     </div>
@@ -325,8 +364,76 @@ file that was distributed with this source code.
                             {{ '商品コード'|trans }}： <span class="product-code-default">{{ Product.code_min }}{% if Product.code_min != Product.code_max %} ～ {{ Product.code_max }}{% endif %}</span>
                         </div>
                     {% endif %}
+                    <div>
+                        <a id="ec-price-modal-link" class="ec-inlineBtn--action">料金表はこちら</a>
+                    </div>
+                    <div class="ec-modal" id="ec-price-modal">
+                        <div class="ec-modal-overlay">
+                            <div class="ec-modal-wrap">
+                                <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
+                                <div id="ec-modal-header" class="text-center"><h2>{{ '料金表'|trans }}</h2></div>
+                                <div class="ec-modal-box">
+                                    <div class="ec-role">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>1年契約</td>
+                                                    <td>短期契約</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>検知オプションなし</td>
+                                                    <td>1台</td>
+                                                    <td>4,290円(税込)</td>
+                                                    <td>6,490円(税込)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>検知オプションなし</td>
+                                                    <td>2台</td>
+                                                    <td>7,480円(税込)</td>
+                                                    <td>11,880円(税込)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>検知オプションあり</td>
+                                                    <td>1台</td>
+                                                    <td>5,390円(税込)</td>
+                                                    <td>7,590円(税込)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>検知オプションあり</td>
+                                                    <td>2台</td>
+                                                    <td>9,680円(税込)</td>
+                                                    <td>14,080円(税込)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        検知オプションなし <br />
+                                                        検知オプションあり
+                                                    </td>
+                                                    <td>
+                                                        1台 <br />
+                                                        1台
+                                                    </td>
+                                                    <td>8,580円(税込)</td>
+                                                    <td>12,980円(税込)</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <p style="margin-top: 15px;">
+                                            現在のご利用台数に追加で、1台ごとに1,100円引き <br />
+                                            例）検知オプションなし1台＋検知オプションあり1台 1年契約 <br />
+                                            4,290円＋5,390円-1,100円=8,580円
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {# 関連カテゴリ #}
-                    {% if Product.ProductCategories is not empty %}
+                    {# {% if Product.ProductCategories is not empty %}
                         <div class="ec-productRole__category">
                             <div>{{ '関連カテゴリ'|trans }}</div>
                             {% for ProductCategory in Product.ProductCategories %}
@@ -340,11 +447,14 @@ file that was distributed with this source code.
                                 </ul>
                             {% endfor %}
                         </div>
-                    {% endif %}
+                    {% endif %} #}
                     <form action="{{ url('product_add_cart', {id:Product.id}) }}" method="post" id="form1" name="form1">
                         {% if Product.stock_find %}
                             <div class="ec-productRole__actions">
                                 {% if form.classcategory_id1 is defined %}
+                                    {% if campagin %}
+                                        {{ '現在検討中のプランをご選択ください。プラン内容は本契約時に変更可能です。 <br /><br />'|raw|nl2br }}
+                                    {% endif %}
                                     <div class="ec-select">
                                         {{ form_widget(form.classcategory_id1) }}
                                         {{ form_errors(form.classcategory_id1) }}
@@ -356,14 +466,17 @@ file that was distributed with this source code.
                                         </div>
                                     {% endif %}
                                 {% endif %}
-                                <div class="ec-numberInput"><span>{{ '数量'|trans }}</span>
-                                    {{ form_widget(form.quantity) }}
-                                    {{ form_errors(form.quantity) }}
+                                <div class="ec-numberInput">
+                                    <div style="display: none">
+                                        <span>{{ '数量'|trans }}</span>
+                                        {{ form_widget(form.quantity, { attr : { value : '1' } }) }}
+                                        {{ form_errors(form.quantity) }}
+                                    </div>
                                 </div>
                             </div>
                             <div class="ec-productRole__btn">
                                 <button type="submit" class="ec-blockBtn--action add-cart">
-                                    {{ 'カートに入れる'|trans }}
+                                    {{ 'お申込み手続きへ'|trans }}
                                 </button>
                             </div>
                         {% else %}
@@ -376,14 +489,13 @@ file that was distributed with this source code.
 
                         {{ form_rest(form) }}
                     </form>
-                    <div class="ec-modal">
+                    <div class="ec-modal" id="ec-cart-modal">
                         <div class="ec-modal-overlay">
                             <div class="ec-modal-wrap">
                                 <span class="ec-modal-close"><span class="ec-icon"><img src="{{ asset('assets/icon/cross-dark.svg') }}" alt=""/></span></span>
                                 <div id="ec-modal-header" class="text-center">{{ 'カートに追加しました。'|trans }}</div>
                                 <div class="ec-modal-box">
                                     <div class="ec-role">
-                                        <span class="ec-inlineBtn--cancel">{{ 'お買い物を続ける'|trans }}</span>
                                         <a href="{{ url('cart') }}" class="ec-inlineBtn--action">{{ 'カートへ進む'|trans }}</a>
                                     </div>
                                 </div>
@@ -405,7 +517,8 @@ file that was distributed with this source code.
                             </div>
                         </form>
                     {% endif %}
-                    <div class="ec-productRole__description">{{ Product.description_detail|raw|nl2br }}
+                    <div class="ec-productRole__description">
+                        {{ Product.description_detail|raw|nl2br }}
                     </div>
                 </div>
             </div>
@@ -415,5 +528,6 @@ file that was distributed with this source code.
                  {{ include(template_from_string(Product.freearea)) }}
             </div>
         {% endif %}
+        {{ render(path('block_calendar')) }}
     </div>
 {% endblock %}

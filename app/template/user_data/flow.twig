@@ -1,6 +1,8 @@
 {% extends 'default_frame.twig' %}
 
 {% block main %}
+<link rel="stylesheet" href="{{ asset('assets/css/remodal-default-theme.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/remodal.css') }}">
 <!--content-->
 <div class="cmncontent">
 
@@ -14,7 +16,7 @@
 						<span class="underMv_cont_head">月額料金・<br>お申し込みの流れ</span>
 					</h2>
 					<p class="underMv_cont_txt">1年プランと短期プランの2つのプランからお選びいただけます。<br>
-						ご契約後は必要に応じてデータ通信量の追加や検知オプションのご利用を<br class="pc">おすすめします。</p>
+						ご契約後は必要に応じてデータ容量の追加や検知オプションのご利用を<br class="pc">おすすめします。</p>
 				</div>
 			</div>
 		</div>
@@ -86,13 +88,17 @@
 						<p class="cta07"><span>期間中のキャンセルも可能！</span></p>
 						<ul class="cta08">
 							<li>
-								<a href="{{ url('homepage') }}user_data/campaign/" class="cmnbtn type01 typecta">
+								<a href="{{ url('homepage') }}campaign/" class="cmnbtn type01 typecta">
 									<span class="cmnbtntxt">キャンペーンの詳細を見る</span>
 									<span class="cmnbtnicon02"><img src="{{ asset('assets/img/common/icon_arrow.svg') }}"></span>
 								</a>
 							</li>
 							<li>
-								<a href="{{ url('homepage') }}user_data/material/" class="cmnbtn type02">
+								{% if is_granted('ROLE_USER') %}
+        					        <a href="{{ url('cart') }}" class="cmnbtn type02">
+        					    {% else %}
+        						    <a href="{{ url('entry') }}" class="cmnbtn type02">
+        						{% endif %}
 									<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_mail.svg') }}"></span>
 									<span class="cmnbtntxt">お試し申し込み</span>
 								</a>
@@ -168,27 +174,2476 @@
 				</div>
 			</div>
 		</section>
+		
+		<style>
+			.choiceBlock {
+				padding: 40px 0;
+			}
+
+			.choiceSubTit.midashi_none {
+				background: #f56e3d;
+				color: #fefefe;
+				padding: 14px 80px;
+				text-align: center;
+				line-height: 1.2;
+				font-size: 1.4em;
+				margin: 0 0 24px
+			}
+
+			.choiceList_4 .choiceSubTit {
+				margin: 0 0 14px
+			}
+
+			.choiceCnt {
+				padding: 0 80px
+			}
+
+			.choiceList {
+				counter-reset: choice;
+				padding: 10px 0 0
+			}
+
+			.choiceList_2 .choiceList {
+				padding: 40px 0 0
+			}
+
+			.choiceList li {
+				margin: 0 0 20px
+			}
+
+			.choiceList_2 .choiceList li {
+				margin: 0 0 40px
+			}
+
+			.choiceList span {
+				display: block;
+				cursor: pointer;
+				background: #fff;
+				padding: 20px 20px 20px 100px;
+				position: relative;
+				font-size: 1.3em;
+				overflow: hidden;
+				text-decoration: none;
+				border-radius: 6px;
+				box-shadow: 0 0 8px #c8c8c8
+			}
+
+			.choiceList span:before {
+				counter-increment: choice;
+				content: counter(choice, upper-alpha);
+				font-family: "Times New Roman",serif;
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				background: #f56e3d;
+				color: #fefefe;
+				width: 80px;
+				padding: 0;
+				text-align: center;
+				font-size: 2em
+			}
+
+			.choiceList_4 .choiceList span {
+				padding-top: 10px;
+				padding-bottom: 10px
+			}
+
+			.choiceList_4 .choiceList span:before {
+				line-height: 1.2
+			}
+
+			.choiceBtn_lnk {
+				clear: both
+			}
+
+			.choiceBtn_lnk span {
+				cursor: pointer;
+				text-decoration: none;
+				vertical-align: middle;
+				font-size: 1.2em;
+				margin: 0 2.5em 0 0
+			}
+
+			.choiceBtn_lnk span:last-child {
+				margin-right: 0
+			}
+
+			.choiceBtn_lnk span:before {
+				content: "";
+				display: inline-block;
+				margin: 0 6px 0 0;
+				width: 18px;
+				height: 18px;
+				background: url(https://ramrock-eyes.test01.biz/html/template/default/assets/img/flow/choice_arrow.png) no-repeat 0 0
+			}
+
+			.choiceLastArea {
+				margin: 0 0 14px
+			}
+
+			.choiceLast_lef {
+				width: 40%;
+				float: left;
+				font-weight: bold;
+				text-align: center
+			}
+
+			.choiceLast_rig {
+				width: 58%;
+				float: right
+			}
+
+			.choiceLast_subTit {
+				display: block
+			}
+
+			.choiceLast_price {
+				display: inline-block;
+				font-size: 3.1em;
+				border-bottom: 7px double #f85252;
+				padding: 0 10px;
+				line-height: 1;
+				letter-spacing: 0
+			}
+
+			.choiceLast_column {
+				text-align: center;
+				font-size: .85em;
+				table-layout: fixed
+			}
+
+			.choiceLast_column th, .choiceLast_column td {
+				box-shadow: none;
+				padding: 6px 2px
+			}
+
+			.choiceLast_column th {
+				background: #ffe3d9;
+				font-weight: normal;
+				width: 19%
+			}
+
+			.choiceLast_blank {
+				border: none
+			}
+
+			.choiceLast_column th.choiceLast_blank {
+				width: 1.25%;
+				background: none
+			}
+
+			.choiceList_end .choiceCnt {
+				padding: 0 20px
+			}
+
+			.choiceLastMsg {
+				border: 1px solid #f85252;
+				color: #f85252;
+				text-align: center;
+				padding: 4px;
+				margin: 0 0 14px
+			}
+
+			.floatbox:after {
+				clear: both;
+			}
+
+			.floatbox:before, .floatbox:after {
+				content: " ";
+				display: table;
+			}
+		</style>
 
 		<section class="flow_sim">
-			<div class="cmnbox01">
-				<div class="flow_sim_box">
-					<div class="flow_sim_icon"><img src="{{ asset('assets/img/flow/icon_sim.png') }}" alt=""></div>
-					<div class="flow_sim_img"><img src="{{ asset('assets/img/flow/pic07.png') }}" alt=""></div>
-					<div class="flow_sim_cont">
-						<div class="flow_sim_headTopWrap">
-							<p class="flow_sim_headTop">あなたの見守り方に合った<br class="sp">機能と料金をご提案</p>
-						</div>
-						<h2 class="flow_sim_head">適合プランシュミレーション</h2>
-						<p class="flow_sim_txt">4つの質問に答えるだけで、あなたの見守り方に合った機能と料金のプランをご提案します。</p>
-						<div class="flow_sim_btnWrap">
-							<a href="#" class="cmnbtn type01 typecta">
-								<span class="cmnbtntxt">シュミレーションをスタート！</span>
-								<span class="cmnbtnicon02"><img src="{{ asset('assets/img/common/icon_arrow.svg') }}"></span>
-							</a>
+			<div class="cmnbox01" id="choice">
+			    <section class="choiceBlock" id="choice_1" style="display: block; padding: 0;">
+			        <div class="flow_sim_box">
+    					<div class="flow_sim_icon"><img src="{{ asset('assets/img/flow/icon_sim.png') }}" alt=""></div>
+    					<div class="flow_sim_img"><img src="{{ asset('assets/img/flow/pic07.png') }}" alt=""></div>
+    					<div class="flow_sim_cont">
+    						<div class="flow_sim_headTopWrap">
+    							<p class="flow_sim_headTop">あなたの見守り方に合った<br class="sp">機能と料金をご提案</p>
+    						</div>
+    						<h2 class="flow_sim_head">適合プランシミュレーション</h2>
+    						<p class="flow_sim_txt">4つの質問に答えるだけで、あなたの見守り方に合った機能と料金のプランをご提案します。</p>
+    						<div class="flow_sim_btnWrap choiceSwitch choiceSwitch_firstBtn" data-shift="2">
+    							<div class="cmnbtn type01 typecta" style="cursor: pointer;">
+    								<span class="cmnbtntxt">シミュレーションをスタート！</span>
+    								<span class="cmnbtnicon02"><img src="{{ asset('assets/img/common/icon_arrow.svg') }}"></span>
+    							</div>
+    						</div>
+    					</div>
+    				</div>
+			    </section>
+			    
+			    <section id="choice_2" class="choiceBlock" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">設置したい場所は何か所ですか？</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList choiceList_2 c3">
+								<li><span data-shift="2-a" class="choiceSwitch">『リビングだけ』『玄関だけ』など、一か所</span></li>
+								<li><span data-shift="2-b" class="choiceSwitch">『リビングと玄関』など、二か所</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3"><span data-shift="1" class="choiceSwitch">最初に戻る</span></footer>
 						</div>
 					</div>
-				</div>
+				</section>
+				
+				<section id="choice_2-a" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">ドアの出入り等、動きがあった場合<br>画像付きメール通知や音声でのお知らせは必要ですか？</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-a-a" class="choiceSwitch">必要</span></li>
+								<li><span data-shift="2-a-b" class="choiceSwitch">特に必要はない</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+				
+				<section id="choice_2-b" class="choiceBlock choiceList_3" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">ドアの出入り等、動きがあった場合<br>画像付きメール通知や音声でのお知らせは必要ですか？</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-a" class="choiceSwitch">1台のみ必要</span></li>
+								<li><span data-shift="2-b-b" class="choiceSwitch">2台必要</span></li>
+								<li><span data-shift="2-b-c" class="choiceSwitch">特に必要はない</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+				
+				<section id="choice_2-a-a" class="choiceBlock choiceList_4" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">1日にどのくらい動画を確認しますか？<br>複数人で利用をお考えの方も1人あたりでお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-a-a-a" class="choiceSwitch">10分程度</span></li>
+								<li><span data-shift="2-a-a-b" class="choiceSwitch">20分程度</span></li>
+								<li><span data-shift="2-a-a-c" class="choiceSwitch">30分程度</span></li>
+								<li><span data-shift="2-a-a-d" class="choiceSwitch">30分以上</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-a-b" class="choiceBlock choiceList_4" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">1日にどのくらい動画を確認しますか？<br>複数人で利用をお考えの方も1人あたりでお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-a-b-a" class="choiceSwitch">10分程度</span></li>
+								<li><span data-shift="2-a-b-b" class="choiceSwitch">20分程度</span></li>
+								<li><span data-shift="2-a-b-c" class="choiceSwitch">30分程度</span></li>
+								<li><span data-shift="2-a-b-d" class="choiceSwitch">30分以上</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-a" class="choiceBlock choiceList_4" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">1日にどのくらい動画を確認しますか？<br>複数人で利用をお考えの方も1人あたりでお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-a-a" class="choiceSwitch">10分程度</span></li>
+								<li><span data-shift="2-b-a-b" class="choiceSwitch">20分程度</span></li>
+								<li><span data-shift="2-b-a-c" class="choiceSwitch">30分程度</span></li>
+								<li><span data-shift="2-b-a-d" class="choiceSwitch">30分以上</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-b" class="choiceBlock choiceList_4" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">1日にどのくらい動画を確認しますか？<br>複数人で利用をお考えの方も1人あたりでお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-b-a" class="choiceSwitch">10分程度</span></li>
+								<li><span data-shift="2-b-b-b" class="choiceSwitch">20分程度</span></li>
+								<li><span data-shift="2-b-b-c" class="choiceSwitch">30分程度</span></li>
+								<li><span data-shift="2-b-b-d" class="choiceSwitch">30分以上</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-c" class="choiceBlock choiceList_4" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">1日にどのくらい動画を確認しますか？<br>複数人で利用をお考えの方も1人あたりでお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-c-a" class="choiceSwitch">10分程度</span></li>
+								<li><span data-shift="2-b-c-b" class="choiceSwitch">20分程度</span></li>
+								<li><span data-shift="2-b-c-c" class="choiceSwitch">30分程度</span></li>
+								<li><span data-shift="2-b-c-d" class="choiceSwitch">30分以上</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-a-a-a" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-a-a-a-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-a-a-a-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-a-a-b" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-a-a-b-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-a-a-b-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-a-a-c" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-a-a-c-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-a-a-c-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-a-a-d" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-a-a-d-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-a-a-d-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-a-b-a" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-a-b-a-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-a-b-a-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-a-b-b" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-a-b-b-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-a-b-b-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-a-b-c" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-a-b-c-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-a-b-c-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-a-b-d" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-a-b-d-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-a-b-d-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-a-a" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-a-a-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-b-a-a-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-a-b" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-a-b-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-b-a-b-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-a-c" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-a-c-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-b-a-c-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-a-d" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-a-d-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-b-a-d-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-b-a" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-b-a-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-b-b-a-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-b-b" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-b-b-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-b-b-b-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-b-c" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-b-c-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-b-b-c-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-b-d" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-b-d-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-b-b-d-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-c-a" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-c-a-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-b-c-a-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-c-b" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-c-b-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-b-c-b-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-c-c" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-c-c-b" class="choiceSwitch">1年ぐらい</span></li>
+								<li><span data-shift="2-b-c-c-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+			
+				<section id="choice_2-b-c-d" class="choiceBlock choiceList_2" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">契約期間をお選びください</h2>
+						<div class="choiceCnt floatbox">
+							<ul class="choiceList c3">
+								<li><span data-shift="2-b-c-d-b" class="choiceSwitch">1年ぐらい）</span></li>
+								<li><span data-shift="2-b-c-d-a" class="choiceSwitch">数か月程度</span></li>
+							</ul>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-a-a-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">7,590円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>2,200円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-a-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-a-a-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">5,390円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-a-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-a-b-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">8,690円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>+1GB<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>2,200円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-a-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-a-b-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">6,490円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>+1GB<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-a-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-a-c-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">9,790円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>+2GB<br>2,200円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>2,200円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-a-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-a-c-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">7,590円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>+2GB<br>2,200円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-a-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-a-d-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">10,890円～</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>+3GB～<br>3,300円<br>(税込)～</td>
+											<td class="choiceLast_blank"></td>
+											<td>2,200円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-a-d" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-a-d-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">8,690円～</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>+3GB～<br>3,300円<br>(税込)～</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-a-d" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-b-a-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">6,490円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>2,200円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-b-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-b-a-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">4,290円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-b-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-b-b-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">7,590円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>+1GB<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>2,200円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-b-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-b-b-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">5,390円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>+1GB<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-b-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-b-c-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">8,690円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>+2GB<br>2,200円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>2,200円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-b-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-b-c-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">6,490円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>+2GB<br>2,200円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-b-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-b-d-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">9,790円～</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>+3GB～<br>3,300円<br>(税込)～</td>
+											<td class="choiceLast_blank"></td>
+											<td>2,200円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-b-d" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-a-b-d-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">7,590円～</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>1台<br>4,290円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>+3GB～<br>3,300円<br>(税込)～</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-a-b-d" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-a-a-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">12,980円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>4,400円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-a-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-a-a-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">8,580円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-a-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-a-b-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">12,980円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>4,400円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-a-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-a-b-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">8,580円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-a-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-a-c-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">14,080円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>+1GB<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>4,400円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-a-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-a-c-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">9,680円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>+1GB<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-a-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-a-d-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">15,180円～</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>+2GB～<br>2,200円<br>(税込)～</td>
+											<td class="choiceLast_blank"></td>
+											<td>4,400円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-a-d" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-a-d-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">10,780円～</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>+2GB～<br>2,200円<br>(税込)～</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-a-d" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-b-a-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">14,080円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込) x 2</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>4,400円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-b-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-b-a-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">9,680円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込) x 2</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-b-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-b-b-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">14,080円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込) x 2</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>4,400円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-b-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-b-b-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">9,680円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込) x 2</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-b-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-b-c-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">15,180円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込) x 2</td>
+											<td class="choiceLast_blank"></td>
+											<td>+1GB<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>4,400円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-b-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-b-c-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">10,780円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込) x 2</td>
+											<td class="choiceLast_blank"></td>
+											<td>+1GB<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-b-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-b-d-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">16,280円～</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込) x 2</td>
+											<td class="choiceLast_blank"></td>
+											<td>+2GB～<br>2,200円<br>(税込)～</td>
+											<td class="choiceLast_blank"></td>
+											<td>4,400円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-b-d" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-b-d-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">11,880円～</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>1,100円<br>(税込) x 2</td>
+											<td class="choiceLast_blank"></td>
+											<td>+2GB～<br>2,200円<br>(税込)～</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-b-d" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-c-a-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">11,880円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>4,400円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-c-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-c-a-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">7,480円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-c-a" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-c-b-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">11,880円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>4,400円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-c-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-c-b-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">7,480円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>追加無し</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-c-b" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-c-c-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">12,980円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>+1GB<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>4,400円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-c-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-c-c-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">8,580円</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>+1GB<br>1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-c-c" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-c-d-a" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">14,080円～</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>+2GB～<br>2,200円<br>(税込)～</td>
+											<td class="choiceLast_blank"></td>
+											<td>4,400円<br>(税込)</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-c-d" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
+
+				<section id="choice_2-b-c-d-b" class="choiceBlock choiceList_end" style="display: none;">
+					<div class="choiceInBlock">
+						<h2 class="choiceSubTit midashi_none">料金シミュレーション結果</h2>
+						<div class="choiceCnt floatbox">
+							<div class="choiceLastArea floatbox">
+								<div class="choiceLast_lef">
+									<span class="choiceLast_subTit">月々のお支払い(税込)</span>
+									<span class="choiceLast_price">9,680円～</span>
+								</div>
+								<div class="choiceLast_rig">
+									<table class="choiceLast_column">
+										<tbody><tr>
+											<th>みまもりCUBE</th>
+											<th class="choiceLast_blank"></th>
+											<th>2台目以降割引</th>
+											<th class="choiceLast_blank"></th>
+											<th>検知オプション</th>
+											<th class="choiceLast_blank"></th>
+											<th>データ追加</th>
+											<th class="choiceLast_blank"></th>
+											<th>短期間プラン</th>
+										</tr>
+										<tr>
+											<td>2台<br>8,580円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>〇<br>-1,100円<br>(税込)</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+											<td class="choiceLast_blank"></td>
+											<td>+2GB～<br>2,200円<br>(税込)～</td>
+											<td class="choiceLast_blank"></td>
+											<td>-</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+							<p class="choiceLastMsg">ご契約後、1GBでは足りない場合は1,100円(税込)/1GBで追加が可能です。</p>
+							<footer class="choiceBtn_lnk c3">
+								<span data-shift="1" class="choiceSwitch">最初に戻る</span>
+								<span data-shift="2-b-c-d" class="choiceSwitch">1つ前に戻る</span>
+							</footer>
+						</div>
+					</div>
+				</section>
 			</div>
+			<script>
+        		(function($){
+        			$(".choiceBlock").hide();
+        			$("#choice_1").show();
+        			$(".choiceSwitch").click(function(){
+        				$(".choiceBlock").hide();
+        				$("#choice_" + $(this).attr("data-shift")).show();
+        				return false;
+        			})
+        		})(jQuery);
+        	</script>
 		</section>	
 	
 		<section>
@@ -219,7 +2674,11 @@
 							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_05.png') }}" alt="FLOW01"></div>
 							<dl class="tflows04">
 								<dt>会員登録</dt>
-								<dd>見守る方（ご家族様代表の方1名）で登録をお願いします。<br>※見守られる方のお名前ではありません。</dd>
+								<dd>
+								    見守る方（ご家族様代表の方1名）で登録をお願いします。<br>
+								    ※見守られる方のお名前ではありません。<br>
+								    ※アンケートにご協力いただいた方にはキャンペーン料金から330円割引きさせていただきます
+								</dd>
 							</dl>
 						</div>
 						<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
@@ -234,8 +2693,12 @@
 						<div class="tflows02">
 							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_07.png') }}" alt="FLOW03"></div>
 							<dl class="tflows04">
-								<dt>台数・契約プラン・<br>オプション選択</dt>
-								<dd>現在ご検討中のご契約内容（契約期間・台数・検知オプションの有無）をお選びください。</dd>
+								<dt>本人確認書類送付</dt>
+								<dd>
+								    「ファイルを選択」ボタンを選択し、画像のアップロードをお願いします。<br>
+								    ※会員登録された方の本人確認書類です<br>
+								    ※<a href="first-kakunin" class="link01" target="_blank">本人確認書類とは？</a>
+								</dd>
 							</dl>
 						</div>
 						<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
@@ -243,30 +2706,30 @@
 							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_08.png') }}" alt="FLOW04"></div>
 							<dl class="tflows04">
 								<dt>決済方法の選択</dt>
-								<dd>クレジットカードか口座振替を選択できます。<br>※ご利用可能金融機関一覧は<a href="https://www.cardservice.co.jp/service/bank/cats/terms.html" class="link01" target="_blank">こちら</a></dd>
+								<dd>①クレジットカードか口座情報を選択し、登録<br>②※口座振替をご希望の方はご利用可能金融機関一覧を<a href="https://www.cardservice.co.jp/service/bank/cats/terms.html" class="link01" target="_blank">こちら</a>よりご確認ください</dd>
 							</dl>
 						</div>
 					</div>
 					<div class="tflows01">
+					 {#   <div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>#}
+						{#<div class="tflows02">#}
+						{#	<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_09.png') }}" alt="FLOW05"></div>#}
+						{#	<dl class="tflows04">#}
+						{#		<dt>本人確認書類送付</dt>#}
+						{#		<dd>本人確認用画像フォーム下のアンケートにご協力いただくとキャンペーン料金から330円割引させていただきます。</dd>#}
+						{#	</dl>#}
+						{#</div>#}
+						{#<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>#}
+						{#<div class="tflows02">#}
+						{#	<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_10.png') }}" alt="FLOW06"></div>#}
+						{#	<dl class="tflows04">#}
+						{#		<dt>口座振替を選択された方は<br>口座登録用メール内より<br>お手続き</dt>#}
+						{#		<dd>会員登録された方以外の口座でもご利用いただけます。</dd>#}
+						{#	</dl>#}
+						{#</div>#}
 						<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
 						<div class="tflows02">
-							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_09.png') }}" alt="FLOW05"></div>
-							<dl class="tflows04">
-								<dt>本人確認書類送付</dt>
-								<dd>本人確認用画像フォーム下のアンケートにご協力いただくとキャンペーン料金から330円割引させていただきます。</dd>
-							</dl>
-						</div>
-						<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
-						<div class="tflows02">
-							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_10.png') }}" alt="FLOW06"></div>
-							<dl class="tflows04">
-								<dt>口座振替を選択された方は<br>口座登録用メール内より<br>お手続き</dt>
-								<dd>会員登録された方以外の口座でもご利用いただけます。</dd>
-							</dl>
-						</div>
-						<div class="tflows05"><img src="{{ asset('assets/img/common/icon_arrow_hr.svg') }}" class="pc"><img src="{{ asset('assets/img/common/icon_arrow_vr.svg') }}" class="sp"></div>
-						<div class="tflows02">
-							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_11.png') }}" alt="FLOW07"></div>
+							<div class="tflows03"><img src="{{ asset('assets/img/campaign/flow_09.png') }}" alt="FLOW06"></div>
 							<dl class="tflows04">
 								<dt>発送</dt>
 								<dd>お申込み日の翌営業日に発送致します。</dd>
@@ -281,5 +2744,28 @@
 
 </div>
 <!--/content-->
+
+<!--modal-->
+<div class="remodal type_width02" data-remodal-id="01" data-remodal-options="hashTracking:false">
+	<div data-remodal-action="close" class="remodal_close hover"><img src="{{ asset('assets/img/kaigohoken/icon_close.png') }}" alt="close"></div>
+	<h3 class="modal_head type_small">通信の目安 <span class="small">(1人でご利用の場合)</span></h3>
+	<div class="modal_cont">
+		<p>1GB＝最大で約300分/月の接続が可能です。（目安：300分÷30日＝約10分／日）<br>
+			※ご契約の通信量は、月単位で変更（翌月反映）できます。</p>
+		<ul>
+			<li></li>
+			<li>※複数人で見る場合は、通信量をシェアしてのご利用となります</li>
+			<li>※視聴している間のみ通信量がかかります</li>
+		</ul>
+		<h3 class="kakunin03 type02"><span>1GBの目安</span></h3>
+		<p>画像付メール受信を主としたご利用または1か月間の視聴時間が合計300分以内の場合<br>
+			（1日合計視聴時間が10分以内とした利用の方におすすめ）</p>
+		<h3 class="kakunin03 type02"><span>2GBの目安</span></h3>
+		<p>1か月間の視聴時間が合計600分以内の場合（1日合計視聴時間が20分以内とした利用の方におすすめ）</p>
+		<h3 class="kakunin03 type02"><span>3GBの目安</span></h3>
+		<p>1か月間の視聴時間が合計900分以内の場合（1日合計視聴時間が30分以内とした頻繁に利用する方におすすめ）</p>
+	</div>
+</div>
+<!--/modal-->
 
 {% endblock %}

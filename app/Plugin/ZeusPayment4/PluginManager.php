@@ -165,7 +165,7 @@ class PluginManager extends AbstractPluginManager
     {
         $em = $container->get('doctrine.orm.entity_manager');
 
-        $urls = ['zeus_cvs_payment','zeus_ebank_payment'];
+        $urls = ['zeus_cvs_payment','zeus_ebank_payment','zeus_eaccount_payment'];
 
         foreach($urls as $url){
             $Page = $em->getRepository(Page::class)->findOneBy(['url' => $url]);

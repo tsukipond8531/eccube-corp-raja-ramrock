@@ -60,6 +60,13 @@ class CartItemOption extends \Eccube\Entity\AbstractEntity
         return $this->option_tax;
     }
 
+    public function getOptionTotalPrice()
+    {
+        $this->_calc();
+
+        return $this->option_price + $this->option_tax;
+    }
+
     public function getDeliveryFreeFlg()
     {
         $this->_calc();

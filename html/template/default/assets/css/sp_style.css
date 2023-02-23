@@ -666,7 +666,7 @@ background-color: rgba(52,75,101,0.6);
 
 
 .tmainblock {
-	background-image: url(../images/top/sp_main_01.png);
+	background-image: url(../img/top/sp_main_01.png);
 	background-repeat: no-repeat;
 	background-position: center top;
 	background-size:100%;
@@ -1335,7 +1335,7 @@ background-color: rgba(52,75,101,0.6);
 }
 .care06 li span {
 	display: block;
-	background-image: url(../images/common/icon_check.svg);
+	background-image: url(../img/common/icon_check.svg);
 	background-repeat: no-repeat;
 	background-position: left 15px;
 	padding-top: 10px;
@@ -1476,9 +1476,6 @@ background-color: rgba(52,75,101,0.6);
 	margin-bottom:15px;
 	overflow-x:auto;
 }
-.cflow02 {
-	width:800px;
-}
 .cflow03 {
 	font-size:12px;
 }
@@ -1516,7 +1513,7 @@ background-color: rgba(52,75,101,0.6);
 	display: inline-block;
 	margin-left: 10px;
 	vertical-align: middle;
-	background-image: url(../images/campaign/icon_flow.png);
+	background-image: url(../img/campaign/icon_flow.png);
 	background-repeat: no-repeat;
 	background-position: left 2px;
 	padding-left:26px;
@@ -1721,7 +1718,7 @@ background-color: rgba(52,75,101,0.6);
 	width: 16px;
 	height:10.5px;
 	margin: 0 auto;
-	background-image: url(../images/function/icon_func.png);
+	background-image: url(../img/function/icon_func.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size:16px;
@@ -2218,7 +2215,7 @@ td.br04 {
 		height: 15px;
 	}
 	.common_head.type_movie::before  {
-		background-image: url('../images/about02/icon_movie.png');
+		background-image: url('../img/about02/icon_movie.png');
 	}
 	.about02_list{
 		display: flex;
@@ -2305,7 +2302,7 @@ td.br04 {
 		top: 5px;
 		width: 16px;
 		height: 20px;
-		background-image: url('../images/about03/icon_pdf.png');
+		background-image: url('../img/about03/icon_pdf.png');
 	}
 	
 	.about03_block{
@@ -2658,7 +2655,7 @@ td.br04 {
 	line-height: 38px;
 	border-radius: 19px;
 	text-align: center;
-	background-image: url('../images/flow/icon_link_brown.png');
+	background-image: url('../img/flow/icon_link_brown.png');
 	background-position: center right 7px;
 	background-repeat: no-repeat;
 }
@@ -3244,7 +3241,7 @@ td.br04 {
 	margin-bottom: 20px;
 }
 .ins_use_img img {
-	width: 500px;
+	width: 100%;
 	max-width: 1000px;
 }
 .ins_price_req.type_use{
@@ -3494,7 +3491,20 @@ td.br04 {
     font-size: 14px;
     padding: 2px 20px;
 }
-	
+
+.single_sec .single_content h1{
+    text-align: left;
+    font-size: 20px;
+  }
+  .single_sec .single_content h2{
+    font-size: 18px;
+    padding-bottom: 12px;
+	margin-top: 20px;
+    margin-bottom: 25px;
+  }
+.top_fix_item{
+display: none;
+}	
 }
 
 

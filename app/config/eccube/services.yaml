@@ -224,5 +224,20 @@ services:
     Customize\Doctrine\EventSubscriber\TaxRuleEventSubscriber:
         decorates: Eccube\Doctrine\EventSubscriber\TaxRuleEventSubscriber
 
+    Customize\Form\Type\Shopping\ShippingType:
+        decorates: Eccube\Form\Type\Shopping\ShippingType
+
+    Customize\Form\Type\Front\ContactType:
+        decorates: Eccube\Form\Type\Front\ContactType
+
     Customize\Service\MailService:
         decorates: Eccube\Service\MailService
+
+    Customize\Service\OrderHelper:
+        decorates: Eccube\Service\OrderHelper
+
+    Customize\Repository\OrderRepository:
+        decorates: Eccube\Repository\OrderRepository
+
+    Customize\Service\PurchaseFlow\Processor\TaxProcessor:
+        decorates: Eccube\Service\PurchaseFlow\Processor\TaxProcessor

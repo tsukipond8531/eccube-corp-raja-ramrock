@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Plugin\ZeusPayment4\Form\Type\Admin\ConfigFormCreditType;
 use Plugin\ZeusPayment4\Form\Type\Admin\ConfigFormCvsType;
 use Plugin\ZeusPayment4\Form\Type\Admin\ConfigFormEbankType;
+use Plugin\ZeusPayment4\Form\Type\Admin\ConfigFormEaccountType;
 use Plugin\ZeusPayment4\Service\ZeusPaymentService;
 use Plugin\ZeusPayment4\Validator\Constraints as ZeusPaymentAssert;
 
@@ -67,6 +68,7 @@ class ConfigController extends AbstractController
             )),
             'cvs' => $this->formFactory->createBuilder(ConfigFormCvsType::class, $config),
             'ebank' => $this->formFactory->createBuilder(ConfigFormEbankType::class, $config),
+            'eaccount' => $this->formFactory->createBuilder(ConfigFormEaccountType::class, $config),
         );
         
         // フォームに値を渡す
@@ -79,6 +81,7 @@ class ConfigController extends AbstractController
         $this->selectedTab = $request->get('disp_zeus_tab_selected');
         switch ($this->selectedTab) {
             case 'ebank':
+            case 'eaccount':
             case 'edy':
             case 'cvs':
                 break;
@@ -145,7 +148,8 @@ class ConfigController extends AbstractController
             'selectedTab' => $this->selectedTab,
             'formCredit' => $forms['credit']->createView(),
             'formCvs' => $forms['cvs']->createView(),
-            'formEbank' => $forms['ebank']->createView()
+            'formEbank' => $forms['ebank']->createView(),
+            'formEaccount' => $forms['eaccount']->createView()
         ];
     }
 }

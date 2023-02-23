@@ -1,0 +1,59 @@
+{#
+This file is part of EC-CUBE
+
+Copyright(c) EC-CUBE CO.,LTD. All Rights Reserved.
+
+http://www.ec-cube.co.jp/
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+#}
+{% autoescape 'safe_textmail' %}
+
+お試しキャンセル・解約申請を受け付けました。
+
+【お試しキャンセルの方】
+弊社にてみまもり CUBE の返却の確認が取れ次第、手続き完了となります。 
+お手数おかけいたしますが、商品のご返却の程よろしくお願い申し上げます。
+
+【ご解約の方】
+弊社より解約受付完了メールをお送りさせていただきます。
+
+
+
+受付内容
+-----------------------------------------------------------------
+
+会員 ID: {{ data.customer_id }}
+お名前: {{ data.name01 }} {{ data.name02 }}
+フリガナ: {{ data.kana01 }} {{ data.kana02 }}
+
+
+ご連絡先
+{% if data.postal_code %}〒{{ data.postal_code }}{% endif %} {% if data.pref is defined %} {{ data.pref.name }}{% endif %}{{ data.addr01 }}{{ data.addr02 }}
+TEL {{ data.phone_number }}
+メールアドレス: {{ data.email }}
+
+
+お試しキャンセル・解約理由: 
+{{ data.reason }}
+
+ご要望等:
+{{ data.requirement }}
+
+
+-----------------------------------------------------------------------------
+株式会社ラムロック
+〒820-1111
+福岡県飯塚市勢田1950-1
+
+フリーダイヤル　0120-927-760
+携帯・PHS　0948-96-8160
+お問い合わせ専用アドレス　contact@ramrock-eyes.jp
+公式HP　https://ramrock-eyes.jp
+-----------------------------------------------------------------------------
+※このメールは送信専用のアドレスから自動送信されているため、
+ご返信いただいても内容の確認や回答ができません。
+ご質問はお問合せ専用アドレスよりご連絡ください。
+
+{% endautoescape  %}

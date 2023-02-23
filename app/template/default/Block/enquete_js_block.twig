@@ -1,0 +1,42 @@
+{#
+ Copyright(c) 2020 Shadow Enterprise, Inc. All rights reserved.
+ http://www.shadow-ep.co.jp/
+#}
+
+<script>
+    $(function () {
+        /* ヘッダにアンケートリンクを追加 */
+        if ( $('.ec-headerNav').length ) {
+            $addTag  = '<div class="ec-headerNav__item">';
+            $addTag += '<a href="{{ url('se_enquete_list_page') }}">';
+            $addTag += '<i class="ec-headerNav__itemIcon fas fa-file-alt fa-fw"></i>';
+            $addTag += '<span class="ec-headerNav__itemLink">アンケート</span>';
+            $addTag += '</a>';
+            $addTag += '</div>';
+            $('.ec-headerNav').prepend($addTag);
+        }
+
+        /* Enquete 挿入タグが存在する場合は対象データのブロックへ置換する */
+        if ( $('.setEnqueteLink__append').length ) {
+            $('.setEnqueteLink__append').each(function() {
+                var now = this;
+                var id = $(now).attr('data-id');
+                var url = '{{ url('se_enquete_block', {'id': 1}) }}';
+                $.ajax({
+                    url: url.slice(0, -1) + id,
+                    dataType: 'json',
+                    success: function(data) {
+                        if ( data.status === true ) {
+                            $(now).html( data.html );
+                        }
+                    }
+                })
+            })
+        }
+    })
+</script>
+<style>
+.setEnqueteLink__append img {
+    max-width: 100%;
+}
+</style>

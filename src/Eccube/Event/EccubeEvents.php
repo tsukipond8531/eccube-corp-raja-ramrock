@@ -569,6 +569,11 @@ final class EccubeEvents
     const FRONT_USER_DATA_INDEX_INITIALIZE = 'front.user.data.index.initialize';
 
     /**
+     * get Zeus Payment Token
+     */
+    const ZEUS_TOKEN = 'front.payment.zeus.token';
+
+    /**
      * MailService
      */
     const MAIL_CUSTOMER_CONFIRM = 'mail.customer.confirm';

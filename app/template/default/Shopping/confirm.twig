@@ -12,6 +12,103 @@ file that was distributed with this source code.
 
 {% form_theme form 'Form/form_div_layout.twig' %}
 
+{% block stylesheet %}
+    <link rel="stylesheet" href="{{ asset('assets/css/fileupload/jquery.fileupload.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/fileupload/jquery.fileupload-ui.css') }}">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <style>
+        #thumb div {
+            float: left;
+            margin: 4px
+        }
+
+        .ui-state-highlight {
+            height: 70px;
+            width: 70px;
+            border: dashed 1px #ccc;
+            background: #fff;
+        }
+
+        .media-body {
+            margin-bottom: 30px;
+            line-height: 1;
+        }
+        
+        .c-form__fileUploadThumbnail {
+            display: inline-block;
+            width: 170px;
+            height: 170px;
+            background-color: #f5f6f8;
+            background-image: url(../../img/moc.png);
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .c-form__fileUploadThumbnail:hover::before {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .c-form__fileUploadThumbnail::before {
+            display: block;
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .c-form__fileUploadThumbnail .delete-image {
+            display: none;
+            font-family: FontAwesome;
+            font-size: 18px;
+            line-height: 1;
+            color: #54687A;
+            padding: 5px;
+            background: #fff;
+            border-radius: 3px;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+        }
+
+        .c-form__fileUploadThumbnail:hover .delete-image {
+            display: inline-block;
+            font-family: FontAwesome;
+            font-size: 18px;
+            line-height: 1;
+            color: #54687A;
+            padding: 5px;
+            background: #fff;
+            border-radius: 3px;
+            position: absolute;
+            top: 2px;
+            right: 2px;
+        }
+
+        .btn-ec-regular {
+            border-radius: 4px;
+            padding: 6px 10px;
+            border: 1px solid #ccc;
+            background-color: #FFFFFF;
+            cursor: pointer;
+        }
+        .btn-ec-regular:hover {
+            color: #262626;
+            background-color: #F2F2F2;
+            border-color: #262626;
+            text-decoration: none;
+        }
+        .identity_image {
+            width: 170px;
+            height: auto;
+            margin-right: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+{% endblock stylesheet %}
+
 {% block main %}
 
 <div class="ec-modifiedLayoutRole__contents">
@@ -94,13 +191,15 @@ file that was distributed with this source code.
                                         <div class="ec-imageGrid__img"><img src="{{ asset((orderItem.product is null ? null : orderItem.product.MainListImage)|no_image_product, 'save_image') }}" alt="{{ orderItem.productName }}"></div>
                                         <div class="ec-imageGrid__content">
                                             <p>{{ orderItem.productName }}{% if is_reduced_tax_rate(orderItem) %}{{ '※'|trans }}{% set isShowReducedTaxMess = true %}{% endif %}</p>
-                                            {% if orderItem.productClass is not null and orderItem.productClass.classCategory1 %}
-                                                <p>{{ orderItem.productClass.classCategory1.className.name }}：{{ orderItem.productClass.classCategory1 }}</p>
-                                            {% endif %}
-                                            {% if orderItem.productClass is not null and orderItem.productClass.classCategory2 %}
-                                                <p>{{ orderItem.productClass.classCategory2.className.name }}：{{ orderItem.productClass.classCategory2 }}</p>
-                                            {% endif %}
-                                            <p>{{ orderItem.priceIncTax|price }} × {{ orderItem.quantity|number_format }}<span>{{ '小計：'|trans }}{{ orderItem.totalPrice|price }}</span></p>
+                                            <div class="cs-order_class">
+                                                {% if orderItem.productClass is not null and orderItem.productClass.classCategory1 %}
+                                                    <p>{{ orderItem.productClass.classCategory1.className.name }}：{{ orderItem.productClass.classCategory1 }}</p>
+                                                {% endif %}
+                                                {% if orderItem.productClass is not null and orderItem.productClass.classCategory2 %}
+                                                    <p>{{ orderItem.productClass.classCategory2.className.name }}：{{ orderItem.productClass.classCategory2 }}</p>
+                                                {% endif %}
+                                            </div>
+                                            {# <p>{{ orderItem.priceIncTax|price }} × {{ orderItem.quantity|number_format }}<span>{{ '小計：'|trans }}{{ orderItem.totalPrice|price }}</span></p> #}
                                         </div>
                                     </div>
                                 </li>
@@ -125,7 +224,7 @@ file that was distributed with this source code.
                                 </div>
                                 <div class="ec-select ec-select__delivery">
                                     <label>{{ 'お届け日'|trans }}</label>
-                                    {{ Order.Shippings[idx].shipping_delivery_date? Order.Shippings[idx].shipping_delivery_date|date_day_with_weekday : '指定なし'|trans }}
+                                    {{ Order.Shippings[idx].shipping_delivery_date? Order.Shippings[idx].shipping_delivery_date|date_day_with_weekday : '指定なし（最短発送）'|trans }}
                                 </div>
                                 <div class="ec-select ec-select__time">
                                     <label>{{ 'お届け時間'|trans }}</label>
@@ -134,6 +233,70 @@ file that was distributed with this source code.
                             </div>
                         </div>
                     {% endfor %}
+                </div>
+                <div class="ec-borderedDefs" style="border-top: none;">
+                    <dl>
+                        <dt>
+                            {{ form_label(form.watch_target, '本人確認書類', { 'label_attr': { 'class': 'ec-label' }}) }}
+                            {{ form_widget(form.image0, { type : 'hidden' }) }}
+                            {{ form_widget(form.add_images, { type: 'hidden'}) }}
+                        </dt>
+                        <dd style="display: flex; align-items: center; flex-wrap: wrap;">
+                            {% for image in form.add_images.vars.value %}
+                                <div class="identity_image">
+                                    <img src="{{ asset(image, 'temp_image') }}" alt="">
+                                </div>
+                            {% endfor %}
+                        </dd>
+                    </dl>
+                </div>
+                <div class="cs-orderOptions">
+                    {% if installationAgent is defined and installationAgent is not empty %}
+                        <div class="cs-installation_agent">
+                            <div class="ec-rectHeading" style="position: relative">
+                                <h2>{{ '取付代行オプション'|trans }}</h2>
+                            </div>
+                            <div id="installationAgent" class="ec-orderDelivery__address">
+                                <p>{{ ''|trans }}{{ installationAgent.name01 }} {{ installationAgent.name02 }} ({{ installationAgent.kana01 }} {{ installationAgent.kana02 }}){{ ' 様'|trans }}</p>
+                                <p>{{ '〒'|trans }}{{ installationAgent.postal_code }} {{ installationAgent.pref }}{{ installationAgent.addr01 }}{{ installationAgent.addr02 }}</p>
+                                <p>{{ installationAgent.phone_number }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {{ form_widget(form.watch_target, { type: 'hidden'}) }}
+                    {% if (watchTarget1 is defined and watchTarget1 is not empty) or (watchTarget2 is defined and watchTarget2 is not empty) %}
+                        <div class="cs-watch_target" style="margin-top: 15px;">
+                            <div class="ec-rectHeading">
+                                <h2>{{ '見守り対象者がいる場合はご入力ください'|trans }}</h2>
+                            </div>
+                            <div id="watchTargetContent">
+                                {% if watchTarget1 is defined and watchTarget1.name01 is not empty and watchTarget1.name02 is not empty %}
+                                    <div class="ec-borderedDefs">
+                                        <div class="cs-orderOptions_title">
+                                            {{ '1人目'|trans }}
+                                        </div>
+                                        <div id="watchTarget1">
+                                            <p>{{ ''|trans }}{{ watchTarget1.name01 }} {{ watchTarget1.name02 }} ({{ watchTarget1.kana01 }} {{ watchTarget1.kana02 }}){{ ' 様'|trans }}</p>
+                                            <p>{{ '〒'|trans }}{{ watchTarget1.postal_code }} {{ watchTarget1.pref }}{{ watchTarget1.addr01 }}{{ watchTarget1.addr02 }}</p>
+                                            <p>{{ watchTarget1.phone_number }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% if watchTarget2 is defined and watchTarget2.name01 is not empty and watchTarget2.name02 is not empty %}
+                                    <div class="ec-borderedDefs">
+                                        <div class="cs-orderOptions_title">
+                                            {{ '2人目'|trans }}
+                                        </div>
+                                        <div id="watchTarget2">
+                                            <p>{{ ''|trans }}{{ watchTarget2.name01 }} {{ watchTarget2.name02 }} ({{ watchTarget2.kana01 }} {{ watchTarget2.kana02 }}){{ ' 様'|trans }}</p>
+                                            <p>{{ '〒'|trans }}{{ watchTarget2.postal_code }} {{ watchTarget2.pref }}{{ watchTarget2.addr01 }}{{ watchTarget2.addr02 }}</p>
+                                            <p>{{ watchTarget2.phone_number }}</p>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="ec-orderPayment">
                     <div class="ec-rectHeading">
@@ -165,6 +328,7 @@ file that was distributed with this source code.
                         {{ Order.message|nl2br }}
                     </div>
                 </div>
+                {{ render(path('block_calendar')) }}
             </div>
             <div class="ec-orderRole__summary">
                 <div class="ec-totalBox">
@@ -180,6 +344,14 @@ file that was distributed with this source code.
                         <dt>{{ '送料'|trans }}</dt>
                         <dd>{{ Order.deliveryFeeTotal|price }}</dd>
                     </dl>
+                    {% for item in Order.tax_free_discount_items %}
+                        {# {% if loop.first %}<div class="ec-totalBox__total"></div>{% endif %} #}
+                        <dl class="ec-totalBox__spec">
+                            {# <dt>{{ item.product_name }}</dt> #}
+                            <dt> 割引 </dt>
+                            <dd>{{ item.total_price|price }}</dd>
+                        </dl>
+                    {% endfor %}
                     {% if Order.taxable_discount < 0 %}
                     <dl class="ec-totalBox__spec">
                         <dt>{{ '値引き'|trans }}</dt>
@@ -191,13 +363,6 @@ file that was distributed with this source code.
                         <dl class="ec-totalBox__taxRate">
                             <dt>{{ '税率 %rate% %対象'|trans({ '%rate%': rate }) }}</dt>
                             <dd>{{ total|price }}</dd>
-                        </dl>
-                    {% endfor %}
-                    {% for item in Order.tax_free_discount_items %}
-                        {% if loop.first %}<div class="ec-totalBox__total"></div>{% endif %}
-                        <dl class="ec-totalBox__spec">
-                            <dt>{{ item.product_name }}</dt>
-                            <dd>{{ item.total_price|price }}</dd>
                         </dl>
                     {% endfor %}
                     <div class="ec-totalBox__paymentTotal">{{ 'お支払い合計'|trans }}<span class="ec-totalBox__price">{{ Order.payment_total|price }}</span><span class="ec-totalBox__taxLabel">{{ '税込'|trans }}</span></div>

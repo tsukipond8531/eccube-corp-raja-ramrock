@@ -58,13 +58,17 @@ file that was distributed with this source code.
     					<p class="cta07"><span>期間中のキャンセルも可能！</span></p>
     					<ul class="cta08">
     						<li>
-    							<a href="{{ url('homepage') }}user_data/campaign/" class="cmnbtn type01 typecta">
+    							<a href="{{ url('homepage') }}campaign/" class="cmnbtn type01 typecta">
     								<span class="cmnbtntxt">キャンペーンの詳細を見る</span>
     								<span class="cmnbtnicon02"><img src="{{ asset('assets/img/common/icon_arrow.svg') }}"></span>
     							</a>
     						</li>
     						<li>
-    							<a href="{{ url('homepage') }}user_data/material/" class="cmnbtn type02">
+    							{% if is_granted('ROLE_USER') %}
+        					        <a href="{{ url('cart') }}" class="cmnbtn type02">
+        					    {% else %}
+        						    <a href="{{ url('entry') }}" class="cmnbtn type02">
+        						{% endif %}
     								<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_mail.svg') }}"></span>
     								<span class="cmnbtntxt">お試し申し込み</span>
     							</a>
@@ -160,7 +164,7 @@ file that was distributed with this source code.
     							<div class="tmcube09"><img src="{{ asset('assets/img/top/icon_mcube_05.png') }}"></div>
     							<h3 class="tmcube10">入所、ご逝去の場合は 違約金免除</h3>
     							<p class="tmcube11">1年未満での解約の場合でも解約理由が「ご逝去」「施設入所」の場合に限り、違約金なしでの解約が可能です。商品返送時に、入所証明書やご逝去がわかる書類の送付をお願いします。
-    施設入所証明書のダウンロードは<a href="#" target="_blank">こちら</a>から</p>
+    施設入所証明書のダウンロードは<a href="{{ asset('assets/pdf/a74525fd6dcddd418ad966d1df068b42.pdf') }}" target="_blank">こちら</a>から</p>
     						</div>
     					</div>
     					
@@ -171,22 +175,22 @@ file that was distributed with this source code.
     							<h3 class="tmcube10">介護保険への<br>切り替えにも対応！</h3>
     							<p class="tmcube11">ラムロックアイズみまもりCUBEは、徘徊感知機器として介護保険レンタルが可能です。<br>
     <span class="tmcube13">※一般レンタル（みまもりCUBE）とレンタル福祉用具（ラムロックアイズ-みまもりCUBE-）は別商材でございます。</span><br>
-    詳しくは<a href="{{ url('homepage') }}user_data/kaigohoken/">こちら</a>をご確認ください。</p>
+    詳しくは<a href="{{ url('homepage') }}kaigohoken/">こちら</a>をご確認ください。</p>
     						</div>
     					</div>
     					
     				</div>
     				<ul class="tmcube14">
     					<li>
-    						<a href="{{ url('homepage') }}user_data/about01/" class="cmnbtn type01">
+    						<a href="{{ url('homepage') }}about01/" class="cmnbtn type01">
     							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_mcube.svg') }}"></span>
-    							<span class="cmnbtntxt">みまもりCUBEについて</span>
+    							<span class="cmnbtntxt">活用方法</span>
     						</a>
     					</li>
     					<li>
-    						<a href="{{ url('homepage') }}user_data/about02/" class="cmnbtn type02">
-    							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_manual.svg') }}"></span>
-    							<span class="cmnbtntxt">ご利用動画マニュアル</span>
+    						<a href="{{ url('homepage') }}function/" class="cmnbtn type02">
+    							<span class="cmnbtnicon"><img src="{{ asset('assets/img/kaigohoken/icon_movie.png') }}"></span>
+    							<span class="cmnbtntxt">機能紹介</span>
     						</a>
     					</li>
     				</ul>
@@ -203,9 +207,9 @@ file that was distributed with this source code.
     					<div class="tflow02">
     						<div class="tflow03"><img src="{{ asset('assets/img/top/table_01.png') }}" alt="他社の介護用見守りカメラとの比較"></div>
     					</div>
-    					<p class="tflow04">※1　認知症老人徘徊感知機器としてのご利用となります。詳しくは<a href="/flow/">こちら</a></p>
+    					<p class="tflow04">※1　認知症老人徘徊感知機器としてのご利用となります。詳しくは<a href="{{ url('homepage') }}kaigohoken/">こちら</a></p>
     					<div class="tflow05">
-    						<a href="{{ url('homepage') }}user_data/flow/" class="cmnbtn type01">
+    						<a href="{{ url('homepage') }}flow/" class="cmnbtn type01">
     							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_flow.svg') }}"></span>
     							<span class="cmnbtntxt">月額料金・お申込みの流れはこちら</span>
     						</a>
@@ -238,7 +242,7 @@ file that was distributed with this source code.
     						</div>
     					</div>
     					<div class="tvoice07">
-    						<a href="{{ url('homepage') }}user_data/voice/" class="cmnbtn type01">
+    						<a href="{{ url('homepage') }}voice/" class="cmnbtn type01">
     							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_voice.svg') }}"></span>
     							<span class="cmnbtntxt">他の利用者の声を見る</span>
     						</a>
@@ -277,7 +281,7 @@ file that was distributed with this source code.
     							<div class="acccont">
     								<div class="tfaq07">
     									<div class="tfaq05"><span>A</span></div>
-    									<p class="tfaq08">テキストテキストテキストテキスト</p>
+    									<p class="tfaq08">みまもりCUBEにはSIMカード（通信するために必要なカード）が内蔵されているため、離れた場所からでも見守りが可能です。遠方にお住いの方も安心してご利用いただけます。</p>
     								</div>
     							</div>
     						</div>
@@ -301,7 +305,7 @@ file that was distributed with this source code.
     							<div class="acccont">
     								<div class="tfaq07">
     									<div class="tfaq05"><span>A</span></div>
-    									<p class="tfaq08">テキストテキストテキストテキスト</p>
+    									<p class="tfaq08">SIMカードの契約手続きもまとめて弊社で行います。設置場所にインターネットの環境がなくてもすぐにご利用いただけます。</p>
     								</div>
     							</div>
     						</div>
@@ -321,7 +325,7 @@ file that was distributed with this source code.
     						</div>
     					</div>
     					<div class="tfaq09">
-    						<a href="{{ url('homepage') }}user_data/faq/" class="cmnbtn type01">
+    						<a href="{{ url('homepage') }}faq/" class="cmnbtn type01">
     							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_faq.svg') }}"></span>
     							<span class="cmnbtntxt">他のよくある質問を見る</span>
     						</a>
@@ -337,44 +341,28 @@ file that was distributed with this source code.
     				<h2 class="toptitle01"><span>新着情報</span></h2>
     				<div class="tnews01">
     					<ul class="tnews02">
+						{% for Information in InformationList%}
     						<li>
-    							<a href="{{ url('homepage') }}user_data/news/detail/">
-    								<span class="tnews03">2022.00.00</span>
-    								<span class="tnews04"><span class="iconcate" style="background-color:#f56e3d">イベント情報</span></span>
-    								<span class="tnews05">お知らせが入ります。お知らせが入ります。お知らせが入ります。お知らせが入ります。</span>
+    							<a href="{{ Information.link }}">
+    								<span class="tnews03">{{ Information.date|date('Y.m.d') }}</span>
+    								<span class="tnews04">
+									{% if Information.cate == "イベント情報" %}
+									<span class="iconcate" style="background-color:#f56e3d">
+									{% elseif Information.cate == "お知らせ" %}
+									<span class="iconcate" style="background-color:#a49c84">
+									{% elseif Information.cate == "展示会情報" %}
+									<span class="iconcate" style="background-color:#5ea05c">
+									{% endif %}
+									{{ Information.cate }}
+									</span>
+									</span>
+    								<span class="tnews05">{{ Information.title }}</span>
     							</a>
     						</li>
-    						<li>
-    							<a href="{{ url('homepage') }}user_data/news/detail/">
-    								<span class="tnews03">2022.00.00</span>
-    								<span class="tnews04"><span class="iconcate" style="background-color:#5ea05c">展示会情報</span></span>
-    								<span class="tnews05">お知らせが入ります。お知らせが入ります。お知らせが入ります。お知らせが入ります。</span>
-    							</a>
-    						</li>
-    						<li>
-    							<a href="{{ url('homepage') }}user_data/news/detail/">
-    								<span class="tnews03">2022.00.00</span>
-    								<span class="tnews04"><span class="iconcate" style="background-color:#a49c84">お知らせ</span></span>
-    								<span class="tnews05">お知らせが入ります。お知らせが入ります。お知らせが入ります。お知らせが入ります。</span>
-    							</a>
-    						</li>
-    						<li>
-    							<a href="{{ url('homepage') }}user_data/news/detail/">
-    								<span class="tnews03">2022.00.00</span>
-    								<span class="tnews04"><span class="iconcate" style="background-color:#f56e3d">イベント情報</span></span>
-    								<span class="tnews05">お知らせが入ります。お知らせが入ります。お知らせが入ります。お知らせが入ります。</span>
-    							</a>
-    						</li>
-    						<li>
-    							<a href="{{ url('homepage') }}user_data/news/detail/">
-    								<span class="tnews03">2022.00.00</span>
-    								<span class="tnews04"><span class="iconcate" style="background-color:#5ea05c">展示会情報</span></span>
-    								<span class="tnews05">お知らせが入ります。お知らせが入ります。お知らせが入ります。お知らせが入ります。</span>
-    							</a>
-    						</li>
+						{% endfor %}
     					</ul>
     					<div class="tnews06">
-    						<a href="{{ url('homepage') }}user_data/news/" class="cmnbtn type01">
+    						<a href="{{ url('homepage') }}page/" class="cmnbtn type01">
     							<span class="cmnbtnicon"><img src="{{ asset('assets/img/common/icon_news.svg') }}"></span>
     							<span class="cmnbtntxt">新着情報一覧を見る</span>
     						</a>
@@ -384,6 +372,18 @@ file that was distributed with this source code.
     		</div>
     	</section>
     	
+    	<div class="top_fix_item">
+    	    <div class="fix_item">
+    	        <a href="https://ramrock-eyes.jp/light/" target="_blank">
+    	            <img src="{{ asset('assets/img/top/fix_item01.png') }}" alt="介護施設向けはこちら">
+    	        </a>
+    	    </div>
+    	    <div class="fix_item">
+    	        <a href="https://ramrock-eyes.jp/plus/" target="_blank">
+    	            <img src="{{ asset('assets/img/top/fix_item02.png') }}" alt="屋外モデルはこちら">
+    	        </a>
+    	    </div>
+    	</div>
     </div>
     <!--/content-->
 {% endblock %}

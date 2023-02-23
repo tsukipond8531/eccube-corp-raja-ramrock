@@ -10,12 +10,15 @@ use Eccube\Repository\Master\OrderStatusRepository;
 use Eccube\Service\CartService;
 use Eccube\Service\MailService;
 use Eccube\Service\OrderHelper;
+use Eccube\Event\EccubeEvents;
+use Eccube\Event\EventArgs;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Plugin\ZeusPayment4\Service\ZeusPaymentService;
 use Plugin\ZeusPayment4\Service\Method\CvsPayment;
 use Plugin\ZeusPayment4\Service\Method\EbankPayment;
+use Plugin\ZeusPayment4\Service\Method\EaccountPayment;
 use Plugin\ZeusPayment4\Service\Method\CreditPayment;
 use Plugin\ZeusPayment4\Repository\ConfigRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -221,6 +224,51 @@ class ZeusPaymentReturn extends AbstractShoppingController
 
     }
 
+    /**
+     * @Route("/zeus_eaccount_payment", name="zeus_eaccount_payment")
+     * @Template("@ZeusPayment4/eaccount.twig")
+     */
+    public function eaccountPayment(Request $request)
+    {
+        // ログイン状態のチェック.
+        if ($this->orderHelper->isLoginRequired()) {
+            log_info('[注文処理] 未ログインもしくはRememberMeログインのため, ログイン画面に遷移します.');
+
+            return $this->redirectToRoute('shopping_login');
+        }
+
+        // 受注の存在チェック
+        // $preOrderId = $this->cartService->getPreOrderId();
+        // $order = $this->orderRepository->findOneBy([
+        //     'pre_order_id' => $preOrderId,
+        //     'OrderStatus' => OrderStatus::PENDING,
+        // ]);
+        $order = $this->orderRepository->find($this->session->get('eaccount_order_id'));
+        if (!$order) {
+            log_info('[注文処理] 決済処理中の受注が存在しません.', [$preOrderId]);
+
+            return $this->redirectToRoute('shopping_error');
+        }
+        // $paymentClass = $order->getPayment()->getMethodClass();
+        // if($paymentClass!=EaccountPayment::class){
+        //     log_info('[注文処理] order do not use Zeus cvs Payment method 。', [$preOrderId]);
+        //     return $this->redirectToRoute('shopping_error');
+        // }
+
+        $config = $this->configRepository->get();
+        $paymentType = 'eaccount';
+        $kananame = mb_convert_kana($order->getKana01() . '　' . $order->getKana02(), 'KVS', "UTF-8");
+        $sendPoint = $this->paymentService->getSendPoint($config->getKey($paymentType), $config->getClientipByType($paymentType), $order->getId());
+
+        return [
+            'order' => $order,
+            'eccubeConfig' => $this->eccubeConfig,
+            'config' => $config,
+            'sendPoint' => $sendPoint,
+            'kananame' => $kananame,
+        ];
+
+    }
 
     /**
      * @Route("/zeuspayment/ebank_recv", name="zeus_ebank_receive")
@@ -258,6 +306,46 @@ class ZeusPaymentReturn extends AbstractShoppingController
         );
 
         $return = $this->paymentService->receive('ebank', $zeusResponse, '銀行振込決済');
+        return new Response($return) ;
+    }
+    
+
+    /**
+     * @Route("/zeuspayment/eaccount_recv", name="zeus_eaccount_receive")
+     */
+    public function eaccountReceive(Request $request)
+    {
+        // $zeusPaymentService = $app['eccube.plugin.zeus_payment.service.zeuspayment'];
+
+        log_notice('[ゼウス口座振替決済ステータス変更]処理開始');
+
+        //$requestData = '';
+        $logData = '';
+        foreach ($_REQUEST as $k => $val) {
+            //$requestData .= ' [' . $k . ']=> ' . mb_convert_encoding($val, "UTF-8", 'SJIS');
+            if ($k == 'status' || $k == 'order_no' || $k == 'tracking_no' || $k == 'sendid' || $k == 'sendpoint' || $k == 'error_message') {
+                $logData .= ' [' . $k . ']=> ' . mb_convert_encoding($val, "UTF-8", 'SJIS');
+            }
+        }
+
+        log_notice('[ゼウス口座振替決済ステータス変更]ゼウスリクエストメソッド情報:' . $_SERVER['REQUEST_METHOD'] . ' リクエスト情報:' . $logData);
+
+        // リクエスト情報チェック
+        $zeusResponse = array(
+            'status' => $request->get('status'),
+            'order_no' => $request->get('order_no'),
+            'clientip' => $request->get('clientip'),
+            'money' => $request->get('money'),
+            'telno' => $request->get('telno'),
+            'email' => $request->get('email'),
+            'sendid' => $request->get('sendid'),
+            'sendpoint' => $request->get('sendpoint'),
+            'tracking_no' => $request->get('tracking_no'),
+            'payment' => $request->get('payment'),
+            'error_message' => mb_convert_encoding($request->get('error_message'), "UTF-8", 'SJIS')
+        );
+
+        $return = $this->paymentService->receive('eaccount', $zeusResponse, '口座振替決済');
         return new Response($return) ;
     }
 
@@ -388,5 +476,23 @@ class ZeusPaymentReturn extends AbstractShoppingController
         }
 
         return $this->redirectToRoute('shopping');
+    }
+
+    /**
+     * @Route("/plugin/zeus_get_token", name="zeus_get_token", methods={"GET", "POST"})
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
+    public function getToken(Request $request){
+        $event = new EventArgs(
+            [
+                'data' => $request->request->get('data'),
+            ],
+            $request
+        );
+        $this->eventDispatcher->dispatch(EccubeEvents::ZEUS_TOKEN, $event);
+        log_info('クレジットカード決済を開始');
+
+        return new Response('true');
     }
 }
